@@ -104,6 +104,9 @@ class Indice:
 
     def __post_init__(self) -> None:
         self.bm25 = BM25Okapi([tokens(texto_para_bm25(t)) or ["_"] for t in self.trozos])
+        # Mismo texto (sin importar la sección) -> misma clave: sirve para no repetir
+        # artículos idénticos de distintas cláusulas al recuperar.
+        self.claves_texto = [hash(" ".join(tokens(t.texto))) for t in self.trozos]
 
     @classmethod
     def construir(cls, trozos: list[Trozo], meta: dict, con_embeddings: bool = True) -> "Indice":

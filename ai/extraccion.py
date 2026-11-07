@@ -461,6 +461,12 @@ def lineas_por_pagina(pdf_bytes: bytes) -> tuple[list[list[str]], list[int], lis
     return paginas, vacias, dos_columnas
 
 
+def texto_de_paginas(pdf_bytes: bytes, paginas: list[int]) -> str:
+    """Texto de algunas páginas (numeradas desde 1), leído de nuevo desde el PDF."""
+    with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+        return "\n".join("\n".join(_texto_pagina(pdf.pages[n - 1])[0]) for n in paginas if 0 < n <= len(pdf.pages))
+
+
 def extraer(pdf_bytes: bytes) -> DocumentoExtraido:
     """Del PDF (bytes en memoria) a bloques por sección y artículo, con su página."""
     crudas, vacias, dos_columnas = lineas_por_pagina(pdf_bytes)

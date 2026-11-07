@@ -1,0 +1,109 @@
+[
+  {
+    "id": "P01",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Caso real (amigo del autor), texto literal",
+    "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
+    "esperados": [{"seccion": "Gastos Médicos", "articulo": "Artículo 3°"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites"],
+    "que_deberia_pasar": "Mostrar la cobertura de gastos médicos por accidente durante el viaje (Art. 3°) y sus límites: monto fijado en las Condiciones Particulares, contingencias a más de 200 km del domicilio, y el trámite de reembolso cuando no se llamó a la Central de Asistencia."
+  },
+  {
+    "id": "P02",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Caso real (amigo del autor), texto literal",
+    "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
+    "esperados": [
+      {"seccion": "Gastos Médicos", "articulo": "Artículo 2°", "contiene": "FECHA DE LLEGADA"},
+      {"seccion": "Gastos Médicos", "articulo": "Artículo 3°", "contiene": "B4"}
+    ],
+    "modo": "todos",
+    "veredictos_aceptables": ["con_limites"],
+    "debe_mencionar_no_incluido": "B4",
+    "que_deberia_pasar": "No contestar sí o no a la ligera: citar que los gastos cubiertos son los ocurridos durante el viaje y que la protección termina en la fecha de llegada, y avisar que la póliza menciona 'B4 - Continuación de Tratamiento en País de Residencia' pero el texto de esa cláusula no está en el documento: hay que pedírsela a la aseguradora."
+  },
+  {
+    "id": "P03",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
+    "esperados": [{"seccion": "Pérdida de Equipaje", "articulo": "Artículo 3°"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites", "si"],
+    "que_deberia_pasar": "Citar la cláusula de Pérdida de Equipaje: pago calculado por peso, limitado a lo declarado en el informe de pérdida (PIR)."
+  },
+  {
+    "id": "P04",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "pregunta": "Tengo diabetes desde hace años; si me descompenso durante el viaje, ¿me cubren la atención?",
+    "esperados": [
+      {"seccion": "Gastos Médicos", "articulo": "Artículo 4°", "contiene": "Pre-Existente"},
+      {"seccion": "Gastos Médicos", "articulo": "Artículo 5°", "contiene": "PRE-EXISTENTES"}
+    ],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites"],
+    "que_deberia_pasar": "Mostrar que ante una condición preexistente los gastos médicos se limitan al tratamiento de emergencia y estabilización, y la exclusión de preexistencias."
+  },
+  {
+    "id": "P05",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
+    "esperados": [{"seccion": "Cancelación del Viaje", "articulo": "Artículo 3°"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites"],
+    "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
+  },
+  {
+    "id": "P06",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
+    "esperados": [{"seccion": "Gastos Odontológicos", "articulo": "Artículo 3°"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites"],
+    "que_deberia_pasar": "Citar Gastos Odontológicos de Emergencia con sus condiciones: primer tratamiento en el exterior y dentro de 24 horas, límite por diente."
+  },
+  {
+    "id": "P07",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "pregunta": "Quiero aprovechar el viaje para operarme la nariz por estética, ¿lo cubre el seguro?",
+    "esperados": [{"seccion": "Gastos Médicos", "articulo": "Artículo 5°", "contiene": "Cirugía reparadora"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["no"],
+    "que_deberia_pasar": "Citar la exclusión de cirugía plástica y tratamientos estéticos."
+  },
+  {
+    "id": "P08",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia (control: la póliza no trata el tema)",
+    "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
+    "esperados": [],
+    "modo": "ninguno",
+    "veredictos_aceptables": ["no_encontrado"],
+    "que_deberia_pasar": "Decir 'no encontré esto en tu póliza' y mostrar en qué secciones buscó. No hay cobertura de daños a vehículos en este condicionado."
+  },
+  {
+    "id": "P09",
+    "poliza": "pacifico_viajes",
+    "origen": "Propia",
+    "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
+    "esperados": [{"seccion": "PARTE C", "articulo": "EXCLUSIONES GENERALES", "contiene": "snowboard"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["con_limites", "no_encontrado"],
+    "que_deberia_pasar": "La exclusión de esquí aplica solo fuera de pistas reglamentarias. Las coberturas básicas de este documento son muerte accidental y pérdida de equipaje; la asistencia médica estaría en cláusulas adicionales que no están en el documento."
+  },
+  {
+    "id": "P10",
+    "poliza": "rimac_viajes",
+    "origen": "Propia",
+    "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
+    "esperados": [{"seccion": "Condicionado General", "articulo": "9.5"}],
+    "modo": "alguno",
+    "veredictos_aceptables": ["si", "con_limites"],
+    "que_deberia_pasar": "Citar el numeral 9.5 Exámenes de ayuda al diagnóstico del Artículo 9° (póliza a dos columnas)."
+  }
+]
