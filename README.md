@@ -47,7 +47,21 @@ Pendiente.
 
 ### Cómo correrlo en local
 
-Pendiente.
+App: pendiente.
+
+Reconstruir los índices de los condicionados precargados (Python 3.11):
+
+```bash
+uv venv --python 3.11 .venv
+uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install -r requirements-dev.txt
+python -m ai.ingesta --ejemplos 3        # --descargar baja los PDF que falten
+```
+
+Las fuentes de cada condicionado (URL, fecha y sha256) están en
+[`data/polizas/fuentes.json`](data/polizas/fuentes.json). Precargados: Chubb (Seguro de
+Viajes JetSmart, 62 págs.), Pacífico (Seguro de Viajes, 40 págs.) y Rimac (Seguro de
+Viaje, 20 págs. a dos columnas).
 
 ## 7. Modelo de negocio
 
@@ -57,8 +71,8 @@ Pendiente: quién paga, precio concreto y costo por consulta en tokens y servido
 
 | Herramienta | Sesión | Dónde está en el código |
 |---|---|---|
-| Document AI: extraer el texto del PDF conservando página y artículo | 10 | pendiente |
-| LLM con salidas estructuradas y RAG | 08 | pendiente |
+| Document AI: extraer el texto del PDF conservando página y artículo | 10 | [`ai/extraccion.py`](ai/extraccion.py): texto por página con pdfplumber, detección de dos columnas, limpieza de membretes, secciones y artículos |
+| LLM con salidas estructuradas y RAG | 08 | Troceado por artículo en [`ai/troceado.py`](ai/troceado.py); índice BM25 y embeddings en [`ai/indice.py`](ai/indice.py); normalización, recuperación y respuesta JSON: pendiente |
 
 ## 9. Qué hizo el agente
 
@@ -81,7 +95,18 @@ que-me-cubre/
 
 ## Limitaciones
 
-Pendiente.
+- **PDF escaneados:** la extracción necesita capa de texto. Si la mayoría de páginas no la
+  tiene, la ingesta lo rechaza (haría falta OCR).
+- **Tablas:** las filas de tablas (por ejemplo, porcentajes de indemnización) se leen fila
+  por fila con pdfplumber, pero otro extractor (pypdf) las ordena distinto. En las tres
+  pólizas precargadas, 41 de 5427 líneas no se pudieron confirmar con pypdf y todas son
+  filas de tablas. El texto corrido coincide con su página.
+- **Embeddings fuera de la app:** e5-small con torch ocupa unos 1,2 GB de RAM (medido en
+  Windows, pico de 1,4 GB), por encima del presupuesto de 1 GB. La app recupera con BM25
+  sobre la pregunta normalizada. Los embeddings se calculan en la ingesta.
+- **Estructura heurística:** secciones y artículos se reconocen con patrones de los
+  condicionados peruanos ("Cláusula Adicional", "Artículo N°", "PARTE B", numerales). Una
+  póliza con otro formato puede quedar con trozos por página sin artículo.
 
 ## Licencia
 

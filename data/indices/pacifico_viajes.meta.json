@@ -1,0 +1,25 @@
+{
+  "doc_id": "pacifico_viajes",
+  "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+  "archivo": "pacifico_viajes.pdf",
+  "sha256_pdf": "61e8b4651899302e69d0496c0c49ebd644cf47351ac37edd91a1b56c61e181f9",
+  "paginas": 40,
+  "paginas_sin_texto": [],
+  "paginas_dos_columnas": [],
+  "membretes_quitados": [],
+  "secciones": [
+    "RESUMEN DE LA PÓLIZA",
+    "Condiciones Generales",
+    "PARTE A. TÉRMINOS Y DEFINICIONES",
+    "PARTE B. COBERTURAS",
+    "PARTE C. EXCLUSIONES",
+    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+    "PARTE E. DISPOSICIONES GENERALES",
+    "PARTE F. OBLIGACIONES DEL TITULAR",
+    "PARTE G. CONDICIONES LEGALES"
+  ],
+  "n_bloques": 94,
+  "version_indice": 1,
+  "modelo_embeddings": "intfloat/multilingual-e5-small",
+  "n_trozos": 135
+}

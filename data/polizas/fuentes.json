@@ -1,0 +1,38 @@
+[
+  {
+    "id": "chubb_viajes_jetsmart",
+    "archivo": "chubb_viajes_jetsmart.pdf",
+    "aseguradora": "Chubb Seguros Perú",
+    "producto": "Seguro de Viajes JetSmart",
+    "contenido": "Resumen informativo, condiciones generales, 10 cláusulas adicionales y cláusulas generales de contratación (62 páginas)",
+    "codigo_en_documento": "AE2036100143",
+    "url": null,
+    "origen": "Condicionado de producto aportado por el autor (copia de ../python-intermedio-QLAB/_polizas/). No es un certificado: no contiene datos de ninguna persona.",
+    "fecha_obtencion": "2026-11-07",
+    "sha256": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0"
+  },
+  {
+    "id": "pacifico_viajes",
+    "archivo": "pacifico_viajes.pdf",
+    "aseguradora": "Pacífico Seguros",
+    "producto": "Seguro de Viajes Pacífico",
+    "contenido": "Resumen de la póliza y condiciones generales, partes A a G (40 páginas)",
+    "codigo_en_documento": null,
+    "url": "https://www.pacifico.com.pe/documents/28730/108569141/Condicionado%2BGeneral%2BSeguro%2Bde%2BViajes.pdf/a1fd5da2-4fb8-dacc-f734-e01fa303c330",
+    "origen": "Documento público en el sitio web de Pacífico Seguros.",
+    "fecha_obtencion": "2026-11-07",
+    "sha256": "61e8b4651899302e69d0496c0c49ebd644cf47351ac37edd91a1b56c61e181f9"
+  },
+  {
+    "id": "rimac_viajes",
+    "archivo": "rimac_viajes.pdf",
+    "aseguradora": "Rimac Seguros",
+    "producto": "Seguro de Viaje",
+    "contenido": "Condicionado general, cláusula adicional de accidentes personales y de asistencia domiciliaria (20 páginas, a dos columnas)",
+    "codigo_en_documento": null,
+    "url": "https://imagescdn.rimac.com/blt08bb26669645b159/61e899a7c7437a51a539efb2/3Condicionado_seguro_viaje_v4.pdf",
+    "origen": "Documento público en el CDN de imágenes de Rimac Seguros.",
+    "fecha_obtencion": "2026-11-07",
+    "sha256": "2acb4b63a331dbacfbcfbe88b1d0dc2b84b32ac85ecc8064c04ef3cf98bda0b0"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "doc_id": "rimac_viajes",
+  "documento": "Rimac Seguros · Seguro de Viaje",
+  "archivo": "rimac_viajes.pdf",
+  "sha256_pdf": "2acb4b63a331dbacfbcfbe88b1d0dc2b84b32ac85ecc8064c04ef3cf98bda0b0",
+  "paginas": 20,
+  "paginas_sin_texto": [
+    20
+  ],
+  "paginas_dos_columnas": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    18,
+    19
+  ],
+  "membretes_quitados": [],
+  "secciones": [
+    "Condicionado General de la Póliza",
+    "Cláusula Adicional de Accidentes Personales",
+    "Cláusula Adicional de Asistencia Domiciliaria"
+  ],
+  "n_bloques": 110,
+  "version_indice": 1,
+  "modelo_embeddings": "intfloat/multilingual-e5-small",
+  "n_trozos": 131
+}

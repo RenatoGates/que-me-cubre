@@ -1,0 +1,20 @@
+# Dependencias para la ingesta, la verificación de citas y las pruebas (no van a la app).
+# La app desplegada usa solo app/requirements.txt.
+#
+#   uv venv --python 3.11 .venv
+#   uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   uv pip install -r requirements-dev.txt
+
+# Extracción y recuperación (lo mismo que usa la app)
+pdfplumber==0.11.10
+rank-bm25==0.2.2
+snowballstemmer==3.1.1
+numpy==2.4.6
+
+# Embeddings de los condicionados precargados (sesión 08). En la app no se cargan:
+# el modelo con torch ocupa ~1,2 GB de RAM (medido), más que el presupuesto de 1 GB.
+sentence-transformers==6.2.0
+
+# Verificación independiente de citas contra el PDF y medición de memoria
+pypdf==7.0.0
+psutil==7.2.2

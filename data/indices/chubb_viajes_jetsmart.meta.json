@@ -1,0 +1,35 @@
+{
+  "doc_id": "chubb_viajes_jetsmart",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "archivo": "chubb_viajes_jetsmart.pdf",
+  "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+  "paginas": 62,
+  "paginas_sin_texto": [],
+  "paginas_dos_columnas": [],
+  "membretes_quitados": [
+    "Chubb Seguros Perú S.A O (511) 417-5000",
+    "Calle Amador Merino Reyna 267, Of.402 www.chubb.com/pe",
+    "San Isidro – Lima 27",
+    "Perú",
+    "AE2036100143"
+  ],
+  "secciones": [
+    "Resumen Informativo",
+    "Condiciones Generales",
+    "Cláusula Adicional: Desmembramiento Accidental",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+    "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+    "Cláusula Adicional: Traslado de Restos Mortales (Repatriación Funeraria)",
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+    "Cláusula Adicional: Cancelación del Viaje",
+    "Cláusula Adicional: Pérdida de Equipaje",
+    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
+  ],
+  "n_bloques": 147,
+  "version_indice": 1,
+  "modelo_embeddings": "intfloat/multilingual-e5-small",
+  "n_trozos": 246
+}
