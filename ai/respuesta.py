@@ -5,15 +5,22 @@ La validación es código, no confianza en el modelo:
 - condiciones, exclusiones y menciones sin cita válida se descartan;
 - una "mención no incluida" se descarta si su nombre sí es una sección del documento;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
+
+Red de seguridad: si el proveedor llega a su límite o no responde, el resultado sale en
+modo "solo_clausulas": los pasajes encontrados con las palabras de búsqueda resaltadas,
+sin texto generado y con un aviso de por qué. No se cambia de modelo.
+
 Nada se guarda ni se registra: todo vive en memoria durante la llamada.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import hashlib
+from dataclasses import dataclass, field
 
+from ai import cache_normalizacion
 from ai.indice import Indice, tokens
-from ai.llm import Uso, llamar_json
+from ai.llm import LimiteAlcanzado, Proveedor, ProveedorNoDisponible, Uso, obtener_proveedor
 from ai.prompts import (
     ESQUEMA_NORMALIZACION,
     ESQUEMA_RESPUESTA,
@@ -21,12 +28,10 @@ from ai.prompts import (
     SISTEMA_RESPUESTA,
     mensaje_respuesta,
 )
-from ai.recuperacion import Pasaje, pasajes_xml, recuperar
+from ai.recuperacion import Pasaje, pasajes_xml, recuperar, resaltar
 from ai.verificacion import ubicar, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
-ESFUERZO_NORMALIZACION = "low"
-ESFUERZO_RESPUESTA = "medium"
 NO_ENCONTRADO = "No encontré esto en tu póliza."
 
 
@@ -38,10 +43,17 @@ class Poliza:
     nombre: str
     indice: Indice
     pdf_bytes: bytes
+    _sha256: str | None = field(default=None, repr=False)
 
     @property
     def secciones(self) -> list[str]:
         return list(dict.fromkeys(t.seccion for t in self.indice.trozos))
+
+    @property
+    def sha256(self) -> str:
+        if self._sha256 is None:
+            self._sha256 = hashlib.sha256(self.pdf_bytes).hexdigest()
+        return self._sha256
 
 
 # ---------------------------------------------------------------------------
@@ -49,8 +61,8 @@ class Poliza:
 # ---------------------------------------------------------------------------
 
 
-def normalizar(pregunta: str) -> tuple[dict, Uso]:
-    datos, uso = llamar_json(SISTEMA_NORMALIZACION, pregunta, ESQUEMA_NORMALIZACION, ESFUERZO_NORMALIZACION, 4000)
+def normalizar(pregunta: str, proveedor: Proveedor) -> tuple[dict, Uso]:
+    datos, uso = proveedor.json("normalizacion", SISTEMA_NORMALIZACION, pregunta, ESQUEMA_NORMALIZACION)
     variantes = list(dict.fromkeys(v.strip() for v in datos["variantes"] if v.strip()))[:MAX_VARIANTES]
     terminos = list(dict.fromkeys(t.strip() for t in datos["terminos"] if t.strip()))
     ajuste = None
@@ -94,10 +106,10 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
         t = p.trozo
         paginas = t.paginas_de(a, b) or t.paginas
         # El tramo citado del pasaje, partido por página (la cita ya coincide con t.texto[a:b])
-        tramos = [(pag, t.texto[max(a, ini) : min(b, fin)]) for pag, ini, fin in t.segmentos if ini < b and fin > a]
         tramos_por_pagina: dict[int, str] = {}
-        for pag, tramo in tramos:
-            tramos_por_pagina[pag] = f"{tramos_por_pagina.get(pag, '')} {tramo}".strip()
+        for pag, ini, fin in t.segmentos:
+            if ini < b and fin > a:
+                tramos_por_pagina[pag] = f"{tramos_por_pagina.get(pag, '')} {t.texto[max(a, ini) : min(b, fin)]}".strip()
         en_pdf = verificar_en_pdf(poliza.pdf_bytes, list(tramos_por_pagina.items()))
         if not any(en_pdf.values()):
             descartes.append({"tipo": "cita", "n": c["n"], "texto": c["texto_literal"], "motivo": f"no está en la página {paginas} del PDF"})
@@ -170,39 +182,115 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
 # ---------------------------------------------------------------------------
 
 
-def responder(pregunta: str, poliza: Poliza, k: int = 8) -> dict:
-    norm, uso_n = normalizar(pregunta)
-    pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
-    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
-    crudo, uso_r = llamar_json(SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA, ESFUERZO_RESPUESTA)
-    final, descartes = _validar(crudo, pasajes, poliza)
+def _pasajes_dict(pasajes: list[Pasaje], consultas: list[str] | None = None) -> list[dict]:
+    return [
+        {
+            "id": p.id,
+            "rango": p.rango,
+            "trozo_id": p.trozo.id,
+            "seccion": p.trozo.seccion,
+            "articulo": p.trozo.articulo,
+            "parte": [p.trozo.parte, p.trozo.partes],
+            "paginas": p.trozo.paginas,
+            "texto": p.trozo.texto,
+            **({"resaltado": resaltar(p.trozo.texto, consultas)} if consultas else {}),
+        }
+        for p in pasajes
+    ]
 
-    revisadas = list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes))
+
+def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, norm: dict | None,
+                    error: Exception, k: int, usos: list[Uso]) -> dict:
+    """Red de seguridad: sin texto generado, solo las cláusulas encontradas, resaltadas."""
+    if norm:
+        consultas = [*norm["variantes"], *norm["terminos"], pregunta]
+        pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
+    else:  # sin normalización: búsqueda por palabras con la pregunta tal cual
+        consultas = [pregunta]
+        pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="bm25_pregunta")
+    if isinstance(error, LimiteAlcanzado):
+        espera = f" Vuelve a intentar en unos {round(error.espera_segundos)} segundos." if error.espera_segundos else ""
+        motivo = f"El proveedor del modelo alcanzó el límite de su plan gratuito.{espera}"
+    else:
+        motivo = "No pude comunicarme con el proveedor del modelo."
+    aviso = (
+        f"{motivo} No generé una respuesta: estas son las cláusulas de tu póliza que encontré para tu "
+        "pregunta, con las palabras de búsqueda resaltadas. Léelas tú; aquí no hay un veredicto."
+    )
     return {
+        "modo": "solo_clausulas",
         "pregunta": pregunta,
         "documento": poliza.nombre,
+        "aviso": aviso,
+        "cubre": None,
+        "respuesta": None,
+        "condiciones": [],
+        "exclusiones_aplicables": [],
+        "no_incluido_en_documento": [],
+        "citas": [],
+        "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),
+        "pasajes": _pasajes_dict(pasajes, consultas),
+        "normalizacion": norm,
+        "proveedor": _info_proveedor(proveedor),
+        "uso": _uso(usos, desde_cache=False),
+    }
+
+
+def _info_proveedor(proveedor: Proveedor | None) -> dict | None:
+    if proveedor is None:
+        return None
+    return {
+        "nombre": proveedor.nombre,
+        "modelo": proveedor.modelos["respuesta"],
+        "reutiliza_datos": proveedor.reutiliza_datos,
+        "aviso": proveedor.aviso,
+    }
+
+
+def _uso(usos: list[Uso], desde_cache: bool) -> dict:
+    return {
+        "llamadas": len(usos),
+        "normalizacion_desde_cache": desde_cache,
+        "detalle": [u.a_dict() for u in usos],
+        "tokens": sum(u.tokens_entrada + u.tokens_salida for u in usos),
+        "costo_usd": 0.0,
+        "segundos": round(sum(u.segundos for u in usos), 2),
+    }
+
+
+def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 8) -> dict:
+    proveedor = proveedor or obtener_proveedor()
+    usos: list[Uso] = []
+
+    norm = cache_normalizacion.buscar(pregunta, poliza.sha256)
+    desde_cache = norm is not None
+    if norm is None:
+        try:
+            norm, uso_n = normalizar(pregunta, proveedor)
+            usos.append(uso_n)
+        except (LimiteAlcanzado, ProveedorNoDisponible) as e:
+            return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
+
+    pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
+    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
+    try:
+        crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)
+        usos.append(uso_r)
+    except (LimiteAlcanzado, ProveedorNoDisponible) as e:
+        return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos)
+
+    final, descartes = _validar(crudo, pasajes, poliza)
+    return {
+        "modo": "completo",
+        "pregunta": pregunta,
+        "documento": poliza.nombre,
+        "aviso": None,
         **final,
-        "secciones_revisadas": revisadas,
-        "pasajes": [
-            {
-                "id": p.id,
-                "rango": p.rango,
-                "trozo_id": p.trozo.id,
-                "seccion": p.trozo.seccion,
-                "articulo": p.trozo.articulo,
-                "parte": [p.trozo.parte, p.trozo.partes],
-                "paginas": p.trozo.paginas,
-                "texto": p.trozo.texto,
-            }
-            for p in pasajes
-        ],
+        "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),
+        "pasajes": _pasajes_dict(pasajes),
         "normalizacion": norm,
         "modelo_crudo": crudo,
         "descartes": descartes,
-        "uso": {
-            "normalizacion": uso_n.a_dict(),
-            "respuesta": uso_r.a_dict(),
-            "costo_usd": round(uso_n.costo_usd + uso_r.costo_usd, 5),
-            "segundos": round(uso_n.segundos + uso_r.segundos, 2),
-        },
+        "proveedor": _info_proveedor(proveedor),
+        "uso": _uso(usos, desde_cache),
     }

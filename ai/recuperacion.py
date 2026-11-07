@@ -11,6 +11,7 @@ el modelo (ocupa ~1,2 GB de RAM con torch).
 
 from __future__ import annotations
 
+import re
 from collections import Counter
 from dataclasses import dataclass
 
@@ -111,12 +112,17 @@ def recuperar(
     metodo: str = "bm25_variantes",
     continuar: int = 3,
     maximo: int = 12,
+    presupuesto_caracteres: int = 13000,
 ) -> list[Pasaje]:
     """Los k pasajes más relevantes y, para los `continuar` primeros, las otras partes de
-    su mismo artículo (un artículo largo partido en dos no debe llegar a medias)."""
+    su mismo artículo (un artículo largo partido en dos no debe llegar a medias).
+
+    `presupuesto_caracteres` limita lo que se manda al modelo: el plan gratuito del
+    proveedor cuenta tokens por minuto."""
     ranking = top_k(indice, pregunta, variantes, terminos, metodo, k)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
+    total = sum(len(indice.trozos[i].texto) for i in presentes)
 
     for i, _, _ in list(elegidos[:continuar]):
         t = indice.trozos[i]
@@ -125,15 +131,31 @@ def recuperar(
         for j in range(max(0, i - t.partes), min(len(indice.trozos), i + t.partes)):
             vecino = indice.trozos[j]
             if j not in presentes and vecino.seccion == t.seccion and vecino.articulo == t.articulo:
-                if len(elegidos) >= maximo:
+                if len(elegidos) >= maximo or total + len(vecino.texto) > presupuesto_caracteres:
                     break
                 elegidos.append((j, 0.0, 0))
                 presentes.add(j)
+                total += len(vecino.texto)
 
     return [
         Pasaje(id=f"P{n}", trozo=indice.trozos[i], puntaje=p, rango=r)
         for n, (i, p, r) in enumerate(elegidos, start=1)
     ]
+
+
+_RE_PALABRA = re.compile(r"[0-9A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+")
+
+
+def resaltar(texto: str, consultas: list[str]) -> list[list[int]]:
+    """Posiciones [inicio, fin) de las palabras del texto que coinciden (por raíz) con las
+    consultas. Para el modo sin texto generado: muestra por qué se encontró cada cláusula."""
+    buscadas = {t for c in consultas for t in tokens(c)}
+    marcas = []
+    for m in _RE_PALABRA.finditer(texto):
+        raiz = tokens(m.group(0))
+        if raiz and raiz[0] in buscadas:
+            marcas.append([m.start(), m.end()])
+    return marcas
 
 
 def pasajes_xml(pasajes: list[Pasaje]) -> str:

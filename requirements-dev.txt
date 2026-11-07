@@ -11,6 +11,11 @@ rank-bm25==0.2.2
 snowballstemmer==3.1.1
 numpy==2.4.6
 
+# LLM: Groq por defecto, Gemini como alternativa manual (ai/llm.py)
+groq==1.7.0
+google-genai==3.0.0
+python-dotenv==1.2.4
+
 # Embeddings de los condicionados precargados (sesión 08). En la app no se cargan:
 # el modelo con torch ocupa ~1,2 GB de RAM (medido), más que el presupuesto de 1 GB.
 sentence-transformers==6.2.0
