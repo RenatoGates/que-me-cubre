@@ -49,6 +49,7 @@ def main() -> int:
     utf8()
     filas, fallas, total, crudas, ignoradas = [], 0, 0, 0, 0
     filas_bloque, fallas_bloque, total_bloque = [], 0, 0
+    aperturas = []
     for ruta in sorted(SALIDAS.glob("P*.json")):
         r = json.loads(ruta.read_text(encoding="utf-8"))
         pdf = (RAIZ / "data" / "polizas" / fuentes()[r["prueba"]["poliza"]]["archivo"]).read_bytes()
@@ -65,6 +66,13 @@ def main() -> int:
                 f"| {'✓' if ok['pdfplumber'] else '✗'} | {'✓' if ok['pypdf'] else '✗'} | {'sí' if valida else '**NO**'} "
                 f"| {repr(c['verificacion'].get('puntuacion_final_ignorada')) if c['verificacion'].get('puntuacion_final_ignorada') else '—'} |"
             )
+        if r.get("apertura_contradictoria"):
+            a = r["apertura_contradictoria"]
+            aperturas.append(f"| {ruta.stem} | «{a['palabra']}» | {a['veredicto']} | marcada | {a['oracion']} |")
+        for d in r["descartes"]:  # salidas del código anterior, que recortaba esa oración
+            if d["tipo"] == "texto" and d["motivo"].startswith("abre con"):
+                palabra, veredicto = d["motivo"].split("«")[1].split("»")[0], d["motivo"].split("«")[2].split("»")[0]
+                aperturas.append(f"| {ruta.stem} | «{palabra}» | {veredicto} | recortada (código anterior) | {d['texto']} |")
         for m in r.get("mencionadas_ausentes", []):
             total_bloque += 1
             textos = paginas_pdf(pdf, m["paginas"])
@@ -105,10 +113,20 @@ def main() -> int:
         "| Prueba | Referencia | Sección › artículo | Página | pdfplumber | pypdf | ¿En su página? |",
         "|---|---|---|---|---|---|---|",
         *filas_bloque,
+        "",
+        "## Respuestas que abren contra el veredicto",
+        "",
+        "El veredicto es el campo estructurado; la interfaz lo muestra arriba como etiqueta. Si el texto del",
+        "modelo abre con «Sí» o «No» y el veredicto dice otra cosa, no se borra: se marca y se lista aquí.",
+        "",
+        f"- Casos: {len(aperturas)} (las salidas generadas antes del cambio a marcar las tenían recortadas)",
+        "",
+        *(["| Prueba | Abre con | Veredicto | Qué se hizo | Primera oración |", "|---|---|---|---|---|", *aperturas] if aperturas else []),
     ]
     (PRUEBAS / "verificacion_citas.md").write_text("\n".join(md) + "\n", encoding="utf-8", newline="\n")
     print(f"Citas mostradas: {total} · en su página: {total - fallas} · propuestas por el modelo: {crudas}")
     print(f"Menciones del bloque de ausentes: {total_bloque} · en su página: {total_bloque - fallas_bloque}")
+    print(f"Respuestas que abren contra el veredicto: {len(aperturas)}")
     print("Detalle en pruebas/verificacion_citas.md")
     return 1 if fallas or fallas_bloque else 0
 

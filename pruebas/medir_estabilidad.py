@@ -29,6 +29,15 @@ TPM = 8000
 ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado", None: "sin respuesta"}
 
 
+def apertura_txt(r: dict) -> str:
+    """La marca de apertura contradictoria. Las salidas anteriores al cambio de recortar a
+    marcar la tienen en los descartes ("abre con …"): también se muestran."""
+    if r.get("apertura_contradictoria"):
+        return f"«{r['apertura_contradictoria']['palabra']}» (marcada)"
+    viejo = next((d for d in r.get("descartes", []) if d["tipo"] == "texto" and d["motivo"].startswith("abre con")), None)
+    return f"«{viejo['motivo'].split('«')[1].split('»')[0]}» (recortada)" if viejo else "—"
+
+
 def resumen(qs: list[dict], veces: int) -> str:
     lineas = [
         "# Estabilidad de la respuesta: la misma pregunta varias veces",
@@ -65,13 +74,14 @@ def resumen(qs: list[dict], veces: int) -> str:
             f"- Qué debería pasar: {q['que_deberia_pasar']}",
             "",
             "| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | "
-            "Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |",
-            "|---:|---|---|---:|---:|---|---|---:|---:|---:|",
+            "Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | "
+            "Apertura contra el veredicto | Tokens |",
+            "|---:|---|---|---:|---:|---|---|---:|---:|---|---:|",
         ]
         for n, r in enumerate(intentos, 1):
             if r["modo"] != "completo":
                 bloque = bloque_txt(r)
-                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | {bloque} | — | — | — | — |")
+                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | {bloque} | — | — | — | — | — |")
                 continue
             ignorados = sum(bool(c["verificacion"].get("puntuacion_final_ignorada")) for c in r["citas"])
             recortes = sum(d["tipo"] == "texto" for d in r["descartes"])
@@ -80,7 +90,7 @@ def resumen(qs: list[dict], veces: int) -> str:
                 f"{len(r['citas'])} / {len(r['modelo_crudo']['citas'])} | {ignorados} | "
                 f"{bloque_txt(r)} | "
                 f"{'; '.join(m['nombre'] for m in r['no_incluido_en_documento']) or '—'} | {len(r.get('podrian_aplicar', []))} | "
-                f"{recortes} | {r['uso']['tokens']} |"
+                f"{recortes} | {apertura_txt(r)} | {r['uso']['tokens']} |"
             )
         lineas += ["", "Respuestas:", ""]
         for n, r in enumerate(intentos, 1):

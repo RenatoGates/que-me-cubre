@@ -9,8 +9,11 @@ La validación es código, no confianza en el modelo:
 - el texto libre (respuesta y descripciones) no puede nombrar artículos, numerales,
   códigos de cobertura, documentos ni títulos de cláusula que no estén en las citas
   verificadas: la oración que lo hace se recorta;
-- la respuesta no puede abrir con "Sí" o "No" si el veredicto dice otra cosa ("Sí, está
-  cubierta…" con veredicto "con límites"): esa primera oración se recorta;
+- el veredicto es el campo estructurado "cubre" y la interfaz lo muestra arriba como
+  etiqueta ("etiqueta_veredicto"); el texto del modelo va debajo, como explicación, y el
+  prompt le pide no empezar con "Sí" ni con "No". Si aun así abre contradiciendo el
+  veredicto ("Sí, está cubierta…" con "con límites"), no se borra nada: queda marcado en
+  "apertura_contradictoria" para la auditoría, y la etiqueta de arriba sigue mandando;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
 Aparte, sin pasar por el modelo: si un pasaje recuperado menciona una cobertura, un anexo o
@@ -55,6 +58,14 @@ from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verif
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
 NO_ENCONTRADO = "No encontré esto en tu póliza."
+# El veredicto que se muestra sale de aquí, del campo estructurado, nunca del texto del modelo.
+ETIQUETA_VEREDICTO = {
+    "si": "Cubre",
+    "con_limites": "Cubre con límites",
+    "no": "No cubre",
+    "no_encontrado": "No está en tu póliza",
+    None: "Sin veredicto",
+}
 
 
 @dataclass
@@ -283,7 +294,7 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
                                 "cita": cita["n"]})
 
     cubre, respuesta = crudo["cubre"], crudo["respuesta"].strip()
-    degradado = False
+    degradado, apertura = False, None
     if cubre != "no_encontrado" and not citas:
         cubre, degradado = "no_encontrado", True
         respuesta = f"{NO_ENCONTRADO} No pude respaldar ninguna afirmación con una cita literal del documento."
@@ -291,11 +302,8 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
     else:
         respuesta = sin_referencias_ajenas(respuesta, "respuesta")
         palabra = apertura_contradictoria(respuesta, cubre)
-        if palabra:  # "Sí, está cubierta…" con veredicto "con límites": la primera oración se recorta
-            primera, _, resto = partir_primera_oracion(respuesta)
-            descartes.append({"tipo": "texto", "campo": "respuesta", "texto": primera,
-                              "motivo": f"abre con «{palabra}» y el veredicto es «{cubre}»"})
-            respuesta = resto
+        if palabra:  # se marca, no se borra: mutilar la oración es peor que el problema
+            apertura = {"palabra": palabra, "veredicto": cubre, "oracion": partir_primera_oracion(respuesta)[0]}
         if cubre == "no_encontrado" and not respuesta.startswith("No encontré"):
             respuesta = f"{NO_ENCONTRADO} {respuesta}".strip()
         elif not respuesta:
@@ -304,7 +312,9 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
     return (
         {
             "cubre": cubre,
+            "etiqueta_veredicto": ETIQUETA_VEREDICTO[cubre],
             "respuesta": respuesta,
+            "apertura_contradictoria": apertura,
             "condiciones": condiciones,
             "exclusiones_aplicables": exclusiones,
             "podrian_aplicar": podrian_aplicar,
@@ -364,7 +374,9 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         "documento": poliza.nombre,
         "aviso": aviso,
         "cubre": None,
+        "etiqueta_veredicto": ETIQUETA_VEREDICTO[None],
         "respuesta": None,
+        "apertura_contradictoria": None,
         "condiciones": [],
         "exclusiones_aplicables": [],
         "podrian_aplicar": [],

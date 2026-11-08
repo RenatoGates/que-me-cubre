@@ -17,13 +17,13 @@ en `pruebas/estabilidad/sin_bloque/`.
 - «B4» en el bloque determinista: **5 de 5**; en "no incluido" del modelo: 0 de 5
 - Qué debería pasar: No contestar sí o no a la ligera: citar que los gastos cubiertos son los ocurridos durante el viaje y que la protección termina en la fecha de llegada, y avisar que la póliza menciona 'B4 - Continuación de Tratamiento en País de Residencia' pero el texto de esa cláusula no está en el documento: hay que pedírsela a la aseguradora.
 
-| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |
-|---:|---|---|---:|---:|---|---|---:|---:|---:|
-| 1 | no | **no** | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5207 |
-| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 4979 |
-| 3 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 5571 |
-| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 6165 |
-| 5 | no | **no** | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 5573 |
+| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Apertura contra el veredicto | Tokens |
+|---:|---|---|---:|---:|---|---|---:|---:|---|---:|
+| 1 | no | **no** | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | — | 5207 |
+| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | — | 4979 |
+| 3 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | — | 5571 |
+| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | — | 6165 |
+| 5 | no | **no** | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | — | 5573 |
 
 Respuestas:
 
@@ -40,13 +40,13 @@ Respuestas:
 - Respuestas distintas: 5 de 5
 - Qué debería pasar: Mostrar la cobertura de gastos médicos por accidente durante el viaje (Art. 3°) y sus límites: monto fijado en las Condiciones Particulares, contingencias a más de 200 km del domicilio, y el trámite de reembolso cuando no se llamó a la Central de Asistencia.
 
-| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |
-|---:|---|---|---:|---:|---|---|---:|---:|---:|
-| 1 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 5608 |
-| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5572 |
-| 3 | con límites | sí | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 4761 |
-| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5249 |
-| 5 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 5323 |
+| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Apertura contra el veredicto | Tokens |
+|---:|---|---|---:|---:|---|---|---:|---:|---|---:|
+| 1 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | «Sí» (recortada) | 5608 |
+| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | — | 5572 |
+| 3 | con límites | sí | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | — | 4761 |
+| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | — | 5249 |
+| 5 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | «Sí» (recortada) | 5323 |
 
 Respuestas:
 

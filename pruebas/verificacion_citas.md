@@ -66,3 +66,15 @@ tiene que estar en la página que se muestra.
 | P09 | Condiciones Particulares | PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3) | 16 | ✓ | ✓ | sí |
 | P09 | Certificado de Seguro | PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3) | 16 | ✓ | ✓ | sí |
 | P10 | Tabla de Beneficios | Cláusula Adicional de Accidentes Personales › 1. COBERTURA (parte 1 de 2) | 14 | ✓ | ✓ | sí |
+
+## Respuestas que abren contra el veredicto
+
+El veredicto es el campo estructurado; la interfaz lo muestra arriba como etiqueta. Si el texto del
+modelo abre con «Sí» o «No» y el veredicto dice otra cosa, no se borra: se marca y se lista aquí.
+
+- Casos: 2 (las salidas generadas antes del cambio a marcar las tenían recortadas)
+
+| Prueba | Abre con | Veredicto | Qué se hizo | Primera oración |
+|---|---|---|---|---|
+| P01 | «Sí» | con_limites | recortada (código anterior) | Sí, tu póliza cubre los gastos médicos por el dedo torcido, siempre que sea un accidente de carácter súbito y el tratamiento sea de urgencia. |
+| P09 | «Sí» | con_limites | recortada (código anterior) | Sí, tu póliza cubre la fractura de pierna que sufriste mientras esquiabas en una pista autorizada en Bariloche, siempre que el accidente haya ocurrido dentro del lugar declarado en tu viaje. |

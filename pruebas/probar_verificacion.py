@@ -157,28 +157,26 @@ def main() -> int:
          [(m["nombre"][:2], m["nivel"]) for m in bloque],
          [("B4", "clausula_ausente"), ("Co", "remision"), ("Ce", "remision")])
 
-    print("Apertura del texto contra el veredicto:")
+    print("Apertura del texto contra el veredicto (se marca, no se borra):")
 
-    def abre(respuesta: str, cubre: str) -> tuple[str, str]:
+    def abre(respuesta: str, cubre: str) -> tuple[str, str | None, str]:
         f, d = _validar({**crudo, "cubre": cubre, "respuesta": respuesta}, pas, pol)
-        return f["respuesta"], next((x["motivo"] for x in d if x["tipo"] == "texto" and "abre con" in x["motivo"]), "")
+        marca = f["apertura_contradictoria"]
+        return f["respuesta"], marca and f"{marca['palabra']} / {marca['veredicto']}", f["etiqueta_veredicto"]
 
-    caso("'Sí, …' con veredicto 'con límites' pierde esa oración (el intento 5 de P02)",
-         abre("Sí, la radiografía está cubierta siempre que sea de urgencia. Si fuera de rutina, podría quedar excluida.", "con_limites"),
-         ("Si fuera de rutina, podría quedar excluida.", "abre con «Sí» y el veredicto es «con_limites»"))
-    caso("'Sí, …' con veredicto 'sí' se mantiene", abre("Sí, tu póliza cubre los gastos médicos.", "si"),
-         ("Sí, tu póliza cubre los gastos médicos.", ""))
-    caso("'No, …' con veredicto 'con límites' pierde esa oración",
+    texto5 = "Sí, la radiografía está cubierta siempre que sea de urgencia. Si fuera de rutina, podría quedar excluida."
+    caso("'Sí, …' con 'con límites' (el intento 5 de P02): el texto queda entero, marcado, y la etiqueta manda",
+         abre(texto5, "con_limites"), (texto5, "Sí / con_limites", "Cubre con límites"))
+    caso("'Sí, …' con veredicto 'sí' no se marca", abre("Sí, tu póliza cubre los gastos médicos.", "si"),
+         ("Sí, tu póliza cubre los gastos médicos.", None, "Cubre"))
+    caso("'No, …' con 'con límites' se marca y no se borra",
          abre("No, eso no está cubierto. Solo cubre urgencias.", "con_limites"),
-         ("Solo cubre urgencias.", "abre con «No» y el veredicto es «con_limites»"))
-    caso("'No …' con veredicto 'no' se mantiene", abre("No cubre exámenes de rutina.", "no"), ("No cubre exámenes de rutina.", ""))
+         ("No, eso no está cubierto. Solo cubre urgencias.", "No / con_limites", "Cubre con límites"))
+    caso("'No …' con veredicto 'no' no se marca", abre("No cubre exámenes de rutina.", "no"),
+         ("No cubre exámenes de rutina.", None, "No cubre"))
     caso("'Si la radiografía…' (condicional, sin tilde) no es un 'Sí'",
-         abre("Si la radiografía es de urgencia, tu póliza la cubre.", "con_limites"),
-         ("Si la radiografía es de urgencia, tu póliza la cubre.", ""))
-    caso("'No obstante, …' no es un 'No'", abre("No obstante, tu póliza cubre urgencias.", "con_limites"),
-         ("No obstante, tu póliza cubre urgencias.", ""))
-    caso("una sola oración contradictoria deja el texto de respaldo",
-         abre("Sí, está cubierta.", "con_limites")[0], "Revisa abajo las condiciones y las citas del documento.")
+         abre("Si la radiografía es de urgencia, tu póliza la cubre.", "con_limites")[1], None)
+    caso("'No obstante, …' no es un 'No'", abre("No obstante, tu póliza cubre urgencias.", "con_limites")[1], None)
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

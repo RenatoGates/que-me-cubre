@@ -73,6 +73,8 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
             f"máximo {max(completa)}.",
             f"- De la salida, razonamiento: {sum(f['razonamiento'] for f in filas) / max(1, sum(f['salida'] for f in filas)):.0%}.",
             f"- Tiempo promedio por respuesta: {statistics.mean(f['segundos'] for f in filas):.1f} s.",
+            f"- Respuestas que abren con «Sí» o «No» contra el veredicto (marcadas, no borradas): "
+            f"{sum(f['apertura'] for f in filas)} de {n}.",
         ]
     return "\n".join(lineas) + "\n"
 
@@ -90,6 +92,7 @@ def fila(q: dict, r: dict) -> dict:
         "citas_validas": len(r["citas"]),
         "no_incluido": "; ".join(m["nombre"] for m in r["no_incluido_en_documento"]),
         "ausentes": bloque_txt(r),
+        "apertura": bool(r.get("apertura_contradictoria")),
         "pasajes": len(r["pasajes"]),
         "entrada": respuesta["tokens_entrada"],
         "salida": respuesta["tokens_salida"],

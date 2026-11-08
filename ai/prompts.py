@@ -132,13 +132,15 @@ Certificado de Seguro donde se fija un monto. Indica el nombre tal como aparece 
 cita, por qué importa para esta pregunta y el número de la cita donde se menciona. Es un \
 hallazgo para el asegurado, no un error: le dice qué documento pedirle a su aseguradora.
 - respuesta: de 2 a 4 oraciones en español sencillo, en segunda persona ("tu póliza..."). \
+No empieces con "Sí" ni con "No": el veredicto lo muestra la interfaz a partir del campo \
+"cubre". Tu trabajo aquí es explicar las condiciones y los límites. \
 No afirmes nada que las citas no respalden. Menciona el límite principal y, si aplica, \
 qué no está en el documento. No nombres artículos, cláusulas, coberturas ni documentos \
 que no aparezcan en tus citas: las oraciones que lo hagan se borran. Lo de \
 "podrian_aplicar" no se afirma aquí; como mucho di que hay exclusiones que podrían \
-aplicar según su caso. Si el veredicto es "no_encontrado", empieza con "No encontré esto \
-en tu póliza" y di en palabras generales de qué tratan los pasajes revisados, sin nombrar \
-cláusulas ni artículos (la app los muestra aparte).\
+aplicar según su caso. Si el veredicto es "no_encontrado", di en palabras generales de \
+qué tratan los pasajes revisados, sin nombrar cláusulas ni artículos (la app muestra el \
+veredicto y los pasajes aparte).\
 """
 
 _CITA_REF = {"type": "array", "items": {"type": "integer"}}
