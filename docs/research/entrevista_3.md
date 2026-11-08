@@ -1,6 +1,6 @@
 # Entrevistado 3
 
-- Fecha: 6 o 7 de noviembre de 2026 (las tres conversaciones fueron esos dos días).
+- Fecha: 7 de noviembre de 2026.
 - Grabada con consentimiento. El audio no se versiona: solo estas notas, anonimizadas.
 - Seguro: de viaje.
 
