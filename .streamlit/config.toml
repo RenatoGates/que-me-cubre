@@ -9,7 +9,15 @@ gatherUsageStats = false
 maxUploadSize = 20
 
 [theme]
-primaryColor = "#1f5f8b"
+# Fondo azul muy claro con índigo de acento.
+primaryColor = "#4F46E5"
+backgroundColor = "#F4F5FD"
+secondaryBackgroundColor = "#E8EAFB"
+textColor = "#1B1F3B"
+font = "sans serif"
+# El texto amarillo por defecto (#926C05) queda en 4,4:1 sobre este fondo, bajo el 4,5:1 de WCAG AA;
+# un poco más oscuro llega a 5,1:1. Lo usan el bloque de B4, la red de seguridad y el aviso del mapa.
+yellowTextColor = "#85620A"
 
 [client]
 # Sin el botón "Deploy" ni el menú de desarrollo en la app publicada.

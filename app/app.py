@@ -57,11 +57,11 @@ PREGUNTAS_TARAPOTO = [
     if q["documento"] == POLIZA_TARAPOTO and ("Tarapoto" in q["pregunta"] or "al llegar a Lima" in q["pregunta"])
 ]
 COLORES = {  # fondo, texto, borde
-    "si": ("#e3f4e8", "#14532d", "#86c79a"),
-    "con_limites": ("#fff3d1", "#6b4500", "#e8c15a"),
-    "no": ("#fde4e2", "#8a1c13", "#eb9a92"),
-    "no_encontrado": ("#eceff3", "#2f3640", "#b8c0cc"),
-    None: ("#eceff3", "#2f3640", "#b8c0cc"),
+    "si": ("#e3f4e8", "#14532d", "#4f9a69"),
+    "con_limites": ("#fff3d1", "#6b4500", "#a67c00"),
+    "no": ("#fde4e2", "#8a1c13", "#d0645a"),
+    "no_encontrado": ("#eceff3", "#2f3640", "#7d8796"),
+    None: ("#eceff3", "#2f3640", "#7d8796"),
 }
 
 st.set_page_config(page_title="¿Qué me cubre?", page_icon="🛡️", layout="centered")
@@ -72,8 +72,11 @@ st.markdown(
                     border: 2px solid; display: inline-block; margin: .2rem 0 .8rem 0;}
     .qmc-pasaje {font-size: .92rem; line-height: 1.5; white-space: normal;}
     .qmc-pasaje mark {background: #ffe58a; color: #1d1d1d; padding: 0 .1em; border-radius: .15em;}
-    .qmc-cita {border-left: 4px solid #1f5f8b; padding: .35rem 0 .35rem .9rem; margin: .3rem 0 .6rem 0;
+    .qmc-cita {border-left: 4px solid #4F46E5; padding: .35rem 0 .35rem .9rem; margin: .3rem 0 .6rem 0;
                font-size: 1rem; line-height: 1.55;}
+    /* Streamlit dibuja st.caption al 60 % de opacidad: sobre el fondo azul claro del tema queda en
+       4,2:1, bajo el 4,5:1 de WCAG AA. Ahí van la página y la verificación de cada cita. */
+    [data-testid="stCaptionContainer"] {opacity: .75;}
     </style>
     """,
     unsafe_allow_html=True,
@@ -380,7 +383,7 @@ def pantalla_mapa() -> None:
 
     en_mapa = sel.dropna(subset=["lat", "lon"])
     if len(en_mapa):
-        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#1f5f8b")
+        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#4F46E5")
     st.warning("Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.", icon="🏥")
     st.caption(f"{len(sel)} establecimientos activos en {etiqueta((provincia, distrito))}"
                + (f"; {len(sel) - len(en_mapa)} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
