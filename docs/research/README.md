@@ -1,21 +1,15 @@
 # Conversaciones con usuarios
 
-**[PENDIENTE: founder]** Aquí van las notas de las 3 conversaciones con usuarios
-potenciales, una por archivo: `entrevista_1.md`, `entrevista_2.md`, `entrevista_3.md`.
+Tres conversaciones con usuarios potenciales, el 6 y el 7 de noviembre de 2026. Notas
+anonimizadas: sin nombres reales ni datos personales. Se grabaron con consentimiento y el
+audio no se versiona (los archivos de audio están en `.gitignore`).
 
-Sin nombres completos ni datos personales: solo iniciales o un alias, con el
-consentimiento de cada persona.
+| | Seguro | Lo principal |
+|---|---|---|
+| [Entrevistado 1](entrevista_1.md) | Salud, del trabajo | No sabe qué le cubre sin leer la póliza; pagaría menos de 10 soles al mes |
+| [Entrevistada 2](entrevista_2.md) | EPS | Cree que solo le cubre consultas; valora entender con facilidad y saber qué hacer |
+| [Entrevistado 3](entrevista_3.md) | Viaje | Accidente en Tarapoto: pagó de su bolsillo sin saber si le reembolsaban |
 
-Plantilla sugerida para cada archivo:
-
-```markdown
-# Entrevista N: <alias>
-
-- Fecha y medio (presencial, llamada…):
-- Perfil: edad aproximada, qué seguro tiene (viaje, salud, SOAT…), quién lo contrató.
-- La última vez que necesitó usarlo: qué pasó.
-- Cómo averiguó qué le cubría: leyó la póliza, llamó a la aseguradora, preguntó a alguien…
-- Cuánto le costó (tiempo, dinero, un gasto que no se reembolsó):
-- Frase textual que resume el problema:
-- Qué haría con una herramienta que responde citando su póliza:
-```
+**Advertencia metodológica:** las dos primeras entrevistas incluyeron preguntas dirigidas
+sobre la app, así que la disposición a pagar que reportan no es evidencia fuerte. La tercera
+sí es un episodio real con gasto real.

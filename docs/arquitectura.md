@@ -79,7 +79,7 @@ Tomadas con `python pruebas/capturas.py` sobre la app en local con el proveedor 
 (`QMC_PROVEEDOR=grabado`): la respuesta del modelo es la que ya dio para esa pregunta en
 `pruebas/salidas/`, y todo lo demás (búsqueda, verificación de citas, bloque de ausentes,
 interfaz) corrió de verdad. Por eso el aviso de arriba dice "Respuesta grabada" en vez de
-Groq. Se reemplazan por capturas de la app desplegada cuando se pruebe en vivo.
+Groq.
 
 1. Inicio: póliza, pregunta y los dos casos reales de Tarapoto como botones.
 

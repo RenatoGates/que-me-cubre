@@ -20,19 +20,44 @@ Datos con Python. Enunciado: [d2cml-ai/Data-Science-Python#204](https://github.c
 
 ## 1. One-liner
 
-*Borrador, por confirmar:* Hacemos que cualquier asegurado sepa qué le cubre su póliza,
-para viajeros y familias en el Perú, mediante una IA que responde solo con las cláusulas
-de su propio PDF y cita artículo y página.
+Hacemos que cualquier asegurado sepa qué le cubre su póliza, para viajeros y familias en el
+Perú, mediante una IA que responde solo con las cláusulas de su propio PDF y cita artículo y
+página.
 
 ## 2. Founder
 
-**[PENDIENTE: founder]** Quién eres y por qué este problema.
+Renato Christian Gates Rojas, economista por la PUCP. Trabajo con datos del sistema
+financiero peruano en la Asociación de Bancos del Perú, y antes fui analista de
+investigación en Innovations for Poverty Action. Soy el usuario del problema: tengo un
+seguro de salud por el trabajo y no sé qué cubre. Construí esto solo, con Claude Code como
+socio técnico: yo decidí qué construir y qué no, y verifiqué los resultados contra los PDF
+originales.
 
 ## 3. Problema
 
-**[PENDIENTE: founder]** Quién lo sufre, cuánto le cuesta y cómo lo resuelve hoy.
+**Quién lo sufre:** personas con seguro de salud o de viaje en el Perú que, en el momento de
+necesitarlo, no saben qué les cubre. El documento existe, tiene 62 páginas y nadie lo lee.
 
-Evidencia: notas de 3 conversaciones con usuarios potenciales en [`docs/research/`](docs/research/).
+**Cuánto cuesta:** terminas pagando de tu bolsillo algo que tu póliza cubría, o dejas de
+atenderte por no saber si te cubre.
+
+**Cómo se resuelve hoy:** no se resuelve. Se llama a la aseguradora en horario de oficina,
+se pregunta a un conocido, o se asume lo peor.
+
+**Evidencia**, tres conversaciones en [`docs/research/`](docs/research/):
+
+- [Entrevistado 1](docs/research/entrevista_1.md), seguro de salud del trabajo: "No, tendría
+  que ponerme a descargar la póliza del seguro, investigar, ponerme a leer". Pagaría menos
+  de 10 soles al mes.
+- [Entrevistada 2](docs/research/entrevista_2.md), EPS: "La verdad no, solo las consultas,
+  creo yo". Valora sobre todo "entender con facilidad y saber qué hacer".
+- [Entrevistado 3](docs/research/entrevista_3.md), seguro de viaje: se accidentó en
+  Tarapoto, fue a un centro médico de noche y pagó de su bolsillo sin saber si le
+  reembolsaban. Después le indicaron una radiografía en Lima y tampoco sabía si eso entraba.
+
+**Advertencia metodológica:** las dos primeras entrevistas incluyeron preguntas dirigidas
+sobre la app, así que la disposición a pagar que reportan no es evidencia fuerte. La tercera
+sí es un episodio real con gasto real.
 
 ## 4. Solución e insight
 
@@ -44,16 +69,20 @@ veredicto ("Cubre con límites"), debajo la explicación, lo que la póliza menc
 trae, y las citas con su artículo y página. Si el modelo falla, se ven igual las cláusulas
 encontradas.
 
-**Insight** (borrador, por confirmar): el modelo redacta, pero lo que el asegurado puede
-comprobar lo pone el código. Cada cita está literal en su página, y lo que la póliza
-menciona sin incluir su texto (en Chubb, la cobertura "B4 - Continuación de Tratamiento en
-País de Residencia") aparece siempre, con su página, aunque el modelo no lo diga: en 5 de 5
-corridas de P02 lo mostró el bloque del código, mientras que el modelo solo no lo nombró en
-ninguna de 5.
+**Insight:** el modelo redacta, pero lo que el asegurado puede comprobar lo pone el código.
+Cada cita está literal en su página, y lo que la póliza menciona sin incluir su texto (en
+Chubb, la cobertura "B4 - Continuación de Tratamiento en País de Residencia") aparece
+siempre, con su página, aunque el modelo no lo diga: en 5 de 5 corridas de P02 lo mostró el
+bloque del código, mientras que el modelo solo no lo nombró en ninguna de 5.
 
 ## 5. Why now
 
-**[PENDIENTE: founder]**
+Hace tres años esto no se podía hacer solo y gratis. Hoy sí, por tres cosas: los modelos de
+lenguaje con salidas estructuradas permiten convertir una pregunta coloquial al vocabulario
+técnico de una póliza; hay proveedores con plan gratuito que lo hacen viable sin
+presupuesto; y un agente de programación permite que una persona construya y despliegue el
+flujo completo en días. Nada de esto reemplaza lo importante, que es que el producto no
+invente: eso se resolvió con código, verificando cada cita contra su página del PDF.
 
 ## 6. Demo
 
@@ -65,12 +94,15 @@ ninguna de 5.
   condicionado de Chubb · JetSmart: la torcedura (P01) y la radiografía al llegar a Lima
   (P02).
 - **Resultados, al primer intento y sin reintento (lo que vive el usuario):** 8 de 10
-  preguntas de prueba con veredicto aceptable (9 de 10 si el script reintenta una vez). P01
-  y P02, cinco veces cada una con el tope de 3800 tokens: **[medición en curso: se completa al terminar]**. Detalle y
-  límites en Limitaciones.
+  preguntas de prueba con veredicto aceptable (9 de 10 si el script reintenta una vez). Con
+  el tope de 3000 tokens, P01 fue aceptable en 5 de 5 corridas y P02 en 3 de 5, con B4 en el
+  bloque las 5 veces ([`pruebas/estabilidad/039314c/`](pruebas/estabilidad/039314c/)); la
+  serie con el tope de 3800 se está corriendo y queda en
+  [`pruebas/estabilidad.md`](pruebas/estabilidad.md). Detalle y límites en Limitaciones.
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
   inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
-  cita desplegada y "Dónde atenderte" en Tarapoto. Por ahora, tomadas en local con respuestas grabadas de `pruebas/` (ahí se explica); se reemplazan por capturas de la app desplegada con respuestas en vivo.
+  cita desplegada y "Dónde atenderte" en Tarapoto, tomadas en local con respuestas grabadas
+  de `pruebas/` (ahí se explica).
 - **Diagrama de arquitectura:** [`docs/arquitectura.md`](docs/arquitectura.md) (Mermaid) y
   [`docs/arquitectura.png`](docs/arquitectura.png), incluida la pestaña del mapa.
 - **Modelos y por qué:** ver abajo.
@@ -187,7 +219,18 @@ Viaje, 20 págs. a dos columnas).
 
 ## 7. Modelo de negocio
 
-**[PENDIENTE: founder]** Quién paga y precio concreto.
+**Quién paga.** El usuario final no es el que paga. Las entrevistas dan menos de 10 soles al
+mes de disposición a pagar, que no sostiene el producto ni justifica la adquisición.
+
+Quien paga es la aseguradora, el corredor o la agencia de viajes. Su incentivo es directo:
+un asegurado que no sabe qué cubre su póliza no la usa, se atiende particular, y después
+reclama o no renueva. Modelo: licencia mensual por cartera, con tres planes según número de
+asegurados.
+
+**Costo por usuario, medido:** 4998 tokens por consulta ensayada y 6998 por consulta nueva.
+A precio pagado de Groq para `gpt-oss-120b`, 100 usuarios con 10 consultas al mes cuestan
+alrededor de USD 1,94 mensuales en modelo. El costo dominante no es el modelo, es el
+servidor. El detalle de las cifras, abajo.
 
 **Costo por consulta hoy: USD 0.** El modelo corre en el plan gratuito de Groq y la app en
 el plan gratuito de Streamlit Community Cloud; ninguno cobra por token ni por hora. Lo que
@@ -245,13 +288,12 @@ rechazan aun con el balde lleno). Scripts:
 
 ## 9. Qué hizo el agente
 
-*Borrador para revisar.* El código, las pruebas y las mediciones los escribió un agente de
-programación (Claude Code, de Anthropic) bajo la dirección del founder. Las decisiones
-fueron del founder, a partir de opciones y mediciones que el agente presentó: Groq con
-retención cero como proveedor, BM25 en vez de embeddings en la app, el bloque determinista
-para lo mencionado pero ausente, marcar la apertura contradictoria en vez de recortarla,
-aceptar la variación del veredicto de P02, no reintentar en la app y revertir la regla del
-"Sí"/"No".
+El código, las pruebas y las mediciones los escribió un agente de programación (Claude Code,
+de Anthropic) bajo la dirección del founder. Las decisiones fueron del founder, a partir de
+opciones y mediciones que el agente presentó: Groq con retención cero como proveedor, BM25
+en vez de embeddings en la app, el bloque determinista para lo mencionado pero ausente,
+marcar la apertura contradictoria en vez de recortarla, aceptar la variación del veredicto
+de P02, no reintentar en la app y revertir la regla del "Sí"/"No".
 
 Lo que hizo el agente:
 

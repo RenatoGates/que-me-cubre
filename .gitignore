@@ -5,6 +5,16 @@ data/privado/
 *.pdf
 !data/polizas/*.pdf
 
+# --- Audio de las entrevistas: nunca al repositorio (solo las notas en docs/research/) ---
+*.mp3
+*.m4a
+*.wav
+*.ogg
+*.opus
+*.aac
+*.flac
+*.webm
+
 # --- Secretos ---
 .env
 .env.*
