@@ -46,8 +46,9 @@ Pendiente.
 
 - **URL pública:** pendiente (Streamlit Community Cloud).
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
-  inicial, la radiografía al llegar a Lima (P02) y la torcedura en Tarapoto (P01) con una
-  cita desplegada. Tomadas en local con respuestas grabadas de `pruebas/` (ahí se explica).
+  inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
+  cita desplegada y "Dónde atenderte" en Tarapoto. Tomadas en local con respuestas grabadas
+  de `pruebas/` (ahí se explica).
 - **Diagrama de arquitectura:** [`docs/arquitectura.md`](docs/arquitectura.md) (Mermaid) y
   [`docs/arquitectura.png`](docs/arquitectura.png).
 - **Modelos y por qué:** ver abajo.
@@ -202,6 +203,7 @@ así que algunas consultas se rechazan aun con el balde lleno). Scripts:
 |---|---|---|
 | Document AI: extraer el texto del PDF conservando página y artículo | 10 | [`ai/extraccion.py`](ai/extraccion.py): texto por página con pdfplumber, detección de dos columnas, limpieza de membretes, secciones y artículos |
 | LLM con salidas estructuradas y RAG | 08 | Troceado por artículo en [`ai/troceado.py`](ai/troceado.py); índice en [`ai/indice.py`](ai/indice.py); prompts y esquemas JSON en [`ai/prompts.py`](ai/prompts.py); proveedor del LLM detrás de una interfaz en [`ai/llm.py`](ai/llm.py); recuperación BM25 multiconsulta en [`ai/recuperacion.py`](ai/recuperacion.py); flujo y validación de citas en [`ai/respuesta.py`](ai/respuesta.py) y [`ai/verificacion.py`](ai/verificacion.py) |
+| Datos abiertos geográficos en un mapa | pendiente | Pestaña "Dónde atenderte" en [`app/app.py`](app/app.py): la persona elige departamento y distrito y ve los establecimientos activos de RENIPRESS (SUSALUD, [datosabiertos.gob.pe](https://www.datosabiertos.gob.pe/dataset/registro-nacional-de-entidades-prestadoras-de-servicios-de-salud-renipress)) en un mapa y una lista; preparación y filtros en [`ai/renipress.py`](ai/renipress.py). No usa el modelo, así que funciona sin cuota |
 
 ## 9. Qué hizo el agente
 
@@ -325,6 +327,13 @@ que-me-cubre/
   ausente entre las coberturas con código. Las remisiones a Condiciones Particulares y al
   Certificado salen en casi todas las respuestas de Chubb y Pacífico; por eso van plegadas
   debajo de las cláusulas con nombre propio.
+- **Dónde atenderte:** son los establecimientos registrados en SUSALUD (RENIPRESS), no la
+  red de ninguna aseguradora, y la app lo dice debajo del mapa. Corte del 30-10-2026, solo
+  los 27 017 establecimientos en estado activo; 6977 de ellos (26 %) no tienen coordenadas
+  válidas en el registro y salen en la lista pero no en el mapa (en Tarapoto, 26 de 148).
+  No se usa la ubicación de la persona: elige departamento y distrito. Para actualizarlo,
+  bajar el CSV del mes y correr `python -m ai.renipress --csv ... --corte ... --url ...`
+  (la procedencia queda en [`data/renipress/fuente.json`](data/renipress/fuente.json)).
 - **Caché de normalizaciones:** solo contiene preguntas públicas de ensayo y de prueba
   (`data/demo/`, `pruebas/`), generadas en local con `python -m ai.preparar_demo`. La app
   la lee, nunca escribe en ella.

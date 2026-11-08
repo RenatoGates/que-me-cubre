@@ -5,9 +5,11 @@ Sirve para docs/ y para comprobar que la app desplegada corre de punta a punta:
     python pruebas/capturas.py --url http://localhost:8501 --salida docs/capturas
     python pruebas/capturas.py --url https://<app>.streamlit.app --salida docs/capturas
 
-Hace tres capturas: la pantalla inicial, la respuesta a la pregunta de la radiografía
-(P02: veredicto, explicación y lo mencionado pero ausente) y la de la torcedura (P01) con
-una cita desplegada y "podrían aplicar". Cada consulta a una app con Groq gasta cuota
+Hace cuatro capturas: la pantalla inicial, la respuesta a la pregunta de la radiografía
+(P02: veredicto, explicación y lo mencionado pero ausente), la de la torcedura (P01) con
+una cita desplegada y "podrían aplicar", y la pestaña "Dónde atenderte" en Tarapoto. El
+mapa se dibuja con WebGL por software: con la GPU del modo headless el mapa base sale en
+blanco en la captura (en un navegador normal se ve). Cada consulta a una app con Groq gasta cuota
 (unos 5000 tokens si la pregunta está en la caché). Necesita `pip install playwright` y
 `python -m playwright install chromium` (solo en local; no va en la app).
 """
@@ -50,7 +52,7 @@ def main() -> int:
     salida.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as pw:
-        navegador = pw.chromium.launch()
+        navegador = pw.chromium.launch(args=["--use-angle=swiftshader", "--enable-unsafe-swiftshader"])
         pagina = navegador.new_page(viewport={"width": ANCHO, "height": ALTO}, device_scale_factor=1)
         pagina.goto(a.url, wait_until="domcontentloaded")
         marco = pagina
@@ -76,6 +78,12 @@ def main() -> int:
         pagina.wait_for_timeout(800)
         capturar(pagina, marco, salida / "3_respuesta_torcedura_citas.png")
         print("3_respuesta_torcedura_citas.png:", marco.locator(".qmc-veredicto").first.inner_text())
+
+        marco.get_by_role("tab", name="Dónde atenderte").click()
+        marco.get_by_text("no la red de tu aseguradora").wait_for(timeout=60_000)
+        pagina.wait_for_timeout(6000)  # teselas del mapa base
+        capturar(pagina, marco, salida / "4_donde_atenderte.png")
+        print("4_donde_atenderte.png")
         navegador.close()
     return 0
 

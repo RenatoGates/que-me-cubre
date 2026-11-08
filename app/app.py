@@ -13,6 +13,10 @@ respuesta con el contrato del README ("Cómo se muestra una respuesta"):
 Si el proveedor falla o se acaba la cuota: las cláusulas encontradas, resaltadas, con el
 aviso de por qué no hay texto generado (red de seguridad de ai/respuesta.py).
 
+Pestaña "Dónde atenderte": la persona elige departamento y distrito y ve los
+establecimientos activos de RENIPRESS (SUSALUD) en un mapa y una lista. No usa el modelo ni
+la ubicación de la persona; son establecimientos registrados, no la red de su aseguradora.
+
 Privacidad: el PDF subido vive solo en la memoria de esta sesión (st.session_state); no se
 escribe en disco ni en la caché compartida entre sesiones. Nada de lo que se pregunta se
 registra.
@@ -35,6 +39,7 @@ if str(RAIZ) not in sys.path:
 
 import streamlit as st  # noqa: E402
 
+from ai import renipress  # noqa: E402
 from ai.extraccion import extraer  # noqa: E402
 from ai.indice import Indice  # noqa: E402
 from ai.llm import ErrorLLM, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
@@ -279,7 +284,7 @@ def mostrar(r: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Pantalla
+# Tu póliza
 # ---------------------------------------------------------------------------
 
 
@@ -294,6 +299,107 @@ def pedir_respuesta() -> None:
     st.session_state["consultar"] = True
 
 
+def pantalla_poliza() -> None:
+    opciones = [*fuentes(), SUBIR]
+    fuente = st.radio(
+        "Póliza", opciones, key="fuente", horizontal=True,
+        format_func=lambda x: x if x == SUBIR else etiqueta_fuente(x),
+    )
+    poliza: Poliza | None = None
+    if fuente == SUBIR:
+        archivo = st.file_uploader("PDF de tu póliza (condicionado con texto seleccionable)", type=["pdf"])
+        if archivo is not None:
+            try:
+                with st.spinner("Leyendo tu póliza…"):
+                    poliza = poliza_subida(archivo)
+                st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
+                           "fragmentos. Vive solo en esta sesión.")
+            except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
+                st.error(f"No pude leer ese PDF: {e}")
+    else:
+        poliza = poliza_precargada(fuente)
+
+    st.text_area("Tu pregunta", key="pregunta", height=90,
+                 placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
+    st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
+    st.caption("Casos reales, sobre la póliza de Chubb · JetSmart:")
+    for i, texto in enumerate(PREGUNTAS_TARAPOTO):
+        st.button(texto, key=f"tarapoto_{i}", on_click=elegir_tarapoto, args=(texto,), width="stretch")
+
+    if st.session_state.pop("consultar", False):
+        pregunta = (st.session_state.get("pregunta") or "").strip()
+        if poliza is None:
+            st.warning("Primero elige una póliza o sube tu PDF.")
+        elif not pregunta:
+            st.warning("Escribe una pregunta.")
+        else:
+            with st.spinner("Buscando en tu póliza y verificando las citas…"):
+                st.session_state["resultado"] = responder(pregunta, poliza, proveedor())
+            st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
+
+    resultado = st.session_state.get("resultado")
+    de = st.session_state.get("resultado_de", (None, None))
+    if resultado is not None and poliza is not None and de[:2] == (poliza.doc_id, poliza.sha256):
+        st.divider()
+        st.caption(f"Pregunta: {resultado['pregunta']}")
+        mostrar(resultado)
+
+
+# ---------------------------------------------------------------------------
+# Dónde atenderte: RENIPRESS (sin modelo, funciona aunque no haya cuota)
+# ---------------------------------------------------------------------------
+
+
+@st.cache_data(show_spinner=False)
+def establecimientos_registrados():
+    return renipress.cargar()
+
+
+def pantalla_mapa() -> None:
+    df = establecimientos_registrados()
+    st.markdown("Elige la zona y te muestro los establecimientos de salud registrados en SUSALUD. "
+                "No uso tu ubicación.")
+    departamentos = sorted(df["departamento"].unique())
+    c1, c2 = st.columns(2)
+    departamento = c1.selectbox("Departamento", departamentos, index=departamentos.index("SAN MARTIN"),
+                                format_func=renipress.nombre_propio, key="mapa_departamento")
+    opciones = renipress.distritos(df, departamento)
+    nombres = [d for _, d in opciones]
+    repetidos = {d for d in nombres if nombres.count(d) > 1}
+
+    def etiqueta(o: tuple[str, str]) -> str:
+        provincia, distrito = o
+        extra = f" (provincia {renipress.nombre_propio(provincia)})" if distrito in repetidos else ""
+        return renipress.nombre_propio(distrito) + extra
+
+    defecto = opciones.index(("SAN MARTIN", "TARAPOTO")) if ("SAN MARTIN", "TARAPOTO") in opciones else 0
+    provincia, distrito = c2.selectbox("Distrito", opciones, index=defecto, format_func=etiqueta, key="mapa_distrito")
+    sel = renipress.establecimientos(df, departamento, provincia, distrito)
+    if st.toggle("Solo hospitales y clínicas con internamiento", key="mapa_internamiento"):
+        sel = sel[sel["tipo"].str.contains("CON INTERNAMIENTO")]
+
+    en_mapa = sel.dropna(subset=["lat", "lon"])
+    if len(en_mapa):
+        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#1f5f8b")
+    st.warning("Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.", icon="🏥")
+    st.caption(f"{len(sel)} establecimientos activos en {etiqueta((provincia, distrito))}"
+               + (f"; {len(sel) - len(en_mapa)} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
+                  if len(sel) > len(en_mapa) else "."))
+    st.dataframe(
+        sel[["nombre", "clasificacion", "categoria", "direccion", "telefono", "horario", "institucion"]].rename(columns={
+            "nombre": "Nombre", "clasificacion": "Tipo", "categoria": "Categoría", "direccion": "Dirección",
+            "telefono": "Teléfono", "horario": "Horario", "institucion": "Institución"}),
+        hide_index=True, width="stretch",
+    )
+    f = renipress.fuente()
+    st.caption(f"Fuente: RENIPRESS, SUSALUD, en datosabiertos.gob.pe (corte del {f['corte']}, licencia ODC-BY). "
+               "Solo establecimientos en estado activo.")
+
+
+# ---------------------------------------------------------------------------
+# Pantalla
+# ---------------------------------------------------------------------------
+
 st.title("¿Qué me cubre?")
 st.markdown("Pregunta en español normal y te respondo citando la cláusula exacta de tu póliza, con artículo y página.")
 st.info(
@@ -302,46 +408,8 @@ st.info(
     "**Es informativo:** la decisión final sobre la cobertura la toma tu aseguradora.",
     icon="🔒",
 )
-
-opciones = [*fuentes(), SUBIR]
-fuente = st.radio(
-    "Póliza", opciones, key="fuente", horizontal=True,
-    format_func=lambda x: x if x == SUBIR else etiqueta_fuente(x),
-)
-poliza: Poliza | None = None
-if fuente == SUBIR:
-    archivo = st.file_uploader("PDF de tu póliza (condicionado con texto seleccionable)", type=["pdf"])
-    if archivo is not None:
-        try:
-            with st.spinner("Leyendo tu póliza…"):
-                poliza = poliza_subida(archivo)
-            st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} fragmentos. "
-                       "Vive solo en esta sesión.")
-        except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
-            st.error(f"No pude leer ese PDF: {e}")
-else:
-    poliza = poliza_precargada(fuente)
-
-st.text_area("Tu pregunta", key="pregunta", height=90,
-             placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
-st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
-st.caption("Casos reales, sobre la póliza de Chubb · JetSmart:")
-for i, texto in enumerate(PREGUNTAS_TARAPOTO):
-    st.button(texto, key=f"tarapoto_{i}", on_click=elegir_tarapoto, args=(texto,), use_container_width=True)
-
-if st.session_state.pop("consultar", False):
-    pregunta = (st.session_state.get("pregunta") or "").strip()
-    if poliza is None:
-        st.warning("Primero elige una póliza o sube tu PDF.")
-    elif not pregunta:
-        st.warning("Escribe una pregunta.")
-    else:
-        with st.spinner("Buscando en tu póliza y verificando las citas…"):
-            st.session_state["resultado"] = responder(pregunta, poliza, proveedor())
-        st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
-
-resultado = st.session_state.get("resultado")
-if resultado is not None and poliza is not None and st.session_state.get("resultado_de", (None,))[:2] == (poliza.doc_id, poliza.sha256):
-    st.divider()
-    st.caption(f"Pregunta: {resultado['pregunta']}")
-    mostrar(resultado)
+tab_poliza, tab_mapa = st.tabs(["Pregunta a tu póliza", "Dónde atenderte"])
+with tab_poliza:
+    pantalla_poliza()
+with tab_mapa:
+    pantalla_mapa()

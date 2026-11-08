@@ -80,6 +80,23 @@ def main() -> int:
     caso("red de seguridad: etiqueta 'Sin veredicto' y el aviso", "Sin veredicto" in html and "No generé una respuesta" in t)
     caso("red de seguridad: muestra las cláusulas encontradas", "Cláusulas que encontré para tu pregunta" in t)
 
+    # Dónde atenderte: RENIPRESS, sin modelo
+    caso("mapa: arranca en San Martín · Tarapoto",
+         (at.selectbox(key="mapa_departamento").value, at.selectbox(key="mapa_distrito").value)
+         == ("SAN MARTIN", ("SAN MARTIN", "TARAPOTO")))
+    tabla = at.dataframe[0].value
+    caso("mapa: Tarapoto lista sus establecimientos activos",
+         len(tabla) == 148 and "HOSPITAL TARAPOTO" in set(tabla["Nombre"]), str(len(tabla)))
+    caso("mapa: el aviso de que no es la red de la aseguradora",
+         any("no la red de tu aseguradora" in w.body for w in at.warning))
+    caso("mapa: cita la fuente y la licencia", "Fuente: RENIPRESS, SUSALUD" in textos(at) and "ODC-BY" in textos(at))
+    at.toggle(key="mapa_internamiento").set_value(True).run()
+    tabla = at.dataframe[0].value
+    caso("mapa: solo con internamiento", 0 < len(tabla) < 148 and "HOSPITAL TARAPOTO" in set(tabla["Nombre"]), str(len(tabla)))
+    at.selectbox(key="mapa_departamento").set_value("LIMA").run()
+    caso("mapa: cambiar de departamento no rompe",
+         not at.exception and at.selectbox(key="mapa_distrito").value[0] != "SAN MARTIN", str(at.exception))
+
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0
 
