@@ -1,0 +1,86 @@
+{
+  "id": "P06",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 3,
+  "citas_propuestas": 3,
+  "no_incluido": [
+    "Condiciones Particulares",
+    "Certificado de Seguro"
+  ],
+  "pasajes": 10,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4941,
+    "tokens_salida": 2401,
+    "tokens_razonamiento": 1861,
+    "segundos": 5.81,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la atención dental de emergencia por una lesión en un diente natural causada por un accidente durante el viaje. El dentista podrá pagarse hasta el límite total del beneficio por diente, según lo establecido en tus Condiciones Particulares o Certificado de Seguro, y deberás iniciar el tratamiento en el exterior dentro de las 24 horas de la emergencia y presentar la reclamación dentro de los 30 días.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P4",
+        "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "El tratamiento odontológico, los servicios y suministros correspondientes serán pagados hasta el límite del beneficio total y por diente, sujeto a lo establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, y hasta los treinta (30) días después de iniciado el primer tratamiento."
+      },
+      {
+        "n": 3,
+        "pasaje": "P2",
+        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debes iniciar el tratamiento odontológico de emergencia en el exterior dentro de las 24 horas siguientes al momento en que se presentó el dolor agudo.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "La cobertura está limitada al beneficio total por diente y su vigencia es de hasta 30 días después de iniciado el primer tratamiento, sujeto a lo establecido en las Condiciones Particulares o Certificado de Seguro.",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "La lesión debe ser en un diente natural sano causado por un accidente, ya que esa es la excepción a la exclusión de tratamientos dentales.",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 2,
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "Fijan el monto máximo del beneficio total por diente que se menciona en la cobertura."
+      },
+      {
+        "cita": 2,
+        "nombre": "Certificado de Seguro",
+        "por_que_importa": "También establece el límite del beneficio total por diente y otros detalles de la cobertura."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la atención dental de emergencia por una lesión en un diente natural causada por un accidente durante el viaje. El dentista podrá pagarse hasta el límite total del beneficio por diente, según lo establecido en tus Condiciones Particulares o Certificado de Seguro, y deberás iniciar el tratamiento en el exterior dentro de las 24 horas de la emergencia y presentar la reclamación dentro de los 30 días."
+  },
+  "descartes": []
+}

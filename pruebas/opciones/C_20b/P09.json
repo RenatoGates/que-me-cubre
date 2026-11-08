@@ -1,0 +1,92 @@
+{
+  "id": "P09",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "cubre": "no",
+  "aceptable": false,
+  "recuperacion_acierta": true,
+  "citas_validas": 1,
+  "citas_propuestas": 1,
+  "no_incluido": [],
+  "pasajes": 11,
+  "chars_pasajes": 13486,
+  "chars_usuario": 14143,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-20b",
+    "tokens_entrada": 4538,
+    "tokens_salida": 2980,
+    "tokens_razonamiento": 2677,
+    "segundos": 3.74,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza no cubre la fractura de pierna que sufriste esquiando, porque el esquiado está expresamente excluido como deporte de alto riesgo en las exclusiones generales. No hay que buscar información adicional para esta decisión.",
+  "final": {
+    "cubre": "no",
+    "respuesta": "Tu póliza no cubre la fractura de pierna que sufriste esquiando, porque el esquiado está expresamente excluido como deporte de alto riesgo en las exclusiones generales. No hay que buscar información adicional para esta decisión.",
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "El hecho de esquiado en pista autorizada se considera parte de la práctica de ski, deporte de alto riesgo excluido por la póliza.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+        "seccion": "PARTE C. EXCLUSIONES",
+        "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+        "pagina": 14,
+        "paginas": [
+          14
+        ],
+        "texto_literal": "Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales.",
+        "pasaje": "P11",
+        "trozo_id": "pacifico_viajes:0041",
+        "posicion": [
+          286,
+          940
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P11",
+        "texto_literal": "Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "El hecho de esquiado en pista autorizada se considera parte de la práctica de ski, deporte de alto riesgo excluido por la póliza.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "Tu póliza no cubre la fractura de pierna que sufriste esquiando, porque el esquiado está expresamente excluido como deporte de alto riesgo en las exclusiones generales. No hay que buscar información adicional para esta decisión."
+  },
+  "descartes": []
+}

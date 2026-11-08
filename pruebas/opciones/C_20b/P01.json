@@ -1,0 +1,105 @@
+{
+  "id": "P01",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "cubre": "si",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 11,
+  "chars_pasajes": 14785,
+  "chars_usuario": 16170,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-20b",
+    "tokens_entrada": 5076,
+    "tokens_salida": 2865,
+    "tokens_razonamiento": 2624,
+    "segundos": 3.92,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre los gastos médicos por la torcedura del dedo. Según el resumen de la póliza se incluyen \"Gastos médicos por accidente y/o enfermedad durante el viaje\" y no aparece ninguna exclusión que aplique a una lesión de este tipo. No se menciona un límite de cobertura en los pasajes revisados, por lo que la póliza cubre los gastos sin indicar un monto máximo.",
+  "final": {
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre los gastos médicos por la torcedura del dedo. Según el resumen de la póliza se incluyen \"Gastos médicos por accidente y/o enfermedad durante el viaje\" y no aparece ninguna exclusión que aplique a una lesión de este tipo. No se menciona un límite de cobertura en los pasajes revisados, por lo que la póliza cubre los gastos sin indicar un monto máximo.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Resumen Informativo",
+        "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
+        "pagina": 2,
+        "paginas": [
+          2
+        ],
+        "texto_literal": "Gastos médicos por accidente y/o enfermedad durante el viaje",
+        "pasaje": "P7",
+        "trozo_id": "chubb_viajes_jetsmart:0008",
+        "posicion": [
+          182,
+          242
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
+        "pagina": 17,
+        "paginas": [
+          17
+        ],
+        "texto_literal": "Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0067",
+        "posicion": [
+          75,
+          406
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P7",
+        "texto_literal": "Gastos médicos por accidente y/o enfermedad durante el viaje"
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre los gastos médicos por la torcedura del dedo. Según el resumen de la póliza se incluyen \"Gastos médicos por accidente y/o enfermedad durante el viaje\" y no aparece ninguna exclusión que aplique a una lesión de este tipo. No se menciona un límite de cobertura en los pasajes revisados, por lo que la póliza cubre los gastos sin indicar un monto máximo."
+  },
+  "descartes": []
+}

@@ -1,0 +1,49 @@
+{
+  "id": "P01",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 0,
+  "citas_propuestas": 0,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 6263,
+  "chars_usuario": 7648,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 2967,
+    "tokens_salida": 326,
+    "tokens_razonamiento": 195,
+    "segundos": 1.44,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de exclusiones de ciertos tratamientos y de coberturas específicas (repatriación, gastos farmacéuticos, odontología, etc.), pero no hay una disposición que mencione la cobertura de gastos médicos por una torcedura de dedo durante el viaje.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de exclusiones de ciertos tratamientos y de coberturas específicas (repatriación, gastos farmacéuticos, odontología, etc.), pero no hay una disposición que mencione la cobertura de gastos médicos por una torcedura de dedo durante el viaje.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de exclusiones de ciertos tratamientos y de coberturas específicas (repatriación, gastos farmacéuticos, odontología, etc.), pero no hay una disposición que mencione la cobertura de gastos médicos por una torcedura de dedo durante el viaje."
+  },
+  "descartes": []
+}

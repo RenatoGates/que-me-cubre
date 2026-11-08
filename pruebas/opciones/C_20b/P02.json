@@ -1,0 +1,119 @@
+{
+  "id": "P02",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "cubre": "no",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 11,
+  "chars_pasajes": 13943,
+  "chars_usuario": 15411,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-20b",
+    "tokens_entrada": 4940,
+    "tokens_salida": 668,
+    "tokens_razonamiento": 436,
+    "segundos": 1.55,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza no cubre la radiografía solicitada, porque la cobertura explícitamente excluye los exámenes de laboratorio o radiografías como parte de un examen de rutina sin indicaciones objetivas.",
+  "final": {
+    "cubre": "no",
+    "respuesta": "Tu póliza no cubre la radiografía solicitada, porque la cobertura explícitamente excluye los exámenes de laboratorio o radiografías como parte de un examen de rutina sin indicaciones objetivas.",
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Los exámenes radiográficos están excluidos cuando se realizan como parte de un examen de rutina sin indicaciones objetivas.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
+        "pagina": 18,
+        "paginas": [
+          18
+        ],
+        "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0069",
+        "posicion": [
+          0,
+          159
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+        "pagina": 16,
+        "paginas": [
+          16
+        ],
+        "texto_literal": "c)Hospitalización y uso del quirófano.\n d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.",
+        "pasaje": "P3",
+        "trozo_id": "chubb_viajes_jetsmart:0061",
+        "posicion": [
+          961,
+          1194
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías."
+      },
+      {
+        "n": 2,
+        "pasaje": "P3",
+        "texto_literal": "c)Hospitalización y uso del quirófano.\n d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Los exámenes radiográficos están excluidos cuando se realizan como parte de un examen de rutina sin indicaciones objetivas.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "Tu póliza no cubre la radiografía solicitada, porque la cobertura explícitamente excluye los exámenes de laboratorio o radiografías como parte de un examen de rutina sin indicaciones objetivas."
+  },
+  "descartes": []
+}

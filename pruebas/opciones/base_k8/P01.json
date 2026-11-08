@@ -1,0 +1,70 @@
+{
+  "id": "P01",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [
+    "Condiciones Particulares y/o Certificado de Seguro"
+  ],
+  "pasajes": 11,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 5076,
+    "tokens_salida": 1733,
+    "tokens_razonamiento": 1388,
+    "segundos": 4.52,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Tu póliza menciona que cubre los gastos médicos por accidente o enfermedad durante el viaje. Sin embargo, también indica que los gastos incurridos fuera del territorio de cobertura, según lo definido en las Condiciones Particulares o en el Certificado de Seguro, quedan excluidos. Como no disponemos de la información sobre cuál es el territorio cubierto en tu póliza, no podemos confirmar si los gastos por la torcedura del dedo en Tarapoto están cubiertos.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P7",
+        "texto_literal": "Gastos médicos por accidente y/o enfermedad durante el viaje"
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La cobertura solo aplica si los gastos se incurren dentro del territorio de cobertura definido en las Condiciones Particulares o Certificado de Seguro",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Los gastos incurridos fuera del territorio de cobertura quedan excluidos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 2,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Definen el territorio y los montos máximos de cobertura; sin ese documento no se puede saber si Tarapoto está dentro del territorio cubierto"
+      }
+    ],
+    "cubre": "no_encontrado",
+    "respuesta": "Tu póliza menciona que cubre los gastos médicos por accidente o enfermedad durante el viaje. Sin embargo, también indica que los gastos incurridos fuera del territorio de cobertura, según lo definido en las Condiciones Particulares o en el Certificado de Seguro, quedan excluidos. Como no disponemos de la información sobre cuál es el territorio cubierto en tu póliza, no podemos confirmar si los gastos por la torcedura del dedo en Tarapoto están cubiertos."
+  },
+  "descartes": []
+}

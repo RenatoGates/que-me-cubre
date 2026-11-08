@@ -1,0 +1,131 @@
+{
+  "id": "P07",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 6,
+  "chars_pasajes": 7143,
+  "chars_usuario": 8504,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3286,
+    "tokens_salida": 1114,
+    "tokens_razonamiento": 840,
+    "segundos": 2.82,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No, tu póliza no cubre una operación estética de la nariz. Las exclusiones incluyen \"Cirugía reparadora, plástica, excepto como resultado de una lesión accidental\" y \"Tratamientos médicos o quirúrgicos distintos de los necesarios\", que abarcan intervenciones electivas como la que planteas.",
+  "final": {
+    "cubre": "no",
+    "respuesta": "No, tu póliza no cubre una operación estética de la nariz. Las exclusiones incluyen \"Cirugía reparadora, plástica, excepto como resultado de una lesión accidental\" y \"Tratamientos médicos o quirúrgicos distintos de los necesarios\", que abarcan intervenciones electivas como la que planteas.",
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Cirugía plástica, excepto si es por lesión accidental",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Tratamientos médicos o quirúrgicos distintos de los necesarios, como intervenciones electivas o estéticas",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
+        "pagina": 18,
+        "paginas": [
+          18
+        ],
+        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.",
+        "pasaje": "P4",
+        "trozo_id": "chubb_viajes_jetsmart:0069",
+        "posicion": [
+          160,
+          241
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
+        "pagina": 17,
+        "paginas": [
+          17
+        ],
+        "texto_literal": "l)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.",
+        "pasaje": "P3",
+        "trozo_id": "chubb_viajes_jetsmart:0067",
+        "posicion": [
+          73,
+          406
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P4",
+        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental."
+      },
+      {
+        "n": 2,
+        "pasaje": "P3",
+        "texto_literal": "l)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Cirugía plástica, excepto si es por lesión accidental",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Tratamientos médicos o quirúrgicos distintos de los necesarios, como intervenciones electivas o estéticas",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "No, tu póliza no cubre una operación estética de la nariz. Las exclusiones incluyen \"Cirugía reparadora, plástica, excepto como resultado de una lesión accidental\" y \"Tratamientos médicos o quirúrgicos distintos de los necesarios\", que abarcan intervenciones electivas como la que planteas."
+  },
+  "descartes": []
+}

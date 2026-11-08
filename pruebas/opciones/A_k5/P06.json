@@ -1,0 +1,145 @@
+{
+  "id": "P06",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [
+    "Condiciones Particulares / Certificado de Seguro"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6615,
+  "chars_usuario": 7951,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3089,
+    "tokens_salida": 1622,
+    "tokens_razonamiento": 1222,
+    "segundos": 4.05,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre los servicios odontológicos de emergencia cuando el diente se rompe durante el viaje, siempre que el primer tratamiento se realice en el exterior dentro de las 24 horas siguientes a la lesión. El reembolso está limitado al beneficio total y por diente que aparecen en las Condiciones Particulares o en el Certificado de Seguro, y debes presentar la solicitud dentro de los 30 días posteriores al inicio del tratamiento.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre los servicios odontológicos de emergencia cuando el diente se rompe durante el viaje, siempre que el primer tratamiento se realice en el exterior dentro de las 24 horas siguientes a la lesión. El reembolso está limitado al beneficio total y por diente que aparecen en las Condiciones Particulares o en el Certificado de Seguro, y debes presentar la solicitud dentro de los 30 días posteriores al inicio del tratamiento.",
+    "condiciones": [
+      {
+        "descripcion": "El tratamiento debe iniciarse en el exterior dentro de las 24 horas siguientes a la emergencia.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El pago está limitado al beneficio total y por diente, según lo establecido en las Condiciones Particulares o Certificado de Seguro, y debe reclamarse dentro de los 30 días desde el inicio del primer tratamiento.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares / Certificado de Seguro",
+        "por_que_importa": "Define el límite del beneficio total y por diente, y el plazo de 30 días para reclamar, que no está detallado en este documento.",
+        "cita": 1
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 21,
+        "paginas": [
+          21
+        ],
+        "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.",
+        "pasaje": "P4",
+        "trozo_id": "chubb_viajes_jetsmart:0079",
+        "posicion": [
+          22,
+          349
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
+        "pagina": 17,
+        "paginas": [
+          17
+        ],
+        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0067",
+        "posicion": [
+          437,
+          547
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P4",
+        "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino."
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El tratamiento debe iniciarse en el exterior dentro de las 24 horas siguientes a la emergencia.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El pago está limitado al beneficio total y por diente, según lo establecido en las Condiciones Particulares o Certificado de Seguro, y debe reclamarse dentro de los 30 días desde el inicio del primer tratamiento.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares / Certificado de Seguro",
+        "por_que_importa": "Define el límite del beneficio total y por diente, y el plazo de 30 días para reclamar, que no está detallado en este documento."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre los servicios odontológicos de emergencia cuando el diente se rompe durante el viaje, siempre que el primer tratamiento se realice en el exterior dentro de las 24 horas siguientes a la lesión. El reembolso está limitado al beneficio total y por diente que aparecen en las Condiciones Particulares o en el Certificado de Seguro, y debes presentar la solicitud dentro de los 30 días posteriores al inicio del tratamiento."
+  },
+  "descartes": []
+}

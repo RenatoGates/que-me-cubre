@@ -1,0 +1,145 @@
+{
+  "id": "P05",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [
+    "Condiciones Particulares y/o Certificado de Seguro"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6766,
+  "chars_usuario": 8157,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3165,
+    "tokens_salida": 974,
+    "tokens_razonamiento": 161,
+    "segundos": 2.66,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la devolución del importe pagado por los pasajes y otros gastos del viaje cuando no puedes iniciar el viaje por una enfermedad de carácter súbito, siempre que el viaje haya sido reservado y pagado antes de que surgiera la enfermedad y que presentes la documentación requerida. El monto máximo que te reembolsarán está limitado al que figura en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la compañía.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del importe pagado por los pasajes y otros gastos del viaje cuando no puedes iniciar el viaje por una enfermedad de carácter súbito, siempre que el viaje haya sido reservado y pagado antes de que surgiera la enfermedad y que presentes la documentación requerida. El monto máximo que te reembolsarán está limitado al que figura en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la compañía.",
+    "condiciones": [
+      {
+        "descripcion": "El viaje debe haber sido reservado y pagado antes de que la enfermedad súbita ocurriera.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Debe presentar recibos, boletas, facturas, contratos de viaje, pasajes, vouchers de hotel y documentos que acrediten el pago o reembolso.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "El límite máximo de reembolso se indica en esos documentos, que no están incluidos en el texto proporcionado.",
+        "cita": 1
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Cancelación del Viaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 41,
+        "paginas": [
+          41
+        ],
+        "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.",
+        "pasaje": "P2",
+        "trozo_id": "chubb_viajes_jetsmart:0149",
+        "posicion": [
+          22,
+          738
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Cancelación del Viaje",
+        "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 5)",
+        "pagina": 43,
+        "paginas": [
+          43
+        ],
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso.",
+        "pasaje": "P4",
+        "trozo_id": "chubb_viajes_jetsmart:0157",
+        "posicion": [
+          0,
+          1122
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El viaje debe haber sido reservado y pagado antes de que la enfermedad súbita ocurriera.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Debe presentar recibos, boletas, facturas, contratos de viaje, pasajes, vouchers de hotel y documentos que acrediten el pago o reembolso.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "El límite máximo de reembolso se indica en esos documentos, que no están incluidos en el texto proporcionado."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del importe pagado por los pasajes y otros gastos del viaje cuando no puedes iniciar el viaje por una enfermedad de carácter súbito, siempre que el viaje haya sido reservado y pagado antes de que surgiera la enfermedad y que presentes la documentación requerida. El monto máximo que te reembolsarán está limitado al que figura en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la compañía."
+  },
+  "descartes": []
+}

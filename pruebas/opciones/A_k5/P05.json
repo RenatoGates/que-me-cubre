@@ -1,0 +1,130 @@
+{
+  "id": "P05",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 1,
+  "citas_propuestas": 1,
+  "no_incluido": [
+    "Condiciones Particulares y Certificado de Seguro"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6766,
+  "chars_usuario": 8157,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3213,
+    "tokens_salida": 1416,
+    "tokens_razonamiento": 875,
+    "segundos": 3.62,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la devolución del dinero que pagaste por pasajes y otros gastos si la enfermedad de carácter súbito te impidió iniciar el viaje, siempre que ya los tuvieras reservados y pagados antes de enfermarte. El reembolso está sujeto al límite que aparece en tus Condiciones Particulares o en el Certificado de Seguro, documentos que deberías consultar porque no están en este extracto. Además, la aseguradora puede requerir una auditoría médica para validar la causa de la enfermedad.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del dinero que pagaste por pasajes y otros gastos si la enfermedad de carácter súbito te impidió iniciar el viaje, siempre que ya los tuvieras reservados y pagados antes de enfermarte. El reembolso está sujeto al límite que aparece en tus Condiciones Particulares o en el Certificado de Seguro, documentos que deberías consultar porque no están en este extracto. Además, la aseguradora puede requerir una auditoría médica para validar la causa de la enfermedad.",
+    "condiciones": [
+      {
+        "descripcion": "Debes haber reservado y pagado o adeudado los costos de pasajes, hospedaje u otros servicios antes de que la enfermedad surgiera",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El reembolso está limitado al máximo que indique tu Condiciones Particulares o Certificado de Seguro",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "La compañía puede solicitar una auditoría médica para comprobar la causa de la enfermedad",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y Certificado de Seguro",
+        "por_que_importa": "En el pasaje se menciona que el límite de reembolso está fijado en esos documentos, pero su contenido no está incluido en el texto que nos proporcionaste",
+        "cita": 1
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Cancelación del Viaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 41,
+        "paginas": [
+          41
+        ],
+        "texto_literal": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
+        "pasaje": "P2",
+        "trozo_id": "chubb_viajes_jetsmart:0149",
+        "posicion": [
+          0,
+          820
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debes haber reservado y pagado o adeudado los costos de pasajes, hospedaje u otros servicios antes de que la enfermedad surgiera",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El reembolso está limitado al máximo que indique tu Condiciones Particulares o Certificado de Seguro",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "La compañía puede solicitar una auditoría médica para comprobar la causa de la enfermedad",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y Certificado de Seguro",
+        "por_que_importa": "En el pasaje se menciona que el límite de reembolso está fijado en esos documentos, pero su contenido no está incluido en el texto que nos proporcionaste"
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del dinero que pagaste por pasajes y otros gastos si la enfermedad de carácter súbito te impidió iniciar el viaje, siempre que ya los tuvieras reservados y pagados antes de enfermarte. El reembolso está sujeto al límite que aparece en tus Condiciones Particulares o en el Certificado de Seguro, documentos que deberías consultar porque no están en este extracto. Además, la aseguradora puede requerir una auditoría médica para validar la causa de la enfermedad."
+  },
+  "descartes": []
+}

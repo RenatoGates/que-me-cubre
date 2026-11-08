@@ -1,0 +1,215 @@
+{
+  "id": "P04",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 4,
+  "citas_propuestas": 4,
+  "no_incluido": [
+    "Monto máximo de la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6479,
+  "chars_usuario": 7900,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3076,
+    "tokens_salida": 2337,
+    "tokens_razonamiento": 1646,
+    "segundos": 5.79,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la atención médica de emergencia y la estabilización si tienes una descompensación de diabetes durante el viaje, pero solo para el tratamiento de urgencia, no para el manejo normal o prolongado de la enfermedad. El importe máximo que podrás recibir está fijado en las Condiciones Particulares o en el Certificado de Seguro, documentos que deberás consultar para saber el límite exacto.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la atención médica de emergencia y la estabilización si tienes una descompensación de diabetes durante el viaje, pero solo para el tratamiento de urgencia, no para el manejo normal o prolongado de la enfermedad. El importe máximo que podrás recibir está fijado en las Condiciones Particulares o en el Certificado de Seguro, documentos que deberás consultar para saber el límite exacto.",
+    "condiciones": [
+      {
+        "descripcion": "Solo cubre el tratamiento de emergencia y estabilización de la condición preexistente; no cubre el tratamiento normal o de larga duración",
+        "citas": [
+          1,
+          2
+        ]
+      },
+      {
+        "descripcion": "El monto máximo está limitado al que se establezca en las Condiciones Particulares y/o Certificado de Seguro",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Si el viaje se realizó con motivo del tratamiento de una enfermedad preexistente, la compañía queda eximida de prestar sus servicios",
+        "citas": [
+          4
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Monto máximo de la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje",
+        "por_que_importa": "Se necesita conocer el límite económico que cubre la póliza para emergencias de enfermedades preexistentes, pero el texto solo indica que está en las Condiciones Particulares o Certificado, documentos que no están incluidos en este extracto",
+        "cita": 3
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+        "pagina": 16,
+        "paginas": [
+          16
+        ],
+        "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.",
+        "pasaje": "P2",
+        "trozo_id": "chubb_viajes_jetsmart:0063",
+        "posicion": [
+          38,
+          341
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
+        "pagina": 17,
+        "paginas": [
+          17
+        ],
+        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0064",
+        "posicion": [
+          1,
+          508
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 3,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+        "pagina": 17,
+        "paginas": [
+          17
+        ],
+        "texto_literal": "De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje.",
+        "pasaje": "P2",
+        "trozo_id": "chubb_viajes_jetsmart:0063",
+        "posicion": [
+          718,
+          1167
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 4,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 4)",
+        "pagina": 19,
+        "paginas": [
+          19
+        ],
+        "texto_literal": "En caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional.",
+        "pasaje": "P4",
+        "trozo_id": "chubb_viajes_jetsmart:0071",
+        "posicion": [
+          962,
+          1164
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO."
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
+      },
+      {
+        "n": 3,
+        "pasaje": "P2",
+        "texto_literal": "De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
+      },
+      {
+        "n": 4,
+        "pasaje": "P4",
+        "texto_literal": "En caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Solo cubre el tratamiento de emergencia y estabilización de la condición preexistente; no cubre el tratamiento normal o de larga duración",
+        "citas": [
+          1,
+          2
+        ]
+      },
+      {
+        "descripcion": "El monto máximo está limitado al que se establezca en las Condiciones Particulares y/o Certificado de Seguro",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Si el viaje se realizó con motivo del tratamiento de una enfermedad preexistente, la compañía queda eximida de prestar sus servicios",
+        "citas": [
+          4
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 3,
+        "nombre": "Monto máximo de la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje",
+        "por_que_importa": "Se necesita conocer el límite económico que cubre la póliza para emergencias de enfermedades preexistentes, pero el texto solo indica que está en las Condiciones Particulares o Certificado, documentos que no están incluidos en este extracto"
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la atención médica de emergencia y la estabilización si tienes una descompensación de diabetes durante el viaje, pero solo para el tratamiento de urgencia, no para el manejo normal o prolongado de la enfermedad. El importe máximo que podrás recibir está fijado en las Condiciones Particulares o en el Certificado de Seguro, documentos que deberás consultar para saber el límite exacto."
+  },
+  "descartes": []
+}

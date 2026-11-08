@@ -1,0 +1,74 @@
+{
+  "id": "P07",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 11,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4908,
+    "tokens_salida": 1344,
+    "tokens_razonamiento": 1001,
+    "segundos": 3.43,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza no cubre la cirugía estética de la nariz durante el viaje. Las exclusiones indican que la cirugía plástica está excluida salvo que sea consecuencia de una lesión accidental, y que cualquier tratamiento médico no necesario por una lesión o enfermedad cubierta, como viajar al extranjero para una intervención estética, queda expresamente excluido.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P4",
+        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental."
+      },
+      {
+        "n": 2,
+        "pasaje": "P7",
+        "texto_literal": "k)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente PÓLIZA."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Cirugía plástica está excluida salvo si es resultado de una lesión accidental",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Los tratamientos médicos o quirúrgicos que no sean necesarios por una lesión o enfermedad cubierta, como viajar al extranjero para una intervención estética, están excluidos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Cirugía plástica no cubierta excepto por lesión accidental",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Tratamientos médicos o quirúrgicos no necesarios (incluido el caso de cirugía estética durante el viaje) están excluidos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "Tu póliza no cubre la cirugía estética de la nariz durante el viaje. Las exclusiones indican que la cirugía plástica está excluida salvo que sea consecuencia de una lesión accidental, y que cualquier tratamiento médico no necesario por una lesión o enfermedad cubierta, como viajar al extranjero para una intervención estética, queda expresamente excluido."
+  },
+  "descartes": []
+}

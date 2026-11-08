@@ -1,0 +1,49 @@
+{
+  "id": "P02",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 0,
+  "citas_propuestas": 0,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 6680,
+  "chars_usuario": 8148,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3127,
+    "tokens_salida": 256,
+    "tokens_razonamiento": 125,
+    "segundos": 1.18,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen la cobertura de gastos médicos, odontológicos y repatriación, y enumeran exclusiones de exámenes de rutina, pero ninguno menciona específicamente radiografías solicitadas por falta de especialidad. Por eso no puedo confirmar que ese gasto esté cubierto.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen la cobertura de gastos médicos, odontológicos y repatriación, y enumeran exclusiones de exámenes de rutina, pero ninguno menciona específicamente radiografías solicitadas por falta de especialidad. Por eso no puedo confirmar que ese gasto esté cubierto.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen la cobertura de gastos médicos, odontológicos y repatriación, y enumeran exclusiones de exámenes de rutina, pero ninguno menciona específicamente radiografías solicitadas por falta de especialidad. Por eso no puedo confirmar que ese gasto esté cubierto."
+  },
+  "descartes": []
+}

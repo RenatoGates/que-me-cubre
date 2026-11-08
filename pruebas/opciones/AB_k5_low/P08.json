@@ -1,0 +1,49 @@
+{
+  "id": "P08",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": true,
+  "recuperacion_acierta": null,
+  "citas_validas": 0,
+  "citas_propuestas": 0,
+  "no_incluido": [],
+  "pasajes": 6,
+  "chars_pasajes": 8002,
+  "chars_usuario": 9372,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3413,
+    "tokens_salida": 170,
+    "tokens_razonamiento": 41,
+    "segundos": 0.93,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, gastos odontológicos y de equipaje, pero no mencionan cobertura para daños al vehículo alquilado. Por lo tanto, la póliza que tienes no indica que pague la reparación del auto.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, gastos odontológicos y de equipaje, pero no mencionan cobertura para daños al vehículo alquilado. Por lo tanto, la póliza que tienes no indica que pague la reparación del auto.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, gastos odontológicos y de equipaje, pero no mencionan cobertura para daños al vehículo alquilado. Por lo tanto, la póliza que tienes no indica que pague la reparación del auto."
+  },
+  "descartes": []
+}

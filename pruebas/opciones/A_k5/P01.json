@@ -1,0 +1,92 @@
+{
+  "id": "P01",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 1,
+  "citas_propuestas": 1,
+  "no_incluido": [
+    "Condiciones Particulares"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6263,
+  "chars_usuario": 7648,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3015,
+    "tokens_salida": 1252,
+    "tokens_razonamiento": 1000,
+    "segundos": 3.36,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré una disposición que cubra específicamente los gastos médicos por la torcedura del dedo en Tarapoto. Los pasajes solo hablan de cobertura durante el viaje y de exclusiones de gastos fuera del territorio de cobertura, cuyo alcance se determina en las Condiciones Particulares, documento que no está incluido aquí.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré una disposición que cubra específicamente los gastos médicos por la torcedura del dedo en Tarapoto. Los pasajes solo hablan de cobertura durante el viaje y de exclusiones de gastos fuera del territorio de cobertura, cuyo alcance se determina en las Condiciones Particulares, documento que no está incluido aquí.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "Define el territorio de cobertura, necesario para saber si los gastos en Tarapoto están cubiertos",
+        "cita": 1
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
+        "pagina": 18,
+        "paginas": [
+          18
+        ],
+        "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0067",
+        "posicion": [
+          1065,
+          1282
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "Define el territorio de cobertura, necesario para saber si los gastos en Tarapoto están cubiertos"
+      }
+    ],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré una disposición que cubra específicamente los gastos médicos por la torcedura del dedo en Tarapoto. Los pasajes solo hablan de cobertura durante el viaje y de exclusiones de gastos fuera del territorio de cobertura, cuyo alcance se determina en las Condiciones Particulares, documento que no está incluido aquí."
+  },
+  "descartes": []
+}

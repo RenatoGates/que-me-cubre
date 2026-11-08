@@ -1,0 +1,97 @@
+{
+  "id": "P02",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 2,
+  "citas_propuestas": 3,
+  "no_incluido": [],
+  "pasajes": 11,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4940,
+    "tokens_salida": 2125,
+    "tokens_razonamiento": 1671,
+    "segundos": 6.01,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre los exámenes diagnósticos como la radiografía siempre que sean médicamente necesarios y no se consideren exámenes de rutina. Debes contar con la prescripción de un médico y el gasto se reembolsará hasta el límite que aparece en tus Condiciones Particulares o Certificado de Seguro, documento que no está incluido aquí. Por lo tanto, la radiografía podría estar cubierta, pero está sujeta a esos límites y a que no sea un examen rutinario.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P3",
+        "texto_literal": "Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos."
+      },
+      {
+        "n": 2,
+        "pasaje": "P6",
+        "texto_literal": "m)Exámenes médicos de rutina."
+      },
+      {
+        "n": 3,
+        "pasaje": "P3",
+        "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El examen debe ser médicamente necesario y no considerarse un examen de rutina.",
+        "citas": [
+          1,
+          2
+        ]
+      },
+      {
+        "descripcion": "El gasto está sujeto al límite máximo fijado en las Condiciones Particulares o Certificado de Seguro.",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "cubre": "con_limites",
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Exámenes médicos de rutina están excluidos.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 3,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Definen el monto máximo de cobertura al que está sujeto el reembolso."
+      }
+    ],
+    "respuesta": "Tu póliza cubre los exámenes diagnósticos como la radiografía siempre que sean médicamente necesarios y no se consideren exámenes de rutina. Debes contar con la prescripción de un médico y el gasto se reembolsará hasta el límite que aparece en tus Condiciones Particulares o Certificado de Seguro, documento que no está incluido aquí. Por lo tanto, la radiografía podría estar cubierta, pero está sujeta a esos límites y a que no sea un examen rutinario."
+  },
+  "descartes": [
+    {
+      "tipo": "cita",
+      "n": 3,
+      "texto": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El gasto está sujeto al límite máximo fijado en las Condiciones Particulares o Certificado de Seguro.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Certificado de Seguro",
+      "motivo": "sin cita válida"
+    }
+  ]
+}

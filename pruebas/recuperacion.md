@@ -3,7 +3,7 @@
 9 de las 10 preguntas tienen un artículo esperado (la P08 es de control: la respuesta
 correcta es no encontrar nada, así que no se puede acertar ni fallar en la búsqueda).
 Acierta = el artículo esperado está entre los k primeros pasajes (sin repetir textos idénticos).
-La app manda al modelo k = 8.
+La app manda al modelo k = 5 (opción A de `pruebas/opciones.md`).
 
 | Método | Aciertos con k = 3 | Aciertos con k = 5 | Aciertos con k = 8 |
 |---|---:|---:|---:|

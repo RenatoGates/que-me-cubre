@@ -1,0 +1,49 @@
+{
+  "id": "P09",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": true,
+  "recuperacion_acierta": false,
+  "citas_validas": 0,
+  "citas_propuestas": 0,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 6625,
+  "chars_usuario": 7282,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 2892,
+    "tokens_salida": 204,
+    "tokens_razonamiento": 89,
+    "segundos": 0.99,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen coberturas básicas, exclusiones generales y algunas actividades excluidas, pero ninguno menciona específicamente la cobertura de una fractura de pierna por esquí en pista autorizada.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen coberturas básicas, exclusiones generales y algunas actividades excluidas, pero ninguno menciona específicamente la cobertura de una fractura de pierna por esquí en pista autorizada.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "cubre": "no_encontrado",
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados describen coberturas básicas, exclusiones generales y algunas actividades excluidas, pero ninguno menciona específicamente la cobertura de una fractura de pierna por esquí en pista autorizada."
+  },
+  "descartes": []
+}

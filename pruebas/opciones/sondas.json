@@ -1,0 +1,44 @@
+[
+  {
+    "modelo": "openai/gpt-oss-120b",
+    "prueba": "dos respuestas seguidas de P01 (k = 8, entrada de 5040 tokens, max_completion_tokens 3000)",
+    "resultado": "la primera entró; la segunda dio 429",
+    "mensaje": "Groq: \"Rate limit reached for model `openai/gpt-oss-120b` ... on tokens per minute (TPM): Limit 8000, Used 6236, Requested 5428. Please try again in 27.48s.\" Lo pedido es la entrada estimada, no la entrada más el máximo de salida."
+  },
+  {
+    "modelo": "openai/gpt-oss-120b",
+    "prueba": "P09 con la opción A",
+    "resultado": "400 json_validate_failed la primera vez; repetida con la misma entrada respondió bien (2940 + 1344 tokens)",
+    "mensaje": "Intermitente: 1 de unas 31 llamadas a 120b en estas corridas."
+  },
+  {
+    "modelo": "openai/gpt-oss-20b",
+    "prueba": "límites de la cuenta (cabeceras de una llamada mínima)",
+    "resultado": "x-ratelimit-limit-tokens 8000, x-ratelimit-limit-requests 1000",
+    "mensaje": "El mismo tope por minuto que 120b."
+  },
+  {
+    "modelo": "openai/gpt-oss-20b",
+    "prueba": "P08 con k = 8 y el balde lleno (x-ratelimit-remaining-tokens 8000)",
+    "resultado": "413",
+    "mensaje": "Groq: \"Request too large for model `openai/gpt-oss-20b` ... (TPM): Limit 8000, Requested 8531\". Entrada (~5530) + max_completion_tokens (3000)."
+  },
+  {
+    "modelo": "openai/gpt-oss-20b",
+    "prueba": "P05 con k = 8 y el balde lleno",
+    "resultado": "413",
+    "mensaje": "Requested 8174."
+  },
+  {
+    "modelo": "openai/gpt-oss-20b",
+    "prueba": "P06 con k = 8",
+    "resultado": "400 json_validate_failed",
+    "mensaje": "Groq: \"Failed to validate JSON. Please adjust your prompt.\" (failed_generation vacío)."
+  },
+  {
+    "modelo": "openai/gpt-oss-20b",
+    "prueba": "P04 y P07 repetidas fuera de la corrida",
+    "resultado": "respondieron bien (4031 + 2194 y 4908 + 1303 tokens)",
+    "mensaje": "Los 400 de 20b no se repiten siempre con la misma entrada."
+  }
+]

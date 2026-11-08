@@ -1,0 +1,37 @@
+{
+  "id": "P08",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": true,
+  "recuperacion_acierta": null,
+  "citas_validas": 0,
+  "citas_propuestas": 0,
+  "no_incluido": [],
+  "pasajes": 12,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 5551,
+    "tokens_salida": 463,
+    "tokens_razonamiento": 360,
+    "segundos": 1.61,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, interrupción del viaje, gastos odontológicos y médicos, pero ninguno menciona cobertura para la reparación del auto alquilado tras un accidente.",
+  "crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, interrupción del viaje, gastos odontológicos y médicos, pero ninguno menciona cobertura para la reparación del auto alquilado tras un accidente."
+  },
+  "descartes": []
+}

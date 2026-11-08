@@ -1,0 +1,184 @@
+{
+  "id": "P03",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 3,
+  "citas_propuestas": 3,
+  "no_incluido": [
+    "Condiciones Particulares y/o Certificado de Seguro"
+  ],
+  "pasajes": 10,
+  "chars_pasajes": 13272,
+  "chars_usuario": 14614,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-20b",
+    "tokens_entrada": 4779,
+    "tokens_salida": 2086,
+    "tokens_razonamiento": 1470,
+    "segundos": 3.16,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la pérdida de la maleta por la aerolínea. La compañía pagará un monto calculado por el peso del equipaje, limitado al monto declarado en el informe de pérdida (PIR) o su equivalente, y sujeto a los límites indicados en las Condiciones Particulares y/o Certificado de Seguro, menos cualquier monto pagado bajo la cláusula G2. Para que la cobertura se active, debes presentar el PIR y la pérdida debe ocurrir al menos 72 horas después de la llegada al destino. Revisa el Certificado de Seguro para conocer el límite máximo que puede pagarse.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la pérdida de la maleta por la aerolínea. La compañía pagará un monto calculado por el peso del equipaje, limitado al monto declarado en el informe de pérdida (PIR) o su equivalente, y sujeto a los límites indicados en las Condiciones Particulares y/o Certificado de Seguro, menos cualquier monto pagado bajo la cláusula G2. Para que la cobertura se active, debes presentar el PIR y la pérdida debe ocurrir al menos 72 horas después de la llegada al destino. Revisa el Certificado de Seguro para conocer el límite máximo que puede pagarse.",
+    "condiciones": [
+      {
+        "descripcion": "Debe presentarse el informe de pérdida (PIR) u equivalente para acreditar la pérdida y activar la cobertura.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "La cobertura se activa cuando el equipaje no llega hasta 72 horas después del horario de llegada al destino del billete.",
+        "citas": [
+          3
+        ]
+      },
+      {
+        "descripcion": "El pago se limita al monto declarado en el PIR y a los límites indicados en las Condiciones Particulares y/o Certificado de Seguro, y se resta cualquier monto pagado bajo la cláusula G2.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Define el límite máximo de indemnización y los valores que pueden pagarse, por lo que necesitas consultarlo para conocer el monto exacto.",
+        "cita": 2
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 46,
+        "paginas": [
+          46
+        ],
+        "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0165",
+        "posicion": [
+          22,
+          469
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 46,
+        "paginas": [
+          46
+        ],
+        "texto_literal": "El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0165",
+        "posicion": [
+          470,
+          783
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 3,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 46,
+        "paginas": [
+          46
+        ],
+        "texto_literal": "La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0165",
+        "posicion": [
+          1064,
+          1291
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente."
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado."
+      },
+      {
+        "n": 3,
+        "pasaje": "P1",
+        "texto_literal": "La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debe presentarse el informe de pérdida (PIR) u equivalente para acreditar la pérdida y activar la cobertura.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "La cobertura se activa cuando el equipaje no llega hasta 72 horas después del horario de llegada al destino del billete.",
+        "citas": [
+          3
+        ]
+      },
+      {
+        "descripcion": "El pago se limita al monto declarado en el PIR y a los límites indicados en las Condiciones Particulares y/o Certificado de Seguro, y se resta cualquier monto pagado bajo la cláusula G2.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 2,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Define el límite máximo de indemnización y los valores que pueden pagarse, por lo que necesitas consultarlo para conocer el monto exacto."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la pérdida de la maleta por la aerolínea. La compañía pagará un monto calculado por el peso del equipaje, limitado al monto declarado en el informe de pérdida (PIR) o su equivalente, y sujeto a los límites indicados en las Condiciones Particulares y/o Certificado de Seguro, menos cualquier monto pagado bajo la cláusula G2. Para que la cobertura se active, debes presentar el PIR y la pérdida debe ocurrir al menos 72 horas después de la llegada al destino. Revisa el Certificado de Seguro para conocer el límite máximo que puede pagarse."
+  },
+  "descartes": []
+}

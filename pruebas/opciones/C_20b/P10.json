@@ -1,0 +1,131 @@
+{
+  "id": "P10",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 9,
+  "chars_pasajes": 9672,
+  "chars_usuario": 10159,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-20b",
+    "tokens_entrada": 3738,
+    "tokens_salida": 2317,
+    "tokens_razonamiento": 2033,
+    "segundos": 3.11,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Sí, Rimac cubre las radiografías siempre que el examen sea ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia. La póliza no menciona una cantidad máxima específica en este extracto, pero la cobertura está limitada al tope de la póliza.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Sí, Rimac cubre las radiografías siempre que el examen sea ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia. La póliza no menciona una cantidad máxima específica en este extracto, pero la cobertura está limitada al tope de la póliza.",
+    "condiciones": [
+      {
+        "descripcion": "El examen debe ser ordenado por los médicos de La COMPAÑÍA.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El examen debe ser indicado por el Departamento Médico de la Central de Asistencia.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Rimac Seguros · Seguro de Viaje",
+        "seccion": "Condicionado General de la Póliza",
+        "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+        "pagina": 6,
+        "paginas": [
+          6
+        ],
+        "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico.",
+        "pasaje": "P1",
+        "trozo_id": "rimac_viajes:0040",
+        "posicion": [
+          37,
+          333
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Rimac Seguros · Seguro de Viaje",
+        "seccion": "Condicionado General de la Póliza",
+        "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad (parte 1 de 2)",
+        "pagina": 5,
+        "paginas": [
+          5
+        ],
+        "texto_literal": "Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.",
+        "pasaje": "P8",
+        "trozo_id": "rimac_viajes:0035",
+        "posicion": [
+          537,
+          648
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P8",
+        "texto_literal": "Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El examen debe ser ordenado por los médicos de La COMPAÑÍA.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El examen debe ser indicado por el Departamento Médico de la Central de Asistencia.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "con_limites",
+    "respuesta": "Sí, Rimac cubre las radiografías siempre que el examen sea ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia. La póliza no menciona una cantidad máxima específica en este extracto, pero la cobertura está limitada al tope de la póliza."
+  },
+  "descartes": []
+}

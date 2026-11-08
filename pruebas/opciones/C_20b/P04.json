@@ -1,0 +1,12 @@
+{
+  "id": "P04",
+  "config": {
+    "nombre": "C_20b",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-20b"
+  },
+  "error": "Groq rechazó la solicitud (400)."
+}

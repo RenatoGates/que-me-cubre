@@ -1,0 +1,72 @@
+{
+  "id": "P10",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 3,
+  "citas_propuestas": 3,
+  "no_incluido": [],
+  "pasajes": 9,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3738,
+    "tokens_salida": 1893,
+    "tokens_razonamiento": 1331,
+    "segundos": 4.53,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la radiografía siempre que sea un examen de ayuda al diagnóstico ordenado por los médicos de La COMPAÑÍA. Para que el gasto sea reembolsado debes presentar la factura, la receta, la solicitud de reclamo y el informe del médico con los resultados de la radiografía. Si el estudio se realiza en un centro fuera de la red, deberás avisar a la compañía dentro de las 48 horas de iniciado el tratamiento.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "25.4 Reembolso:\nSólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido."
+      },
+      {
+        "n": 3,
+        "pasaje": "P4",
+        "texto_literal": "25.2 En caso de gastos médicos y hospitalarios, gastos\nodontológicos y evacuación médica:\nSólo en los casos de accidente, enfermedad súbita aguda o en la eventualidad de requerirse atención y la clínica o médico inmediato no estuviera afiliado a la red de proveedores de la COMPAÑÍA, el ASEGURADO podrá recurrir a dichos centros y profesionales, dando aviso a la COMPAÑÍA, dentro de las 48 horas de iniciado el tratamiento."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debe ser ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Para el reembolso debe presentar facturas, indicaciones, recetas, solicitud de reclamo completa, informe del médico y los resultados de la radiografía",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "Si el centro no está afiliado a la red, el asegurado debe avisar a la compañía dentro de 48 horas de iniciado el tratamiento",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la radiografía siempre que sea un examen de ayuda al diagnóstico ordenado por los médicos de La COMPAÑÍA. Para que el gasto sea reembolsado debes presentar la factura, la receta, la solicitud de reclamo y el informe del médico con los resultados de la radiografía. Si el estudio se realiza en un centro fuera de la red, deberás avisar a la compañía dentro de las 48 horas de iniciado el tratamiento."
+  },
+  "descartes": []
+}

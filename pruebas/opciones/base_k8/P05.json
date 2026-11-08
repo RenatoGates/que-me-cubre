@@ -1,0 +1,95 @@
+{
+  "id": "P05",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 1,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 12,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 5194,
+    "tokens_salida": 2227,
+    "tokens_razonamiento": 1381,
+    "segundos": 5.59,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la devolución del importe que pagaste por el viaje si la enfermedad súbita te impidió iniciar el viaje, siempre que el gasto ya estuviera reservado y pagado antes de enfermarte y que presentes la documentación requerida (recibos, contratos, etc.). El reembolso se hará hasta el límite que figura en las Condiciones Particulares o en el Certificado de Seguro, que no están incluidos en este documento y deberías solicitarlos a la aseguradora.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El asegurado debe haber reservado y pagado o adeudado los costos del viaje antes de que la enfermedad súbita impidiera iniciar el viaje",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Debe presentar la documentación requerida (recibos, facturas, contratos de viaje, pasajes, vouchers, etc.) para solicitar el reembolso",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares y/o en el Certificado de Seguro",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y Certificado de Seguro",
+        "por_que_importa": "En el artículo de cobertura se indica que el reembolso se hará \"hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro\", pero esos documentos no forman parte del texto proporcionado, por lo que necesitas solicitarlos para saber el monto máximo que podrías recibir."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del importe que pagaste por el viaje si la enfermedad súbita te impidió iniciar el viaje, siempre que el gasto ya estuviera reservado y pagado antes de enfermarte y que presentes la documentación requerida (recibos, contratos, etc.). El reembolso se hará hasta el límite que figura en las Condiciones Particulares o en el Certificado de Seguro, que no están incluidos en este documento y deberías solicitarlos a la aseguradora."
+  },
+  "descartes": [
+    {
+      "tipo": "cita",
+      "n": 1,
+      "texto": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El asegurado debe haber reservado y pagado o adeudado los costos del viaje antes de que la enfermedad súbita impidiera iniciar el viaje",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares y/o en el Certificado de Seguro",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y Certificado de Seguro",
+      "motivo": "sin cita válida"
+    }
+  ]
+}

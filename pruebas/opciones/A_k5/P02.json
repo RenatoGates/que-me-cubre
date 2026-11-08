@@ -1,0 +1,159 @@
+{
+  "id": "P02",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": false,
+  "recuperacion_acierta": false,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [
+    "Condiciones Particulares y/o Certificado de Seguro"
+  ],
+  "pasajes": 5,
+  "chars_pasajes": 6680,
+  "chars_usuario": 8148,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3175,
+    "tokens_salida": 1697,
+    "tokens_razonamiento": 1356,
+    "segundos": 4.09,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la radiografía si está justificada como un examen diagnóstico necesario por un accidente o enfermedad súbita durante el viaje y no como un examen de rutina sin indicación objetiva. El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la aseguradora.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la radiografía si está justificada como un examen diagnóstico necesario por un accidente o enfermedad súbita durante el viaje y no como un examen de rutina sin indicación objetiva. El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la aseguradora.",
+    "condiciones": [
+      {
+        "descripcion": "Debe ser por accidente o enfermedad de carácter súbito ocurrida durante el viaje",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "No debe tratarse de un examen de rutina sin indicación objetiva; debe ser médicamente necesario",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Exámenes físicos de rutina u otros exámenes sin indicaciones objetivas están excluidos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Fijan el límite máximo de reembolso, que no está incluido en este documento",
+        "cita": 1
+      }
+    ],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+        "pagina": 16,
+        "paginas": [
+          16
+        ],
+        "texto_literal": "d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.",
+        "pasaje": "P3",
+        "trozo_id": "chubb_viajes_jetsmart:0061",
+        "posicion": [
+          1000,
+          1194
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
+        "pagina": 18,
+        "paginas": [
+          18
+        ],
+        "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.",
+        "pasaje": "P1",
+        "trozo_id": "chubb_viajes_jetsmart:0069",
+        "posicion": [
+          0,
+          159
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P3",
+        "texto_literal": "d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos."
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debe ser por accidente o enfermedad de carácter súbito ocurrida durante el viaje",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "No debe tratarse de un examen de rutina sin indicación objetiva; debe ser médicamente necesario",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Exámenes físicos de rutina u otros exámenes sin indicaciones objetivas están excluidos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Fijan el límite máximo de reembolso, que no está incluido en este documento"
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la radiografía si está justificada como un examen diagnóstico necesario por un accidente o enfermedad súbita durante el viaje y no como un examen de rutina sin indicación objetiva. El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes solicitar a la aseguradora."
+  },
+  "descartes": []
+}

@@ -1,0 +1,70 @@
+{
+  "id": "P09",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no",
+  "aceptable": false,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [
+    "Condiciones Particulares"
+  ],
+  "pasajes": 11,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4538,
+    "tokens_salida": 2218,
+    "tokens_razonamiento": 1635,
+    "segundos": 5.45,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No, tu póliza no cubre la fractura porque la práctica de esquí está excluida. En la sección de exclusiones (P11) se indica que las asistencias por esquí no están cubiertas. Aunque la póliza menciona gastos médicos por accidente (P1), esa cobertura queda limitada por la exclusión. Además, los límites de cobertura están en las Condiciones Particulares, que no aparecen en este documento.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente"
+      },
+      {
+        "n": 2,
+        "pasaje": "P11",
+        "texto_literal": "Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La práctica de esquí está excluida como deporte de alto riesgo",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Esquí excluido según la lista de deportes peligrosos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "establece el límite máximo de cobertura para gastos médicos, pero ese documento no está incluido en el texto proporcionado"
+      }
+    ],
+    "cubre": "no",
+    "respuesta": "No, tu póliza no cubre la fractura porque la práctica de esquí está excluida. En la sección de exclusiones (P11) se indica que las asistencias por esquí no están cubiertas. Aunque la póliza menciona gastos médicos por accidente (P1), esa cobertura queda limitada por la exclusión. Además, los límites de cobertura están en las Condiciones Particulares, que no aparecen en este documento."
+  },
+  "descartes": []
+}

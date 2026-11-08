@@ -1,0 +1,95 @@
+{
+  "id": "P03",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": true,
+  "citas_validas": 0,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 10,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4779,
+    "tokens_salida": 1925,
+    "tokens_razonamiento": 1167,
+    "segundos": 4.7,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. No pude respaldar ninguna afirmación con una cita literal del documento.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO."
+      },
+      {
+        "n": 2,
+        "pasaje": "P5",
+        "texto_literal": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio de la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos; b)Ticket del EQUIPAJE."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El equipaje debe estar bajo la responsabilidad de una compañía de transporte público autorizado y deberás presentar el informe de pérdida (PIR) o equivalente para que la compañía pague el monto calculado por peso, limitado al monto declarado en ese informe y a los límites de las Condiciones Particulares o Certificado de Seguro.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Debes presentar el informe de pérdida (PIR) y el ticket del equipaje como documentos para solicitar la cobertura.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "El límite máximo de indemnización se fija en ese documento, que no está incluido en los pasajes que revisamos; deberías solicitarlo a la aseguradora para saber el monto exacto que te corresponde."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la pérdida de la maleta: la compañía pagará un monto calculado por el peso del equipaje, pero solo hasta el valor que declaraste en el informe de pérdida (PIR) y a los límites que aparecen en las Condiciones Particulares o el Certificado de Seguro. Necesitas presentar el informe de pérdida y el ticket del equipaje, y la cobertura se aplica cuando la maleta no llega dentro de 72 horas desde la hora de llegada prevista. Consulta las Condiciones Particulares o el Certificado para conocer el límite exacto de la indemnización."
+  },
+  "descartes": [
+    {
+      "tipo": "cita",
+      "n": 1,
+      "texto": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "cita",
+      "n": 2,
+      "texto": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio de la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos; b)Ticket del EQUIPAJE.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El equipaje debe estar bajo la responsabilidad de una compañía de transporte público autorizado y deberás presentar el informe de pérdida (PIR) o equivalente para que la compañía pague el monto calculado por peso, limitado al monto declarado en ese informe y a los límites de las Condiciones Particulares o Certificado de Seguro.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "Debes presentar el informe de pérdida (PIR) y el ticket del equipaje como documentos para solicitar la cobertura.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Certificado de Seguro",
+      "motivo": "sin cita válida"
+    }
+  ]
+}

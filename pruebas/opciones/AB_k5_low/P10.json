@@ -1,0 +1,119 @@
+{
+  "id": "P10",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 4654,
+  "chars_usuario": 5141,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 2425,
+    "tokens_salida": 452,
+    "tokens_razonamiento": 58,
+    "segundos": 1.45,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza indica que la compañía se hace cargo de los exámenes de ayuda al diagnóstico, como la radiografía, siempre que sea ordenada por el médico. Para que el gasto sea reembolsado, deberás presentar la factura, la receta y el informe del médico con los resultados de la radiografía, según lo establecido en el procedimiento de reembolso.",
+  "final": {
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza indica que la compañía se hace cargo de los exámenes de ayuda al diagnóstico, como la radiografía, siempre que sea ordenada por el médico. Para que el gasto sea reembolsado, deberás presentar la factura, la receta y el informe del médico con los resultados de la radiografía, según lo establecido en el procedimiento de reembolso.",
+    "condiciones": [
+      {
+        "descripcion": "Para que el gasto sea reembolsado debes presentar facturas, indicaciones, receta y el informe del médico, junto con los resultados de la radiografía.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Rimac Seguros · Seguro de Viaje",
+        "seccion": "Condicionado General de la Póliza",
+        "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+        "pagina": 6,
+        "paginas": [
+          6
+        ],
+        "texto_literal": "9.5 Exámenes de ayuda al diagnóstico En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico.",
+        "pasaje": "P1",
+        "trozo_id": "rimac_viajes:0040",
+        "posicion": [
+          0,
+          333
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Rimac Seguros · Seguro de Viaje",
+        "seccion": "Condicionado General de la Póliza",
+        "articulo": "ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
+        "pagina": 12,
+        "paginas": [
+          12
+        ],
+        "texto_literal": "Sólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido.",
+        "pasaje": "P2",
+        "trozo_id": "rimac_viajes:0101",
+        "posicion": [
+          16,
+          373
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "9.5 Exámenes de ayuda al diagnóstico En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "Sólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido."
+      }
+    ],
+    "condiciones": [
+      {
+        "citas": [
+          2
+        ],
+        "descripcion": "Para que el gasto sea reembolsado debes presentar facturas, indicaciones, receta y el informe del médico, junto con los resultados de la radiografía."
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza indica que la compañía se hace cargo de los exámenes de ayuda al diagnóstico, como la radiografía, siempre que sea ordenada por el médico. Para que el gasto sea reembolsado, deberás presentar la factura, la receta y el informe del médico con los resultados de la radiografía, según lo establecido en el procedimiento de reembolso."
+  },
+  "descartes": []
+}

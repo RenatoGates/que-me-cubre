@@ -129,6 +129,16 @@ contar el máximo de salida) y después se descuenta lo que gastó de verdad. Co
 5 consultas seguidas necesitan una cada 46 s si están en la caché y una cada 54 s si son
 nuevas.
 
+Por eso la app manda 5 pasajes al modelo en vez de unos 10 (opción A de
+[`pruebas/opciones.md`](pruebas/opciones.md)): la respuesta baja a unos 4600 tokens y 5
+consultas en la caché entran una cada 28 a 34 s. Se midieron también respuestas más cortas
+(menos razonamiento: más barato, pero dos veredictos de diez empeoran) y `gpt-oss-20b`
+(mismo tope de 8000 por minuto, y Groq le cuenta el máximo de salida dentro de lo pedido,
+así que algunas consultas se rechazan aun con el balde lleno). Scripts:
+[`pruebas/medir_cuota.py`](pruebas/medir_cuota.py) (tokens y cabeceras de una consulta),
+[`pruebas/simular_cuota.py`](pruebas/simular_cuota.py) (el límite por minuto) y
+[`pruebas/comparar_opciones.py`](pruebas/comparar_opciones.py) (las opciones de recorte).
+
 ## 8. Herramientas del curso
 
 | Herramienta | Sesión | Dónde está en el código |

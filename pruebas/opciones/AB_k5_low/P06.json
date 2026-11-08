@@ -1,0 +1,145 @@
+{
+  "id": "P06",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no",
+  "aceptable": false,
+  "recuperacion_acierta": true,
+  "citas_validas": 2,
+  "citas_propuestas": 2,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 6615,
+  "chars_usuario": 7951,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3041,
+    "tokens_salida": 549,
+    "tokens_razonamiento": 180,
+    "segundos": 1.76,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza solo paga tratamientos dentales de emergencia si la lesión se produce por un accidente. Como el diente se rompió mientras comías, esa causa no está considerada un accidente y está excluida según la cláusula de exclusiones. Por eso, el dentista no está cubierto en este caso.",
+  "final": {
+    "cubre": "no",
+    "respuesta": "Tu póliza solo paga tratamientos dentales de emergencia si la lesión se produce por un accidente. Como el diente se rompió mientras comías, esa causa no está considerada un accidente y está excluida según la cláusula de exclusiones. Por eso, el dentista no está cubierto en este caso.",
+    "condiciones": [
+      {
+        "descripcion": "Solo se cubren tratamientos dentales de emergencia cuando la lesión es consecuencia de un accidente.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El beneficio se paga siempre que la causa no esté dentro de las exclusiones y sea certificada por el médico tratante.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Exclusión de tratamiento dental que no provenga de un accidente.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "citas": [
+      {
+        "n": 1,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+        "articulo": "Artículo 5° Exclusiones (parte 4 de 5)",
+        "pagina": 22,
+        "paginas": [
+          22
+        ],
+        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.",
+        "pasaje": "P2",
+        "trozo_id": "chubb_viajes_jetsmart:0084",
+        "posicion": [
+          0,
+          110
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      },
+      {
+        "n": 2,
+        "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+        "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+        "articulo": "Artículo 3° Cobertura",
+        "pagina": 21,
+        "paginas": [
+          21
+        ],
+        "texto_literal": "El hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos ... para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura.",
+        "pasaje": "P4",
+        "trozo_id": "chubb_viajes_jetsmart:0079",
+        "posicion": [
+          502,
+          846
+        ],
+        "verificacion": {
+          "en_pasaje": true,
+          "pdfplumber": true,
+          "pypdf": true
+        }
+      }
+    ],
+    "veredicto_degradado": false
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "El hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos ... para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Solo se cubren tratamientos dentales de emergencia cuando la lesión es consecuencia de un accidente.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El beneficio se paga siempre que la causa no esté dentro de las exclusiones y sea certificada por el médico tratante.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Exclusión de tratamiento dental que no provenga de un accidente.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "Tu póliza solo paga tratamientos dentales de emergencia si la lesión se produce por un accidente. Como el diente se rompió mientras comías, esa causa no está considerada un accidente y está excluida según la cláusula de exclusiones. Por eso, el dentista no está cubierto en este caso."
+  },
+  "descartes": []
+}

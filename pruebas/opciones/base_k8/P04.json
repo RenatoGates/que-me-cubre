@@ -1,0 +1,92 @@
+{
+  "id": "P04",
+  "config": {
+    "origen": "pruebas/salidas (correr_pruebas.py)",
+    "k": 8,
+    "continuar": 3,
+    "presupuesto": 13000,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "con_limites",
+  "aceptable": true,
+  "recuperacion_acierta": true,
+  "citas_validas": 4,
+  "citas_propuestas": 4,
+  "no_incluido": [
+    "Condiciones Particulares y/o Certificado de Seguro"
+  ],
+  "pasajes": 8,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 4031,
+    "tokens_salida": 1801,
+    "tokens_razonamiento": 1098,
+    "segundos": 4.63,
+    "costo_usd": 0.0
+  },
+  "respuesta": "Tu póliza cubre la atención médica de emergencia por descompensación de tu diabetes, siempre que sea para estabilizarte y no un tratamiento rutinario. El reembolso está limitado al monto máximo que figura en las Condiciones Particulares o en el Certificado de Seguro, y debes presentar la declaración escrita, el certificado médico y los comprobantes de gasto para solicitarlo.",
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
+      },
+      {
+        "n": 3,
+        "pasaje": "P4",
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada)."
+      },
+      {
+        "n": 4,
+        "pasaje": "P7",
+        "texto_literal": "l)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Solo se cubre el tratamiento de emergencia y estabilización de la condición preexistente, no el tratamiento normal",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Los gastos totales no pueden superar el monto fijado en las Condiciones Particulares y/o Certificado de Seguro",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "Se deben presentar los documentos requeridos (declaración escrita, certificado médico y relación de gastos) para solicitar el reembolso",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Quedan excluidos los tratamientos médicos o quirúrgicos que no sean necesarios por la lesión o enfermedad cubierta (es decir, tratamientos no de emergencia)",
+        "citas": [
+          4
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 2,
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "En los pasajes se indica que el límite máximo de gasto está establecido en ese documento, pero su contenido no está incluido aquí; necesitas revisarlo para conocer el monto exacto que cubre tu póliza."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la atención médica de emergencia por descompensación de tu diabetes, siempre que sea para estabilizarte y no un tratamiento rutinario. El reembolso está limitado al monto máximo que figura en las Condiciones Particulares o en el Certificado de Seguro, y debes presentar la declaración escrita, el certificado médico y los comprobantes de gasto para solicitarlo."
+  },
+  "descartes": []
+}

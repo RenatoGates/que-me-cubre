@@ -1,0 +1,12 @@
+{
+  "id": "P09",
+  "config": {
+    "nombre": "A_k5",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "medium",
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "error": "Groq rechazó la solicitud (400)."
+}

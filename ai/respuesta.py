@@ -261,7 +261,7 @@ def _uso(usos: list[Uso], desde_cache: bool) -> dict:
     }
 
 
-def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 8) -> dict:
+def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 5) -> dict:
     proveedor = proveedor or obtener_proveedor()
     usos: list[Uso] = []
 

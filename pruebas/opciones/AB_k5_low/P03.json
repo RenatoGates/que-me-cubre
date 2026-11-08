@@ -1,0 +1,107 @@
+{
+  "id": "P03",
+  "config": {
+    "nombre": "AB_k5_low",
+    "k": 5,
+    "continuar": 2,
+    "presupuesto": 6500,
+    "esfuerzo": "low",
+    "max_resp": 3000,
+    "modelo": "openai/gpt-oss-120b"
+  },
+  "cubre": "no_encontrado",
+  "aceptable": false,
+  "recuperacion_acierta": true,
+  "citas_validas": 0,
+  "citas_propuestas": 1,
+  "no_incluido": [],
+  "pasajes": 5,
+  "chars_pasajes": 7701,
+  "chars_usuario": 9043,
+  "uso": {
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "tokens_entrada": 3401,
+    "tokens_salida": 688,
+    "tokens_razonamiento": 67,
+    "segundos": 2.35,
+    "costo_usd": 0.0
+  },
+  "respuesta": "No encontré esto en tu póliza. No pude respaldar ninguna afirmación con una cita literal del documento.",
+  "final": {
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. No pude respaldar ninguna afirmación con una cita literal del documento.",
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "citas": [],
+    "veredicto_degradado": true
+  },
+  "crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "Artículo 3° Cobertura En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO."
+      }
+    ],
+    "condiciones": [
+      {
+        "citas": [
+          1
+        ],
+        "descripcion": "Debe presentar el informe de pérdida (PIR) que indique el peso del equipaje o la declaración por ítem."
+      },
+      {
+        "citas": [
+          1
+        ],
+        "descripcion": "El pago se realiza sólo si el equipaje no llega dentro de 72 horas después de la hora de llegada del vuelo."
+      },
+      {
+        "citas": [
+          1
+        ],
+        "descripcion": "El monto está limitado al máximo declarado en el informe de pérdida y a lo que establezcan las Condiciones Particulares o el Certificado de Seguro."
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "El límite exacto del pago depende de lo que se indique en las Condiciones Particulares o en el Certificado de Seguro, documentos que no están incluidos en este extracto."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la pérdida de la maleta, pero solo si presentas el informe de pérdida (PIR) que indique el peso o los ítems y si el equipaje no llega dentro de 72 horas después de tu llegada. El monto que te pagarán se calcula por kilogramo y está limitado al máximo que hayas declarado en ese informe y a lo que indiquen las Condiciones Particulares o el Certificado de Seguro."
+  },
+  "descartes": [
+    {
+      "tipo": "cita",
+      "n": 1,
+      "texto": "Artículo 3° Cobertura En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "Debe presentar el informe de pérdida (PIR) que indique el peso del equipaje o la declaración por ítem.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El pago se realiza sólo si el equipaje no llega dentro de 72 horas después de la hora de llegada del vuelo.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El monto está limitado al máximo declarado en el informe de pérdida y a lo que establezcan las Condiciones Particulares o el Certificado de Seguro.",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares",
+      "motivo": "sin cita válida"
+    }
+  ]
+}

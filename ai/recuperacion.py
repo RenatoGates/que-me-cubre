@@ -108,17 +108,18 @@ def recuperar(
     pregunta: str,
     variantes: list[str],
     terminos: list[str],
-    k: int = 8,
+    k: int = 5,
     metodo: str = "bm25_variantes",
-    continuar: int = 3,
+    continuar: int = 2,
     maximo: int = 12,
-    presupuesto_caracteres: int = 13000,
+    presupuesto_caracteres: int = 6500,
 ) -> list[Pasaje]:
     """Los k pasajes más relevantes y, para los `continuar` primeros, las otras partes de
     su mismo artículo (un artículo largo partido en dos no debe llegar a medias).
 
-    `presupuesto_caracteres` limita lo que se manda al modelo: el plan gratuito del
-    proveedor cuenta tokens por minuto."""
+    `presupuesto_caracteres` limita las continuaciones (los k primeros entran siempre): el
+    plan gratuito cuenta tokens por minuto. k = 5 y 6500 caracteres es la opción A de
+    pruebas/opciones.md: unos 4600 tokens por respuesta en vez de 6600."""
     ranking = top_k(indice, pregunta, variantes, terminos, metodo, k)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
