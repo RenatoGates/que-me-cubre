@@ -32,7 +32,7 @@ from ai.prompts import (
     mensaje_normalizacion,
     mensaje_respuesta,
 )
-from ai.recuperacion import pasajes_xml, recuperar
+from ai.recuperacion import pasajes_xml, recuperar_normalizada
 
 
 def llamar(cliente, modelo: str, tarea: str, sistema: str, usuario: str, esquema: dict, esfuerzo: str, max_tokens: int) -> dict:
@@ -96,15 +96,14 @@ def main() -> int:
         if "error" in r:
             return 1
         norm = json.loads(r["contenido"])
-        norm["titulos"] = norm["clausulas"] + norm["articulos"]  # sin validar contra el índice: es una medición
     else:
         norm = cache_normalizacion.buscar(q["pregunta"], pol.sha256)
         if norm is None:
             print("Esa pregunta no está en la caché: usa --normalizar o corre python -m ai.preparar_demo")
             return 1
 
-    pasajes = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), k=a.k, titulos=norm.get("titulos"),
-                        continuar=a.continuar, presupuesto_caracteres=a.presupuesto)
+    pasajes = recuperar_normalizada(pol.indice, q["pregunta"], norm, k=a.k,
+                                    continuar=a.continuar, presupuesto_caracteres=a.presupuesto)
     xml = pasajes_xml(pasajes)
     usuario = mensaje_respuesta(q["pregunta"], norm["hechos"], pol.secciones, xml)
     print(f"{len(pasajes)} pasajes · {len(xml)} caracteres de pasajes · {len(usuario)} del mensaje · "

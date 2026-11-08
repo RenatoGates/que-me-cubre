@@ -4,33 +4,141 @@
       "config": "antes",
       "normalizacion": "v1",
       "peso_titulo": 0.0,
+      "factor_clausula": 1.0,
       "top5": 6,
       "top8": 6,
-      "n": 9
+      "n": 9,
+      "P01": 9,
+      "P02": [
+        18,
+        3
+      ]
     },
     {
       "config": "solo_titulos",
       "normalizacion": "v1",
       "peso_titulo": 1.0,
+      "factor_clausula": 1.0,
       "top5": 5,
       "top8": 5,
-      "n": 9
+      "n": 9,
+      "P01": 13,
+      "P02": [
+        21,
+        2
+      ]
     },
     {
       "config": "solo_anclada",
       "normalizacion": "v2",
       "peso_titulo": 0.0,
+      "factor_clausula": 1.0,
       "top5": 4,
       "top8": 6,
-      "n": 9
+      "n": 9,
+      "P01": 24,
+      "P02": [
+        3,
+        14
+      ]
     },
     {
       "config": "despues",
       "normalizacion": "v2",
       "peso_titulo": 1.0,
+      "factor_clausula": 1.0,
       "top5": 5,
       "top8": 6,
-      "n": 9
+      "n": 9,
+      "P01": 8,
+      "P02": [
+        14,
+        6
+      ]
+    },
+    {
+      "config": "suave_x2",
+      "normalizacion": "v2",
+      "peso_titulo": 0.0,
+      "factor_clausula": 2.0,
+      "top5": 7,
+      "top8": 7,
+      "n": 9,
+      "P01": 4,
+      "P02": [
+        3,
+        4
+      ]
+    },
+    {
+      "config": "suave_x3",
+      "normalizacion": "v2",
+      "peso_titulo": 0.0,
+      "factor_clausula": 3.0,
+      "top5": 7,
+      "top8": 7,
+      "n": 9,
+      "P01": 4,
+      "P02": [
+        3,
+        4
+      ]
+    },
+    {
+      "config": "suave_x5",
+      "normalizacion": "v2",
+      "peso_titulo": 0.0,
+      "factor_clausula": 5.0,
+      "top5": 7,
+      "top8": 7,
+      "n": 9,
+      "P01": 4,
+      "P02": [
+        3,
+        4
+      ]
+    },
+    {
+      "config": "duro",
+      "normalizacion": "v2",
+      "peso_titulo": 0.0,
+      "factor_clausula": 1000000.0,
+      "top5": 7,
+      "top8": 7,
+      "n": 9,
+      "P01": 4,
+      "P02": [
+        3,
+        4
+      ]
+    },
+    {
+      "config": "suave_x2_titulos",
+      "normalizacion": "v2",
+      "peso_titulo": 1.0,
+      "factor_clausula": 2.0,
+      "top5": 6,
+      "top8": 6,
+      "n": 9,
+      "P01": 3,
+      "P02": [
+        9,
+        3
+      ]
+    },
+    {
+      "config": "suave_x2_articulos",
+      "normalizacion": "v2",
+      "peso_titulo": 0.0,
+      "factor_clausula": 2.0,
+      "top5": 4,
+      "top8": 7,
+      "n": 9,
+      "P01": 8,
+      "P02": [
+        2,
+        7
+      ]
     }
   ],
   "detalle": {
@@ -52,9 +160,9 @@
       },
       "solo_titulos": {
         "puestos": [
-          12
+          13
         ],
-        "puesto": 12,
+        "puesto": 13,
         "top5": false,
         "top8": false,
         "primeros5": [
@@ -93,6 +201,96 @@
           "Condiciones Generales › Cobertura Principal – Muerte Accidental",
           "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
           "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura"
+        ]
+      },
+      "suave_x2": {
+        "puestos": [
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Condiciones Generales › Cobertura Principal – Muerte Accidental"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Condiciones Generales › Cobertura Principal – Muerte Accidental"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Condiciones Generales › Cobertura Principal – Muerte Accidental"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Condiciones Generales › Cobertura Principal – Muerte Accidental"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          3
+        ],
+        "puesto": 3,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          8
+        ],
+        "puesto": 8,
+        "top5": false,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Condiciones Generales › Cobertura Principal – Muerte Accidental",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio"
         ]
       }
     },
@@ -160,6 +358,102 @@
           "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
           "Condiciones Generales › Cobertura Principal – Muerte Accidental"
         ]
+      },
+      "suave_x2": {
+        "puestos": [
+          3,
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Definiciones"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          3,
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Definiciones"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          3,
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Definiciones"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          3,
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Definiciones"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          9,
+          3
+        ],
+        "puesto": 9,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          2,
+          7
+        ],
+        "puesto": 7,
+        "top5": false,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura"
+        ]
       }
     },
     "P03": {
@@ -221,6 +515,96 @@
           "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
           "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
           "Pérdida de Equipaje › Vigencia Individual y Territorio"
+        ]
+      },
+      "suave_x2": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Pérdida de Equipaje › Exclusiones",
+          "Pérdida de Equipaje › Descripción de la Cobertura"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Pérdida de Equipaje › Exclusiones",
+          "Pérdida de Equipaje › Descripción de la Cobertura"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Pérdida de Equipaje › Exclusiones",
+          "Pérdida de Equipaje › Descripción de la Cobertura"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Pérdida de Equipaje › Exclusiones",
+          "Pérdida de Equipaje › Descripción de la Cobertura"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Pérdida de Equipaje › Exclusiones",
+          "Pérdida de Equipaje › Descripción de la Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          4
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Pérdida de Equipaje",
+          "Pérdida de Equipaje › Vigencia Individual y Territorio",
+          "Pérdida de Equipaje › Vigencia Individual y Territorio",
+          "Pérdida de Equipaje › Cobertura",
+          "Pérdida de Equipaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       }
     },
@@ -288,6 +672,102 @@
           "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
           "Gastos Farmacéuticos durante el Viaje › Condiciones de Cobertura"
         ]
+      },
+      "suave_x2": {
+        "puestos": [
+          4,
+          12
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          4,
+          12
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          4,
+          12
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          4,
+          12
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          4,
+          6
+        ],
+        "puesto": 4,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          5,
+          14
+        ],
+        "puesto": 5,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Vigencia Individual y Territorio",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura"
+        ]
       }
     },
     "P05": {
@@ -350,6 +830,96 @@
           "Gastos Farmacéuticos durante el Viaje › Condiciones de Cobertura",
           "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
+      },
+      "suave_x2": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Cobertura",
+          "Cancelación del Viaje › Condiciones de Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Vigencia Individual y Territorio"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Cobertura",
+          "Cancelación del Viaje › Condiciones de Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Vigencia Individual y Territorio"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Cobertura",
+          "Cancelación del Viaje › Condiciones de Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Vigencia Individual y Territorio"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Cobertura",
+          "Cancelación del Viaje › Condiciones de Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Vigencia Individual y Territorio"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          2
+        ],
+        "puesto": 2,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Condiciones de Cobertura",
+          "Cancelación del Viaje › Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cancelación del Viaje › Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          6
+        ],
+        "puesto": 6,
+        "top5": false,
+        "top8": true,
+        "primeros5": [
+          "Cancelación del Viaje › Vigencia Individual y Territorio",
+          "Cancelación del Viaje › Vigencia Individual y Territorio",
+          "Cancelación del Viaje",
+          "Cancelación del Viaje › Vigencia Individual y Territorio",
+          "Cancelación del Viaje › Condiciones de Cobertura"
+        ]
       }
     },
     "P06": {
@@ -400,6 +970,21 @@
       },
       "despues": {
         "puestos": [
+          2
+        ],
+        "puesto": 2,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2": {
+        "puestos": [
           1
         ],
         "puesto": 1,
@@ -407,10 +992,85 @@
         "top8": true,
         "primeros5": [
           "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
-          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
           "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
           "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
           "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          3
+        ],
+        "puesto": 3,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Odontológicos de Emergencia durante el Viaje",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Exclusiones",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Condiciones de Cobertura",
+          "Gastos Odontológicos de Emergencia durante el Viaje › Vigencia Individual y Territorio"
         ]
       }
     },
@@ -474,6 +1134,96 @@
           "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
           "Gastos Farmacéuticos durante el Viaje › Cobertura"
         ]
+      },
+      "suave_x2": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          2
+        ],
+        "puesto": 2,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          1
+        ],
+        "puesto": 1,
+        "top5": true,
+        "top8": true,
+        "primeros5": [
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Condiciones de Cobertura",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Exclusiones",
+          "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Cobertura"
+        ]
       }
     },
     "P09": {
@@ -536,6 +1286,96 @@
           "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
           "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE"
         ]
+      },
+      "suave_x2": {
+        "puestos": [
+          15
+        ],
+        "puesto": 15,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "EXCLUSIONES › EXCLUSIONES GENERALES",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "COBERTURAS › COBERTURAS BÁSICAS"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          15
+        ],
+        "puesto": 15,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "EXCLUSIONES › EXCLUSIONES GENERALES",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "COBERTURAS › COBERTURAS BÁSICAS"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          15
+        ],
+        "puesto": 15,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "EXCLUSIONES › EXCLUSIONES GENERALES",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "COBERTURAS › COBERTURAS BÁSICAS"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          15
+        ],
+        "puesto": 15,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "EXCLUSIONES › EXCLUSIONES GENERALES",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "COBERTURAS › COBERTURAS BÁSICAS"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          24
+        ],
+        "puesto": 24,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › VALIDEZ TERRITORIAL DE LA COBERTURA",
+          "COBERTURAS › COBERTURAS BÁSICAS",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          24
+        ],
+        "puesto": 24,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE MUERTE ACCIDENTAL",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "COBERTURAS › COBERTURAS BÁSICAS › MUERTE ACCIDENTAL › RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR",
+          "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › PLAZO PARA EL PAGO DE BENEFICIOS",
+          "COBERTURAS › COBERTURAS BÁSICAS"
+        ]
       }
     },
     "P10": {
@@ -597,6 +1437,96 @@
           "Accidentes Personales › COBERTURA",
           "Condicionado General de la Póliza › GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › Asistencia médica por accidente y por Enfermedad",
           "Condicionado General de la Póliza › GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › Asistencia médica por accidente y por Enfermedad"
+        ]
+      },
+      "suave_x2": {
+        "puestos": [
+          11
+        ],
+        "puesto": 11,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+        ]
+      },
+      "suave_x3": {
+        "puestos": [
+          16
+        ],
+        "puesto": 16,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+        ]
+      },
+      "suave_x5": {
+        "puestos": [
+          16
+        ],
+        "puesto": 16,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+        ]
+      },
+      "duro": {
+        "puestos": [
+          16
+        ],
+        "puesto": 16,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+        ]
+      },
+      "suave_x2_titulos": {
+        "puestos": [
+          27
+        ],
+        "puesto": 27,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › PAGO DE BENEFICIOS A RAÍZ DE UN MISMO ACCIDENTE COBERTURA",
+          "Accidentes Personales › EXCLUSIONES"
+        ]
+      },
+      "suave_x2_articulos": {
+        "puestos": [
+          13
+        ],
+        "puesto": 13,
+        "top5": false,
+        "top8": false,
+        "primeros5": [
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › COBERTURA",
+          "Accidentes Personales › EXCLUSIONES",
+          "Accidentes Personales › EXCLUSIONES"
         ]
       }
     }

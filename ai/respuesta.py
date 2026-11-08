@@ -30,7 +30,7 @@ from ai.prompts import (
     mensaje_normalizacion,
     mensaje_respuesta,
 )
-from ai.recuperacion import Pasaje, pasajes_xml, recuperar, resaltar
+from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
 from ai.verificacion import ubicar, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
@@ -236,9 +236,8 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
                     error: Exception, k: int, usos: list[Uso]) -> dict:
     """Red de seguridad: sin texto generado, solo las cláusulas encontradas, resaltadas."""
     if norm:
-        consultas = [*norm["variantes"], *norm.get("titulos", []), *norm.get("terminos", []), pregunta]
-        pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm.get("terminos", []), k=k,
-                            titulos=norm.get("titulos"))
+        consultas = [*norm["variantes"], *norm.get("clausulas", []), *norm.get("terminos", []), pregunta]
+        pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
     else:  # sin normalización: búsqueda por palabras con la pregunta tal cual
         consultas = [pregunta]
         pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="bm25_pregunta")
@@ -307,8 +306,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
         except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
-    pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm.get("terminos", []), k=k,
-                        titulos=norm.get("titulos"))
+    pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
     usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
     try:
         crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)

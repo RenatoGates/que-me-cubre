@@ -10,23 +10,29 @@ puesto puede cambiar de una corrida a otra.
 | Configuración | En los 5 primeros | En los 8 primeros | P01 | P02 |
 |---|---:|---:|---:|---:|
 | Antes: normalización v1, BM25 solo en el texto | 6 de 9 | 6 de 9 | 9 | 18 y 3 |
-| Solo arreglo 2: v1 + peso a títulos | 5 de 9 | 5 de 9 | 12 | 21 y 2 |
+| Solo arreglo 2: v1 + peso a títulos | 5 de 9 | 5 de 9 | 13 | 21 y 2 |
 | Solo arreglo 1: normalización anclada, BM25 solo en el texto | 4 de 9 | 6 de 9 | 24 | 3 y 14 |
-| Después: normalización anclada + peso a títulos | 5 de 9 | 6 de 9 | 8 | 14 y 6 |
+| Arreglos 1 + 2: normalización anclada + peso a títulos | 5 de 9 | 6 de 9 | 8 | 14 y 6 |
+| **Filtro suave ×2** (fijado antes de medir) | 7 de 9 | 7 de 9 | 4 | 3 y 4 |
+| Sensibilidad: filtro suave ×3 | 7 de 9 | 7 de 9 | 4 | 3 y 4 |
+| Sensibilidad: filtro suave ×5 | 7 de 9 | 7 de 9 | 4 | 3 y 4 |
+| Referencia: filtro duro (solo la cláusula elegida arriba) | 7 de 9 | 7 de 9 | 4 | 3 y 4 |
+| Sensibilidad: filtro suave ×2 + peso a títulos | 6 de 9 | 6 de 9 | 3 | 9 y 3 |
+| Sensibilidad: filtro suave ×2 usando también los artículos elegidos | 4 de 9 | 7 de 9 | 8 | 2 y 7 |
 
 ## Puesto del artículo esperado por pregunta
 
-| Pregunta | antes | solo_titulos | solo_anclada | despues |
-|---|---:|---:|---:|---:|
-| P01 | 9 | 12 | 24 | 8 |
-| P02 | 18 y 3 | 21 y 2 | 3 y 14 | 14 y 6 |
-| P03 | **1** | **1** | 6 | **1** |
-| P04 | **2 y 44** | **2 y 14** | **5 y 33** | **3 y 11** |
-| P05 | **2** | 11 | 7 | **2** |
-| P06 | **4** | **3** | **3** | **1** |
-| P07 | **4** | **2** | **1** | **2** |
-| P09 | 44 | 25 | — | 47 |
-| P10 | **1** | **1** | **3** | 23 |
+| Pregunta | antes | solo_titulos | solo_anclada | despues | suave_x2 | suave_x3 | suave_x5 | duro | suave_x2_titulos | suave_x2_articulos |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| P01 | 9 | 13 | 24 | 8 | **4** | **4** | **4** | **4** | **3** | 8 |
+| P02 | 18 y 3 | 21 y 2 | 3 y 14 | 14 y 6 | **3 y 4** | **3 y 4** | **3 y 4** | **3 y 4** | 9 y 3 | 2 y 7 |
+| P03 | **1** | **1** | 6 | **1** | **1** | **1** | **1** | **1** | **1** | **4** |
+| P04 | **2 y 44** | **2 y 14** | **5 y 33** | **3 y 11** | **4 y 12** | **4 y 12** | **4 y 12** | **4 y 12** | **4 y 6** | **5 y 14** |
+| P05 | **2** | 11 | 7 | **2** | **1** | **1** | **1** | **1** | **2** | 6 |
+| P06 | **4** | **3** | **3** | **2** | **1** | **1** | **1** | **1** | **1** | **3** |
+| P07 | **4** | **2** | **1** | **2** | **1** | **1** | **1** | **1** | **2** | **1** |
+| P09 | 44 | 25 | — | 47 | 15 | 15 | 15 | 15 | 24 | 24 |
+| P10 | **1** | **1** | **3** | 23 | 11 | 16 | 16 | 16 | 27 | 13 |
 
 En negrita: dentro de los 5 pasajes que recibe el modelo.
 

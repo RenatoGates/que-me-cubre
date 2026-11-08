@@ -142,8 +142,11 @@ class Indice:
         # pocas entre cientos; aquí pesan solas (documentos cortos, palabras menos repetidas).
         self.bm25_titulos = BM25Okapi([tokens(" ".join(titulos_de(t))) or ["_"] for t in self.trozos])
         # Mismo texto (sin importar la sección) -> misma clave: sirve para no repetir
-        # artículos idénticos de distintas cláusulas al recuperar.
-        self.claves_texto = [hash(" ".join(tokens(t.texto))) for t in self.trozos]
+        # artículos idénticos de distintas cláusulas al recuperar. El texto mismo, no hash():
+        # hash() cambia en cada proceso y así no hay ni la posibilidad de una colisión.
+        self.claves_texto = [" ".join(tokens(t.texto)) for t in self.trozos]
+        # Cláusula de cada trozo tal como aparece en el vocabulario (para el filtro suave)
+        self.clausula_de_trozo = [limpiar_titulo(t.seccion) for t in self.trozos]
 
     def vocabulario(self) -> tuple[list[str], list[str]]:
         """(títulos de cláusula, títulos de artículo) del documento, sin repetir, en orden.

@@ -1,15 +1,24 @@
 """Recuperación (RAG, sesión 08): de la pregunta normalizada a los pasajes de la póliza.
 
-Producto: BM25 con varias consultas. Cada variante de la normalización, cada título del
-documento que la normalización eligió, los términos y la pregunta original (a medio peso)
-se buscan por separado y los rankings se combinan con Reciprocal Rank Fusion (RRF). Así una
-sola reformulación desafortunada no deja fuera la cláusula: basta que una consulta use las
+Producto: BM25 con varias consultas. Cada variante de la normalización, la cláusula del
+documento que la normalización eligió y la pregunta original (a medio peso) se buscan por
+separado y los rankings se combinan con Reciprocal Rank Fusion (RRF). Así una sola
+reformulación desafortunada no deja fuera la cláusula: basta que una consulta use las
 palabras de la póliza.
 
-Cada consulta se busca dos veces: en el texto de los trozos y en un índice aparte que solo
-tiene sus títulos (cláusula y artículo). En el texto, "Gastos Médicos por Accidente" son
-cuatro palabras entre doscientas y aparecen en casi todas las cláusulas; en los títulos
-pesan solas. Si la consulta coincide con el título, el pasaje sube.
+Filtro suave por cláusula: los pasajes de la cláusula que eligió la normalización
+multiplican su puntaje por FACTOR_CLAUSULA (×2). No se excluye el resto: si el modelo eligió
+mal la cláusula, un artículo de otra parte todavía puede llegar si coincide mucho más con
+las consultas (en P10 no alcanzó: pruebas/normalizacion.md).
+
+Índice de títulos (PESO_TITULO): cada consulta se puede buscar también en un índice que
+solo tiene los títulos de cada trozo. Está apagado (0): medido, empeora la búsqueda con y
+sin el filtro por cláusula (pruebas/normalizacion.md). Los artículos que elige la
+normalización tampoco se usan, por lo mismo.
+
+Determinista: con las mismas consultas sale siempre el mismo orden. Los empates se deciden
+por la posición del trozo en el documento (orden estable), no por el algoritmo de numpy ni
+por la CPU.
 
 Los métodos con embeddings existen solo para la comparación de pruebas/: la app no carga
 el modelo (ocupa ~1,2 GB de RAM con torch).
@@ -28,7 +37,8 @@ from ai.troceado import Trozo
 
 K_RRF = 60
 PESO_PREGUNTA = 0.5  # la pregunta coloquial trae palabras que confunden ("dedo" -> desmembramiento)
-PESO_TITULO = 1.0  # ranking por títulos frente al del texto, para la misma consulta
+PESO_TITULO = 0.0  # ranking por títulos frente al del texto (0 = apagado; ver arriba)
+FACTOR_CLAUSULA = 2.0  # puntaje de los pasajes de la cláusula elegida; fijado antes de medir
 METODOS = ("bm25_pregunta", "bm25_variantes", "emb_pregunta", "emb_variantes")
 
 
@@ -45,7 +55,7 @@ def _ranking_bm25(indice: Indice, consulta: str) -> np.ndarray:
     if not tk:
         return np.array([], dtype=int)
     puntajes = indice.bm25.get_scores(tk)
-    orden = np.argsort(-puntajes)
+    orden = np.argsort(-puntajes, kind="stable")
     return orden[puntajes[orden] > 0]
 
 
@@ -69,18 +79,27 @@ def _ranking_embeddings(indice: Indice, consulta: str) -> np.ndarray:
 
     if indice.vectores is None:
         raise ValueError("este índice no tiene embeddings")
-    return np.argsort(-(indice.vectores @ embeber_consulta(consulta)))
+    return np.argsort(-(indice.vectores @ embeber_consulta(consulta)), kind="stable")
 
 
-def _rrf(rankings: list[tuple[np.ndarray, np.ndarray | None, float]], n: int) -> list[tuple[int, float]]:
-    """rankings: (orden, puesto de cada uno o None si es su posición, peso)."""
+def _rrf(rankings: list[tuple[np.ndarray, np.ndarray | None, float]], n: int) -> np.ndarray:
+    """Puntaje RRF de cada trozo. rankings: (orden, puesto de cada uno o None si es su posición, peso)."""
     puntaje = np.zeros(n)
     for orden, puestos, peso in rankings:
         for pos, i in enumerate(orden[:100]):
             r = pos if puestos is None else puestos[pos]
             puntaje[i] += peso / (K_RRF + r + 1)
-    orden = np.argsort(-puntaje)
+    return puntaje
+
+
+def _ordenar(puntaje: np.ndarray) -> list[tuple[int, float]]:
+    orden = np.argsort(-puntaje, kind="stable")
     return [(int(i), float(puntaje[i])) for i in orden if puntaje[i] > 0]
+
+
+def _en_clausulas(indice: Indice, clausulas: list[str]) -> np.ndarray:
+    elegidas = {" ".join(tokens(c)) for c in clausulas}
+    return np.array([" ".join(tokens(c or "")) in elegidas for c in indice.clausula_de_trozo])
 
 
 def _rankings_bm25(indice: Indice, consultas: list[tuple[str, float]], peso_titulo: float):
@@ -98,14 +117,17 @@ def rankear(
     metodo: str,
     titulos: list[str] | None = None,
     peso_titulo: float = PESO_TITULO,
+    clausulas: list[str] | None = None,
+    factor_clausula: float = FACTOR_CLAUSULA,
 ) -> list[tuple[int, float]]:
     """Ranking completo (índice del trozo, puntaje) según el método. `titulos` son los
     títulos del documento que eligió la normalización: cada uno es una consulta más.
-    `peso_titulo=0` apaga el índice de títulos (BM25 solo sobre el texto)."""
+    `peso_titulo=0` apaga el índice de títulos (BM25 solo sobre el texto). Los trozos de
+    `clausulas` multiplican su puntaje por `factor_clausula` (filtro suave)."""
     n = len(indice.trozos)
     if metodo == "bm25_pregunta":
         if peso_titulo > 0:
-            return _rrf(_rankings_bm25(indice, [(pregunta, 1.0)], peso_titulo), n)
+            return _ordenar(_rrf(_rankings_bm25(indice, [(pregunta, 1.0)], peso_titulo), n))
         orden = _ranking_bm25(indice, pregunta)
         return [(int(i), 1.0 / (r + 1)) for r, i in enumerate(orden)]
     if metodo == "emb_pregunta":
@@ -118,10 +140,14 @@ def rankear(
         consultas.append((" ".join(terminos), 1.0))
     consultas.append((pregunta, PESO_PREGUNTA))
     if metodo == "bm25_variantes":
-        return _rrf(_rankings_bm25(indice, consultas, peso_titulo), n)
-    if metodo == "emb_variantes":
-        return _rrf([(_ranking_embeddings(indice, c), None, p) for c, p in consultas], n)
-    raise ValueError(f"método desconocido: {metodo}")
+        puntaje = _rrf(_rankings_bm25(indice, consultas, peso_titulo), n)
+    elif metodo == "emb_variantes":
+        puntaje = _rrf([(_ranking_embeddings(indice, c), None, p) for c, p in consultas], n)
+    else:
+        raise ValueError(f"método desconocido: {metodo}")
+    if clausulas and factor_clausula != 1.0:
+        puntaje = np.where(_en_clausulas(indice, clausulas), puntaje * factor_clausula, puntaje)
+    return _ordenar(puntaje)
 
 
 def top_k(
@@ -133,6 +159,8 @@ def top_k(
     k: int,
     titulos: list[str] | None = None,
     peso_titulo: float = PESO_TITULO,
+    clausulas: list[str] | None = None,
+    factor_clausula: float = FACTOR_CLAUSULA,
 ) -> list[tuple[int, float]]:
     """Los k mejores trozos sin repetir texto.
 
@@ -146,8 +174,8 @@ def top_k(
     def afinidad(i: int) -> int:
         return sum(consulta[t] for t in set(tokens(indice.trozos[i].seccion)))
 
-    grupos: dict[int, list[tuple[int, float]]] = {}
-    for i, p in rankear(indice, pregunta, variantes, terminos, metodo, titulos, peso_titulo):
+    grupos: dict[str, list[tuple[int, float]]] = {}
+    for i, p in rankear(indice, pregunta, variantes, terminos, metodo, titulos, peso_titulo, clausulas, factor_clausula):
         grupos.setdefault(indice.claves_texto[i], []).append((i, p))
     elegidos = []
     for miembros in list(grupos.values())[:k]:  # los grupos conservan el orden del ranking
@@ -168,6 +196,8 @@ def recuperar(
     presupuesto_caracteres: int = 6500,
     titulos: list[str] | None = None,
     peso_titulo: float = PESO_TITULO,
+    clausulas: list[str] | None = None,
+    factor_clausula: float = FACTOR_CLAUSULA,
 ) -> list[Pasaje]:
     """Los k pasajes más relevantes y, para los `continuar` primeros, las otras partes de
     su mismo artículo (un artículo largo partido en dos no debe llegar a medias).
@@ -175,7 +205,7 @@ def recuperar(
     `presupuesto_caracteres` limita las continuaciones (los k primeros entran siempre): el
     plan gratuito cuenta tokens por minuto. k = 5 y 6500 caracteres es la opción A de
     pruebas/opciones.md: unos 4600 tokens por respuesta en vez de 6600."""
-    ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo)
+    ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo, clausulas, factor_clausula)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
     total = sum(len(indice.trozos[i].texto) for i in presentes)
@@ -197,6 +227,14 @@ def recuperar(
         Pasaje(id=f"P{n}", trozo=indice.trozos[i], puntaje=p, rango=r)
         for n, (i, p, r) in enumerate(elegidos, start=1)
     ]
+
+
+def recuperar_normalizada(indice: Indice, pregunta: str, norm: dict, **opciones) -> list[Pasaje]:
+    """recuperar() con lo que la app usa de una normalización: sus variantes y su cláusula
+    elegida, como consulta y como filtro suave. Las normalizaciones v1 (sin cláusulas) usan
+    sus términos. La app, las pruebas y los scripts pasan todos por aquí."""
+    return recuperar(indice, pregunta, norm["variantes"], norm.get("terminos", []),
+                     titulos=norm.get("clausulas"), clausulas=norm.get("clausulas"), **opciones)
 
 
 _RE_PALABRA = re.compile(r"[0-9A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+")

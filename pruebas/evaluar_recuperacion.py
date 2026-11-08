@@ -6,10 +6,10 @@ la normalización, leídas de pruebas/salidas/ (no se vuelve a llamar al LLM).
 
 Métodos:
 - bm25_pregunta:  BM25 con la pregunta tal como la escribió la persona.
-- bm25_variantes: BM25 con las 3-5 variantes + títulos elegidos del documento + pregunta, en el texto
-                  y en los títulos, fusionadas (lo que usa la app).
+- bm25_variantes: BM25 con las 3-5 variantes + la cláusula elegida + pregunta, fusionadas, con los
+                  pasajes de la cláusula elegida al doble (lo que usa la app).
 - emb_pregunta:   embeddings e5-small con la pregunta (lo que se descartó por memoria).
-- emb_variantes:  embeddings con las mismas consultas que bm25_variantes.
+- emb_variantes:  embeddings con las mismas consultas y el mismo filtro suave que bm25_variantes.
 
     python pruebas/evaluar_recuperacion.py     # necesita sentence-transformers (requirements-dev.txt)
 """
@@ -48,7 +48,7 @@ def main() -> int:
         detalle[q["id"]] = {}
         for metodo in METODOS:
             ranking = top_k(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), metodo, max(KS),
-                            titulos=norm.get("titulos"))
+                            titulos=norm.get("clausulas"), clausulas=norm.get("clausulas"))
             trozos = [pol.indice.trozos[i] for i, _ in ranking]
             detalle[q["id"]][metodo] = {
                 f"k{k}": acierta(trozos[:k], q["esperados"], q["modo"]) for k in KS
