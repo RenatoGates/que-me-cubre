@@ -3,21 +3,150 @@
   "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "no_encontrado",
-  "respuesta": "No encontré esto en tu póliza. No pude respaldar ninguna afirmación con una cita literal del documento.",
-  "condiciones": [],
+  "cubre": "con_limites",
+  "respuesta": "Tu póliza cubre la pérdida de la maleta cuando está bajo la responsabilidad de la aerolínea (transporte público autorizado). La compañía pagará un monto calculado por el peso del equipaje, limitado al monto que declares en el informe de pérdida, siempre que el equipaje no haya llegado dentro de las 72 horas posteriores a la hora de llegada al destino.",
+  "condiciones": [
+    {
+      "descripcion": "El pago se basa en el peso del equipaje y está limitado al monto declarado en el informe de pérdida.",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "Solo se paga si el equipaje no llega dentro de las 72 horas posteriores a la hora de llegada al destino.",
+      "citas": [
+        2
+      ]
+    }
+  ],
   "exclusiones_aplicables": [],
+  "podrian_aplicar": [
+    {
+      "descripcion": "Si no notificas el robo, hurto o extravío a la compañía de transporte antes de abandonar el local de desembarque, la cobertura podría no aplicarse.",
+      "citas": [
+        3
+      ]
+    }
+  ],
   "no_incluido_en_documento": [],
-  "citas": [],
-  "veredicto_degradado": true,
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 46,
+      "paginas": [
+        46
+      ],
+      "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente.",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0165",
+      "posicion": [
+        22,
+        469
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 46,
+      "paginas": [
+        46
+      ],
+      "texto_literal": "La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO.",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0165",
+      "posicion": [
+        1064,
+        1291
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 4° Exclusiones (parte 2 de 2)",
+      "pagina": 46,
+      "paginas": [
+        46
+      ],
+      "texto_literal": "i)Si se ha omitido la notificación del robo, hurto o extravío a la compañía de TRANSPORTE PÚBLICO AUTORIZADO transportadora, mediante el informe correspondiente, antes de abandonar el local de desembarque;",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0167",
+      "posicion": [
+        302,
+        507
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 46,
+      "paginas": [
+        46
+      ],
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0165",
+      "posicion": [
+        526,
+        550
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 46,
+      "paginas": [
+        46
+      ],
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0165",
+      "posicion": [
+        555,
+        576
+      ],
+      "nivel": "remision"
+    }
+  ],
   "secciones_revisadas": [
     "Cláusula Adicional: Pérdida de Equipaje › Artículo 3° Cobertura",
-    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 3° Cobertura",
-    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+    "Cláusula Adicional: Pérdida de Equipaje › Texto inicial de la sección",
     "Cláusula Adicional: Pérdida de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Texto inicial de la sección",
-    "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 3° Cobertura"
+    "Cláusula Adicional: Pérdida de Equipaje › Artículo 4° Exclusiones",
+    "Cláusula Adicional: Pérdida de Equipaje › Artículo 1° Descripción de la Cobertura"
   ],
   "pasajes": [
     {
@@ -38,51 +167,21 @@
     {
       "id": "P2",
       "rango": 2,
-      "trozo_id": "chubb_viajes_jetsmart:0175",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 3° Cobertura",
+      "trozo_id": "chubb_viajes_jetsmart:0161",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Texto inicial de la sección",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        49
+        45
       ],
-      "texto": "Artículo 3° Cobertura\nEl reembolso de los gastos por compras de efectos personales, no provisto por el TRANSPORTE PÚBLICO AUTORIZADO, a causa del retraso o extravío del equipaje del ASEGURADO, una vez que este se encuentre bajo la responsabilidad de una COMPAÑÍA de TRANSPORTE PÚBLICO AUTORIZADO. Para obtener el reembolso, el ASEGURADO deberá acreditar el retraso mediante la presentación del correspondiente informe de pérdida (PIRProperty Irregulary Report) o su equivalente. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta treinta y seis (36) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO. No se otorgará este beneficio en caso que el destino del ASEGURADO sea el de su residencia o domicilio. Este beneficio reconoce como límite el indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, pagadero a razón de una cuarta parte de dicho máximo por cada veinticuatro (24) horas adicionales que el equipaje del ASEGURADO se atrase.\nEl recuento de horas de retraso del equipaje del ASEGURADO será contabilizado luego de las treinta y seis (36) indicadas, o lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      "texto": "Pérdida de Equipaje Cláusula Adicional\nLa presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
     },
     {
       "id": "P3",
       "rango": 3,
-      "trozo_id": "chubb_viajes_jetsmart:0179",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "parte": [
-        2,
-        3
-      ],
-      "paginas": [
-        50
-      ],
-      "texto": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio indicado en la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\n•Tarjeta de embarque o billete del TRANSPORTE PÚBLICO AUTORIZADO;\n•Comprobantes de gastos con compras de efectos personales;\n•Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIRProperty Irregularity Report), del EQUIPAJE extraviado;\n•Ticket del EQUIPAJE.\nLa COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura; salvo que solicite una prórroga al CONTRATANTE y/o ASEGURADO para realizar nuevas investigaciones y obtener evidencias relacionadas con el siniestro. En caso que el CONTRATANTE y/o ASEGURADO no apruebe la solicitud de prórroga presentada por la COMPAÑÍA, ésta se sujetará al procedimiento establecido para tal efecto en el TUPA de la Superintendencia de Banca, Seguros y AFP’s."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "chubb_viajes_jetsmart:0114",
-      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
-      "articulo": "Artículo 3° Asistencias",
-      "parte": [
-        3,
-        7
-      ],
-      "paginas": [
-        31
-      ],
-      "texto": "- Interrupción del viaje y regreso anticipado – cobertura amplia: Se reembolsará o coordinará el pago de los gastos por servicios no devueltos y no reembolsables pagados anticipadamente al hotel y/o el pasaje de TRANSPORTE PÚBLICO AUTORIZADO, menos el valor del crédito aplicado por el pasaje de regreso no utilizado, en caso que el ASEGURADO quede imposibilitado de concluir el viaje debido a alguna de las siguientes circunstancias:\n• Muerte o enfermedad grave del ASEGURADO, que tenga carácter de urgencia y que motive la internación o inhiba la de ambulación, generando un estado de postración en el ASEGURADO y por lo tanto imposibilite la iniciación y/o prosecución del viaje del ASEGURADO.\n• Muerte o internación hospitalaria por más de cinco (5) días por accidente o Enfermedad Repentina de un MIEMBRO DE SU FAMILIA.\n• Cuando el ASEGURADO recibiese notificación fehaciente para comparecer ante la justicia, debiendo haber recibido dicha notificación con posterioridad al inicio del Viaje.\n• Cuando el ASEGURADO haya sido declarado en cuarentena por autoridad sanitaria competente con posterioridad al inicio del viaje.\n• Por incendio o robo en la residencia habitual del ASEGURADO, ocurrido mientras el ASEGURADO se encuentre en el viaje."
-    },
-    {
-      "id": "P5",
-      "rango": 5,
       "trozo_id": "chubb_viajes_jetsmart:0169",
       "seccion": "Cláusula Adicional: Pérdida de Equipaje",
       "articulo": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
@@ -96,106 +195,65 @@
       "texto": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio de la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos;\nb)Ticket del EQUIPAJE.\nLa COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura; salvo que solicite una prórroga al CONTRATANTE y/o ASEGURADO para realizar nuevas investigaciones y obtener evidencias relacionadas con el siniestro. En caso que el CONTRATANTE y/o ASEGURADO no apruebe la solicitud de prórroga presentada por la COMPAÑÍA, ésta se sujetará al procedimiento establecido para tal efecto en el TUPA de la Superintendencia de Banca, Seguros y AFP’s."
     },
     {
-      "id": "P6",
-      "rango": 6,
-      "trozo_id": "chubb_viajes_jetsmart:0112",
-      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
-      "articulo": "Artículo 3° Asistencias",
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0167",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 4° Exclusiones",
       "parte": [
-        1,
-        7
+        2,
+        2
       ],
       "paginas": [
-        30
+        46
       ],
-      "texto": "Artículo 3° Asistencias\n- Recuperación en hotel durante el viaje: El pago o reembolso de las estadías diarias del hotel al ASEGURADO, limitado al valor por día y al número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, en caso de que el equipo MÉDICO del establecimiento donde se encuentre el ASEGURADO y el MÉDICO determinen la necesidad de prorrogar el periodo de estadía del ASEGURADO por convalecencia, después que fue dado de alta del HOSPITAL, debido a ACCIDENTE o ENFERMEDAD. Estos gastos deberán ser previamente autorizados por LA COMPAÑÍA.\nLA COMPAÑÍA no será responsable del pago o reembolso de los gastos que sean responsabilidad de terceros o que estén ya incluidos en el costo del viaje.\nEsta cobertura comienza a regir siempre que el ASEGURADO haya estado hospitalizado al menos el número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      "texto": "f)Cualquier tipo de enfermedad mental o nerviosa.\ng)Si el EQUIPAJE se confisca o retiene por parte de la Aduana, Departamento de Migraciones u otra autoridad gubernamental;\nh)Si el ASEGURADO es miembro u operador de la tripulación en el medio de TRANSPORTE PÚBLICO AUTORIZADO que dio origen al suceso;\ni)Si se ha omitido la notificación del robo, hurto o extravío a la compañía de TRANSPORTE PÚBLICO AUTORIZADO transportadora, mediante el informe correspondiente, antes de abandonar el local de desembarque;\nj)Si el ASEGURADO no ha tomado las medidas necesarias para salvaguardar o recuperar el EQUIPAJE perdido."
     },
     {
-      "id": "P7",
-      "rango": 7,
-      "trozo_id": "chubb_viajes_jetsmart:0187",
-      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
-      "articulo": "Texto inicial de la sección",
-      "parte": [
-        7,
-        7
-      ],
-      "paginas": [
-        53
-      ],
-      "texto": "Solicitud de Seguro: Documento en el cual el Contratante y/o Asegurado solicita la cobertura del seguro para él y sus dependientes, la cual eventualmente incluye la respectiva Declaración de Salud que necesariamente debe ser suscrita tanto por el Contratante como por el Asegurado, cuando se traten de personas distintas; salvo en el caso de contratos comercializados a distancia.\nSuma Asegurada: Es la suma, importe, monto o valor que el Contratante y/o Asegurado determina y fija para el contrato de seguro y representa el valor máximo por el cual la COMPAÑIA se responsabiliza para el pago de la indemnización en caso de siniestro. Cuando se mencione que la suma o valor asegurado es un límite agregado anual, significará que es el monto máximo que la COMPAÑIA indemnizará por uno o varios siniestros, dentro del plazo de vigencia contratado."
-    },
-    {
-      "id": "P8",
-      "rango": 8,
-      "trozo_id": "chubb_viajes_jetsmart:0094",
-      "seccion": "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
-      "articulo": "Artículo 3° Cobertura",
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0162",
+      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
+      "articulo": "Artículo 1° Descripción de la Cobertura",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        25
+        45
       ],
-      "texto": "Artículo 3° Cobertura\nEl reembolso de los gastos en la compra de medicamentos necesarios (en virtud de la atención médica u odontológica cubierta por el seguro), sujeto al límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, siempre que los gastos hayan ocurrido durante el VIAJE y hayan sido prescritos por un MÉDICO.\nEn el caso de ser MEDICAMENTE NECESARIO, si el ASEGURADO no pudiera contar con acceso a medicamentos específicos por no encontrarse disponibles en los países donde el pasajero se encuentra durante el viaje, estos podrán ser enviados directamente desde Perú. Esto aplica siempre y cuando la discontinuidad del uso del medicamento ponga en riesgo la vida del ASEGURADO y estos hayan sido prescritos por un MÉDICO local."
-    },
-    {
-      "id": "P9",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0178",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "parte": [
-        1,
-        3
-      ],
-      "paginas": [
-        49,
-        50
-      ],
-      "texto": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura\nAviso: Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.\nIndependientemente de la intervención del servicio de asistencia, el ASEGURADO o su beneficiario deberán dar aviso a la COMPAÑÍA por cualquiera de los medios de comunicación pactados, de la ocurrencia del siniestro, en un plazo no mayor a treinta (30) días calendario luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio, siempre y cuando el retraso obedezca a motivos de fuerza mayor, caso fortuito o imposibilidad de hecho."
-    },
-    {
-      "id": "P10",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0180",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "parte": [
-        3,
-        3
-      ],
-      "paginas": [
-        50
-      ],
-      "texto": "En caso que la COMPAÑÍA requiera aclaraciones o precisiones adicionales, respecto a la documentación e información presentada, la COMPAÑÍA podrá realizar tal requerimiento dentro de los primeros veinte (20) días de recibida la documentación completa presentada para la solicitud de cobertura, lo que suspenderá el plazo de aprobación o rechazo hasta la presentación de la documentación e información correspondiente.\nEl plazo de veinte (20) días antes indicado se encuentra dentro de los treinta (30) días con el que cuenta La Aseguradora para pronunciarse sobre la aprobación o rechazo de la solicitud de cobertura.\nSi la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA o, de ser el caso, la correspondiente prórroga, se pagará el beneficio dentro de los treinta (30) días calendarios siguientes."
+      "texto": "Artículo 1° Descripción de la Cobertura\nCentral de Asistencia: Es la empresa contratada por la COMPAÑÍA para coordinar el otorgamiento de los servicios de asistencia en viaje, así como también del pago directo, siempre por cuenta de la COMPAÑÍA, de los beneficios establecidos en este seguro.\nEquipaje: Para efectos de esta PÓLIZA, será considerado equipaje todo volumen acondicionado en compartimiento cerrado, despachado comprobadamente bajo responsabilidad del Transporte Público Autorizado.\nFecha de Llegada: Es la fecha que el ASEGURADO originalmente programó como regreso de su VIAJE y que está especificada en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda.\nFecha de Salida: Es la fecha indicada por el ASEGURADO originalmente y que programó para iniciar el VIAJE y que está especificada en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda.\nTransporte Público Autorizado: Todo medio de transporte que funcione según un itinerario fijo y conocido por el ASEGURADO y que, para hacer uso del mismo, requiera el pago de un pasaje. Se considerarán como Transporte Público Autorizado a los siguientes medios de transporte: Tren, Bus, avión y crucero marítimo.\nViaje: Es el período de tiempo comprendido entre la fecha de salida y llegada especificadas en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, sujeto a un máximo continuo de días por viaje."
     }
   ],
   "normalizacion": {
     "variantes": [
-      "Gastos de reposición y compra de efectos personales por pérdida de equipaje durante el vuelo, reembolso de valor declarado y asistencia de emergencia.",
-      "Exclusiones aplicables a pérdida de equipaje cuando el contenido está excluido, valor declarado no supera el límite, o la pérdida ocurre por negligencia del asegurado.",
-      "Condiciones y límites: cobertura vigente durante el itinerario, límite máximo por reclamo, valor declarado de la maleta, deducible aplicable y exclusión de artículos de valor sin declaración previa.",
-      "Trámite de siniestro: notificación a la aseguradora y a la aerolínea dentro de 24 horas, presentación de constancia de pérdida, facturas de compra, formulario de reclamación y plazo de reembolso de 30 días.",
-      "Beneficio adicional de asistencia en destino: entrega de kit de emergencia, adelanto de efectivo para compras esenciales y cobertura de gastos de vestuario temporal."
+      "¿Cuál es la cobertura para la pérdida de equipaje?",
+      "¿Qué exclusiones pueden aplicar a la pérdida de equipaje?",
+      "¿Cuál es la vigencia y territorio de la cobertura por pérdida de equipaje?",
+      "¿Cuál es el aviso y el procedimiento para solicitar la cobertura por pérdida de equipaje?",
+      "¿Qué condiciones de cobertura se requieren para el reembolso por pérdida de equipaje?"
     ],
-    "terminos": [
-      "pérdida de equipaje",
-      "valor declarado",
-      "gastos de reposición",
-      "límite máximo",
-      "deducible",
-      "exclusión",
-      "vigencia",
-      "reembolso",
-      "siniestro",
-      "asistencia"
+    "titulos": [
+      "Pérdida de Equipaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Pérdida de Equipaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
     ],
     "hechos": [
       "La aerolínea perdió mi maleta",
-      "Ocurrió durante el vuelo",
-      "Quiero saber qué me pagan"
+      "Ocurrió durante el vuelo"
     ],
     "ajuste": null
   },
@@ -204,66 +262,63 @@
       {
         "n": 1,
         "pasaje": "P1",
-        "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO."
+        "texto_literal": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente."
       },
       {
         "n": 2,
-        "pasaje": "P5",
-        "texto_literal": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio de la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos; b)Ticket del EQUIPAJE."
+        "pasaje": "P1",
+        "texto_literal": "La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO."
+      },
+      {
+        "n": 3,
+        "pasaje": "P4",
+        "texto_literal": "i)Si se ha omitido la notificación del robo, hurto o extravío a la compañía de TRANSPORTE PÚBLICO AUTORIZADO transportadora, mediante el informe correspondiente, antes de abandonar el local de desembarque;"
       }
     ],
     "condiciones": [
       {
-        "descripcion": "El equipaje debe estar bajo la responsabilidad de una compañía de transporte público autorizado y deberás presentar el informe de pérdida (PIR) o equivalente para que la compañía pague el monto calculado por peso, limitado al monto declarado en ese informe y a los límites de las Condiciones Particulares o Certificado de Seguro.",
+        "descripcion": "El pago se basa en el peso del equipaje y está limitado al monto declarado en el informe de pérdida.",
         "citas": [
           1
         ]
       },
       {
-        "descripcion": "Debes presentar el informe de pérdida (PIR) y el ticket del equipaje como documentos para solicitar la cobertura.",
+        "descripcion": "Solo se paga si el equipaje no llega dentro de las 72 horas posteriores a la hora de llegada al destino.",
         "citas": [
           2
         ]
       }
     ],
     "exclusiones_aplicables": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si no notificas el robo, hurto o extravío a la compañía de transporte antes de abandonar el local de desembarque, la cobertura podría no aplicarse.",
+        "citas": [
+          3
+        ]
+      }
+    ],
     "no_incluido_en_documento": [
       {
         "cita": 1,
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "El límite máximo de indemnización se fija en ese documento, que no está incluido en los pasajes que revisamos; deberías solicitarlo a la aseguradora para saber el monto exacto que te corresponde."
+        "por_que_importa": "Define el monto máximo a indemnizar"
       }
     ],
     "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre la pérdida de la maleta: la compañía pagará un monto calculado por el peso del equipaje, pero solo hasta el valor que declaraste en el informe de pérdida (PIR) y a los límites que aparecen en las Condiciones Particulares o el Certificado de Seguro. Necesitas presentar el informe de pérdida y el ticket del equipaje, y la cobertura se aplica cuando la maleta no llega dentro de 72 horas desde la hora de llegada prevista. Consulta las Condiciones Particulares o el Certificado para conocer el límite exacto de la indemnización."
+    "respuesta": "Tu póliza cubre la pérdida de la maleta cuando está bajo la responsabilidad de la aerolínea (transporte público autorizado). La compañía pagará un monto calculado por el peso del equipaje, limitado al monto que declares en el informe de pérdida, siempre que el equipaje no haya llegado dentro de las 72 horas posteriores a la hora de llegada al destino. El límite exacto depende de lo que figure en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes revisar."
   },
   "descartes": [
     {
-      "tipo": "cita",
-      "n": 1,
-      "texto": "En caso de extravío, hurto o robo de EQUIPAJE una vez que este se encuentre bajo la responsabilidad de una compañía de TRANSPORTE PÚBLICO AUTORIZADO, acreditado mediante la presentación del correspondiente informe de pérdida (PIR-Property Irregularity Report) o su equivalente, la COMPAÑÍA pagará un monto calculado por el peso del EQUIPAJE, limitado al monto declarado en el informe de pérdida (PIR-Property Irregularity Report) o su equivalente. El monto a indemnizar queda sujeto a lo indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, menos cualquier otro monto pagado al asegurado bajo la cobertura definida en la cláusula G2 - Reembolso de Gastos por demora de Equipaje en caso se encuentre en el mismo plan contratado. La COMPAÑÍA otorgará este beneficio, por evento, cuando el equipaje no haya llegado hasta setenta y dos (72) horas después del horario de llegada del ASEGURADO al destino indicado en su billete de TRANSPORTE PÚBLICO AUTORIZADO.",
-      "motivo": "no está literal en ningún pasaje"
-    },
-    {
-      "tipo": "cita",
-      "n": 2,
-      "texto": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio de la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos; b)Ticket del EQUIPAJE.",
-      "motivo": "no está literal en ningún pasaje"
-    },
-    {
-      "tipo": "condicion",
-      "texto": "El equipaje debe estar bajo la responsabilidad de una compañía de transporte público autorizado y deberás presentar el informe de pérdida (PIR) o equivalente para que la compañía pague el monto calculado por peso, limitado al monto declarado en ese informe y a los límites de las Condiciones Particulares o Certificado de Seguro.",
-      "motivo": "sin cita válida"
-    },
-    {
-      "tipo": "condicion",
-      "texto": "Debes presentar el informe de pérdida (PIR) y el ticket del equipaje como documentos para solicitar la cobertura.",
-      "motivo": "sin cita válida"
-    },
-    {
       "tipo": "no_incluido",
       "texto": "Condiciones Particulares y/o Certificado de Seguro",
-      "motivo": "sin cita válida"
+      "motivo": "el nombre no está en su cita"
+    },
+    {
+      "tipo": "texto",
+      "campo": "respuesta",
+      "texto": "El límite exacto depende de lo que figure en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes revisar.",
+      "motivo": "nombra condiciones particulares, certificado de seguro, que no está en las citas verificadas"
     }
   ],
   "proveedor": {
@@ -279,16 +334,16 @@
       {
         "proveedor": "groq",
         "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 4779,
-        "tokens_salida": 1925,
-        "tokens_razonamiento": 1167,
-        "segundos": 4.7,
+        "tokens_entrada": 3429,
+        "tokens_salida": 2420,
+        "tokens_razonamiento": 1868,
+        "segundos": 5.55,
         "costo_usd": 0.0
       }
     ],
-    "tokens": 6704,
+    "tokens": 5849,
     "costo_usd": 0.0,
-    "segundos": 4.7
+    "segundos": 5.55
   },
   "prueba": {
     "id": "P03",

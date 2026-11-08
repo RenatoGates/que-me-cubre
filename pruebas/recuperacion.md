@@ -8,20 +8,20 @@ La app manda al modelo k = 5 (opción A de `pruebas/opciones.md`).
 | Método | Aciertos con k = 3 | Aciertos con k = 5 | Aciertos con k = 8 |
 |---|---:|---:|---:|
 | BM25, pregunta original | 1 de 9 | 2 de 9 | 4 de 9 |
-| BM25, 3-5 variantes normalizadas (app) | 4 de 9 | 6 de 9 | 6 de 9 |
+| BM25, 3-5 variantes normalizadas (app) | 4 de 9 | 7 de 9 | 7 de 9 |
 | Embeddings e5-small, pregunta original | 4 de 9 | 5 de 9 | 5 de 9 |
-| Embeddings e5-small, mismas variantes | 2 de 9 | 4 de 9 | 5 de 9 |
+| Embeddings e5-small, mismas variantes | 5 de 9 | 7 de 9 | 7 de 9 |
 
 ## Por pregunta (k = 5)
 
 | Pregunta | bm25_pregunta | bm25_variantes | emb_pregunta | emb_variantes |
 |---|---|---|---|---|
-| P01 | ✗ | ✗ | ✓ | ✓ |
-| P02 | ✗ | ✗ | ✗ | ✗ |
-| P03 | ✗ | ✓ | ✓ | ✗ |
+| P01 | ✗ | ✓ | ✓ | ✓ |
+| P02 | ✗ | ✓ | ✗ | ✓ |
+| P03 | ✗ | ✓ | ✓ | ✓ |
 | P04 | ✗ | ✓ | ✗ | ✓ |
-| P05 | ✗ | ✓ | ✗ | ✗ |
+| P05 | ✗ | ✓ | ✗ | ✓ |
 | P06 | ✗ | ✓ | ✓ | ✓ |
-| P07 | ✗ | ✓ | ✓ | ✗ |
+| P07 | ✗ | ✓ | ✓ | ✓ |
 | P09 | ✓ | ✗ | ✓ | ✗ |
-| P10 | ✓ | ✓ | ✗ | ✓ |
+| P10 | ✓ | ✗ | ✗ | ✗ |

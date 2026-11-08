@@ -19,11 +19,11 @@ en `pruebas/estabilidad/sin_bloque/`.
 
 | Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |
 |---:|---|---|---:|---:|---|---|---:|---:|---:|
-| 1 | no | **no** | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; Condiciones Particulares; Certificado de Seguro | — | 1 | 0 | 5207 |
-| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; Condiciones Particulares; Certificado de Seguro | — | 1 | 1 | 4979 |
-| 3 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; Condiciones Particulares; Certificado de Seguro | — | 0 | 0 | 5571 |
-| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; Condiciones Particulares; Certificado de Seguro | — | 1 | 0 | 6165 |
-| 5 | no | **no** | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; Condiciones Particulares; Certificado de Seguro | — | 0 | 0 | 5573 |
+| 1 | no | **no** | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5207 |
+| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 4979 |
+| 3 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 5571 |
+| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 6165 |
+| 5 | no | **no** | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 5573 |
 
 Respuestas:
 
@@ -32,4 +32,27 @@ Respuestas:
 3. Tu póliza cubre una radiografía solo si es parte de un tratamiento de urgencia por una enfermedad o accidente súbito, según lo indicado por un médico. Si la radiografía se considera un examen de rutina sin una indicación objetiva, está excluida. Por lo tanto, la cobertura depende de que la radiografía cumpla con esos requisitos.
 4. Tu póliza cubre la radiografía si es parte de un diagnóstico y tratamiento de urgencia por una lesión o enfermedad súbita y aguda que impida continuar el viaje, siempre que no sea por una condición preexistente. El reembolso está limitado al máximo que figure en las Condiciones Particulares o en el Certificado de Seguro, documento que no está incluido aquí.
 5. Tu póliza solo cubre exámenes de diagnóstico cuando forman parte de un tratamiento de urgencia para una enfermedad o accidente súbito y agudo que impida la continuación normal del viaje. Las radiografías que se solicitan como rutina, sin una indicación objetiva clara, están excluidas. Por tanto, si la radiografía en Lima no es parte de una urgencia médica, no estaría cubierta.
+
+## P01: Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?
+
+- Aceptables: **5 de 5**
+- Pasajes enviados al modelo: idénticos en todos los intentos
+- Respuestas distintas: 5 de 5
+- Qué debería pasar: Mostrar la cobertura de gastos médicos por accidente durante el viaje (Art. 3°) y sus límites: monto fijado en las Condiciones Particulares, contingencias a más de 200 km del domicilio, y el trámite de reembolso cuando no se llamó a la Central de Asistencia.
+
+| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |
+|---:|---|---|---:|---:|---|---|---:|---:|---:|
+| 1 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 5608 |
+| 2 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5572 |
+| 3 | con límites | sí | 2 / 2 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 0 | 0 | 4761 |
+| 4 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 0 | 5249 |
+| 5 | con límites | sí | 3 / 3 | 0 | B4 - Continuación de Tratamiento en País de Residencia; +2 remisiones | — | 1 | 1 | 5323 |
+
+Respuestas:
+
+1. El pago está limitado al monto máximo que figura en tus Condiciones Particulares o en el Certificado de Seguro, documento que deberías consultar. Recuerda que solo se cubre el tratamiento de emergencia; si la lesión fuera una condición preexistente, solo se pagaría la estabilización.
+2. Tu póliza cubre los gastos médicos por un accidente como la torcedura del dedo, siempre que el tratamiento sea de urgencia y se realice durante el viaje. El reembolso está limitado al monto máximo que figura en las Condiciones Particulares o en el Certificado de Seguro, que no aparece en este documento. Si la lesión se considerara una condición médica preexistente, solo se cubriría el tratamiento de emergencia y estabilización.
+3. Tu póliza cubre los gastos médicos por la torcedura del dedo, siempre que sea un tratamiento de urgencia por una lesión súbita y aguda. El pago está limitado al monto máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que debes revisar para conocer el límite exacto.
+4. Tu póliza cubre los gastos médicos por el accidente de torcerte el dedo, siempre que sea un tratamiento de urgencia y dentro del límite máximo que figura en las Condiciones Particulares o en el Certificado de Seguro, cuyo monto no aparece en este documento.
+5. El monto máximo no está especificado en este documento, así que deberías revisar ese documento para conocer el límite exacto. Además, si la lesión fuera considerada una condición preexistente, la cobertura se limitaría al tratamiento de emergencia y estabilización.
 

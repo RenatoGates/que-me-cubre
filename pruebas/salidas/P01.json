@@ -3,50 +3,52 @@
   "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "no_encontrado",
-  "respuesta": "No encontré esto en tu póliza. Tu póliza menciona que cubre los gastos médicos por accidente o enfermedad durante el viaje. Sin embargo, también indica que los gastos incurridos fuera del territorio de cobertura, según lo definido en las Condiciones Particulares o en el Certificado de Seguro, quedan excluidos. Como no disponemos de la información sobre cuál es el territorio cubierto en tu póliza, no podemos confirmar si los gastos por la torcedura del dedo en Tarapoto están cubiertos.",
+  "cubre": "con_limites",
+  "respuesta": "El reembolso está limitado al monto máximo que figure en tus Condiciones Particulares o en el Certificado de Seguro, y sólo cubre la atención necesaria para que puedas continuar el viaje. Si el problema del dedo se considera una condición médica preexistente, sólo se cubriría el tratamiento de emergencia y estabilización.",
   "condiciones": [
     {
-      "descripcion": "La cobertura solo aplica si los gastos se incurren dentro del territorio de cobertura definido en las Condiciones Particulares o Certificado de Seguro",
+      "descripcion": "Los gastos están cubiertos solo para tratamientos de urgencia de cuadros agudos y para garantizar la recuperación inicial que permita la continuación del viaje.",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "El reembolso está limitado al monto máximo establecido en las Condiciones Particulares y/o Certificado de Seguro.",
       "citas": [
         2
       ]
     }
   ],
-  "exclusiones_aplicables": [
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
     {
-      "descripcion": "Los gastos incurridos fuera del territorio de cobertura quedan excluidos",
+      "descripcion": "Si la lesión del dedo se considerara una condición médica preexistente, sólo se cubriría el tratamiento de emergencia y estabilización.",
       "citas": [
-        2
+        3
       ]
     }
   ],
-  "no_incluido_en_documento": [
-    {
-      "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-      "por_que_importa": "Definen el territorio y los montos máximos de cobertura; sin ese documento no se puede saber si Tarapoto está dentro del territorio cubierto",
-      "cita": 2
-    }
-  ],
+  "no_incluido_en_documento": [],
   "citas": [
     {
       "n": 1,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Resumen Informativo",
-      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
-      "pagina": 2,
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
+      "pagina": 17,
       "paginas": [
-        2
+        17
       ],
-      "texto_literal": "Gastos médicos por accidente y/o enfermedad durante el viaje",
-      "pasaje": "P7",
-      "trozo_id": "chubb_viajes_jetsmart:0008",
+      "texto_literal": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO.",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
       "posicion": [
-        182,
-        242
+        0,
+        508
       ],
       "verificacion": {
         "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
         "pdfplumber": true,
         "pypdf": true
       }
@@ -55,229 +57,226 @@
       "n": 2,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
-      "pagina": 18,
+      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+      "pagina": 16,
       "paginas": [
-        18
+        16
       ],
-      "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
-      "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0067",
+      "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
       "posicion": [
-        1065,
-        1282
+        22,
+        503
       ],
       "verificacion": {
         "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "•Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "posicion": [
+        37,
+        341
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
         "pdfplumber": true,
         "pypdf": true
       }
     }
   ],
   "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "B4 - Continuación de Tratamiento en País de Residencia",
+      "tipo": "cobertura",
+      "mensaje": "Tu póliza menciona «B4 - Continuación de Tratamiento en País de Residencia» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "B4 - Continuación de Tratamiento en País de Residencia",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "posicion": [
+        595,
+        649
+      ],
+      "nivel": "clausula_ausente"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
+      "paginas": [
+        17
+      ],
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "posicion": [
+        760,
+        784
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
+      "paginas": [
+        17
+      ],
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "posicion": [
+        789,
+        810
+      ],
+      "nivel": "remision"
+    }
+  ],
   "secciones_revisadas": [
-    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
-    "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 3° Cobertura",
-    "Cláusula Adicional: Desmembramiento Accidental › Artículo 4° Exclusiones",
-    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
-    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-    "Resumen Informativo › INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
-    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 4° Exclusiones"
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+    "Condiciones Generales › Artículo 2°: Cobertura Principal – Muerte Accidental"
   ],
   "pasajes": [
     {
       "id": "P1",
       "rango": 1,
-      "trozo_id": "chubb_viajes_jetsmart:0067",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
       "parte": [
-        3,
-        5
+        1,
+        2
       ],
       "paginas": [
-        17,
-        18
+        16,
+        17
       ],
-      "texto": "k)Hernias y sus consecuencias, sea cual fuere la causa de que provengan.\nl)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.\nm)Exámenes médicos de rutina.\nn)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.\no)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.\np)Acto delictivo cometido, en calidad de autor o cómplice, por un beneficiario o quien pudiere reclamar el monto asegurado o la indemnización.\nq)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\nr)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      "texto": "Artículo 4° Condiciones de Cobertura\n•Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.\n•La COMPAÑÍA, a su cargo, tendrá el derecho a someter al ASEGURADO a exámenes médicos, con la frecuencia razonablemente necesaria, mientras la solicitud de cobertura correspondiente al pago de un beneficio se encuentre pendiente, siempre que se realice dentro de los primeros veinte (20) días de los treinta (30) días de los que dispone para aprobar o rechazar el siniestro.\n•De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
     },
     {
       "id": "P2",
       "rango": 2,
-      "trozo_id": "chubb_viajes_jetsmart:0132",
-      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
-      "articulo": "Artículo 3° Cobertura",
+      "trozo_id": "chubb_viajes_jetsmart:0055",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Texto inicial de la sección",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        36
+        15
       ],
-      "texto": "Artículo 3° Cobertura\nCuando se especifique en las Condiciones Particulares y/o Certificado de Seguro, según corresponda como expresamente cubierto, en el caso que sea MEDICAMENTE NECESARIO y el ASEGURADO deba continuar el tratamiento en su país de residencia, como resultado de lesiones provenientes de ACCIDENTES ocurridos durante el VIAJE, el ASEGURADO podrá solicitar reembolso en exceso de los gastos no cubiertos por su plan de ESSALUD, EPS o cualquier otro seguro de salud que lo cubra, a condición de que ésta sea prescrita por el MÉDICO que atendió al ASEGURADO durante el VIAJE. En aquellos casos en que el ASEGURADO no cuente con seguro de ESSALUD o EPS, los reembolsos solicitados sólo cubrirán hasta un máximo del cincuenta por ciento (50%) del monto indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      "texto": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje Cláusula Adicional\nLa presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
     },
     {
       "id": "P3",
       "rango": 3,
-      "trozo_id": "chubb_viajes_jetsmart:0094",
-      "seccion": "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
-      "articulo": "Artículo 3° Cobertura",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
       "parte": [
-        1,
-        1
+        2,
+        2
       ],
       "paginas": [
-        25
+        17
       ],
-      "texto": "Artículo 3° Cobertura\nEl reembolso de los gastos en la compra de medicamentos necesarios (en virtud de la atención médica u odontológica cubierta por el seguro), sujeto al límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, siempre que los gastos hayan ocurrido durante el VIAJE y hayan sido prescritos por un MÉDICO.\nEn el caso de ser MEDICAMENTE NECESARIO, si el ASEGURADO no pudiera contar con acceso a medicamentos específicos por no encontrarse disponibles en los países donde el pasajero se encuentra durante el viaje, estos podrán ser enviados directamente desde Perú. Esto aplica siempre y cuando la discontinuidad del uso del medicamento ponga en riesgo la vida del ASEGURADO y estos hayan sido prescritos por un MÉDICO local."
+      "texto": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
     },
     {
       "id": "P4",
       "rango": 4,
-      "trozo_id": "chubb_viajes_jetsmart:0048",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-      "articulo": "Artículo 4° Exclusiones",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
       "parte": [
-        3,
-        4
+        1,
+        2
       ],
       "paginas": [
-        13
+        16
       ],
-      "texto": "j)Infecciones bacterianas, excepto las infecciones piogénicas que sean consecuencia de una herida, cortadura o amputación accidental.\nk)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente PÓLIZA.\nl)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.\nm)Acto delictivo cometido, en calidad de autor o cómplice, por un beneficiario o quien pudiere reclamar el monto asegurado o la indemnización.\nn)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\no)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\np)ENFERMEDADES mentales o estados patológicos producidos durante el viaje por ingestión voluntaria de alcohol, drogas, sustancias tóxicas, narcóticos o medicamentos adquiridos sin prescripción médica."
+      "texto": "Artículo 3° Cobertura\nEl reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:\n•B2 - Gastos Odontológicos durante el Viaje.\n•B3 - Gastos Farmacéuticos durante el Viaje.\n•B4 - Continuación de Tratamiento en País de Residencia.\nPara fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:\na)Servicios prestados por el Médico.\nb)Servicios médicos u hospitalarios para garantizar la recuperación inicial y las condiciones físicas necesarias que permitan la normal continuación del viaje.\nc)Hospitalización y uso del quirófano.\nd)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.\ne)Anestesias (incluyendo administración de la misma, exámenes o tratamientos radiológicos y análisis de laboratorio)."
     },
     {
       "id": "P5",
       "rango": 5,
-      "trozo_id": "chubb_viajes_jetsmart:0079",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 3° Cobertura",
+      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "seccion": "Condiciones Generales",
+      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        21
+        6,
+        7
       ],
-      "texto": "Artículo 3° Cobertura\nLos gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.\nEste beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo.\nEl hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos que al efecto proporcione el MEDICO TRATANTE para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura. El tratamiento odontológico, los servicios y suministros correspondientes serán pagados hasta el límite del beneficio total y por diente, sujeto a lo establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, y hasta los treinta (30) días después de iniciado el primer tratamiento."
-    },
-    {
-      "id": "P6",
-      "rango": 6,
-      "trozo_id": "chubb_viajes_jetsmart:0084",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        4,
-        5
-      ],
-      "paginas": [
-        22
-      ],
-      "texto": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.\no)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.\np)Acto delictivo cometido, en calidad de autor o cómplice, por un beneficiario o quien pudiere reclamar el monto asegurado o la indemnización.\nq)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\nr)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\ns)La asistencia por ENFERMEDADES mentales o estados patológicos producidos durante el viaje por ingestión voluntaria de alcohol, drogas, sustancias tóxicas, narcóticos o medicamentos adquiridos sin prescripción médica.\nt)La asistencia que consista en el suministro de prótesis, anteojos y/o lentes de contacto, aun cuando obedezcan a eventos ocurridos durante el viaje."
-    },
-    {
-      "id": "P7",
-      "rango": 7,
-      "trozo_id": "chubb_viajes_jetsmart:0008",
-      "seccion": "Resumen Informativo",
-      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        2
-      ],
-      "texto": "INFORMACIÓN DE LA PÓLIZA DE SEGURO 1.Riesgos Cubiertos\nAccidentes Personales Muerte Accidental:\nDesmembramiento Accidental Reembolso médico y ortodoncista por accidente o enfermedad Gastos médicos por accidente y/o enfermedad durante el viaje Gastos odontológicos de Emergencia durante el viaje Gastos Farmacéuticos durante el viaje Reembolso de gastos de hotel y gastos de acompañante Recuperación en hotel durante el viaje Acompañante en caso de hospitalización prolongada durante el viaje Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje Repatriación Traslado de Restos Mortales (Repatriación funeraria) Repatriación en Vida – Traslado Médico por Emergencia Cancelaciones, interrupción, regreso anticipado del menor Cancelación de viaje Interrupción de viaje y regreso anticipado Retorno de menores Pérdida de equipaje y reembolso por retraso Pérdida de equipaje Reembolso de Gastos por Demora de Equipaje"
-    },
-    {
-      "id": "P8",
-      "rango": 8,
-      "trozo_id": "chubb_viajes_jetsmart:0176",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 4° Exclusiones",
-      "parte": [
-        1,
-        2
-      ],
-      "paginas": [
-        49
-      ],
-      "texto": "Artículo 4° Exclusiones\nLa presente Cláusula Adicional no otorga ninguna de las coberturas o beneficios estipulados en ella, cuando se originen por, o sean una consecuencia o complicación de:\na)Encontrarse el ASEGURADO en estado de ebriedad, o bajo los efectos de cualquier narcótico, a menos que hubiese sido administrado por prescripción médica. Estos estados deberán ser certificados por la autoridad competente.\nb)Desempeñarse el ASEGURADO como piloto o tripulante de aviones civiles o comerciales, a menos que expresa y específicamente se prevea y acepte su cobertura por el asegurador.\nc)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\nd)La asistencia por ENFERMEDADES mentales o estados patológicos producidos durante el viaje por ingestión voluntaria de alcohol, drogas, sustancias tóxicas, narcóticos o medicamentos adquiridos sin prescripción médica.\ne)La asistencia por cualquier acontecimiento, pérdida, lesión, daño o responsabilidad legal que se produzca como consecuencia de un viaje en, a, o a través de cualquiera de los siguientes países: Afganistán, Cuba, República Democrática del Congo, Irán, Iraq, Liberia, Sudán o Siria o cualquier país que ingrese a la lista OFAC."
-    },
-    {
-      "id": "P9",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0065",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        1,
-        5
-      ],
-      "paginas": [
-        17
-      ],
-      "texto": "Artículo 5° Exclusiones\nLa presente Cláusula Adicional no otorga ninguna de las coberturas o beneficios estipulados en ella, cuando se originen por, o sean una consecuencia o complicación de:\na)ENFERMEDADES, CONDICIONES O LESIONES PRE-EXISTENTES al VIAJE del ASEGURADO y cualquiera de sus consecuencias, incluyendo convalecencias y alteraciones durante tratamientos que no se encuentran todavía en una etapa consolidada, y las secuelas de enfermedades anteriores al VIAJE.\nb)Participación en cualquier equipo deportivo profesional o semiprofesional y cualquier deporte o actividad riesgosa que incluye: aviación privada, paracaidismo, ala delta, parapente, bungee jumping, alpinismo, escalada, motociclismo, artes marciales, boxeo, rodeo, rugby, equitación, polo, buceo.\nc)Suicidio, intento de suicidio o LESIÓN intencionalmente infringida por el ASEGURADO a sí mismo.\nd)Prestación de servicios en las fuerzas armadas o unidades auxiliares de las mismas en casos de Guerras civiles nacionales o extranjeras, motines, movimientos populares, represalias, restricciones a la libre circulación, huelgas, explosiones, misiones para la obtención o mantenimiento de la paz."
-    },
-    {
-      "id": "P10",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0066",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        2,
-        5
-      ],
-      "paginas": [
-        17
-      ],
-      "texto": "e)Las enfermedades epidémicas y sus consecuencias, que provengan de pandemia, ya sea que haya sido declarada por la Organización Mundial de la Salud o el organismo que lo reemplace, o bien, por la autoridad correspondiente de cualquiera de los países, localidades o regiones afectadas.\nf)Todo hecho que reconozca su origen o sea resultado de un viaje a, en o a través de cualquiera de los países o territorios especificados en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda como, asimismo, el pago solicitado en dicho país, cualquiera sea la causa, aun cuando la permanencia en el país excluido pudiere ser considerada como fortuita para el ASEGURADO.\ng)Comisión de actos calificados como delito, así como la participación activa en rebelión, revolución, sublevación, asonadas, motín, conmoción civil, subversión y terrorismo.\nh)Encontrarse el ASEGURADO en estado de ebriedad, o bajo los efectos de cualquier narcótico, a menos que hubiese sido administrado por prescripción médica. Estos estados deberán ser certificados por la autoridad competente.\ni)Desempeñarse el ASEGURADO como piloto o tripulante de aviones civiles o comerciales, a menos que expresa y específicamente se prevea y acepte su cobertura por el asegurador.\nj)Infecciones bacterianas, excepto las infecciones piogénicas que sean consecuencia de una herida, cortadura o amputación accidental."
-    },
-    {
-      "id": "P11",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0068",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        4,
-        5
-      ],
-      "paginas": [
-        18
-      ],
-      "texto": "s)ENFERMEDADES mentales o estados patológicos producidos durante el viaje por ingestión voluntaria de alcohol, drogas, sustancias tóxicas, narcóticos o medicamentos adquiridos sin prescripción médica.\nt)Suministro de prótesis, anteojos y/o lentes de contacto, aun cuando obedezcan a eventos ocurridos durante el viaje.\nu)Cualquier acontecimiento, pérdida, lesión, daño o responsabilidad legal que se produzca como consecuencia de un viaje en, a, o a través de cualquiera de los siguientes países: Afganistán, Cuba, República Democrática del Congo, Irán, Iraq, Liberia, Sudán o Siria o cualquier país que ingrese a la lista OFAC.\nv)Cualquier pérdida, lesión, daño o responsabilidad legal que sufra una persona terrorista o miembro de una organización terrorista, traficante de drogas, o proveedor de armas nucleares, químicas o biológicas\nw)Peleas o riñas, salvo en aquellos casos en que se establezca judicialmente que se ha tratado de legítima defensa.\nx)Riesgos de radiación, reacción nuclear o atómica, o contaminación radioactiva.\ny)Anomalías congénitas, y los trastornos que sobrevengan por tales anomalías o se relacionen con ellas.\nz)Cualquier tipo de enfermedad mental o nerviosa.\naa)Servicios, suministros o tratamientos, incluyendo cualquier período de internación hospitalaria que no hayan sido recomendados, aprobados y certificados como MEDICAMENTE NECESARIOS por el MÉDICO."
+      "texto": "Artículo 2°: Cobertura Principal – Muerte Accidental\nEn caso que el ASEGURADO fallezca a consecuencia de un accidente ocurrido durante la vigencia de esta Póliza, ya sea que el accidente haya ocurrido en territorio nacional o internacional, LA COMPAÑÍA pagará los beneficios señalados en las Condiciones Particulares y/o en el Certificado de Seguro, en los plazos y términos que se señalan en los mismos, siempre que las causas del accidente no se encuentren comprendidas dentro de las exclusiones de este seguro.\nEste seguro cubre la muerte accidental del ASEGURADO hasta por un (1) año luego de producido el accidente. En este caso, es condición esencial para que surja la responsabilidad de LA COMPAÑÍA que la muerte sobreviniente sea efecto directo de las lesiones originadas por el accidente.\nEl seguro cubre también la muerte del ASEGURADO como consecuencia de accidentes sobrevenidos al tratar de salvar vidas humanas."
     }
   ],
   "normalizacion": {
     "variantes": [
-      "Gastos médicos por lesión accidental en Tarapoto, atención de urgencia, reembolso de consultas, exámenes y hospitalización.",
-      "Exclusión de cobertura por lesiones preexistentes o actividades de riesgo no declaradas durante el viaje a Tarapoto.",
-      "Cobertura sujeta a vigencia del seguro, territorio Perú, deducible aplicable y límite máximo de suma asegurada para gastos médicos.",
-      "Procedimiento de siniestro: aviso inmediato a la central de asistencia, presentación de facturas y recetas dentro de 48 horas para reembolso.",
-      "Reembolso de tratamiento de emergencia por lesión súbita, siempre que se haya obtenido autorización previa cuando sea requerida por la póliza."
+      "¿cubre gastos médicos por accidente el seguro según los riesgos cubiertos?",
+      "¿existen exclusiones que impidan la cobertura del gasto por torcedura de dedo?",
+      "¿es válida la cobertura en Tarapoto bajo la vigencia y territorio del seguro?",
+      "¿qué aviso del siniestro y procedimiento para solicitar la cobertura debo seguir?",
+      "¿se requiere cumplir alguna condición de cobertura para que el gasto sea reembolsado?"
     ],
-    "terminos": [
-      "lesión accidental",
-      "gastos médicos",
-      "urgencia",
-      "deducible",
-      "suma asegurada",
-      "exclusión",
-      "preexistente",
-      "territorio",
-      "reembolso",
-      "siniestro"
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
     ],
     "hechos": [
-      "Se torció el dedo",
-      "Ocurrió en Tarapoto",
-      "Acudió a un centro médico",
-      "Pregunta sobre cobertura de los gastos"
+      "torció el dedo",
+      "ocurrió en Tarapoto",
+      "acudió a un centro médico"
     ],
     "ajuste": null
   },
@@ -285,28 +284,40 @@
     "citas": [
       {
         "n": 1,
-        "pasaje": "P7",
-        "texto_literal": "Gastos médicos por accidente y/o enfermedad durante el viaje"
+        "pasaje": "P3",
+        "texto_literal": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
       },
       {
         "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:"
+      },
+      {
+        "n": 3,
         "pasaje": "P1",
-        "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+        "texto_literal": "•Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La cobertura solo aplica si los gastos se incurren dentro del territorio de cobertura definido en las Condiciones Particulares o Certificado de Seguro",
+        "descripcion": "Los gastos están cubiertos solo para tratamientos de urgencia de cuadros agudos y para garantizar la recuperación inicial que permita la continuación del viaje.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "El reembolso está limitado al monto máximo establecido en las Condiciones Particulares y/o Certificado de Seguro.",
         "citas": [
           2
         ]
       }
     ],
-    "exclusiones_aplicables": [
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [
       {
-        "descripcion": "Los gastos incurridos fuera del territorio de cobertura quedan excluidos",
+        "descripcion": "Si la lesión del dedo se considerara una condición médica preexistente, sólo se cubriría el tratamiento de emergencia y estabilización.",
         "citas": [
-          2
+          3
         ]
       }
     ],
@@ -314,13 +325,25 @@
       {
         "cita": 2,
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Definen el territorio y los montos máximos de cobertura; sin ese documento no se puede saber si Tarapoto está dentro del territorio cubierto"
+        "por_que_importa": "establece el monto máximo del reembolso de gastos médicos"
       }
     ],
-    "cubre": "no_encontrado",
-    "respuesta": "Tu póliza menciona que cubre los gastos médicos por accidente o enfermedad durante el viaje. Sin embargo, también indica que los gastos incurridos fuera del territorio de cobertura, según lo definido en las Condiciones Particulares o en el Certificado de Seguro, quedan excluidos. Como no disponemos de la información sobre cuál es el territorio cubierto en tu póliza, no podemos confirmar si los gastos por la torcedura del dedo en Tarapoto están cubiertos."
+    "cubre": "con_limites",
+    "respuesta": "Sí, tu póliza cubre los gastos médicos por el dedo torcido, siempre que sea un accidente de carácter súbito y el tratamiento sea de urgencia. El reembolso está limitado al monto máximo que figure en tus Condiciones Particulares o en el Certificado de Seguro, y sólo cubre la atención necesaria para que puedas continuar el viaje. Si el problema del dedo se considera una condición médica preexistente, sólo se cubriría el tratamiento de emergencia y estabilización."
   },
-  "descartes": [],
+  "descartes": [
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Certificado de Seguro",
+      "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    },
+    {
+      "tipo": "texto",
+      "campo": "respuesta",
+      "texto": "Sí, tu póliza cubre los gastos médicos por el dedo torcido, siempre que sea un accidente de carácter súbito y el tratamiento sea de urgencia.",
+      "motivo": "abre con «Sí» y el veredicto es «con_limites»"
+    }
+  ],
   "proveedor": {
     "nombre": "groq",
     "modelo": "openai/gpt-oss-120b",
@@ -334,16 +357,16 @@
       {
         "proveedor": "groq",
         "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 5076,
-        "tokens_salida": 1733,
-        "tokens_razonamiento": 1388,
-        "segundos": 4.52,
+        "tokens_entrada": 3222,
+        "tokens_salida": 2095,
+        "tokens_razonamiento": 1499,
+        "segundos": 5.58,
         "costo_usd": 0.0
       }
     ],
-    "tokens": 6809,
+    "tokens": 5317,
     "costo_usd": 0.0,
-    "segundos": 4.52
+    "segundos": 5.58
   },
   "prueba": {
     "id": "P01",
