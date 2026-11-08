@@ -76,6 +76,12 @@ def asegurar(pares: list[tuple[str, str]], proveedor: Proveedor | None = None) -
                     "proveedor": uso.proveedor,
                     "modelo": uso.modelo,
                     "fecha": dt.date.today().isoformat(),
+                    # lo que costó generarla: una pregunta nueva en vivo gasta esto además de la respuesta
+                    "tokens": {
+                        "entrada": uso.tokens_entrada,
+                        "salida": uso.tokens_salida,
+                        "razonamiento": uso.tokens_razonamiento,
+                    },
                 }
             }
         )

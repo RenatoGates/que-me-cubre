@@ -75,7 +75,7 @@ def main() -> int:
 
     (PRUEBAS / "recuperacion.md").write_text("\n".join(lineas) + "\n", encoding="utf-8", newline="\n")
     guardar_json(PRUEBAS / "recuperacion.json", {"resumen": filas, "detalle": detalle})
-    print("\n".join(lineas[7 : 8 + len(METODOS)]))
+    print("\n".join(lineas[7 : 9 + len(METODOS)]))
     return 0
 
 

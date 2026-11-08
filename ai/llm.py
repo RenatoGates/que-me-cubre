@@ -9,8 +9,9 @@ El proveedor se elige con la variable QMC_PROVEEDOR (st.secrets o entorno):
   en ese plan Google puede usar lo enviado para mejorar sus productos y personas pueden
   revisarlo, así que la interfaz lo advierte.
 
-No hay respaldo automático: si el proveedor elegido falla o llega a su límite, se informa
-(LimiteAlcanzado / ProveedorNoDisponible) y la app decide qué mostrar. Nunca cambia de
+No hay respaldo automático: si el proveedor elegido falla, llega a su límite o el modelo no
+genera un JSON válido, se informa (LimiteAlcanzado / ProveedorNoDisponible / SalidaInvalida)
+y la app decide qué mostrar. Nunca cambia de
 modelo ni de proveedor por su cuenta. Las claves vienen de .env o st.secrets.
 """
 
@@ -44,6 +45,11 @@ class ProveedorNoDisponible(ErrorLLM):
     """Sin conexión, tiempo agotado o error del servidor del proveedor."""
 
 
+class SalidaInvalida(ErrorLLM):
+    """El modelo no produjo un JSON válido: no cumplió el esquema (Groq: json_validate_failed,
+    medido en ~1 de cada 30 llamadas), se cortó por longitud o no se pudo leer."""
+
+
 def config(nombre: str, defecto: str | None = None) -> str | None:
     """Lee una variable de st.secrets (Streamlit) o del entorno (.env en local)."""
     try:
@@ -61,8 +67,9 @@ class Uso:
     proveedor: str
     modelo: str
     tokens_entrada: int
-    tokens_salida: int
+    tokens_salida: int  # incluye el razonamiento: el plan gratuito lo cuenta igual
     segundos: float
+    tokens_razonamiento: int = 0
 
     @property
     def costo_usd(self) -> float:
@@ -74,6 +81,7 @@ class Uso:
             "modelo": self.modelo,
             "tokens_entrada": self.tokens_entrada,
             "tokens_salida": self.tokens_salida,
+            "tokens_razonamiento": self.tokens_razonamiento,
             "segundos": round(self.segundos, 2),
             "costo_usd": self.costo_usd,
         }
@@ -92,18 +100,18 @@ class Proveedor(ABC):
             raise ErrorLLM(f"Falta {self.variable_clave} (en .env en local o en Settings > Secrets en Streamlit Cloud).")
 
     @abstractmethod
-    def _llamar(self, tarea: Tarea, modelo: str, sistema: str, usuario: str, esquema: dict) -> tuple[str, int, int]:
-        """Devuelve (texto JSON, tokens de entrada, tokens de salida)."""
+    def _llamar(self, tarea: Tarea, modelo: str, sistema: str, usuario: str, esquema: dict) -> tuple[str, int, int, int]:
+        """Devuelve (texto JSON, tokens de entrada, tokens de salida, de ellos de razonamiento)."""
 
     def json(self, tarea: Tarea, sistema: str, usuario: str, esquema: dict) -> tuple[dict, Uso]:
         modelo = self.modelos[tarea]
         t0 = time.perf_counter()
-        texto, t_in, t_out = self._llamar(tarea, modelo, sistema, usuario, esquema)
+        texto, t_in, t_out, t_razon = self._llamar(tarea, modelo, sistema, usuario, esquema)
         try:
             datos = json.loads(texto)
         except json.JSONDecodeError as e:
-            raise ErrorLLM("El modelo devolvió un JSON inválido.") from e
-        return datos, Uso(self.nombre, modelo, t_in, t_out, time.perf_counter() - t0)
+            raise SalidaInvalida("El modelo devolvió un JSON inválido.") from e
+        return datos, Uso(self.nombre, modelo, t_in, t_out, time.perf_counter() - t0, t_razon)
 
 
 # ---------------------------------------------------------------------------
@@ -164,12 +172,18 @@ class ProveedorGroq(Proveedor):
             except (groq.APIConnectionError, groq.APITimeoutError, groq.InternalServerError) as e:
                 raise ProveedorNoDisponible("Groq no responde en este momento.") from e
             except groq.APIStatusError as e:
+                if e.status_code == 413:  # la petición sola supera los tokens por minuto del plan
+                    raise LimiteAlcanzado("Groq: la consulta supera el límite por minuto del plan gratuito.") from e
+                if e.status_code == 400 and "json_validate_failed" in (e.response.text or ""):
+                    raise SalidaInvalida("Groq: el modelo no generó un JSON que cumpla el esquema.") from e
                 raise ErrorLLM(f"Groq rechazó la solicitud ({e.status_code}).") from e
 
         eleccion = r.choices[0]
         if eleccion.finish_reason == "length":
-            raise ErrorLLM("La respuesta del modelo se cortó por longitud.")
-        return eleccion.message.content or "", r.usage.prompt_tokens, r.usage.completion_tokens
+            raise SalidaInvalida("La respuesta del modelo se cortó por longitud.")
+        detalle = getattr(r.usage, "completion_tokens_details", None)
+        razon = getattr(detalle, "reasoning_tokens", 0) or 0
+        return eleccion.message.content or "", r.usage.prompt_tokens, r.usage.completion_tokens, razon
 
 
 # ---------------------------------------------------------------------------
@@ -225,8 +239,9 @@ class ProveedorGemini(Proveedor):
         except errors.ServerError as e:
             raise ProveedorNoDisponible("Gemini no responde en este momento.") from e
         u = r.usage_metadata
-        salida = (u.candidates_token_count or 0) + (u.thoughts_token_count or 0) if u else 0
-        return r.text or "", (u.prompt_token_count or 0) if u else 0, salida
+        razon = (u.thoughts_token_count or 0) if u else 0
+        salida = (u.candidates_token_count or 0) + razon if u else 0
+        return r.text or "", (u.prompt_token_count or 0) if u else 0, salida, razon
 
 
 # ---------------------------------------------------------------------------

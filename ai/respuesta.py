@@ -6,9 +6,10 @@ La validación es código, no confianza en el modelo:
 - una "mención no incluida" se descarta si su nombre sí es una sección del documento;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
-Red de seguridad: si el proveedor llega a su límite o no responde, el resultado sale en
-modo "solo_clausulas": los pasajes encontrados con las palabras de búsqueda resaltadas,
-sin texto generado y con un aviso de por qué. No se cambia de modelo.
+Red de seguridad: si el proveedor llega a su límite, no responde o el modelo no genera un
+JSON válido, el resultado sale en modo "solo_clausulas": los pasajes encontrados con las
+palabras de búsqueda resaltadas, sin texto generado y con un aviso de por qué. No se cambia
+de modelo ni se reintenta (un reintento gasta otra consulta del límite por minuto).
 
 Nada se guarda ni se registra: todo vive en memoria durante la llamada.
 """
@@ -20,7 +21,7 @@ from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
 from ai.indice import Indice, tokens
-from ai.llm import LimiteAlcanzado, Proveedor, ProveedorNoDisponible, Uso, obtener_proveedor
+from ai.llm import LimiteAlcanzado, Proveedor, ProveedorNoDisponible, SalidaInvalida, Uso, obtener_proveedor
 from ai.prompts import (
     ESQUEMA_NORMALIZACION,
     ESQUEMA_RESPUESTA,
@@ -211,6 +212,8 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
     if isinstance(error, LimiteAlcanzado):
         espera = f" Vuelve a intentar en unos {round(error.espera_segundos)} segundos." if error.espera_segundos else ""
         motivo = f"El proveedor del modelo alcanzó el límite de su plan gratuito.{espera}"
+    elif isinstance(error, SalidaInvalida):
+        motivo = "El modelo no devolvió una respuesta con el formato esperado esta vez; puedes volver a preguntar."
     else:
         motivo = "No pude comunicarme con el proveedor del modelo."
     aviso = (
@@ -268,7 +271,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
         try:
             norm, uso_n = normalizar(pregunta, proveedor)
             usos.append(uso_n)
-        except (LimiteAlcanzado, ProveedorNoDisponible) as e:
+        except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
     pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
@@ -276,7 +279,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
     try:
         crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)
         usos.append(uso_r)
-    except (LimiteAlcanzado, ProveedorNoDisponible) as e:
+    except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
         return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos)
 
     final, descartes = _validar(crudo, pasajes, poliza)

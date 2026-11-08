@@ -7,22 +7,29 @@
 Usa el proveedor de QMC_PROVEEDOR (groq por defecto) con su clave en .env. Antes normaliza
 las preguntas que falten en la caché versionada (data/cache/), así las pruebas y el demo
 usan exactamente las mismas variantes y cada respuesta gasta una sola llamada.
+
+Ritmo: después de cada pregunta espera lo que el plan gratuito tarda en reponer los tokens
+que gastó (8000 por minuto), así ninguna prueba cae en el modo sin texto generado por culpa
+de la anterior.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import statistics
 import time
 
 from comun import PRUEBAS, RAIZ, SALIDAS, guardar_json, poliza, preguntas, utf8
 
+from ai import cache_normalizacion
 from ai.llm import ErrorLLM, obtener_proveedor
 from ai.preparar_demo import asegurar
 from ai.respuesta import responder
 
 ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado", None: "sin respuesta"}
-PAUSA = 20  # s entre preguntas: el plan gratuito limita tokens por minuto
+TPM = 8000  # tokens por minuto del plan gratuito de Groq (cabecera x-ratelimit-limit-tokens)
+ESPERA_REINTENTO = 60  # s: con el balde vacío, en un minuto se repone entero
 
 
 def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
@@ -33,29 +40,45 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
         "Generado por `pruebas/correr_pruebas.py`. Cada salida completa (variantes de la normalización,",
         "pasajes, respuesta cruda del modelo, citas verificadas y descartes) está en `pruebas/salidas/`.",
         "",
-        "| # | Pregunta | Veredicto | ¿Aceptable? | Citas válidas / propuestas | No incluido en el documento | Tokens | Segundos |",
-        "|---|---|---|---|---|---|---:|---:|",
+        "Tokens: lo que cuenta el límite de tokens por minuto del plan gratuito (entrada + salida; la",
+        "salida incluye el razonamiento del modelo). *Normalización* es lo que costó generar la entrada",
+        "de la caché: una pregunta nueva en vivo lo gasta además de la respuesta.",
+        "",
+        "| # | Pregunta | Veredicto | ¿Aceptable? | Citas válidas / propuestas | No incluido en el documento "
+        "| Pasajes | Normalización | Respuesta: entrada | salida (razonamiento) | Consulta completa | Segundos |",
+        "|---|---|---|---|---|---|---:|---:|---:|---:|---:|---:|",
     ]
     for f in filas:
         lineas.append(
             f"| {f['id']} | {f['pregunta']} | {ETIQUETA[f['cubre']]} | {'sí' if f['aceptable'] else '**no**'} | "
-            f"{f['citas_validas']} / {f['citas_propuestas']} | {f['no_incluido'] or '—'} | {f['tokens']} | {f['segundos']:.1f} |"
+            f"{f['citas_validas']} / {f['citas_propuestas']} | {f['no_incluido'] or '—'} | {f['pasajes']} | "
+            f"{f['tokens_normalizacion'] or '—'} | {f['entrada']} | {f['salida']} ({f['razonamiento']}) | "
+            f"{f['consulta_completa']} | {f['segundos']:.1f} |"
         )
     n = len(filas)
     if n:
+        resp = [f["tokens"] for f in filas]
+        completa = [f["consulta_completa"] for f in filas]
         lineas += [
             "",
             f"- Veredictos aceptables: {sum(f['aceptable'] for f in filas)} de {n}.",
             f"- Citas propuestas por el modelo: {sum(f['citas_propuestas'] for f in filas)}; "
             f"aceptadas tras verificar contra el pasaje y el PDF: {sum(f['citas_validas'] for f in filas)}.",
-            f"- Tokens promedio por respuesta (una llamada, normalización desde la caché): "
-            f"{sum(f['tokens'] for f in filas) / n:.0f}; tiempo promedio: {sum(f['segundos'] for f in filas) / n:.1f} s.",
+            f"- Tokens por respuesta (normalización desde la caché, una llamada): promedio {statistics.mean(resp):.0f}, "
+            f"mínimo {min(resp)}, máximo {max(resp)}.",
+            f"- Tokens por consulta completa (pregunta nueva, dos llamadas): promedio {statistics.mean(completa):.0f}, "
+            f"máximo {max(completa)}.",
+            f"- De la salida, razonamiento: {sum(f['razonamiento'] for f in filas) / max(1, sum(f['salida'] for f in filas)):.0%}.",
+            f"- Tiempo promedio por respuesta: {statistics.mean(f['segundos'] for f in filas):.1f} s.",
         ]
     return "\n".join(lineas) + "\n"
 
 
 def fila(q: dict, r: dict) -> dict:
     exige = q.get("debe_mencionar_no_incluido")
+    respuesta = r["uso"]["detalle"][-1]
+    norm = cache_normalizacion.tokens_generacion(q["pregunta"], poliza(q["poliza"]).sha256)
+    t_norm = norm["entrada"] + norm["salida"] if norm else 0
     return {
         "id": q["id"],
         "pregunta": q["pregunta"],
@@ -65,7 +88,13 @@ def fila(q: dict, r: dict) -> dict:
         "citas_propuestas": len(r.get("modelo_crudo", {}).get("citas", [])),
         "citas_validas": len(r["citas"]),
         "no_incluido": "; ".join(m["nombre"] for m in r["no_incluido_en_documento"]),
+        "pasajes": len(r["pasajes"]),
+        "entrada": respuesta["tokens_entrada"],
+        "salida": respuesta["tokens_salida"],
+        "razonamiento": respuesta.get("tokens_razonamiento", 0),
         "tokens": r["uso"]["tokens"],
+        "tokens_normalizacion": t_norm,
+        "consulta_completa": r["uso"]["tokens"] + (0 if len(r["uso"]["detalle"]) > 1 else t_norm),
         "segundos": r["uso"]["segundos"],
     }
 
@@ -90,17 +119,23 @@ def main() -> int:
     pendientes = [q for q in elegidas if args.rehacer or not (SALIDAS / f"{q['id']}.json").exists()]
     if pendientes:
         print("Normalizaciones (caché versionada):")
-        _, faltan = asegurar([(q["poliza"], q["pregunta"]) for q in pendientes], proveedor)
+        nuevas, faltan = asegurar([(q["poliza"], q["pregunta"]) for q in pendientes], proveedor)
         if faltan:
             return 1
+        if nuevas:
+            time.sleep(ESPERA_REINTENTO)  # las normalizaciones seguidas dejan el balde casi vacío
 
     filas, problemas = [], []
     for q in todas:
         ruta = SALIDAS / f"{q['id']}.json"
         if q in pendientes:
-            print(f"▶ {q['id']}: {q['pregunta']}")
+            print(f"▶ {q['id']}: {q['pregunta']}", flush=True)
             try:
                 r = responder(q["pregunta"], poliza(q["poliza"]), proveedor)
+                if r["modo"] != "completo":
+                    print(f"  límite alcanzado; espero {ESPERA_REINTENTO} s y reintento una vez", flush=True)
+                    time.sleep(ESPERA_REINTENTO)
+                    r = responder(q["pregunta"], poliza(q["poliza"]), proveedor)
             except ErrorLLM as e:
                 print(f"  ✗ {e}")
                 problemas.append(q["id"])
@@ -111,7 +146,7 @@ def main() -> int:
                 continue
             r["prueba"] = {k: q[k] for k in ("id", "poliza", "origen", "veredictos_aceptables", "que_deberia_pasar")}
             guardar_json(ruta, r)
-            time.sleep(PAUSA)
+            time.sleep(r["uso"]["tokens"] * 60 / TPM)  # lo que el plan tarda en reponer lo gastado
         elif ruta.exists():
             r = json.loads(ruta.read_text(encoding="utf-8"))
         else:
@@ -120,8 +155,11 @@ def main() -> int:
         filas.append(f)
         print(
             f"  {f['id']} {ETIQUETA[f['cubre']]:<14} aceptable={'sí' if f['aceptable'] else 'NO'} "
-            f"citas {f['citas_validas']}/{f['citas_propuestas']} · {f['tokens']} tokens · {f['segundos']:.1f}s"
-            + (f" · no incluido: {f['no_incluido']}" if f["no_incluido"] else "")
+            f"citas {f['citas_validas']}/{f['citas_propuestas']} · {f['pasajes']} pasajes · "
+            f"{f['entrada']}+{f['salida']} ({f['razonamiento']} razon.) = {f['tokens']} tokens "
+            f"(+{f['tokens_normalizacion']} normalización) · {f['segundos']:.1f}s"
+            + (f" · no incluido: {f['no_incluido']}" if f["no_incluido"] else ""),
+            flush=True,
         )
 
     (PRUEBAS / "resultados.md").write_text(

@@ -1,0 +1,275 @@
+{
+  "modo": "completo",
+  "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "no_encontrado",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, interrupción del viaje, gastos odontológicos y médicos, pero ninguno menciona cobertura para la reparación del auto alquilado tras un accidente.",
+  "condiciones": [],
+  "exclusiones_aplicables": [],
+  "no_incluido_en_documento": [],
+  "citas": [],
+  "veredicto_degradado": false,
+  "secciones_revisadas": [
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Texto inicial de la sección",
+    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 2° Objeto del Contrato de Seguro",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0112",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        1,
+        7
+      ],
+      "paginas": [
+        30
+      ],
+      "texto": "Artículo 3° Asistencias\n- Recuperación en hotel durante el viaje: El pago o reembolso de las estadías diarias del hotel al ASEGURADO, limitado al valor por día y al número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, en caso de que el equipo MÉDICO del establecimiento donde se encuentre el ASEGURADO y el MÉDICO determinen la necesidad de prorrogar el periodo de estadía del ASEGURADO por convalecencia, después que fue dado de alta del HOSPITAL, debido a ACCIDENTE o ENFERMEDAD. Estos gastos deberán ser previamente autorizados por LA COMPAÑÍA.\nLA COMPAÑÍA no será responsable del pago o reembolso de los gastos que sean responsabilidad de terceros o que estén ya incluidos en el costo del viaje.\nEsta cobertura comienza a regir siempre que el ASEGURADO haya estado hospitalizado al menos el número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0079",
+      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        21
+      ],
+      "texto": "Artículo 3° Cobertura\nLos gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.\nEste beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo.\nEl hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos que al efecto proporcione el MEDICO TRATANTE para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura. El tratamiento odontológico, los servicios y suministros correspondientes serán pagados hasta el límite del beneficio total y por diente, sujeto a lo establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, y hasta los treinta (30) días después de iniciado el primer tratamiento."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0187",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        7,
+        7
+      ],
+      "paginas": [
+        53
+      ],
+      "texto": "Solicitud de Seguro: Documento en el cual el Contratante y/o Asegurado solicita la cobertura del seguro para él y sus dependientes, la cual eventualmente incluye la respectiva Declaración de Salud que necesariamente debe ser suscrita tanto por el Contratante como por el Asegurado, cuando se traten de personas distintas; salvo en el caso de contratos comercializados a distancia.\nSuma Asegurada: Es la suma, importe, monto o valor que el Contratante y/o Asegurado determina y fija para el contrato de seguro y representa el valor máximo por el cual la COMPAÑIA se responsabiliza para el pago de la indemnización en caso de siniestro. Cuando se mencione que la suma o valor asegurado es un límite agregado anual, significará que es el monto máximo que la COMPAÑIA indemnizará por uno o varios siniestros, dentro del plazo de vigencia contratado."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0179",
+      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
+      "articulo": "Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        3
+      ],
+      "paginas": [
+        50
+      ],
+      "texto": "Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el beneficio indicado en la presente cobertura, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\n•Tarjeta de embarque o billete del TRANSPORTE PÚBLICO AUTORIZADO;\n•Comprobantes de gastos con compras de efectos personales;\n•Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIRProperty Irregularity Report), del EQUIPAJE extraviado;\n•Ticket del EQUIPAJE.\nLa COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura; salvo que solicite una prórroga al CONTRATANTE y/o ASEGURADO para realizar nuevas investigaciones y obtener evidencias relacionadas con el siniestro. En caso que el CONTRATANTE y/o ASEGURADO no apruebe la solicitud de prórroga presentada por la COMPAÑÍA, ésta se sujetará al procedimiento establecido para tal efecto en el TUPA de la Superintendencia de Banca, Seguros y AFP’s."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0188",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 2° Objeto del Contrato de Seguro",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        53
+      ],
+      "texto": "Artículo 2° Objeto del Contrato de Seguro\nEn virtud del presente contrato de seguro, el CONTRATANTE Y/O ASEGURADO se obliga al pago de la prima convenida y la COMPAÑIA a indemnizar al ASEGURADO o a sus Beneficiarios y/o endosatarios, hasta el límite de la Suma Asegurada y/o Beneficio Máximo Anual que figura en las Condiciones Particulares de la póliza, contra las pérdidas y/o daños que efectivamente ocasione la ocurrencia de los riesgos asegurados, con sujeción a los términos de la Solicitud de Seguro, las Cláusulas Generales de Contratación, las Condiciones Generales, las Condiciones Particulares, las Condiciones Especiales, Endosos y anexos, así como los demás documentos que formen parte en forma conjunta e indivisible del contrato de seguro."
+    },
+    {
+      "id": "P6",
+      "rango": 6,
+      "trozo_id": "chubb_viajes_jetsmart:0069",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 5° Exclusiones",
+      "parte": [
+        5,
+        5
+      ],
+      "paginas": [
+        18
+      ],
+      "texto": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.\ncc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.\ndd)Tratamientos rejuvenecedores, o estéticos.\nee)Gastos en compras de prótesis que no sean originados como consecuencia de un accidente cubierto por esta póliza.\nff)Anormalidades congénitas y condiciones que resulten de las mismas.\ngg)Gastos incurridos con relación a pie frágil, deformado o plano, callos o uñas del pie.\nhh)Diagnóstico y tratamiento de acné.\nii)Tabique desviado, incluyendo resección submucosa y/o cualquier corrección quirúrgica de los mismos.\njj)Cuidados de niños sanos, incluyendo exámenes e inmunizaciones (vacunas).\nkk)Anteojos, lentes de contacto, audífonos y exámenes para la prescripción o ajuste de los mismos, a menos que la lesión o la enfermedad haya causado el deterioro de la visión o la audición.\nll)Trastornos mentales, nerviosos o emocionales o curas de sueño.\nmm)Procedimientos electivos o adelantar tratamientos o procedimientos de larga duración."
+    },
+    {
+      "id": "P7",
+      "rango": 7,
+      "trozo_id": "chubb_viajes_jetsmart:0132",
+      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        36
+      ],
+      "texto": "Artículo 3° Cobertura\nCuando se especifique en las Condiciones Particulares y/o Certificado de Seguro, según corresponda como expresamente cubierto, en el caso que sea MEDICAMENTE NECESARIO y el ASEGURADO deba continuar el tratamiento en su país de residencia, como resultado de lesiones provenientes de ACCIDENTES ocurridos durante el VIAJE, el ASEGURADO podrá solicitar reembolso en exceso de los gastos no cubiertos por su plan de ESSALUD, EPS o cualquier otro seguro de salud que lo cubra, a condición de que ésta sea prescrita por el MÉDICO que atendió al ASEGURADO durante el VIAJE. En aquellos casos en que el ASEGURADO no cuente con seguro de ESSALUD o EPS, los reembolsos solicitados sólo cubrirán hasta un máximo del cincuenta por ciento (50%) del monto indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+    },
+    {
+      "id": "P8",
+      "rango": 8,
+      "trozo_id": "chubb_viajes_jetsmart:0083",
+      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+      "articulo": "Artículo 5° Exclusiones",
+      "parte": [
+        3,
+        5
+      ],
+      "paginas": [
+        22
+      ],
+      "texto": "k)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.\nl)Exámenes médicos de rutina.\nm)Una infección oportunística, o un neoplasma maligno (cáncer), si al momento de la muerte o enfermedad el ASEGURADO padecía o era portador del Síndrome de Inmunodeficiencia Adquirida. Con tal propósito, se entenderá por:\n•\"Síndrome de Inmunodeficiencia Adquirida\", lo definido para tal efecto por la Organización Mundial de la Salud.\n•Infección Oportunística incluye, pero no debe limitarse a Neumonía causada por PneumocystisCarinii, Organismo de Enteritis Crónica, Infección Vírica o Infección Micobacteriana Diseminada.\n•Neoplasma Maligno incluye, pero no debe limitarse al Sarcoma de Kaposi, al Linfoma del Sistema Nervioso Central o a otras afecciones malignas ya conocidas o que puedan conocerse como causas inmediatas de muerte en presencia de una inmunodeficiencia adquirida.\n•Síndrome de Inmunodeficiencia Adquirida debe incluir Encefalopatía (demencia) de V.I.H. (Virus de Inmunodeficiencia Humano) y Síndrome de Desgaste por V.I.H. (Virus de Inmunodeficiencia Humano."
+    },
+    {
+      "id": "P9",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0113",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        2,
+        7
+      ],
+      "paginas": [
+        30,
+        31
+      ],
+      "texto": "- Acompañante en caso de hospitalización prolongada durante el viaje: El financiamiento de un pasaje aéreo de ida y regreso en clase económica, a quien indique el ASEGURADO, cuando éste se encuentre viajando solo y los MÉDICOS del servicio de asistencia consideren necesaria su hospitalización por un periodo superior a cinco (5) días, siempre que la CENTRAL DE ASISTENCIA obtenga la aprobación de LA COMPAÑÍA respecto de dicho financiamiento. En caso que el ASEGURADO no pueda designar a un acompañante, será su cónyuge o cualquier pariente en primer grado mayor de edad. Este beneficio está sujeto al límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\n- Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje: Es el pago o reembolso de los gastos diarios en hotel para hospedaje del acompañante del ASEGURADO, que, de acuerdo con lo establecido en esta cláusula, se limitará al monto informado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, desde que fuera solicitado a través de la CENTRAL DE ASISTENCIA y previamente aprobado por LA COMPAÑÍA, con un máximo de diez (10) días por evento. Esta cobertura aplica únicamente como continuación a la cobertura C2 - Acompañante en caso de Hospitalización Prolongada durante el Viaje."
+    },
+    {
+      "id": "P10",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0114",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        3,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "- Interrupción del viaje y regreso anticipado – cobertura amplia: Se reembolsará o coordinará el pago de los gastos por servicios no devueltos y no reembolsables pagados anticipadamente al hotel y/o el pasaje de TRANSPORTE PÚBLICO AUTORIZADO, menos el valor del crédito aplicado por el pasaje de regreso no utilizado, en caso que el ASEGURADO quede imposibilitado de concluir el viaje debido a alguna de las siguientes circunstancias:\n• Muerte o enfermedad grave del ASEGURADO, que tenga carácter de urgencia y que motive la internación o inhiba la de ambulación, generando un estado de postración en el ASEGURADO y por lo tanto imposibilite la iniciación y/o prosecución del viaje del ASEGURADO.\n• Muerte o internación hospitalaria por más de cinco (5) días por accidente o Enfermedad Repentina de un MIEMBRO DE SU FAMILIA.\n• Cuando el ASEGURADO recibiese notificación fehaciente para comparecer ante la justicia, debiendo haber recibido dicha notificación con posterioridad al inicio del Viaje.\n• Cuando el ASEGURADO haya sido declarado en cuarentena por autoridad sanitaria competente con posterioridad al inicio del viaje.\n• Por incendio o robo en la residencia habitual del ASEGURADO, ocurrido mientras el ASEGURADO se encuentre en el viaje."
+    },
+    {
+      "id": "P11",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        4,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEn el caso que el ASEGURADO no pueda realizar cambio en sus pasajes de TRANSPORTE PÚBLICO AUTORIZADO, la COMPAÑÍA le entregará un pasaje aéreo en la misma clase que viajaba originalmente para su retorno al país de origen, en caso de que él mismo quede inhabilitado de continuar el VIAJE. Este pasaje será entregado sólo en caso de que no sea posible utilizar el medio de TRANSPORTE PÚBLICO AUTORIZADO originalmente previsto.\nCondiciones:\n•LA COMPAÑÍA no será responsable por ninguna multa o penalidad adicional incurrida que no hubiese sido impuesta si el ASEGURADO hubiera notificado a LA COMPAÑÍA durante las setenta y dos (72) horas siguientes de ocurrido el siniestro."
+    },
+    {
+      "id": "P12",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0116",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        5,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "•Para efectos de este beneficio las ENFERMEDADES DE CARÁCTER SÚBITO deberán manifestarse o ser contraídas a partir de la fecha de inicio del viaje. En los casos que exista una CONDICIÓN DE PRE-EXISTENCIA el beneficio de Interrupción del Viaje y Regreso Anticipado se otorgará sólo en los casos en que el MÉDICO certifique un deterioro severo, repentino e imprevisto, donde la continuación del viaje, coloque en peligro grave la vida del ASEGURADO, su COMPAÑERO DE VIAJE, MIEMBRO DE SU FAMILIA o MIEMBRO DE LA FAMILIA de su COMPAÑERO DE VIAJE.\n•El ASEGURADO debe entregar a la COMPAÑÍA los originales extendidos a nombre del ASEGURADO de los recibos, boletas y facturas cuando corresponda, copia de los contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; como asimismo, en su caso, los que acrediten el pago o el reembolso de una parte de ellos, por las instituciones o entidades referidos en el número anterior."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "Cobertura de gastos de reparación del vehículo alquilado por accidente durante el viaje, incluye repuesto y mano de obra, con límite según suma asegurada.",
+      "Exclusión de daños causados por conducción bajo efecto de alcohol, exceso de velocidad o negligencia del conductor, no cubre reparaciones en esos casos.",
+      "Condiciones: vigencia durante la duración del alquiler, territorio Perú, deducible aplicable por colisión, límite máximo de cobertura por siniestro, sin carencia para daños a vehículo alquilado.",
+      "Trámite de siniestro: notificación inmediata a la central de asistencia, presentación de informe policial, facturas de reparación y fotos, plazo de 15 días para presentar reclamo y recibir reembolso.",
+      "Límite de responsabilidad: la aseguradora cubre hasta el valor declarado del alquiler, excluye daños a accesorios no incluidos en el contrato de arrendamiento."
+    ],
+    "terminos": [
+      "accidente",
+      "reparación",
+      "vehículo alquilado",
+      "cobertura",
+      "exclusión",
+      "deducible",
+      "límite",
+      "suma asegurada",
+      "siniestro",
+      "reembolso"
+    ],
+    "hechos": [
+      "Choqué el auto que alquilé",
+      "Durante el viaje",
+      "Solicito saber si el seguro paga la reparación"
+    ],
+    "ajuste": null
+  },
+  "modelo_crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de asistencias como recuperación en hotel, acompañante, interrupción del viaje, gastos odontológicos y médicos, pero ninguno menciona cobertura para la reparación del auto alquilado tras un accidente."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "groq",
+        "modelo": "openai/gpt-oss-120b",
+        "tokens_entrada": 5551,
+        "tokens_salida": 463,
+        "tokens_razonamiento": 360,
+        "segundos": 1.61,
+        "costo_usd": 0.0
+      }
+    ],
+    "tokens": 6014,
+    "costo_usd": 0.0,
+    "segundos": 1.61
+  },
+  "prueba": {
+    "id": "P08",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia (control: la póliza no trata el tema)",
+    "veredictos_aceptables": [
+      "no_encontrado"
+    ],
+    "que_deberia_pasar": "Decir 'no encontré esto en tu póliza' y mostrar en qué secciones buscó. No hay cobertura de daños a vehículos en este condicionado."
+  }
+}

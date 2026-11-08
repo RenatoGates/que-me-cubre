@@ -1,0 +1,361 @@
+{
+  "modo": "completo",
+  "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "con_limites",
+  "respuesta": "Tu póliza cubre la devolución del importe que pagaste por el viaje si la enfermedad súbita te impidió iniciar el viaje, siempre que el gasto ya estuviera reservado y pagado antes de enfermarte y que presentes la documentación requerida (recibos, contratos, etc.). El reembolso se hará hasta el límite que figura en las Condiciones Particulares o en el Certificado de Seguro, que no están incluidos en este documento y deberías solicitarlos a la aseguradora.",
+  "condiciones": [
+    {
+      "descripcion": "Debe presentar la documentación requerida (recibos, facturas, contratos de viaje, pasajes, vouchers, etc.) para solicitar el reembolso",
+      "citas": [
+        1
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 5)",
+      "pagina": 43,
+      "paginas": [
+        43
+      ],
+      "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso.",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0157",
+      "posicion": [
+        0,
+        1122
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "secciones_revisadas": [
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Cláusula Adicional: Cancelación del Viaje › Artículo 3° Cobertura",
+    "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Texto inicial de la sección"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0071",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        4
+      ],
+      "paginas": [
+        18,
+        19
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        41
+      ],
+      "texto": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0103",
+      "seccion": "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        4
+      ],
+      "paginas": [
+        27
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos farmacéuticos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0157",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        5
+      ],
+      "paginas": [
+        43
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0140",
+      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        4
+      ],
+      "paginas": [
+        38
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
+    },
+    {
+      "id": "P6",
+      "rango": 6,
+      "trozo_id": "chubb_viajes_jetsmart:0159",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        4,
+        5
+      ],
+      "paginas": [
+        44
+      ],
+      "texto": "En caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente.\nLa COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura; salvo que solicite una prórroga al CONTRATANTE y/o ASEGURADO para realizar nuevas investigaciones y obtener evidencias relacionadas con el siniestro. En caso que el CONTRATANTE y/o ASEGURADO no apruebe la solicitud de prórroga presentada por la COMPAÑÍA, ésta se sujetará al procedimiento establecido para tal efecto en el TUPA de la Superintendencia de Banca, Seguros y AFP’s.\nEn caso que la COMPAÑÍA requiera aclaraciones o precisiones adicionales, respecto a la documentación e información presentada, la COMPAÑÍA podrá realizar tal requerimiento dentro de los primeros veinte (20) días de recibida la documentación completa presentada para la solicitud de cobertura, lo que suspenderá el plazo de aprobación o rechazo hasta la presentación de la documentación e información correspondiente."
+    },
+    {
+      "id": "P7",
+      "rango": 7,
+      "trozo_id": "chubb_viajes_jetsmart:0079",
+      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        21
+      ],
+      "texto": "Artículo 3° Cobertura\nLos gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.\nEste beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo.\nEl hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos que al efecto proporcione el MEDICO TRATANTE para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura. El tratamiento odontológico, los servicios y suministros correspondientes serán pagados hasta el límite del beneficio total y por diente, sujeto a lo establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, y hasta los treinta (30) días después de iniciado el primer tratamiento."
+    },
+    {
+      "id": "P8",
+      "rango": 8,
+      "trozo_id": "chubb_viajes_jetsmart:0184",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        4,
+        7
+      ],
+      "paginas": [
+        52
+      ],
+      "texto": "Deducible: Se refiere al importe de gastos cubiertos que será por cuenta del Asegurado y cuyo monto y forma de aplicación se especifica en las Condiciones Particulares o en la Tabla de Beneficios de esta póliza.\nEndoso: Documento que se adhiere a la póliza y mediante el cual se modifica(n) alguno(s) de los términos y condiciones de la misma o se transmite a un tercero total o parcialmente los derechos, beneficios y/u obligaciones emanados de la póliza. El endoso surte efecto una vez que ha sido suscrito o aprobado por la COMPAÑÍA y el contratante.\nExclusiones: Son las causas, circunstancias, condiciones o hechos exceptuados de cobertura y que se encuentran expresamente indicados en la póliza en caracteres destacados.\nFraccionamiento de Primas: Constituye la facilidad de pago que otorga la COMPAÑIA, mediante la cual se permite al Contratante y/o Asegurado pagar la prima correspondiente al período de vigencia de la póliza, en cuotas periódicas, según los términos acordados en el Convenio de Pago.\nInicio de Vigencia: Es la fecha que aparece en las Condiciones Particulares a partir de la cual comienzan a regir los beneficios del seguro, sujetos a los períodos de carencia establecidos en la póliza."
+    },
+    {
+      "id": "P9",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0070",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        1,
+        4
+      ],
+      "paginas": [
+        18
+      ],
+      "texto": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura\nAviso: Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.\nIndependientemente de la intervención del servicio de asistencia, el ASEGURADO o su beneficiario deberán dar aviso a la COMPAÑÍA por cualquiera de los medios de comunicación pactados, de la ocurrencia del siniestro, en un plazo no mayor a treinta (30) días calendario luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio, siempre y cuando el retraso obedezca a motivos de fuerza mayor, caso fortuito o imposibilidad de hecho."
+    },
+    {
+      "id": "P10",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0072",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        3,
+        4
+      ],
+      "paginas": [
+        19
+      ],
+      "texto": "La COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura; salvo que solicite una prórroga al CONTRATANTE y/o ASEGURADO para realizar nuevas investigaciones y obtener evidencias relacionadas con el siniestro. En caso que el CONTRATANTE y/o ASEGURADO no apruebe la solicitud de prórroga presentada por la COMPAÑÍA, ésta se sujetará al procedimiento establecido para tal efecto en el TUPA de la Superintendencia de Banca, Seguros y AFP’s.\nEn caso que la COMPAÑÍA requiera aclaraciones o precisiones adicionales, respecto a la documentación e información presentada, la COMPAÑÍA podrá realizar tal requerimiento dentro de los primeros veinte (20) días de recibida la documentación completa presentada para la solicitud de cobertura, lo que suspenderá el plazo de aprobación o rechazo hasta la presentación de la documentación e información correspondiente.\nEl plazo de veinte (20) días antes indicado se encuentra dentro de los treinta (30) días con el que cuenta La Aseguradora para pronunciarse sobre la aprobación o rechazo de la solicitud de cobertura."
+    },
+    {
+      "id": "P11",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0073",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        4,
+        4
+      ],
+      "paginas": [
+        19
+      ],
+      "texto": "Si la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA o, de ser el caso, la correspondiente prórroga, se pagará el beneficio dentro de los treinta (30) días calendarios siguientes."
+    },
+    {
+      "id": "P12",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0102",
+      "seccion": "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        1,
+        4
+      ],
+      "paginas": [
+        27
+      ],
+      "texto": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura\nAviso: Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.\nIndependientemente de la intervención del servicio de asistencia, el ASEGURADO o su beneficiario deberán dar aviso a la COMPAÑÍA por cualquiera de los medios de comunicación pactados, de la ocurrencia del siniestro, en un plazo no mayor a treinta (30) días calendario luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio siempre y cuando el retraso obedezca a motivos de fuerza mayor, caso fortuito o imposibilidad de hecho."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "Reembolso del importe del pasaje por enfermedad de carácter súbito que impide el viaje, según cobertura de cancelación por salud.",
+      "Exclusión de la cobertura cuando la enfermedad es preexistente o no se ha cumplido el periodo de carencia establecido.",
+      "Condiciones de vigencia: la enfermedad debe manifestarse dentro del plazo de 48 horas antes del vuelo, con deducible aplicable y límite de suma asegurada.",
+      "Trámite de siniestro: aviso inmediato a la central, presentación de certificado médico y documentos de compra del billete dentro del plazo de 5 días para reembolso."
+    ],
+    "terminos": [
+      "enfermedad súbita",
+      "cancelación de viaje",
+      "reembolso",
+      "pasaje",
+      "cobertura",
+      "exclusión",
+      "preexistente",
+      "carencia",
+      "deducible",
+      "límite"
+    ],
+    "hechos": [
+      "Enfermedad dos días antes del viaje",
+      "No pudo subir al avión",
+      "Solicita devolución del importe pagado"
+    ],
+    "ajuste": null
+  },
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El asegurado debe haber reservado y pagado o adeudado los costos del viaje antes de que la enfermedad súbita impidiera iniciar el viaje",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Debe presentar la documentación requerida (recibos, facturas, contratos de viaje, pasajes, vouchers, etc.) para solicitar el reembolso",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares y/o en el Certificado de Seguro",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares y Certificado de Seguro",
+        "por_que_importa": "En el artículo de cobertura se indica que el reembolso se hará \"hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro\", pero esos documentos no forman parte del texto proporcionado, por lo que necesitas solicitarlos para saber el monto máximo que podrías recibir."
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la devolución del importe que pagaste por el viaje si la enfermedad súbita te impidió iniciar el viaje, siempre que el gasto ya estuviera reservado y pagado antes de enfermarte y que presentes la documentación requerida (recibos, contratos, etc.). El reembolso se hará hasta el límite que figura en las Condiciones Particulares o en el Certificado de Seguro, que no están incluidos en este documento y deberías solicitarlos a la aseguradora."
+  },
+  "descartes": [
+    {
+      "tipo": "cita",
+      "n": 1,
+      "texto": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
+      "motivo": "no está literal en ningún pasaje"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El asegurado debe haber reservado y pagado o adeudado los costos del viaje antes de que la enfermedad súbita impidiera iniciar el viaje",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "condicion",
+      "texto": "El reembolso está limitado al monto máximo que aparece en las Condiciones Particulares y/o en el Certificado de Seguro",
+      "motivo": "sin cita válida"
+    },
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y Certificado de Seguro",
+      "motivo": "sin cita válida"
+    }
+  ],
+  "proveedor": {
+    "nombre": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "groq",
+        "modelo": "openai/gpt-oss-120b",
+        "tokens_entrada": 5194,
+        "tokens_salida": 2227,
+        "tokens_razonamiento": 1381,
+        "segundos": 5.59,
+        "costo_usd": 0.0
+      }
+    ],
+    "tokens": 7421,
+    "costo_usd": 0.0,
+    "segundos": 5.59
+  },
+  "prueba": {
+    "id": "P05",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites"
+    ],
+    "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
+  }
+}

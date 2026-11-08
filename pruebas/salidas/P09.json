@@ -1,0 +1,358 @@
+{
+  "modo": "completo",
+  "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
+  "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+  "aviso": null,
+  "cubre": "no",
+  "respuesta": "No, tu póliza no cubre la fractura porque la práctica de esquí está excluida. En la sección de exclusiones (P11) se indica que las asistencias por esquí no están cubiertas. Aunque la póliza menciona gastos médicos por accidente (P1), esa cobertura queda limitada por la exclusión. Además, los límites de cobertura están en las Condiciones Particulares, que no aparecen en este documento.",
+  "condiciones": [
+    {
+      "descripcion": "La práctica de esquí está excluida como deporte de alto riesgo",
+      "citas": [
+        2
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [
+    {
+      "descripcion": "Esquí excluido según la lista de deportes peligrosos",
+      "citas": [
+        2
+      ]
+    }
+  ],
+  "no_incluido_en_documento": [
+    {
+      "nombre": "Condiciones Particulares",
+      "por_que_importa": "establece el límite máximo de cobertura para gastos médicos, pero ese documento no está incluido en el texto proporcionado",
+      "cita": 1
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        297,
+        370
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas.",
+      "pasaje": "P11",
+      "trozo_id": "pacifico_viajes:0041",
+      "posicion": [
+        35,
+        1142
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "secciones_revisadas": [
+    "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+    "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
+    "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+    "PARTE F. OBLIGACIONES DEL TITULAR › 3. PROVISION DE DOCUMENTACION",
+    "PARTE E. DISPOSICIONES GENERALES › 11. Asistencias en curso",
+    "PARTE E. DISPOSICIONES GENERALES › 6. Adquisición del producto fuera del país de residencia"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "pacifico_viajes:0009",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        2,
+        3
+      ],
+      "texto": "1. Coberturas Básicas\nLas coberturas básicas del seguro son las siguientes:\n• Muerte Accidental.\n• Pérdida de equipaje.\nLa cuales están sujetas hasta el límite establecido en las Condiciones Particulares y/o en el Certificado de Seguro.\nCoberturas y/o beneficios adicionales (según se contrate)\n• Gastos y asistencias médicos por accidente y/o enfermedad no preexistente\n• Dolencias preexistentes y dolencias crónicas\n• Gastos odontológicos de urgencia\n• Medicamentos por atención ambulatoria y hospitalización\n• Acompañamiento de menores y/o mayores\n• Traslado de un familiar\n• Estancia de un familiar\n• Alojamiento de la persona que acompañará al asegurado en caso de hospitalización cuando viaja solo\n• Demora en la entrega del equipaje\n• Cancelación de viaje\n• Reembolso de gastos por vuelo demorado o cancelado\n• Cubrir diferencia de tarifa por viaje de regreso retrasado o anticipado\n• Reemplazo del ejecutivo\n• Robo de computador portátil\n• Robo en cajero automático\n• Protección de compras\n• Asistencia por responsabilidad en un accidente\n• Anticipo de fondos para fianzas\n• Repatriación o traslados funerarios\n• Servicios de asistencia en viajes\n• Viajes en el extranjero El detalle de las coberturas se encuentra señalado en el acápite 2 de la parte B de las Condiciones Generales de la Póliza."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "pacifico_viajes:0044",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        7,
+        8
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "• Riesgos profesionales Accidentes o enfermedades derivados del ejercicio de una actividad de alto riesgo que estuviera realizando el Titular incluyendo, pero no limitado a: trabajo en obras, andamios, alturas, pozos, utilización de maquinarias, instrumentos de corte, manejo o manipulación de mercancías u objetos pesados o peligrosos, productos tóxicos, corrosivos, explosivos o inflamables, trabajo en fuerzas armadas o seguridad, actividades agrícolas y transportistas. En todos los casos, los servicios descritos en estas Condiciones Generales serán complementarios de los que deban prestarse por parte de entidades asistenciales y de seguros según las normas de seguridad industrial y de riesgos laborales aplicables en el país donde se presente la enfermedad o accidente objeto del servicio.\n• Gastos no autorizados Gastos de hotel, restaurante, taxis, comunicaciones, etc. que no hayan sido expresamente autorizados por la aseguradora.\n• Acompañantes y gastos extras En los casos de hospitalización del Titular, se excluyen expresamente todos los gastos extras, así como de acompañantes."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "pacifico_viajes:0043",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        6,
+        8
+      ],
+      "paginas": [
+        14,
+        15
+      ],
+      "texto": "• Tensión arterial Controles de tensión arterial. Hipertensión arterial y sus consecuencias. No aplica para los productos que incluyan el ADD ON de preexistencia.\n• Visitas médicas no autorizadas Las visitas médicas de control, chequeos y tratamientos prolongados, que no sean previa y expresamente autorizadas por el Departamento Médico la aseguradora.\n• Prótesis y similares Gastos de prótesis odontológicas, audífonos, anteojos, lentes de contacto y prótesis funcionales de competición; como así también los gastos ocasionados por rotura, desgaste o mantenimiento de prótesis, órtesis, síntesis o ayudas mecánicas que resulten necesarios por el paso del tiempo o por algún motivo no accidental.\n• Tratamientos Los tratamientos odontológicos, oftalmológicos u otorrinolaringológicos, salvo la atención de urgencia descrita en estas Condiciones Generales.\n• Chequeos o exámenes de rutina y/o preventivos Los chequeos o exámenes médicos de rutina, incluso aquellos que no sean relacionados con una enfermedad diagnosticada y comprobada, así como aquellos que no sean consecuencia directa de una enfermedad o accidente objeto del servicio. Exámenes médicos escolares o universitarios. Aplicación de vacunas."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "pacifico_viajes:0038",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        1,
+        8
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "1. EXCLUSIONES GENERALES\n• Enfermedades crónicas y/o preexistentes:\nQuedan expresamente excluidos los estudios y/o los tratamientos relacionados con enfermedades Preexistentes.\nCuando se trate de enfermedades excluidas, PACIFICO SEGUROS sólo tomará a su cargo gastos hasta el tope indicado en su póliza y Condiciones Particulares en concepto de “Primera atención médica por enfermedades preexistentes”, cuando no se indique esta cláusula, el tope será de USD 300, siempre y cuando la misma se produzca durante un viaje internacional. PACIFICO SEGUROS no tomará a su cargo exámenes o internaciones tendientes a evaluar la condición médica de las enfermedades preexistentes y/o para descartar su relación con la afección que motiva la asistencia.\nSe deja expresa constancia que la limitación indicada en el párrafo precedente se refiere única y exclusivamente a la responsabilidad económica de PACIFICO SEGUROS y no a la atención médica por emergencia que resulte necesaria."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "pacifico_viajes:0012",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+      "parte": [
+        3,
+        3
+      ],
+      "paginas": [
+        3,
+        4
+      ],
+      "texto": "d. Las asistencias derivadas de cualquier tipo de ejercicio o juego atlético de acrobacia o que tenga por objeto pruebas de carácter excepcional o exhibiciones, o mientras participe en viajes o excursiones a regiones o zonas inexploradas, o cualquier clase de competencia de pericia o velocidad con vehículos mecánicos e. Las asistencias que puedan ocurrir como consecuencia de la práctica de trekking, senderismo y/o ciclismo luego de los 3.000 msnm (metros sobre el nivel del mar) y fuera de las ciclovías y/o senderos autorizados. f. Las asistencias que puedan ocurrir como consecuencia de la práctica de buceo por debajo de los 12 metros de profundidad. g. Enfermedades psicológicas, mentales, psicosis, neurosis y cualquiera de sus consecuencias mediatas o inmediatas h. Los chequeos o exámenes médicos de rutina, incluso aquellos que no sean relacionados con una enfermedad diagnosticada y comprobada, así como aquellos que no sean consecuencia directa de una enfermedad o accidente objeto del servicio PACIFICO SEGUROS. Exámenes médicos escolares o universitarios. Aplicación de vacunas Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales.\nTodas las demás exclusiones se encuentran señaladas en la parte C de las Condiciones Generales de la Póliza."
+    },
+    {
+      "id": "P6",
+      "rango": 6,
+      "trozo_id": "pacifico_viajes:0088",
+      "seccion": "PARTE F. OBLIGACIONES DEL TITULAR",
+      "articulo": "3. PROVISION DE DOCUMENTACION",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        26
+      ],
+      "texto": "De serle requerido, el Titular deberá presentar el Pasaporte con los sellos de las autoridades de Migraciones correspondientes a las fechas de salida y entrada al país de origen, o las constancias de salida y entrada al país de origen si no fuera requerido pasaporte por las autoridades migratorias En el supuesto de que el Titular, por razones de fuerza mayor, no hubiera podido cumplimentar la solicitud de autorización previa para contratar servicios por su cuenta, y sin perjuicio del cumplimiento de todas y cada una de las obligaciones indicadas en la presente cláusula, deberá proporcionar a PACIFICO SEGUROS todos los datos que le sean solicitados a los efectos de poder constatar el servicio obtenido, lo genuino de la emergencia que lo motivara y la imposibilidad de la comunicación previa. Lo anteriormente expuesto es condición imprescindible para poder obtener una autorización de pago y/o de reintegro de los gastos afrontados. Omitido por cualquier circunstancia el cumplimiento de este requisito, PACIFICO SEGUROS quedará facultada para denegar el pago y/o reintegro conforme a la evaluación que resultare luego de auditar el caso.\nEn caso de accidente se deberá acompañar para el reconocimiento de gastos la denuncia policial correspondiente, ello sin perjuicio de obtener la previa autorización por parte de PACIFICO SEGUROS."
+    },
+    {
+      "id": "P7",
+      "rango": 7,
+      "trozo_id": "pacifico_viajes:0069",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "11. Asistencias en curso",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        22
+      ],
+      "texto": "11. Asistencias en curso\nEn el caso de aquellas asistencias médicas autorizadas que se encuentren todavía en curso al momento del fin de la vigencia, y que impidan el retorno del Titular a su país de origen, se considerará extendida la vigencia del producto PACIFICO SEGUROS previa autorización del departamento médico de PACIFICO SEGUROS quien continuará prestando servicio hasta que el beneficiario se encuentre en condiciones de retornar al lugar de su residencia o hasta que se haya consumido el monto máximo global.\nÚnicamente para los servicios y gastos que guarden relación con la asistencia en curso y no así para las que se generen con posterioridad a la fecha original de finalización de vigencia."
+    },
+    {
+      "id": "P8",
+      "rango": 8,
+      "trozo_id": "pacifico_viajes:0062",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "6. Adquisición del producto fuera del país de residencia",
+      "parte": [
+        1,
+        3
+      ],
+      "paginas": [
+        20,
+        21
+      ],
+      "texto": "6. Adquisición del producto fuera del país de residencia\nA- EXTENSION DEL SERVICIO PACIFICO SEGUROS POR PROLONGACION DEL VIAJE La solicitud de emisión de una nueva póliza PACIFICO SEGUROS deberá efectuarse antes de la finalización de la vigencia de la póliza original, y el período de vigencia de la nueva póliza deberá ser inmediatamente consecutivo al de la original y no aplicará el periodo de Carencia.\nLa nueva Póliza PACIFICO SEGUROS emitida en las condiciones mencionadas en esta Cláusula no podrá ser utilizada bajo ningún concepto ni en ninguna circunstancia para iniciar o continuar el tratamiento y/o asistencia de problemas médicos que hubieran surgido durante la vigencia de la póliza PACIFICO SEGUROS original y/o anteriores o antes de la vigencia de la nueva Póliza PACIFICO SEGUROS, independientemente de que las gestiones o tratamientos en curso hayan sido indicados por PACIFICO SEGUROS o por terceros.\nEl Titular podrá adquirir una o más pólizas PACIFICO SEGUROS, siempre y cuando la vigencia acumulada de las mismas no supere el máximo de días consecutivos por viaje indicados en las Condiciones Particulares y/o Certificado de Seguro o 365 días consecutivos de viaje desde el inicio del viaje."
+    },
+    {
+      "id": "P9",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0039",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        2,
+        8
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "• Riña, huelga o tumulto. Actos ilegales, ilícitos o dolosos Afecciones, enfermedades o lesiones derivadas directa o indirectamente de riña (salvo que se trate de legítima defensa), huelga, actos de vandalismo o tumulto popular en que el Titular hubiese participado como elemento activo. El intento de o la comisión de un acto ilegal, ilícito o criminal de acuerdo a la legislación del país donde ocurra el evento. Consecuencias de cualquier acto provocado dolosamente o con culpa grave por el Titular, incluido el suministro de información falsa o diferente de la realidad. A los efectos de esta cláusula, se entiende por “culpa grave” a la acción groseramente negligente cometida por el Titular cuyo resultado, de obrar de esa manera, hubiera podido ser previsto por cualquier persona razonablemente diligente.\n• Suicidio Afecciones, enfermedades o lesiones resultantes del intento de suicidio o causadas intencionalmente por el Titular a sí mismo, sea en posesión de sus facultades mentales o no, así como sus consecuencias.\n• Drogas, narcóticos y/o afines Tratamiento de enfermedades o estados patológicos producidos por ingestión intencional o administración de tóxicos (drogas), narcóticos, o por la utilización de medicamentos sin orden médica. Asimismo, afecciones, enfermedades o lesiones derivadas de la ingestión de bebidas alcohólicas de cualquier tipo."
+    },
+    {
+      "id": "P10",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0040",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        3,
+        8
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "• Atención por personas o profesionales ajenos Enfermedades, lesiones, afecciones, consecuencias o complicaciones resultantes de tratamientos o asistencias recibidas por el Titular de parte de personas o profesionales no pertenecientes o autorizadas por la aseguradora."
+    },
+    {
+      "id": "P11",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0041",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        4,
+        8
+      ],
+      "paginas": [
+        14
+      ],
+      "texto": "• Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "Cobertura de gastos médicos por accidente de esquí, atención de urgencia, hospitalización, diagnóstico y tratamiento de fractura de pierna en Bariloche.",
+      "Exclusión de lesiones ocurridas fuera de pista autorizada, actividades de riesgo no declaradas y fracturas preexistentes no cubiertas por la póliza.",
+      "Condiciones de vigencia durante el viaje, territorio de cobertura en Argentina, límite de suma asegurada, deducible aplicable y ausencia de carencia para accidentes de esquí.",
+      "Procedimiento de aviso de siniestro a la central de asistencia, plazo de notificación, documentos requeridos y reembolso de gastos médicos conforme al beneficio contratado.",
+      "Posible requerimiento de autorización previa para tratamiento especializado y exclusión de gastos por equipos de protección no homologados."
+    ],
+    "terminos": [
+      "accidente",
+      "lesión",
+      "gastos médicos",
+      "hospitalización",
+      "deducible",
+      "suma asegurada",
+      "exclusión",
+      "vigencia",
+      "siniestr o",
+      "reembolso"
+    ],
+    "hechos": [
+      "fractura de pierna",
+      "esquí en pista autorizada",
+      "occurrido en Bariloche"
+    ],
+    "ajuste": null
+  },
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente"
+      },
+      {
+        "n": 2,
+        "pasaje": "P11",
+        "texto_literal": "Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La práctica de esquí está excluida como deporte de alto riesgo",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Esquí excluido según la lista de deportes peligrosos",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "cita": 1,
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "establece el límite máximo de cobertura para gastos médicos, pero ese documento no está incluido en el texto proporcionado"
+      }
+    ],
+    "cubre": "no",
+    "respuesta": "No, tu póliza no cubre la fractura porque la práctica de esquí está excluida. En la sección de exclusiones (P11) se indica que las asistencias por esquí no están cubiertas. Aunque la póliza menciona gastos médicos por accidente (P1), esa cobertura queda limitada por la exclusión. Además, los límites de cobertura están en las Condiciones Particulares, que no aparecen en este documento."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "groq",
+        "modelo": "openai/gpt-oss-120b",
+        "tokens_entrada": 4538,
+        "tokens_salida": 2218,
+        "tokens_razonamiento": 1635,
+        "segundos": 5.45,
+        "costo_usd": 0.0
+      }
+    ],
+    "tokens": 6756,
+    "costo_usd": 0.0,
+    "segundos": 5.45
+  },
+  "prueba": {
+    "id": "P09",
+    "poliza": "pacifico_viajes",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites",
+      "no_encontrado"
+    ],
+    "que_deberia_pasar": "La exclusión de esquí aplica solo fuera de pistas reglamentarias. Las coberturas básicas de este documento son muerte accidental y pérdida de equipaje; la asistencia médica estaría en cláusulas adicionales que no están en el documento."
+  }
+}

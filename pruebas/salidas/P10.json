@@ -1,0 +1,350 @@
+{
+  "modo": "completo",
+  "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
+  "documento": "Rimac Seguros · Seguro de Viaje",
+  "aviso": null,
+  "cubre": "con_limites",
+  "respuesta": "Tu póliza cubre la radiografía siempre que sea un examen de ayuda al diagnóstico ordenado por los médicos de La COMPAÑÍA. Para que el gasto sea reembolsado debes presentar la factura, la receta, la solicitud de reclamo y el informe del médico con los resultados de la radiografía. Si el estudio se realiza en un centro fuera de la red, deberás avisar a la compañía dentro de las 48 horas de iniciado el tratamiento.",
+  "condiciones": [
+    {
+      "descripcion": "Debe ser ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "Para el reembolso debe presentar facturas, indicaciones, recetas, solicitud de reclamo completa, informe del médico y los resultados de la radiografía",
+      "citas": [
+        2
+      ]
+    },
+    {
+      "descripcion": "Si el centro no está afiliado a la red, el asegurado debe avisar a la compañía dentro de 48 horas de iniciado el tratamiento",
+      "citas": [
+        3
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "texto_literal": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico.",
+      "pasaje": "P1",
+      "trozo_id": "rimac_viajes:0040",
+      "posicion": [
+        0,
+        333
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "25.4 Reembolso:\nSólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido.",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0101",
+      "posicion": [
+        0,
+        373
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.2. En caso de gastos médicos y hospitalarios, gastos",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "25.2 En caso de gastos médicos y hospitalarios, gastos\nodontológicos y evacuación médica:\nSólo en los casos de accidente, enfermedad súbita aguda o en la eventualidad de requerirse atención y la clínica o médico inmediato no estuviera afiliado a la red de proveedores de la COMPAÑÍA, el ASEGURADO podrá recurrir a dichos centros y profesionales, dando aviso a la COMPAÑÍA, dentro de las 48 horas de iniciado el tratamiento.",
+      "pasaje": "P4",
+      "trozo_id": "rimac_viajes:0099",
+      "posicion": [
+        0,
+        423
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "secciones_revisadas": [
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+    "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
+    "Condicionado General de la Póliza › ARTÍCULO 27º.- DEFINICIONES",
+    "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.2. En caso de gastos médicos y hospitalarios, gastos",
+    "Condicionado General de la Póliza › ARTÍCULO 7º.- DEFINICIÓN DE ENFERMEDAD PREEXISTENTE",
+    "Condicionado General de la Póliza › ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.16. Reembolso de gastos por vuelo demorado o cancelado",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "rimac_viajes:0040",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "rimac_viajes:0101",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        12
+      ],
+      "texto": "25.4 Reembolso:\nSólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido.\nLos recibos por honorarios profesionales deberán ser emitidos siempre a nombre del paciente asegurado. Las facturas deberán ser emitidas a nombre de Rimac Seguros y Reaseguros R.U.C. 20100041953."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "rimac_viajes:0106",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 27º.- DEFINICIONES",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "Beneficiarios: Se considera beneficiarios de estas coberturas a los herederos legales, salvo que en forma escrita el titular o Beneficiario designe expresamente a otros beneficiarios. Dicha notificación deberá realizarse previo al inicio del viaje, en forma escrita.\nPre-existencia: Se define como Pre-existencia a las enfermedades, dolencias, síntomas o signos conocidos o no por el ASEGURADO, que figuren en su Historia Clínica o se evidencien en los resultados de exámenes auxiliares diagnósticos sean estos de laboratorio, radiológicos o de otra índole, antes de la fecha de inicio de vigencia de la presente Póliza o de la solicitud de seguro. Se consideran también como pre-existentes, a las enfermedades, dolencias, síntomas o signos conocidos o no por el ASEGURADO ocurridas durante el período de carencia de las coberturas de este contrato.\nSe considera enfermedad pre-existente haya sido declarada o no en la solicitud de seguro y así el ASEGURADO hubiera o no recibido tratamiento medico, o hubiese o no tomado medicamentos.\nRecurrente: Regreso de la misma enfermedad luego de haber sido tratada. Usualmente, 3 o más veces durante un año calendario.\nPara acreditar la existencia del Contrato de Seguro de Asistencia Médica Salud Viajeros celebrado, RIMAC SEGUROS Y REASEGUROS expide la presente Póliza de Seguro."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "rimac_viajes:0099",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.2. En caso de gastos médicos y hospitalarios, gastos",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        12
+      ],
+      "texto": "25.2 En caso de gastos médicos y hospitalarios, gastos\nodontológicos y evacuación médica:\nSólo en los casos de accidente, enfermedad súbita aguda o en la eventualidad de requerirse atención y la clínica o médico inmediato no estuviera afiliado a la red de proveedores de la COMPAÑÍA, el ASEGURADO podrá recurrir a dichos centros y profesionales, dando aviso a la COMPAÑÍA, dentro de las 48 horas de iniciado el tratamiento.\nEn el caso de reembolso de estos gastos, el ASEGURADO tendrá que presentar las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido. Los comprobantes de pago deberán ser presentados en original."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "rimac_viajes:0028",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 7º.- DEFINICIÓN DE ENFERMEDAD PREEXISTENTE",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        4
+      ],
+      "texto": "ARTÍCULO 7º.- DEFINICIÓN DE ENFERMEDAD PRE- - EXISTENTE\n- Se define como Pre-existencia a las enfermedades, dolen cias, síntomas o signos conocidos o no por el ASEGURA DO, que figuren en su Historia Clínica o se evidencien en los resultados de exámenes auxiliares diagnósticos, sean estos de laboratorio, radiológicos o de otra índole, antes de la fecha de inicio de vigencia de la presente Póliza o de la solicitud de seguro. Se consideran también como pre-existentes, a las enfermedades, dolencias, síntomas o\n- signos conocidos o no por el ASEGURADO.\nSe considera enfermedad pre-existente, haya sido declara da o no en la solicitud de seguro y así el ASEGURADO hubiera o no recibido tratamiento médico, o hubiese o no tomado medicamentos."
+    },
+    {
+      "id": "P6",
+      "rango": 6,
+      "trozo_id": "rimac_viajes:0029",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
+      "parte": [
+        1,
+        5
+      ],
+      "paginas": [
+        4
+      ],
+      "texto": "ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS\n- La presente Póliza no cubre causas, consecuencias ni complicaciones de un tratamiento médico y/o quirúrgi co no cubiertos por este plan, así como los gastos relacionados con lo siguiente:\na) Enfermedades crónicas o preexistentes, congénitas y recurrentes, padecidas con anterioridad al inicio de\n- la vigencia del Plan y/o del viaje, conocidas o no por el ASEGURADO, así como sus agudizaciones y consecuencias, incluso cuando las mismas aparez\n- can durante el viaje.\n-\nb) Enfermedades, lesiones, afecciones o complicacio nes resultantes de tratamientos médicos y farmacéu ticos efectuados por personas o profesionales no autorizados por el Departamento Médico de la\n- Central de Asistencia.\nc) Tratamientos homeopáticos, acupuntura, quinesiote rapia, curas termales, podología, quiroprácticos, tratamiento por medio de medicina no convencional, tratamientos experimentales o investigativos.\nd) Enfermedades o lesiones resultantes de intento de suicidio o causadas intencionalmente por el ASEGURADO a sí mismo.\ne) Afecciones, enfermedades o lesiones derivadas de accidentes de trabajo, intento o acción criminal o penal del ASEGURADO, directa o indirectamente.\nf) Afecciones o lesiones consecuentes a la exposición al sol."
+    },
+    {
+      "id": "P7",
+      "rango": 7,
+      "trozo_id": "rimac_viajes:0051",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.16. Reembolso de gastos por vuelo demorado o cancelado",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        7
+      ],
+      "texto": "9.16 Reembolso de gastos por vuelo demorado o cancelado\nSi el vuelo del ASEGURADO fuera demorado por más de seis (6) horas consecutivas a la programada originalmente para él y no exista otra alternativa de transporte durante dicho periodo de tiempo, la COMPAÑÍA reintegrará hasta el tope de cobertura convenido, en razón de gastos de hotel, comidas y comunicaciones realizadas durante la demora y contra presentación de sus comprobantes originales, acompañados de un Certificado de la Compañía Aérea en el cual especifique la demora o cancelación sufrida por el vuelo del ASEGURADO.\nEste beneficio no se cubrirá si el ASEGURADO viajara con un boleto sujeto a disponibilidad de espacio."
+    },
+    {
+      "id": "P8",
+      "rango": 8,
+      "trozo_id": "rimac_viajes:0035",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        5
+      ],
+      "texto": "9.1 Asistencia médica por accidente y por Enfermedad\nA. Consultas médicas: Se prestarán en caso de accidente o enfermedad aguda e imprevista, incluyendo la opción de repatriación del ASEGURADO a su país de origen si su estado de salud lo permite. La Central de Asistencia se reserva el derecho de decidir el más adecuado de entre los tratamientos propuestos por el Departamento Médico.\nB. Atención por especialistas: Cuando sea indicada por el Departamento Médico de la Central de Asistencia del área donde se encuentre el ASEGURADO.\nC. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.\nD. Internaciones: De acuerdo a la naturaleza de la lesión o enfermedad, y siempre que el Departamento Médico de la Central de Asistencia así lo prescriba, se procederá a la internación del ASEGURADO en el Centro Hospitalario más próximo al lugar donde éste se encuentre."
+    },
+    {
+      "id": "P9",
+      "rango": 0,
+      "trozo_id": "rimac_viajes:0105",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 27º.- DEFINICIONES",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "ARTÍCULO 27º.- DEFINICIONES\nQueda convenido entre las partes que el significado de las palabras más adelante indicadas es el siguiente:\nAccidente: El evento generativo de un daño corporal que sufre el Beneficiario, causado por agentes extraños, fuera de control y en movimiento, externos, violentos y visibles.\nSiempre que se mencione el término \"accidente\" se entenderá que la lesión o dolencia resultante fue provocada directamente por tales agentes e independientemente de cualquier otra causa.\nAsegurados Dependientes: Se consideran Asegurados Dependientes el cónyuge e hijos del Asegurado Titular.\nCentral de Asistencia u Operativa: La oficina que coordina el otorgamiento de coberturas requeridas por el ASEGURADO con motivo de su Póliza de Asistencia Médica Salud Viajeros.\nCrónico: Todo proceso patológico continuo y persistente en el tiempo, mayor de treinta (30) días de duración.\nEnfermedad Aguda: Proceso corto y relativamente severo de alteración del estado del cuerpo o alguno de sus órganos, que pudiere interrumpir o alterar el equilibrio de las funciones vitales, pudiendo provocar dolor, debilidad u otra manifestación extraña al comportamiento normal del mismo.\nEnfermedad Repentina o Imprevista: Enfermedad pronta, impensada, no prevista, contraída con posterioridad a la fecha de inicio de vigencia de la Póliza de Seguro."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "Gastos médicos por radiografía solicitada durante el viaje, cobertura de exámenes diagnósticos y reembolso de costos hospitalarios",
+      "Exclusiones aplicables a radiografías realizadas por condiciones preexistentes o falta de autorización previa de la aseguradora",
+      "Condiciones de cobertura: vigencia del seguro durante el viaje, límite de suma asegurada para exámenes diagnósticos y deducible aplicable",
+      "Trámite de siniestro: aviso a la central de asistencia, plazo de presentación de facturas, documentos requeridos para reembolso de radiografía",
+      "Cobertura de urgencia médica: atención de emergencias, diagnóstico y tratamiento inmediato, incluido examen radiográfico, según póliza de viaje"
+    ],
+    "terminos": [
+      "gastos médicos",
+      "radiografía",
+      "cobertura",
+      "exclusión",
+      "deducible",
+      "suma asegurada",
+      "vigencia",
+      "siniestro",
+      "reembolso",
+      "diagnóstico"
+    ],
+    "hechos": [
+      "Durante el viaje el médico solicitó una radiografía",
+      "El asegurado pregunta si Rimac cubre ese gasto"
+    ],
+    "ajuste": null
+  },
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "25.4 Reembolso:\nSólo en los casos para el reembolso de algún gasto médico cubierto, es necesario que se presenten las facturas, indicaciones y recetas, la solicitud de reclamo debidamente completada con los datos del paciente y con el informe del médico, así como todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido."
+      },
+      {
+        "n": 3,
+        "pasaje": "P4",
+        "texto_literal": "25.2 En caso de gastos médicos y hospitalarios, gastos\nodontológicos y evacuación médica:\nSólo en los casos de accidente, enfermedad súbita aguda o en la eventualidad de requerirse atención y la clínica o médico inmediato no estuviera afiliado a la red de proveedores de la COMPAÑÍA, el ASEGURADO podrá recurrir a dichos centros y profesionales, dando aviso a la COMPAÑÍA, dentro de las 48 horas de iniciado el tratamiento."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "Debe ser ordenado por los médicos de La COMPAÑÍA o indicado por el Departamento Médico de la Central de Asistencia",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Para el reembolso debe presentar facturas, indicaciones, recetas, solicitud de reclamo completa, informe del médico y los resultados de la radiografía",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "Si el centro no está afiliado a la red, el asegurado debe avisar a la compañía dentro de 48 horas de iniciado el tratamiento",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "no_incluido_en_documento": [],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre la radiografía siempre que sea un examen de ayuda al diagnóstico ordenado por los médicos de La COMPAÑÍA. Para que el gasto sea reembolsado debes presentar la factura, la receta, la solicitud de reclamo y el informe del médico con los resultados de la radiografía. Si el estudio se realiza en un centro fuera de la red, deberás avisar a la compañía dentro de las 48 horas de iniciado el tratamiento."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "groq",
+        "modelo": "openai/gpt-oss-120b",
+        "tokens_entrada": 3738,
+        "tokens_salida": 1893,
+        "tokens_razonamiento": 1331,
+        "segundos": 4.53,
+        "costo_usd": 0.0
+      }
+    ],
+    "tokens": 5631,
+    "costo_usd": 0.0,
+    "segundos": 4.53
+  },
+  "prueba": {
+    "id": "P10",
+    "poliza": "rimac_viajes",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "si",
+      "con_limites"
+    ],
+    "que_deberia_pasar": "Citar el numeral 9.5 Exámenes de ayuda al diagnóstico del Artículo 9° (póliza a dos columnas)."
+  }
+}

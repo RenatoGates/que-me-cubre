@@ -49,6 +49,12 @@ def buscar(pregunta: str, sha256_pdf: str) -> dict | None:
     return {k: entrada[k] for k in ("variantes", "terminos", "hechos")} | {"ajuste": None}
 
 
+def tokens_generacion(pregunta: str, sha256_pdf: str) -> dict | None:
+    """Tokens que costó generar esa normalización (lo que gastaría en vivo sin la caché)."""
+    entrada = _cargar().get(clave(pregunta, sha256_pdf))
+    return entrada.get("tokens") if entrada else None
+
+
 # --- Escritura: solo desde ai/preparar_demo.py (local, preguntas públicas) ---
 
 

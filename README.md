@@ -83,8 +83,11 @@ la cifra de 1 GB con la que se planificó era la de documentación anterior. Aun
 máximo actual, el modelo quedaría por encima del mínimo garantizado y se arriesgaría la
 demo en vivo, así que la app usa BM25. Como BM25 busca por palabras, la normalización no
 devuelve una frase sino de 3 a 5 variantes con los sinónimos del seguro, y los rankings se
-combinan. Comparación medida en las 10 preguntas de prueba: pendiente
-(`pruebas/evaluar_recuperacion.py`).
+combinan. Medido en las 9 preguntas de prueba con artículo esperado
+([`pruebas/recuperacion.md`](pruebas/recuperacion.md)): con los 5 primeros pasajes, BM25 con
+variantes encuentra el artículo en 6 de 9, embeddings con la pregunta original en 5 de 9 y
+BM25 con la pregunta original en 2 de 9. Los embeddings no ganan en conjunto, pero sí
+encuentran el caso de la torcedura en Tarapoto (P01), que BM25 deja en el puesto 9.
 
 ### Cómo correrlo en local
 
@@ -113,7 +116,18 @@ el plan gratuito de Streamlit Community Cloud, ninguno de los dos cobra por toke
 hora. Lo que se cede a cambio es capacidad: el plan gratuito limita peticiones y tokens por
 minuto y por día. Cada consulta hace dos llamadas al modelo (normalizar y responder); las
 preguntas ensayadas tienen la normalización en una caché versionada y gastan una sola.
-Tokens por consulta medidos: pendiente (`pruebas/resultados.md`).
+
+Tokens por consulta medidos en las 10 preguntas ([`pruebas/resultados.md`](pruebas/resultados.md)):
+la respuesta gasta en promedio 6583 (entre 5631 y 7421: unos 4770 de entrada, casi todo
+pasajes, y 1813 de salida, de la que el 71 % es razonamiento del modelo); la normalización,
+unos 950 más. Una pregunta nueva gasta en promedio 7541.
+
+El límite que pesa es el de **8000 tokens por minuto**. Medido con las cabeceras de Groq:
+funciona como un balde que se rellena a 133 tokens por segundo; una llamada entra si quedan
+libres más o menos los tokens de su entrada (Groq pidió 5428 para una entrada de 5040, sin
+contar el máximo de salida) y después se descuenta lo que gastó de verdad. Con estas cifras,
+5 consultas seguidas necesitan una cada 46 s si están en la caché y una cada 54 s si son
+nuevas.
 
 ## 8. Herramientas del curso
 
@@ -152,9 +166,17 @@ que-me-cubre/
 - **Embeddings fuera de la app:** ver "Por qué BM25 y no embeddings" en la sección 6. Los
   embeddings se calculan en la ingesta solo para la comparación de `pruebas/`.
 - **Plan gratuito del modelo:** tiene límites de peticiones y tokens por minuto. Si se
-  alcanzan, la app muestra las cláusulas encontradas sin texto generado. Si el límite llega
-  en la normalización de una pregunta nueva, la búsqueda usa la pregunta tal cual y es
-  menos precisa (en las pruebas, BM25 con la pregunta original acierta 4 de 9).
+  alcanzan, la app muestra las cláusulas encontradas sin texto generado. Lo mismo pasa si el
+  modelo no logra un JSON que cumpla el esquema (Groq lo rechaza con `json_validate_failed`;
+  ocurrió en 1 de unas 30 llamadas con `gpt-oss-120b`). Si el límite llega en la
+  normalización de una pregunta nueva, la búsqueda usa la pregunta tal cual y es menos
+  precisa (en las pruebas, BM25 con la pregunta original acierta 4 de 9 con 8 pasajes).
+- **Resultados de las pruebas:** 6 de 10 veredictos aceptables. En P01 y P02 (los dos casos
+  reales) la búsqueda no trae el artículo que responde; en P03 el modelo unió oraciones no
+  contiguas en sus citas, la verificación las descartó y el veredicto pasó a "no
+  encontrado"; en P09 el modelo leyó como total una exclusión de esquí que es solo fuera de
+  pista. Todas las citas mostradas están literales en su página
+  ([`pruebas/verificacion_citas.md`](pruebas/verificacion_citas.md)).
 - **Caché de normalizaciones:** solo contiene preguntas públicas de ensayo y de prueba
   (`data/demo/`, `pruebas/`), generadas en local con `python -m ai.preparar_demo`. La app
   la lee, nunca escribe en ella.
