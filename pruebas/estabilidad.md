@@ -2,12 +2,15 @@
 
 Generado por `pruebas/medir_estabilidad.py`. Misma normalización (caché), mismos pasajes
 y mismo mensaje al modelo en cada intento; lo que cambia es lo que el modelo genera.
+Sin reintentos: cada intento es lo que vería el usuario en la app (que no reintenta).
 *Aceptable* es el criterio de `pruebas/preguntas.json`, fijado antes de correr nada. Desde el
 bloque determinista, la referencia ausente exigida puede venir del bloque (lo pone el código) o
 de "no incluido" (lo pone el modelo); las columnas las separan.
 
 La serie anterior de P02, sin el bloque determinista (0 de 5: el modelo nunca mencionó B4), está
-en `pruebas/estabilidad/sin_bloque/`.
+en `pruebas/estabilidad/sin_bloque/`. En esa serie un intento más cayó en la red de seguridad y
+el script de entonces abortó sin guardarlo y lo rehízo: al primer intento fueron 6 llamadas, 1 sin
+texto (tipo de falla no registrado).
 
 ## P02: Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?
 

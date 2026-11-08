@@ -13,12 +13,20 @@ No hay respaldo automático: si el proveedor elegido falla, llega a su límite o
 genera un JSON válido, se informa (LimiteAlcanzado / ProveedorNoDisponible / SalidaInvalida)
 y la app decide qué mostrar. Nunca cambia de
 modelo ni de proveedor por su cuenta. Las claves vienen de .env o st.secrets.
+
+Registro: cada falla de una llamada deja una línea en stderr (en Streamlit Cloud, los logs
+de "Manage app") con la tarea, el código HTTP, el código de error de Groq y su mensaje.
+Nunca la pregunta, los pasajes ni lo que generó el modelo: del mensaje se borran los
+valores entre comillas (pueden ser texto generado) y el id de la organización.
 """
 
 from __future__ import annotations
 
 import json
+import logging
 import os
+import re
+import sys
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -27,6 +35,31 @@ from typing import Literal
 Tarea = Literal["normalizacion", "respuesta"]
 
 ESPERA_MAXIMA_REINTENTO = 8.0  # s: si el proveedor pide esperar más, se avisa en vez de esperar
+
+log = logging.getLogger("qmc.llm")
+if not log.handlers:  # Streamlit no configura el registro raíz: sin esto, INFO no se vería
+    _manejador = logging.StreamHandler(sys.stderr)
+    _manejador.setFormatter(logging.Formatter("%(asctime)s qmc.llm %(levelname)s %(message)s"))
+    log.addHandler(_manejador)
+    log.setLevel(logging.INFO)
+    log.propagate = False
+
+_ENTRE_COMILLAS = re.compile(r"'([^'\n]*)'|\"([^\"\n]*)\"")
+_CAMPO = re.compile(r"[a-z_]{1,40}")  # nombres de campo del esquema ("podrian_aplicar"): se dejan
+_ORGANIZACION = re.compile(r"org_[A-Za-z0-9]+")
+
+
+def mensaje_seguro(texto: str | None, limite: int = 400) -> str:
+    """El mensaje de error del proveedor, sin nada que pueda venir de la pregunta, de la
+    póliza o de lo generado: los valores entre comillas se reemplazan por '...' (salvo nombres
+    de campo) y el id de la organización también."""
+
+    def cambiar(m: re.Match) -> str:
+        valor = m.group(1) if m.group(1) is not None else m.group(2)
+        return m.group(0) if _CAMPO.fullmatch(valor) else "'...'"
+
+    limpio = _ORGANIZACION.sub("org_...", _ENTRE_COMILLAS.sub(cambiar, texto or ""))
+    return " ".join(limpio.split())[:limite]
 
 
 class ErrorLLM(RuntimeError):
@@ -46,8 +79,10 @@ class ProveedorNoDisponible(ErrorLLM):
 
 
 class SalidaInvalida(ErrorLLM):
-    """El modelo no produjo un JSON válido: no cumplió el esquema (Groq: json_validate_failed,
-    medido en ~1 de cada 30 llamadas), se cortó por longitud o no se pudo leer."""
+    """El modelo no produjo un JSON válido: se cortó al llegar al tope de tokens, no cumplió
+    el esquema o no se pudo leer. Ojo: con json_schema, Groq informa el corte por tope como
+    400 json_validate_failed ("max completion tokens reached…"), no como finish_reason
+    "length"; por eso "JSON inválido" casi siempre es "se acabó el tope"."""
 
 
 def config(nombre: str, defecto: str | None = None) -> str | None:
@@ -110,6 +145,7 @@ class Proveedor(ABC):
         try:
             datos = json.loads(texto)
         except json.JSONDecodeError as e:
+            log.warning("%s %s: JSON ilegible | %d caracteres | %d+%d tokens", self.nombre, tarea, len(texto), t_in, t_out)
             raise SalidaInvalida("El modelo devolvió un JSON inválido.") from e
         return datos, Uso(self.nombre, modelo, t_in, t_out, time.perf_counter() - t0, t_razon)
 
@@ -157,29 +193,38 @@ class ProveedorGroq(Proveedor):
                 max_completion_tokens=self._MAX_TOKENS[tarea],
             )
 
+        tope, esfuerzo = self._MAX_TOKENS[tarea], self._ESFUERZO[tarea]
         for intento in (1, 2):
             try:
                 r = pedir()
                 break
-            except groq.RateLimitError as e:
+            except groq.RateLimitError as e:  # un 429 no gasta tokens: esperar ≤ 8 s no gasta cuota
                 espera = _segundos(e.response.headers.get("retry-after"))
+                _registrar(tarea, tope, esfuerzo, e, f"retry-after {espera}")
                 if intento == 1 and espera is not None and espera <= ESPERA_MAXIMA_REINTENTO:
                     time.sleep(espera)
                     continue
                 raise LimiteAlcanzado("Groq: se alcanzó el límite del plan gratuito.", espera) from e
             except groq.AuthenticationError as e:
+                _registrar(tarea, tope, esfuerzo, e)
                 raise ErrorLLM("La clave de Groq no es válida.") from e
             except (groq.APIConnectionError, groq.APITimeoutError, groq.InternalServerError) as e:
+                _registrar(tarea, tope, esfuerzo, e)
                 raise ProveedorNoDisponible("Groq no responde en este momento.") from e
             except groq.APIStatusError as e:
+                codigo, mensaje = _registrar(tarea, tope, esfuerzo, e)
                 if e.status_code == 413:  # la petición sola supera los tokens por minuto del plan
                     raise LimiteAlcanzado("Groq: la consulta supera el límite por minuto del plan gratuito.") from e
-                if e.status_code == 400 and "json_validate_failed" in (e.response.text or ""):
+                if e.status_code == 400 and (codigo == "json_validate_failed" or "json_validate_failed" in (e.response.text or "")):
+                    if "max completion tokens" in mensaje:
+                        raise SalidaInvalida(f"Groq: la respuesta se cortó al llegar al tope de {tope} tokens.") from e
                     raise SalidaInvalida("Groq: el modelo no generó un JSON que cumpla el esquema.") from e
                 raise ErrorLLM(f"Groq rechazó la solicitud ({e.status_code}).") from e
 
         eleccion = r.choices[0]
         if eleccion.finish_reason == "length":
+            log.warning("groq %s: finish_reason length | %d+%d tokens | tope %d | razonamiento %s",
+                        tarea, r.usage.prompt_tokens, r.usage.completion_tokens, tope, esfuerzo)
             raise SalidaInvalida("La respuesta del modelo se cortó por longitud.")
         detalle = getattr(r.usage, "completion_tokens_details", None)
         razon = getattr(detalle, "reasoning_tokens", 0) or 0
@@ -304,6 +349,24 @@ def obtener_proveedor() -> Proveedor:
     if nombre not in PROVEEDORES:
         raise ErrorLLM(f"QMC_PROVEEDOR='{nombre}' no existe; usa: {', '.join(PROVEEDORES)}.")
     return PROVEEDORES[nombre]()
+
+
+def _registrar(tarea: str, tope: int, esfuerzo: str, e: Exception, extra: str = "") -> tuple[str | None, str]:
+    """Una línea en stderr por cada falla de Groq: tarea, HTTP, código y mensaje de Groq
+    (limpio con mensaje_seguro). No incluye la pregunta, los pasajes ni failed_generation.
+    Devuelve (código de error, mensaje limpio) para clasificar la falla."""
+    status = getattr(e, "status_code", None)
+    codigo, mensaje = None, ""
+    respuesta = getattr(e, "response", None)
+    if respuesta is not None:
+        try:
+            error = json.loads(respuesta.text or "{}").get("error") or {}
+            codigo, mensaje = error.get("code"), mensaje_seguro(error.get("message"))
+        except (ValueError, AttributeError):
+            mensaje = ""
+    log.warning("groq %s: %s %s %s | tope %d | razonamiento %s%s | %s", tarea, type(e).__name__, status or "-",
+                codigo or "-", tope, esfuerzo, f" | {extra}" if extra else "", mensaje or "(sin mensaje)")
+    return codigo, mensaje
 
 
 def _segundos(valor: str | None) -> float | None:

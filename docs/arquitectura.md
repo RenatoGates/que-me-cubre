@@ -75,7 +75,6 @@ Groq. Se reemplazan por capturas de la app desplegada cuando se pruebe en vivo.
 
 3. La torcedura en Tarapoto (P01): una cita desplegada con su texto literal y página, y la
    preexistencia en "exclusiones que podrían aplicar según tu caso". El texto grabado abre
-   con "Sí," (es anterior al prompt que se lo prohíbe): quedó marcado y la etiqueta de arriba,
-   "Cubre con límites", es la que manda.
+   con "Sí,": quedó marcado y la etiqueta de arriba, "Cubre con límites", es la que manda.
 
    ![Respuesta a la torcedura con citas](capturas/3_respuesta_torcedura_citas.png)

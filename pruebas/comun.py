@@ -77,6 +77,15 @@ def bloque_txt(r: dict) -> str:
     return "; ".join(nombres + ([f"+{remisiones} remisiones"] if remisiones else [])) or "—"
 
 
+def apertura_txt(r: dict) -> str:
+    """La marca de apertura contradictoria. Las salidas anteriores al cambio de recortar a
+    marcar la tienen en los descartes ("abre con …"): también se muestran."""
+    if r.get("apertura_contradictoria"):
+        return f"«{r['apertura_contradictoria']['palabra']}» (marcada)"
+    viejo = next((d for d in r.get("descartes", []) if d["tipo"] == "texto" and d["motivo"].startswith("abre con")), None)
+    return f"«{viejo['motivo'].split('«')[1].split('»')[0]}» (recortada)" if viejo else "—"
+
+
 def guardar_json(ruta: Path, datos) -> None:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")

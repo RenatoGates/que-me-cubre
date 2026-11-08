@@ -10,10 +10,11 @@ La validación es código, no confianza en el modelo:
   códigos de cobertura, documentos ni títulos de cláusula que no estén en las citas
   verificadas: la oración que lo hace se recorta;
 - el veredicto es el campo estructurado "cubre" y la interfaz lo muestra arriba como
-  etiqueta ("etiqueta_veredicto"); el texto del modelo va debajo, como explicación, y el
-  prompt le pide no empezar con "Sí" ni con "No". Si aun así abre contradiciendo el
-  veredicto ("Sí, está cubierta…" con "con límites"), no se borra nada: queda marcado en
-  "apertura_contradictoria" para la auditoría, y la etiqueta de arriba sigue mandando;
+  etiqueta ("etiqueta_veredicto"); el texto del modelo va debajo, como explicación. Si abre
+  contradiciendo el veredicto ("Sí, está cubierta…" con "con límites"), no se borra nada:
+  queda marcado en "apertura_contradictoria" para la auditoría, y la etiqueta de arriba
+  sigue mandando. (Se probó pedirle en el prompt que no abriera con "Sí" ni "No": la
+  respuesta pasó a cortarse en el tope de tokens en 3 de 3 consultas y se revirtió.);
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
 Aparte, sin pasar por el modelo: si un pasaje recuperado menciona una cobertura, un anexo o
@@ -388,6 +389,7 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         "normalizacion": norm,
         "proveedor": _info_proveedor(proveedor),
         "error": type(error).__name__,
+        "error_detalle": str(error),  # mensaje propio ("se cortó al llegar al tope…"), sin contenido
         "uso": _uso(usos, desde_cache),
     }
 

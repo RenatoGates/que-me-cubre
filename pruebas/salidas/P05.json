@@ -373,5 +373,11 @@
       "con_limites"
     ],
     "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
+  },
+  "primer_intento": {
+    "modo": "solo_clausulas",
+    "error": null,
+    "error_detalle": "tipo no registrado: el script de entonces no lo guardaba",
+    "fuente": "registro de la corrida del 2026-11-08 13:01 (commit 039314c): «límite alcanzado; espero 60 s y reintento una vez» antes de P05"
   }
 }

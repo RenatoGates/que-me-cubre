@@ -10,7 +10,9 @@ Datos con Python. Enunciado: [d2cml-ai/Data-Science-Python#204](https://github.c
 > toma la aseguradora.
 >
 > **Privacidad.** El PDF que subes se procesa en memoria: no se guarda en disco, ni en
-> logs, ni en ningún estado persistente. Las consultas no se registran. Para redactar la
+> logs, ni en ningún estado persistente. Las consultas no se registran: si una llamada al
+> modelo falla, los logs de la app guardan solo el código y el mensaje de error del
+> proveedor, nunca la pregunta ni el texto de la póliza. Para redactar la
 > respuesta, tu pregunta y los fragmentos de la póliza que encontré (no el PDF entero) se
 > envían al proveedor del modelo: Groq, con retención cero de datos activada.
 
@@ -109,10 +111,11 @@ Contrato para la interfaz (los campos salen de `responder` en [`ai/respuesta.py`
 1. **Arriba, como etiqueta bien visible, el veredicto**, sacado del campo estructurado
    `cubre` (`etiqueta_veredicto`: "Cubre", "Cubre con límites", "No cubre", "No está en tu
    póliza"). Es la fuente de verdad: el texto del modelo nunca la reemplaza.
-2. **Debajo, el texto del modelo como explicación** de las condiciones y los límites. El
-   prompt le pide no empezar con "Sí" ni con "No". Si aun así abre contradiciendo el
-   veredicto, no se borra nada: queda marcado en `apertura_contradictoria`, se lista en la
-   auditoría y la etiqueta de arriba sigue mandando.
+2. **Debajo, el texto del modelo como explicación** de las condiciones y los límites. Si
+   abre contradiciendo el veredicto ("Sí, está cubierta…" con "con límites"), no se borra
+   nada: queda marcado en `apertura_contradictoria`, se lista en la auditoría y la etiqueta
+   de arriba sigue mandando. (Pedirle en el prompt que no abriera con "Sí" ni "No" se probó
+   y se revirtió: ver "Plan gratuito del modelo" en Limitaciones.)
 3. Las condiciones y las exclusiones que aplican, cada una con sus citas, y aparte "exclusiones
    que podrían aplicar según tu caso" (`podrian_aplicar`): útil, pero no afirmado.
 4. **Lo que la póliza menciona pero no trae** (`mencionadas_ausentes`), que calcula el
@@ -136,8 +139,9 @@ streamlit run app/app.py
 Para maquetar sin gastar cuota, `QMC_PROVEEDOR=grabado streamlit run app/app.py`: la
 respuesta del modelo es la que ya dio para esa pregunta en `pruebas/salidas/` y todo lo
 demás corre de verdad (las preguntas sin grabación caen en la red de seguridad). La
-interfaz se prueba sin navegador con `python pruebas/probar_app.py`, y las capturas salen
-de `python pruebas/capturas.py --url ...` (Playwright, solo en local).
+interfaz se prueba sin navegador con `python pruebas/probar_app.py`; cómo se clasifican y
+registran las fallas de Groq (sin red), con `python pruebas/probar_llm.py`; y las capturas
+salen de `python pruebas/capturas.py --url ...` (Playwright, solo en local).
 
 Desplegar en Streamlit Community Cloud: *Create app* desde este repositorio, rama `main`,
 archivo `app/app.py`; en *Advanced settings*, Python 3.11 y en *Secrets*
@@ -230,23 +234,38 @@ que-me-cubre/
   embeddings se calculan en la ingesta solo para la comparación de `pruebas/`.
 - **Plan gratuito del modelo:** tiene límites de peticiones y tokens por minuto. Si se
   alcanzan, la app muestra las cláusulas encontradas sin texto generado. Lo mismo pasa si el
-  modelo no logra un JSON que cumpla el esquema (Groq lo rechaza con `json_validate_failed`;
-  ocurrió en 1 de unas 30 llamadas con `gpt-oss-120b`). Si el límite llega en la
-  normalización de una pregunta nueva, la búsqueda usa la pregunta tal cual y es menos
-  precisa (en las pruebas, BM25 con la pregunta original acierta 4 de 9 con 8 pasajes).
-- **Resultados de las pruebas:** 9 de 10 veredictos aceptables
-  ([`pruebas/resultados.md`](pruebas/resultados.md)), con el código de la corrida del
-  2026-11-08 (commit 039314c). Después se cambió el prompt para que la respuesta no escriba
-  el veredicto, y eso no se volvió a medir. P10 queda en "no encontrado" porque el filtro
-  suave dejó su artículo en el puesto 11 (ver el punto siguiente). Las 20 citas mostradas
-  están literales en su página y las 23 menciones del bloque de ausentes también
+  modelo no logra un JSON válido, y la app no reintenta (un reintento duplica la espera y la
+  cuota). Groq lo rechaza con `json_validate_failed`, y ese código incluye el caso más
+  común: la respuesta se cortó al llegar al tope de 3000 tokens de salida, que cuenta
+  también el razonamiento del modelo. El tope no se puede subir mucho: por los 413 que dio
+  Groq en las pruebas, cuenta la entrada más el tope contra los 8000 tokens por minuto (P02
+  entra con 3734). Con el prompt actual, en las corridas medidas 2 de 27 llamadas salieron
+  sin texto al primer intento: P05 en la corrida de las 10 preguntas y un intento de la
+  primera serie de P02, que el script de entonces rehízo sin guardarlo. Ninguno registró el
+  tipo de falla; la salida más larga que sí entró usó 2550 de los 3000. Una regla agregada
+  al prompt para que la respuesta no abriera con "Sí" ni "No" lo empeoró: desplegada sin
+  medir, 3 de 3 consultas se cortaron (2 en la app desplegada y la reproducción en local,
+  con el mensaje de Groq "max completion tokens reached"), y se revirtió al prompt de las
+  corridas medidas. Cada falla deja en los logs la tarea, el código y el mensaje de Groq,
+  sin la pregunta ni lo generado. Si el límite llega en la normalización de una pregunta
+  nueva, la búsqueda usa la pregunta tal cual y es menos precisa (en las pruebas, BM25 con
+  la pregunta original acierta 4 de 9 con 8 pasajes).
+- **Resultados de las pruebas:** 8 de 10 veredictos aceptables al primer intento, que es lo
+  que vive el usuario porque la app no reintenta. El script de pruebas reintenta una vez
+  para avanzar la corrida y con ese reintento da 9 de 10: P05 salió sin texto la primera vez
+  (el tipo de falla no se registraba entonces) y aceptable la segunda
+  ([`pruebas/resultados.md`](pruebas/resultados.md), que da los dos números). Es el código
+  de la corrida del 2026-11-08 (commit 039314c), y el prompt de la respuesta es el mismo.
+  P10 queda en "no encontrado" porque el filtro suave dejó su artículo en el puesto 11 (ver
+  el punto siguiente). Las 20 citas mostradas están literales en su página y las 23
+  menciones del bloque de ausentes también
   ([`pruebas/verificacion_citas.md`](pruebas/verificacion_citas.md)). Con 5 pasajes, BM25
   con variantes trae el artículo esperado en 7 de 9
-  ([`pruebas/recuperacion.md`](pruebas/recuperacion.md)). Una llamada cayó en la red de
-  seguridad y salió al reintentar. En esa corrida y en las cinco de P01, el modelo abrió 4
-  veces con "Sí" y veredicto "con límites"; el código de entonces recortaba esa oración
-  (P01 perdió su frase principal y P09 quedó sin texto propio), y por eso ahora se marca en
-  vez de recortar. La corrida anterior (8 pasajes, normalización v1) había dado 6 de 10.
+  ([`pruebas/recuperacion.md`](pruebas/recuperacion.md)). En esa corrida y en las cinco de
+  P01, el modelo abrió 4 veces con "Sí" y veredicto "con límites"; el código de entonces
+  recortaba esa oración (P01 perdió su frase principal y P09 quedó sin texto propio), y por
+  eso ahora se marca en vez de recortar. La corrida anterior (8 pasajes, normalización v1)
+  había dado 6 de 10.
 - **El filtro suave por cláusula está ajustado a las preguntas de la demo.** Subió P01 del
   puesto 9 al 4 y P02 de 18 y 3 a 3 y 4, y bajó P10 del puesto 1 al 11 (el modelo eligió la
   cláusula de Accidentes Personales en vez del Condicionado General, y el doble de puntaje
@@ -284,12 +303,15 @@ que-me-cubre/
   conclusión es del modelo; las citas, que sí están verificadas, son lo que hay que leer.
 - **La respuesta no es determinista:** con la normalización en la caché, la búsqueda sí lo
   es (mismos pasajes y mismo mensaje al modelo en cada corrida), pero el modelo puede
-  responder distinto a la misma entrada. En P02, el veredicto del modelo es estable en 8 de
-  10 corridas sobre la misma entrada ("con límites"; las otras 2, "no"); el bloque
-  determinista no depende de eso: B4 salió en las 5 corridas en que estaba activo. P01 dio
-  "con límites" en 5 de 5, con la preexistencia en "podrían aplicar" y nunca afirmada. Medido en
-  [`pruebas/estabilidad.md`](pruebas/estabilidad.md) (la primera serie de P02, sin el bloque,
-  en `pruebas/estabilidad/sin_bloque/`).
+  responder distinto a la misma entrada. Estas series no reintentan: cada corrida es un
+  primer intento, como en la app (salvo un intento de la primera serie de P02 que cayó en la
+  red de seguridad y el script de entonces rehízo; ver "Plan gratuito del modelo"). En P02,
+  el veredicto del modelo es estable en 8 de 10 corridas sobre la misma entrada ("con
+  límites"; las otras 2, "no"); el bloque determinista no depende de eso: B4 salió en las 5
+  corridas en que estaba activo. P01 dio "con límites" en 5 de 5, con la preexistencia en
+  "podrían aplicar" y nunca afirmada. Medido en
+  [`pruebas/estabilidad.md`](pruebas/estabilidad.md) (la primera serie de P02, sin el
+  bloque, en `pruebas/estabilidad/sin_bloque/`).
 - **Mencionadas pero ausentes:** se detectan las coberturas con código ("B4 - Nombre"), los
   anexos con letra o número ("Anexo A - Nombre") y las remisiones a Condiciones Particulares,
   Certificado de Seguro, Condiciones Especiales, Condiciones Generales y Tabla o Plan de

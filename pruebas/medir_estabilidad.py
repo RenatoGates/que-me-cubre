@@ -9,7 +9,9 @@ se recorta del texto libre.
 
 Cada intento se guarda en pruebas/estabilidad/<id>_<n>.json (los que ya existen no se
 repiten) y el resumen en pruebas/estabilidad.md. Usa el mismo flujo que la app (responder)
-y espera los límites del plan gratuito en vez de fallar.
+y espera los límites del plan gratuito en vez de fallar. Sin reintentos: si el modelo no
+genera texto, el intento cuenta como sin respuesta, igual que en la app. Estos números son
+de primer intento.
 """
 
 from __future__ import annotations
@@ -19,7 +21,7 @@ import hashlib
 import json
 import time
 
-from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, bloque_txt, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, apertura_txt, bloque_txt, guardar_json, poliza, preguntas, utf8
 
 from ai.llm import ErrorLLM, obtener_proveedor
 from ai.respuesta import responder
@@ -29,27 +31,21 @@ TPM = 8000
 ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado", None: "sin respuesta"}
 
 
-def apertura_txt(r: dict) -> str:
-    """La marca de apertura contradictoria. Las salidas anteriores al cambio de recortar a
-    marcar la tienen en los descartes ("abre con …"): también se muestran."""
-    if r.get("apertura_contradictoria"):
-        return f"«{r['apertura_contradictoria']['palabra']}» (marcada)"
-    viejo = next((d for d in r.get("descartes", []) if d["tipo"] == "texto" and d["motivo"].startswith("abre con")), None)
-    return f"«{viejo['motivo'].split('«')[1].split('»')[0]}» (recortada)" if viejo else "—"
-
-
 def resumen(qs: list[dict], veces: int) -> str:
     lineas = [
         "# Estabilidad de la respuesta: la misma pregunta varias veces",
         "",
         "Generado por `pruebas/medir_estabilidad.py`. Misma normalización (caché), mismos pasajes",
         "y mismo mensaje al modelo en cada intento; lo que cambia es lo que el modelo genera.",
+        "Sin reintentos: cada intento es lo que vería el usuario en la app (que no reintenta).",
         "*Aceptable* es el criterio de `pruebas/preguntas.json`, fijado antes de correr nada. Desde el",
         "bloque determinista, la referencia ausente exigida puede venir del bloque (lo pone el código) o",
         "de \"no incluido\" (lo pone el modelo); las columnas las separan.",
         "",
         "La serie anterior de P02, sin el bloque determinista (0 de 5: el modelo nunca mencionó B4), está",
-        "en `pruebas/estabilidad/sin_bloque/`.",
+        "en `pruebas/estabilidad/sin_bloque/`. En esa serie un intento más cayó en la red de seguridad y",
+        "el script de entonces abortó sin guardarlo y lo rehízo: al primer intento fueron 6 llamadas, 1 sin",
+        "texto (tipo de falla no registrado).",
         "",
     ]
     for q in qs:
@@ -81,7 +77,7 @@ def resumen(qs: list[dict], veces: int) -> str:
         for n, r in enumerate(intentos, 1):
             if r["modo"] != "completo":
                 bloque = bloque_txt(r)
-                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | {bloque} | — | — | — | — | — |")
+                lineas.append(f"| {n} | sin respuesta ({r.get('error_detalle') or r.get('error', '?')}) | **no** | — | — | {bloque} | — | — | — | — | — |")
                 continue
             ignorados = sum(bool(c["verificacion"].get("puntuacion_final_ignorada")) for c in r["citas"])
             recortes = sum(d["tipo"] == "texto" for d in r["descartes"])
@@ -131,7 +127,7 @@ def main() -> int:
                 "huella_pasajes": hashlib.sha256(json.dumps([x["trozo_id"] for x in r["pasajes"]]).encode()).hexdigest()[:16],
             }
             guardar_json(ruta, r)
-            print(f"{q['id']} intento {n}: {ETIQUETA[r['cubre']] if r['modo'] == 'completo' else 'sin texto (' + r.get('error', '?') + ')':<14} "
+            print(f"{q['id']} intento {n}: {ETIQUETA[r['cubre']] if r['modo'] == 'completo' else 'sin texto (' + (r.get('error_detalle') or r.get('error', '?')) + ')':<14} "
                   f"aceptable={'sí' if aceptable(q, r) else 'NO'} bloque={[m['nombre'][:12] for m in r.get('mencionadas_ausentes', [])]} "
                   f"citas {len(r['citas'])}/{len(r.get('modelo_crudo', {}).get('citas', []))} · {r['uso']['tokens']} tokens", flush=True)
             time.sleep(r["uso"]["tokens"] * 60 / TPM)
