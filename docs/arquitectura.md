@@ -26,7 +26,10 @@ flowchart TD
         BLO["Bloque determinista<br/>lo mencionado pero ausente en los 5 pasajes, con página"]
         RED["Red de seguridad<br/>cláusulas encontradas, resaltadas, sin veredicto"]
         UI["Pantalla<br/>1 veredicto: campo estructurado<br/>2 explicación del modelo<br/>3 ausentes: B4 resaltado, remisiones plegadas<br/>4 citas desplegables<br/>5 podrían aplicar"]
+        MAPA["Dónde atenderte (ai/renipress.py)<br/>departamento y distrito → establecimientos activos<br/>en mapa y lista; sin modelo ni ubicación"]
     end
+
+    RENI["RENIPRESS de SUSALUD<br/>datosabiertos.gob.pe → data/renipress/"]
 
     ING -.-> IDX
     PREP -.-> CACHE
@@ -41,6 +44,7 @@ flowchart TD
     AUS --> BLO --> UI
     RESP -. "límite, error o JSON inválido" .-> RED --> UI
     NORM -. "límite o error" .-> RED
+    RENI -.-> MAPA
 
     classDef modelo fill:#ffe3c2,stroke:#d9822b,color:#3b2405
     class NORM,RESP modelo
@@ -79,3 +83,8 @@ Groq. Se reemplazan por capturas de la app desplegada cuando se pruebe en vivo.
    "Cubre con límites", es la que manda.
 
    ![Respuesta a la torcedura con citas](capturas/3_respuesta_torcedura_citas.png)
+
+4. Dónde atenderte, en Tarapoto: los establecimientos activos de RENIPRESS en el mapa y en
+   la lista, con el aviso de que no son la red de la aseguradora. No usa el modelo.
+
+   ![Dónde atenderte en Tarapoto](capturas/4_donde_atenderte.png)

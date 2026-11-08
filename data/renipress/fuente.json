@@ -1,0 +1,12 @@
+{
+  "dataset": "Registro Nacional de Entidades Prestadoras de Servicios de Salud - RENIPRESS",
+  "publica": "SUSALUD, en la Plataforma Nacional de Datos Abiertos (datosabiertos.gob.pe)",
+  "pagina": "https://www.datosabiertos.gob.pe/dataset/registro-nacional-de-entidades-prestadoras-de-servicios-de-salud-renipress",
+  "archivo_original": "https://www.datosabiertos.gob.pe/sites/default/files/RENIPRESS_30-10-2026.csv",
+  "sha256_original": "0c8f51e57d56ae83c03a3e3b8a52cc3f781c1b8a67b23f7270a1ec26c8b3269d",
+  "corte": "2026-10-30",
+  "licencia": "ODC-BY (Open Data Commons Attribution)",
+  "filas_original": 36246,
+  "filas_activas": 27017,
+  "con_coordenadas": 20040
+}
