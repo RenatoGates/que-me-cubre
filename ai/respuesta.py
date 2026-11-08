@@ -261,7 +261,7 @@ def _pasajes_dict(pasajes: list[Pasaje], consultas: list[str] | None = None) -> 
 
 
 def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, norm: dict | None,
-                    error: Exception, k: int, usos: list[Uso]) -> dict:
+                    error: Exception, k: int, usos: list[Uso], desde_cache: bool = False) -> dict:
     """Red de seguridad: sin texto generado, solo las cláusulas encontradas, resaltadas."""
     if norm:
         consultas = [*norm["variantes"], *norm.get("clausulas", []), *norm.get("terminos", []), pregunta]
@@ -296,7 +296,8 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         "pasajes": _pasajes_dict(pasajes, consultas),
         "normalizacion": norm,
         "proveedor": _info_proveedor(proveedor),
-        "uso": _uso(usos, desde_cache=False),
+        "error": type(error).__name__,
+        "uso": _uso(usos, desde_cache),
     }
 
 
@@ -341,7 +342,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
         crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)
         usos.append(uso_r)
     except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
-        return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos)
+        return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos, desde_cache)
 
     final, descartes = _validar(crudo, pasajes, poliza)
     return {

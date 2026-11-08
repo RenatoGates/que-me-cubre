@@ -66,7 +66,7 @@ def resumen(qs: list[dict], veces: int) -> str:
         ]
         for n, r in enumerate(intentos, 1):
             if r["modo"] != "completo":
-                lineas.append(f"| {n} | sin respuesta ({r['aviso'][:60]}…) | **no** | — | — | — | — | — | — |")
+                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | — | — | — | — |")
                 continue
             ignorados = sum(bool(c["verificacion"].get("puntuacion_final_ignorada")) for c in r["citas"])
             recortes = sum(d["tipo"] == "texto" for d in r["descartes"])
@@ -78,7 +78,8 @@ def resumen(qs: list[dict], veces: int) -> str:
             )
         lineas += ["", "Respuestas:", ""]
         for n, r in enumerate(intentos, 1):
-            lineas.append(f"{n}. {r['respuesta'] or '(sin texto generado)'}")
+            sin_texto = f"(sin texto generado: {r.get('error', '?')})"
+            lineas.append(f"{n}. {r['respuesta'] or sin_texto}")
         lineas.append("")
     return "\n".join(lineas) + "\n"
 
@@ -114,7 +115,8 @@ def main() -> int:
                 "huella_pasajes": hashlib.sha256(json.dumps([x["trozo_id"] for x in r["pasajes"]]).encode()).hexdigest()[:16],
             }
             guardar_json(ruta, r)
-            print(f"{q['id']} intento {n}: {ETIQUETA[r['cubre']]:<14} aceptable={'sí' if r['modo'] == 'completo' and aceptable(q, r) else 'NO'} "
+            print(f"{q['id']} intento {n}: {ETIQUETA[r['cubre']] if r['modo'] == 'completo' else 'sin texto (' + r.get('error', '?') + ')':<14} "
+                  f"aceptable={'sí' if r['modo'] == 'completo' and aceptable(q, r) else 'NO'} "
                   f"citas {len(r['citas'])}/{len(r.get('modelo_crudo', {}).get('citas', []))} · {r['uso']['tokens']} tokens", flush=True)
             time.sleep(r["uso"]["tokens"] * 60 / TPM)
         (PRUEBAS / "estabilidad.md").write_text(resumen(qs, a.veces), encoding="utf-8", newline="\n")
