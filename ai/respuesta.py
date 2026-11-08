@@ -11,6 +11,11 @@ La validación es código, no confianza en el modelo:
   verificadas: la oración que lo hace se recorta;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
+Aparte, sin pasar por el modelo: si un pasaje recuperado menciona una cobertura, un anexo o
+un documento cuyo texto no está en el PDF (B4, Condiciones Particulares…), la salida trae
+el bloque "mencionadas_ausentes" con la mención literal, su página y el aviso de pedírselo
+a la aseguradora (ai/referencias.py). Sale siempre, también en la red de seguridad.
+
 Red de seguridad: si el proveedor llega a su límite, no responde o el modelo no genera un
 JSON válido, el resultado sale en modo "solo_clausulas": los pasajes encontrados con las
 palabras de búsqueda resaltadas, sin texto generado y con un aviso de por qué. No se cambia
@@ -22,6 +27,7 @@ Nada se guarda ni se registra: todo vive en memoria durante la llamada.
 from __future__ import annotations
 
 import hashlib
+import re
 from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
@@ -36,6 +42,7 @@ from ai.prompts import (
     mensaje_respuesta,
 )
 from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
+from ai.referencias import MENSAJE
 from ai.verificacion import recortar, ubicar_cita, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
@@ -124,7 +131,45 @@ def _es_seccion_del_documento(nombre: str, secciones: list[str]) -> bool:
     return bool(clave) and any(clave <= set(tokens(s)) for s in secciones)
 
 
-def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, list[dict]]:
+def mencionadas_ausentes(pasajes: list[Pasaje], poliza: Poliza) -> list[dict]:
+    """Coberturas, anexos y documentos que los pasajes recuperados mencionan y cuyo texto no
+    está en el PDF. Lo calcula el código: la mención es literal del pasaje y la página sale
+    de su posición, como en las citas. Primero coberturas y anexos, después documentos."""
+    por_trozo = poliza.indice.ausentes()
+    salida, vistas = [], set()
+    for p in pasajes:
+        t = p.trozo
+        for m in por_trozo.get(t.id, []):
+            if m.clave in vistas:
+                continue
+            vistas.add(m.clave)
+            paginas = t.paginas_de(m.inicio, m.fin) or t.paginas
+            salida.append({
+                "nombre": m.nombre,
+                "tipo": m.tipo,
+                "mensaje": MENSAJE.format(m.nombre),
+                "mencion": t.texto[m.inicio : m.fin],
+                "seccion": t.seccion,
+                "articulo": t.articulo + (f" (parte {t.parte} de {t.partes})" if t.partes > 1 else ""),
+                "pagina": paginas[0],
+                "paginas": paginas,
+                "pasaje": p.id,
+                "trozo_id": t.id,
+                "posicion": [m.inicio, m.fin],
+            })
+    return sorted(salida, key=lambda x: x["tipo"] == "documento")  # estable: dentro de cada grupo, orden de aparición
+
+
+def _misma_referencia(nombre: str, ausente: dict) -> bool:
+    """¿El "no incluido" del modelo es una referencia que ya está en el bloque determinista?"""
+    codigo, _, titulo = ausente["nombre"].partition(" - ")
+    if ausente["tipo"] != "documento" and re.search(rf"\b{re.escape(codigo)}\b", nombre, re.IGNORECASE):
+        return True
+    clave = set(tokens(titulo or ausente["nombre"]))
+    return bool(clave) and clave <= set(tokens(nombre))
+
+
+def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[dict] | None = None) -> tuple[dict, list[dict]]:
     por_id = {p.id: p for p in pasajes}
     descartes: list[dict] = []
 
@@ -206,6 +251,8 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
             descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "el nombre no está en su cita"})
         elif _es_seccion_del_documento(m["nombre"], poliza.secciones):
             descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "sí es una sección del documento"})
+        elif any(_misma_referencia(m["nombre"], a) for a in ausentes or []):
+            descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "ya está en el bloque de mencionadas pero ausentes"})
         else:
             no_incluido.append({"nombre": m["nombre"], "por_que_importa": sin_referencias_ajenas(m["por_que_importa"], "no_incluido"),
                                 "cita": cita["n"]})
@@ -292,6 +339,7 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         "podrian_aplicar": [],
         "no_incluido_en_documento": [],
         "citas": [],
+        "mencionadas_ausentes": mencionadas_ausentes(pasajes, poliza),
         "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),
         "pasajes": _pasajes_dict(pasajes, consultas),
         "normalizacion": norm,
@@ -344,13 +392,15 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
     except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
         return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos, desde_cache)
 
-    final, descartes = _validar(crudo, pasajes, poliza)
+    ausentes = mencionadas_ausentes(pasajes, poliza)
+    final, descartes = _validar(crudo, pasajes, poliza, ausentes)
     return {
         "modo": "completo",
         "pregunta": pregunta,
         "documento": poliza.nombre,
         "aviso": None,
         **final,
+        "mencionadas_ausentes": ausentes,
         "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),
         "pasajes": _pasajes_dict(pasajes),
         "normalizacion": norm,

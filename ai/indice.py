@@ -159,6 +159,15 @@ class Indice:
             self._vocabulario = (clausulas, articulos)
         return self._vocabulario
 
+    def ausentes(self) -> dict:
+        """{trozo_id: [menciones]} de coberturas, anexos y documentos que el documento nombra
+        pero cuyo texto no trae (ai/referencias.py). Se calcula una sola vez por documento."""
+        if not hasattr(self, "_ausentes"):
+            from ai.referencias import ausentes
+
+            self._ausentes = ausentes(self.trozos, *self.vocabulario())
+        return self._ausentes
+
     @classmethod
     def construir(cls, trozos: list[Trozo], meta: dict, con_embeddings: bool = True) -> "Indice":
         vectores = embeber_pasajes(trozos) if con_embeddings and trozos else None

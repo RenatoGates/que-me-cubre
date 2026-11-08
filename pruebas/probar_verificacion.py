@@ -109,6 +109,51 @@ def main() -> int:
          "Tu póliza cubre los gastos médicos por accidente. El límite está en tus Condiciones Particulares.")
     caso("cada recorte queda registrado", sum(d["tipo"] == "texto" for d in descartes), 2)
 
+    print("Bloque determinista de mencionadas pero ausentes:")
+    from ai import cache_normalizacion
+    from ai.recuperacion import recuperar_normalizada
+    from ai.respuesta import mencionadas_ausentes
+
+    def claves_ausentes(doc: str) -> set[str]:
+        return {m.clave for lista in poliza(doc).indice.ausentes().values() for m in lista}
+
+    chubb = claves_ausentes("chubb_viajes_jetsmart")
+    caso("Chubb: B4 no tiene cláusula en el documento", "B4" in chubb, True)
+    caso("Chubb: B1, B2, B3, C2 y G2 sí (por su título, aunque el nombre difiera un poco)",
+         sorted(chubb & {"B1", "B2", "B3", "C2", "G2"}), [])
+    caso("Chubb: Condiciones Particulares ausente, Condiciones Generales presente",
+         ("condiciones particulares" in chubb, "condiciones generales" in chubb), (True, False))
+    caso("Rimac: el Anexo A está en el PDF bajo su encabezado 'ANEXO A:'", "anexo a" in claves_ausentes("rimac_viajes"), False)
+    caso("Rimac: 'Condicionado General' cuenta como Condiciones Generales",
+         "condiciones generales" in claves_ausentes("rimac_viajes"), False)
+
+    p02 = "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?"
+    norm = cache_normalizacion.buscar(p02, pol.sha256)
+    assert norm, "P02 no está en la caché de normalizaciones"
+    pasajes = recuperar_normalizada(pol.indice, p02, norm)
+    bloque = mencionadas_ausentes(pasajes, pol)
+    b4 = next((m for m in bloque if m["nombre"].startswith("B4")), None)
+    caso("P02: los pasajes recuperados traen B4 al bloque", bool(b4), True)
+    caso("P02: la mención es literal del pasaje y su página la calcula el código",
+         b4 and (b4["mencion"], b4["paginas"]), ("B4 - Continuación de Tratamiento en País de Residencia", [16]))
+    caso("P02: coberturas antes que documentos", bloque[0]["tipo"], "cobertura")
+    caso("P02: el aviso", b4 and b4["mensaje"],
+         "Tu póliza menciona «B4 - Continuación de Tratamiento en País de Residencia» pero no incluye su texto "
+         "en este documento. Pídeselo a tu aseguradora.")
+    p4 = next(p for p in pasajes if "B4" in p.trozo.texto)
+    i = p4.trozo.texto.index("B4 - Continuación")
+    crudo_b4 = {
+        "citas": [{"n": 1, "pasaje": p4.id, "texto_literal": p4.trozo.texto[i : p4.trozo.texto.index(".", i)]}],
+        "condiciones": [], "exclusiones_aplicables": [], "podrian_aplicar": [],
+        "no_incluido_en_documento": [{"nombre": "B4 - Continuación de Tratamiento en País de Residencia",
+                                      "por_que_importa": "No está.", "cita": 1}],
+        "cubre": "con_limites", "respuesta": "Depende de la cobertura B4.",
+    }
+    final, descartes = _validar(crudo_b4, pasajes, pol, bloque)
+    caso("el 'no incluido' del modelo que repite el bloque se descarta (no sale dos veces)",
+         (final["no_incluido_en_documento"], [d["motivo"] for d in descartes if d["tipo"] == "no_incluido"]),
+         ([], ["ya está en el bloque de mencionadas pero ausentes"]))
+
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0
 

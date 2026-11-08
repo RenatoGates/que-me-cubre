@@ -19,7 +19,7 @@ import hashlib
 import json
 import time
 
-from comun import PRUEBAS, RAIZ, ProveedorPaciente, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, guardar_json, poliza, preguntas, utf8
 
 from ai.llm import ErrorLLM, obtener_proveedor
 from ai.respuesta import responder
@@ -29,19 +29,18 @@ TPM = 8000
 ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado", None: "sin respuesta"}
 
 
-def aceptable(q: dict, r: dict) -> bool:
-    exige = q.get("debe_mencionar_no_incluido")
-    return r["cubre"] in q["veredictos_aceptables"] and (
-        not exige or any(exige in m["nombre"] for m in r["no_incluido_en_documento"]))
-
-
 def resumen(qs: list[dict], veces: int) -> str:
     lineas = [
         "# Estabilidad de la respuesta: la misma pregunta varias veces",
         "",
         "Generado por `pruebas/medir_estabilidad.py`. Misma normalización (caché), mismos pasajes",
         "y mismo mensaje al modelo en cada intento; lo que cambia es lo que el modelo genera.",
-        "*Aceptable* es el criterio de `pruebas/preguntas.json`, fijado antes de correr nada.",
+        "*Aceptable* es el criterio de `pruebas/preguntas.json`, fijado antes de correr nada. Desde el",
+        "bloque determinista, la referencia ausente exigida puede venir del bloque (lo pone el código) o",
+        "de \"no incluido\" (lo pone el modelo); las columnas las separan.",
+        "",
+        "La serie anterior de P02, sin el bloque determinista (0 de 5: el modelo nunca mencionó B4), está",
+        "en `pruebas/estabilidad/sin_bloque/`.",
         "",
     ]
     for q in qs:
@@ -51,6 +50,9 @@ def resumen(qs: list[dict], veces: int) -> str:
         completos = [r for r in intentos if r["modo"] == "completo"]
         mensajes = {r["estabilidad"]["huella_pasajes"] for r in intentos}
         respuestas = {r["respuesta"] for r in completos}
+        exige = q.get("debe_mencionar_no_incluido")
+        en_bloque = sum(any(exige in m["nombre"] for m in r.get("mencionadas_ausentes", [])) for r in intentos) if exige else None
+        del_modelo = sum(any(exige in m["nombre"] for m in r["no_incluido_en_documento"]) for r in intentos) if exige else None
         lineas += [
             f"## {q['id']}: {q['pregunta']}",
             "",
@@ -58,21 +60,25 @@ def resumen(qs: list[dict], veces: int) -> str:
             + (f" ({len(intentos) - len(completos)} sin texto generado)" if len(completos) < len(intentos) else ""),
             f"- Pasajes enviados al modelo: {'idénticos en todos los intentos' if len(mensajes) == 1 else f'{len(mensajes)} combinaciones distintas'}",
             f"- Respuestas distintas: {len(respuestas)} de {len(completos)}",
+            *([f"- «{exige}» en el bloque determinista: **{en_bloque} de {len(intentos)}**; "
+               f"en \"no incluido\" del modelo: {del_modelo} de {len(intentos)}"] if exige else []),
             f"- Qué debería pasar: {q['que_deberia_pasar']}",
             "",
-            "| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | No incluido | "
-            "Podrían aplicar | Oraciones recortadas | Tokens |",
-            "|---:|---|---|---:|---:|---|---:|---:|---:|",
+            "| Intento | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Signo final ignorado | "
+            "Mencionadas pero ausentes (código) | No incluido (modelo) | Podrían aplicar | Oraciones recortadas | Tokens |",
+            "|---:|---|---|---:|---:|---|---|---:|---:|---:|",
         ]
         for n, r in enumerate(intentos, 1):
             if r["modo"] != "completo":
-                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | — | — | — | — |")
+                bloque = "; ".join(m["nombre"] for m in r.get("mencionadas_ausentes", [])) or "—"
+                lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | {bloque} | — | — | — | — |")
                 continue
             ignorados = sum(bool(c["verificacion"].get("puntuacion_final_ignorada")) for c in r["citas"])
             recortes = sum(d["tipo"] == "texto" for d in r["descartes"])
             lineas.append(
                 f"| {n} | {ETIQUETA[r['cubre']]} | {'sí' if aceptable(q, r) else '**no**'} | "
                 f"{len(r['citas'])} / {len(r['modelo_crudo']['citas'])} | {ignorados} | "
+                f"{'; '.join(m['nombre'] for m in r.get('mencionadas_ausentes', [])) or '—'} | "
                 f"{'; '.join(m['nombre'] for m in r['no_incluido_en_documento']) or '—'} | {len(r.get('podrian_aplicar', []))} | "
                 f"{recortes} | {r['uso']['tokens']} |"
             )
@@ -116,12 +122,12 @@ def main() -> int:
             }
             guardar_json(ruta, r)
             print(f"{q['id']} intento {n}: {ETIQUETA[r['cubre']] if r['modo'] == 'completo' else 'sin texto (' + r.get('error', '?') + ')':<14} "
-                  f"aceptable={'sí' if r['modo'] == 'completo' and aceptable(q, r) else 'NO'} "
+                  f"aceptable={'sí' if aceptable(q, r) else 'NO'} bloque={[m['nombre'][:12] for m in r.get('mencionadas_ausentes', [])]} "
                   f"citas {len(r['citas'])}/{len(r.get('modelo_crudo', {}).get('citas', []))} · {r['uso']['tokens']} tokens", flush=True)
             time.sleep(r["uso"]["tokens"] * 60 / TPM)
         (PRUEBAS / "estabilidad.md").write_text(resumen(qs, a.veces), encoding="utf-8", newline="\n")
         hechos = [json.loads(x.read_text(encoding="utf-8")) for x in sorted(CARPETA.glob(f"{q['id']}_*.json"))][: a.veces]
-        print(f"== {q['id']}: aceptables {sum(r['modo'] == 'completo' and aceptable(q, r) for r in hechos)} de {len(hechos)}", flush=True)
+        print(f"== {q['id']}: aceptables {sum(aceptable(q, r) for r in hechos)} de {len(hechos)}", flush=True)
     print("Resumen en pruebas/estabilidad.md")
     return 0
 

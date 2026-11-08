@@ -1,7 +1,8 @@
 """Auditoría independiente de las citas guardadas en pruebas/salidas/.
 
-Para cada cita: abre el PDF original desde data/polizas/, lee la(s) página(s) que la cita
-dice y comprueba que el texto esté ahí, literal. No usa los trozos ni el índice: solo el
+Para cada cita, y para cada mención del bloque "mencionadas pero ausentes": abre el PDF
+original desde data/polizas/, lee la(s) página(s) que dice y comprueba que el texto esté
+ahí, literal. No usa los trozos ni el índice: solo el
 JSON guardado y el PDF. Una cita que cruza de página se acepta si un prefijo está en la
 primera página y el resto en la siguiente (entre ambas el PDF tiene pie y membrete).
 
@@ -47,6 +48,7 @@ def esta(cita: str, paginas: list[int], textos: dict[int, str]) -> bool:
 def main() -> int:
     utf8()
     filas, fallas, total, crudas, ignoradas = [], 0, 0, 0, 0
+    filas_bloque, fallas_bloque, total_bloque = [], 0, 0
     for ruta in sorted(SALIDAS.glob("P*.json")):
         r = json.loads(ruta.read_text(encoding="utf-8"))
         pdf = (RAIZ / "data" / "polizas" / fuentes()[r["prueba"]["poliza"]]["archivo"]).read_bytes()
@@ -62,6 +64,15 @@ def main() -> int:
                 f"| {ruta.stem} | {c['n']} | {c['seccion']} › {c['articulo']} | {c['pagina'] if len(c['paginas']) == 1 else '–'.join(map(str, c['paginas']))} "
                 f"| {'✓' if ok['pdfplumber'] else '✗'} | {'✓' if ok['pypdf'] else '✗'} | {'sí' if valida else '**NO**'} "
                 f"| {repr(c['verificacion'].get('puntuacion_final_ignorada')) if c['verificacion'].get('puntuacion_final_ignorada') else '—'} |"
+            )
+        for m in r.get("mencionadas_ausentes", []):
+            total_bloque += 1
+            textos = paginas_pdf(pdf, m["paginas"])
+            ok = {lector: esta(m["mencion"], m["paginas"], t) for lector, t in textos.items()}
+            fallas_bloque += not any(ok.values())
+            filas_bloque.append(
+                f"| {ruta.stem} | {m['nombre']} | {m['seccion']} › {m['articulo']} | {'–'.join(map(str, m['paginas']))} "
+                f"| {'✓' if ok['pdfplumber'] else '✗'} | {'✓' if ok['pypdf'] else '✗'} | {'sí' if any(ok.values()) else '**NO**'} |"
             )
         for d in r["descartes"]:
             if d["tipo"] == "cita":
@@ -83,11 +94,23 @@ def main() -> int:
         "| Prueba | Cita | Sección › artículo | Página | pdfplumber | pypdf | ¿En su página? | Signo final ignorado |",
         "|---|---|---|---|---|---|---|---|",
         *filas,
+        "",
+        "## Bloque \"mencionadas pero ausentes\"",
+        "",
+        "Lo calcula el código, no el modelo (ai/referencias.py). Se audita igual: la mención literal",
+        "tiene que estar en la página que se muestra.",
+        "",
+        f"- Menciones mostradas: {total_bloque}; encontradas textualmente en su página: {total_bloque - fallas_bloque} de {total_bloque}",
+        "",
+        "| Prueba | Referencia | Sección › artículo | Página | pdfplumber | pypdf | ¿En su página? |",
+        "|---|---|---|---|---|---|---|",
+        *filas_bloque,
     ]
     (PRUEBAS / "verificacion_citas.md").write_text("\n".join(md) + "\n", encoding="utf-8", newline="\n")
     print(f"Citas mostradas: {total} · en su página: {total - fallas} · propuestas por el modelo: {crudas}")
+    print(f"Menciones del bloque de ausentes: {total_bloque} · en su página: {total_bloque - fallas_bloque}")
     print("Detalle en pruebas/verificacion_citas.md")
-    return 1 if fallas else 0
+    return 1 if fallas or fallas_bloque else 0
 
 
 if __name__ == "__main__":

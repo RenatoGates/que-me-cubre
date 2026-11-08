@@ -54,6 +54,20 @@ def acierta(trozos: list[Trozo], esperados: list[dict], modo: str) -> bool | Non
     return all(halla) if modo == "todos" else any(halla)
 
 
+def aceptable(q: dict, r: dict) -> bool:
+    """Criterio de pruebas/preguntas.json: veredicto aceptable y, si la pregunta lo exige,
+    la referencia ausente mencionada, venga del bloque determinista (mencionadas_ausentes) o
+    de lo que el modelo puso en no_incluido_en_documento."""
+    if r.get("modo", "completo") != "completo":
+        return False
+    exige = q.get("debe_mencionar_no_incluido")
+    return r["cubre"] in q["veredictos_aceptables"] and (not exige or any(exige in n for n in nombres_ausentes(r)))
+
+
+def nombres_ausentes(r: dict) -> list[str]:
+    return [m["nombre"] for m in r.get("mencionadas_ausentes", [])] + [m["nombre"] for m in r["no_incluido_en_documento"]]
+
+
 def guardar_json(ruta: Path, datos) -> None:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
