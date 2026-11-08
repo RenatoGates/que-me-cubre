@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 
 from ai import cache_normalizacion
-from ai.llm import ErrorLLM, LimiteAlcanzado, Proveedor, obtener_proveedor
+from ai.llm import ErrorLLM, LimiteAlcanzado, Proveedor, SalidaInvalida, obtener_proveedor
 
 RAIZ = Path(__file__).resolve().parent.parent
 ENSAYO = RAIZ / "data" / "demo" / "preguntas_ensayo.json"
@@ -44,6 +44,7 @@ def preguntas_publicas() -> list[tuple[str, str]]:
 
 def asegurar(pares: list[tuple[str, str]], proveedor: Proveedor | None = None) -> tuple[int, int]:
     """Normaliza y guarda las que falten. Devuelve (nuevas, pendientes por límite)."""
+    from ai.indice import Indice
     from ai.respuesta import normalizar  # evita import circular
 
     shas = _sha_documentos()
@@ -51,28 +52,44 @@ def asegurar(pares: list[tuple[str, str]], proveedor: Proveedor | None = None) -
     if not faltan:
         return 0, 0
     proveedor = proveedor or obtener_proveedor()
-    nuevas = 0
+    indices: dict[str, Indice] = {}
+    nuevas, saltadas = 0, 0
     for n, (doc, pregunta) in enumerate(faltan):
+        if doc not in indices:
+            indices[doc] = Indice.cargar(RAIZ / "data" / "indices", doc)
+        intentos = 0
         while True:
             try:
-                norm, uso = normalizar(pregunta, proveedor)
+                norm, uso = normalizar(pregunta, proveedor, indices[doc])
                 break
             except LimiteAlcanzado as e:
                 if e.espera_segundos is not None and e.espera_segundos <= ESPERA_MAXIMA:
-                    print(f"  límite del plan gratuito: espero {e.espera_segundos:.0f} s")
+                    print(f"  límite del plan gratuito: espero {e.espera_segundos:.0f} s", flush=True)
                     time.sleep(e.espera_segundos + 1)
                     continue
                 print(f"  límite del plan gratuito: quedan {len(faltan) - n} por normalizar; vuelve a correr más tarde")
-                return nuevas, len(faltan) - n
+                return nuevas, len(faltan) - n + saltadas
+            except SalidaInvalida as e:
+                intentos += 1
+                if intentos < 2:
+                    print(f"  {e} Reintento una vez.", flush=True)
+                    continue
+                norm = None
+                break
+        if norm is None:
+            print(f"  ✗ {doc}: {pregunta} (sin JSON válido; queda pendiente)")
+            saltadas += 1
+            continue
+        if norm["ajuste"]:
+            print(f"    ajuste: {norm['ajuste']}")
         cache_normalizacion.guardar(
             {
                 cache_normalizacion.clave(pregunta, shas[doc]): {
                     "documento": doc,
                     "sha256_pdf": shas[doc],
                     "pregunta": pregunta,
-                    "variantes": norm["variantes"],
-                    "terminos": norm["terminos"],
-                    "hechos": norm["hechos"],
+                    **{k: norm[k] for k in cache_normalizacion.CAMPOS},
+                    "ajuste": norm["ajuste"],
                     "proveedor": uso.proveedor,
                     "modelo": uso.modelo,
                     "fecha": dt.date.today().isoformat(),
@@ -86,8 +103,8 @@ def asegurar(pares: list[tuple[str, str]], proveedor: Proveedor | None = None) -
             }
         )
         nuevas += 1
-        print(f"  ✓ {doc}: {pregunta}")
-    return nuevas, 0
+        print(f"  ✓ {doc}: {pregunta}  →  {' | '.join(norm['titulos'])}", flush=True)
+    return nuevas, saltadas
 
 
 def main(argv: list[str] | None = None) -> int:

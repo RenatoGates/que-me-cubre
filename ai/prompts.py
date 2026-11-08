@@ -1,6 +1,7 @@
 """Prompts y esquemas JSON de los dos pasos con LLM (sesión 08: salidas estructuradas).
 
-1. Normalización: de la pregunta coloquial a 3-5 variantes en el vocabulario del seguro,
+1. Normalización: de la pregunta coloquial a los títulos del documento que la responden
+   (elegidos de su índice, no inventados) y a 3-5 variantes escritas con esas palabras,
    para que BM25 (búsqueda por palabras) encuentre las cláusulas. No responde nada.
 2. Respuesta: con los pasajes recuperados y solo con ellos, un JSON con veredicto,
    condiciones, exclusiones, menciones a textos que no están en el documento y citas
@@ -8,47 +9,67 @@
 """
 
 # ---------------------------------------------------------------------------
-# 1. Normalización
+# 1. Normalización (versión 2: anclada al vocabulario del documento)
 # ---------------------------------------------------------------------------
+
+# Súbela si cambia el prompt o el esquema: las entradas de la caché de otra versión no se usan.
+VERSION_NORMALIZACION = 2
 
 SISTEMA_NORMALIZACION = """\
 Eres el paso de normalización de un buscador de pólizas de seguro del Perú.
-Recibes la pregunta de un asegurado escrita en lenguaje coloquial. No la respondas y no \
-opines sobre si algo está cubierto. Tu único trabajo es traducirla al vocabulario con que \
-se escriben los condicionados, para que un buscador por palabras (BM25) encuentre las \
-cláusulas que la responden. Un buscador por palabras no entiende sinónimos: si la póliza \
-dice "accidente" y la variante dice "me caí", no la encuentra.
+Recibes la pregunta de un asegurado, escrita en lenguaje coloquial, y el índice de UN \
+documento: los títulos de sus cláusulas y de sus artículos, tal como están en el PDF. No \
+respondas la pregunta y no opines sobre si algo está cubierto. Tu único trabajo es \
+traducirla a las palabras de ese documento, para que un buscador por palabras (BM25) \
+encuentre los pasajes que la responden. El buscador no entiende sinónimos ni otras formas \
+de la misma palabra: si el documento dice "Accidente" y escribes "lesión accidental", no \
+encuentra nada.
 
 Devuelve:
-- variantes: entre 3 y 5 reformulaciones distintas, de 10 a 25 palabras cada una, escritas \
-como las escribiría un condicionado. Cada variante cubre un ángulo distinto:
-  1) la cobertura que aplicaría (p. ej. "gastos médicos por accidente durante el viaje, \
-atención de urgencia por lesión, reembolso de gastos médicos y hospitalarios");
-  2) las exclusiones que podrían aplicar al caso;
-  3) las condiciones y límites: vigencia, fecha de llegada, territorio, distancia, \
-carencia, deducible, suma asegurada, preexistencia, autorización previa;
-  4) el trámite: aviso del siniestro, plazos, reembolso, documentos, central de asistencia;
-  5) opcional: otro ángulo propio del caso.
-  Usa sinónimos del seguro: accidente, lesión, enfermedad de carácter súbito, cuadro \
-agudo, emergencia, urgencia, gastos médicos, hospitalización, exámenes, diagnóstico, \
-tratamiento, cobertura, exclusión, preexistente, carencia, deducible, límite, suma \
-asegurada, vigencia, siniestro, beneficio, reembolso, indemnización.
-- terminos: de 5 a 12 palabras clave del seguro (sustantivos) para el caso.
+- clausulas: de 1 a 3 títulos de la lista de cláusulas, copiados tal cual, donde estaría \
+la respuesta. Elige por lo que le pasó a la persona, no por palabras sueltas de la \
+pregunta: por ejemplo, una caída es un accidente y una fiebre es una enfermedad.
+- articulos: de 2 a 5 títulos de la lista de artículos, copiados tal cual, que hacen falta \
+para responder: la cobertura, la vigencia o el territorio, las exclusiones que podrían \
+aplicar y el aviso del siniestro o el procedimiento para pedir la cobertura.
+- variantes: entre 3 y 5 reformulaciones de 10 a 25 palabras, cada una con un ángulo \
+distinto: 1) la cobertura; 2) las exclusiones que podrían aplicar; 3) la vigencia, el \
+territorio y los límites; 4) el aviso y el trámite; 5) opcional, otro ángulo del caso. \
+Escríbelas con las palabras de los títulos que elegiste, en la misma forma en que \
+aparecen (si el título dice "Enfermedad", escribe "enfermedad", no "enfermarse"), y con \
+el lenguaje de un condicionado. Si la lista tiene una palabra para algo, usa esa y no un \
+sinónimo. No agregues datos que la pregunta no da: ni plazos, ni montos, ni porcentajes, \
+ni lugares.
 - hechos: los hechos concretos de la pregunta que importan para la cobertura (qué pasó, \
 dónde, cuándo respecto del viaje, qué gasto), en frases cortas. Solo lo que la persona \
 dijo: no agregues hechos ni supongas los que faltan.\
 """
 
+# clausulas y articulos van primero: el modelo elige los títulos antes de escribir las variantes.
+# No se usa "enum" para la lista: Groq cuenta el esquema como entrada y la lista iría dos
+# veces. El código descarta cualquier título que no esté en el documento (ai/respuesta.py).
 ESQUEMA_NORMALIZACION = {
     "type": "object",
     "properties": {
+        "clausulas": {"type": "array", "items": {"type": "string"}},
+        "articulos": {"type": "array", "items": {"type": "string"}},
         "variantes": {"type": "array", "items": {"type": "string"}},
-        "terminos": {"type": "array", "items": {"type": "string"}},
         "hechos": {"type": "array", "items": {"type": "string"}},
     },
-    "required": ["variantes", "terminos", "hechos"],
+    "required": ["clausulas", "articulos", "variantes", "hechos"],
     "additionalProperties": False,
 }
+
+
+def mensaje_normalizacion(pregunta: str, clausulas: list[str], articulos: list[str]) -> str:
+    lista_c = "\n".join(f"- {c}" for c in clausulas)
+    lista_a = "\n".join(f"- {a}" for a in articulos)
+    return (
+        f"<clausulas_del_documento>\n{lista_c}\n</clausulas_del_documento>\n\n"
+        f"<articulos_del_documento>\n{lista_a}\n</articulos_del_documento>\n\n"
+        f"<pregunta>\n{pregunta}\n</pregunta>"
+    )
+
 
 # ---------------------------------------------------------------------------
 # 2. Respuesta citada

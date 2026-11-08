@@ -24,7 +24,14 @@ from comun import RAIZ, poliza, preguntas, utf8
 
 from ai import cache_normalizacion
 from ai.llm import ProveedorGroq
-from ai.prompts import ESQUEMA_NORMALIZACION, ESQUEMA_RESPUESTA, SISTEMA_NORMALIZACION, SISTEMA_RESPUESTA, mensaje_respuesta
+from ai.prompts import (
+    ESQUEMA_NORMALIZACION,
+    ESQUEMA_RESPUESTA,
+    SISTEMA_NORMALIZACION,
+    SISTEMA_RESPUESTA,
+    mensaje_normalizacion,
+    mensaje_respuesta,
+)
 from ai.recuperacion import pasajes_xml, recuperar
 
 
@@ -82,19 +89,21 @@ def main() -> int:
     registro = []
 
     if a.normalizar:
-        r = llamar(cliente, a.modelo, "normalizacion", SISTEMA_NORMALIZACION, q["pregunta"], ESQUEMA_NORMALIZACION,
+        mensaje = mensaje_normalizacion(q["pregunta"], *pol.indice.vocabulario())
+        r = llamar(cliente, a.modelo, "normalizacion", SISTEMA_NORMALIZACION, mensaje, ESQUEMA_NORMALIZACION,
                    ProveedorGroq._ESFUERZO["normalizacion"], ProveedorGroq._MAX_TOKENS["normalizacion"])
         registro.append(r)
         if "error" in r:
             return 1
         norm = json.loads(r["contenido"])
+        norm["titulos"] = norm["clausulas"] + norm["articulos"]  # sin validar contra el índice: es una medición
     else:
         norm = cache_normalizacion.buscar(q["pregunta"], pol.sha256)
         if norm is None:
             print("Esa pregunta no está en la caché: usa --normalizar o corre python -m ai.preparar_demo")
             return 1
 
-    pasajes = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm["terminos"], k=a.k,
+    pasajes = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), k=a.k, titulos=norm.get("titulos"),
                         continuar=a.continuar, presupuesto_caracteres=a.presupuesto)
     xml = pasajes_xml(pasajes)
     usuario = mensaje_respuesta(q["pregunta"], norm["hechos"], pol.secciones, xml)

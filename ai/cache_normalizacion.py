@@ -11,6 +11,11 @@ pruebas/preguntas.json), agrega entradas.
 
 Clave: el texto de la pregunta (sin mayúsculas, tildes ni signos) + el sha256 del PDF.
 Así acierta tanto con un condicionado precargado como si se sube el mismo PDF.
+
+Cada entrada guarda la versión del prompt de normalización (ai/prompts.py). Una entrada de
+otra versión no se usa y se borra la próxima vez que se escribe la caché. La versión 1
+(antes de anclar la normalización a los títulos del documento) quedó en
+pruebas/normalizaciones_v1.json como evidencia de la comparación.
 """
 
 from __future__ import annotations
@@ -21,6 +26,9 @@ from functools import lru_cache
 from pathlib import Path
 
 from ai.indice import sin_tildes
+from ai.prompts import VERSION_NORMALIZACION
+
+CAMPOS = ("variantes", "titulos", "clausulas", "articulos", "hechos")
 
 RUTA = Path(__file__).resolve().parent.parent / "data" / "cache" / "normalizaciones.json"
 
@@ -43,24 +51,29 @@ def _cargar() -> dict[str, dict]:
 
 def buscar(pregunta: str, sha256_pdf: str) -> dict | None:
     """Normalización guardada para esta pregunta y este PDF, o None. Solo lectura."""
-    entrada = _cargar().get(clave(pregunta, sha256_pdf))
+    entrada = _vigente(pregunta, sha256_pdf)
     if entrada is None:
         return None
-    return {k: entrada[k] for k in ("variantes", "terminos", "hechos")} | {"ajuste": None}
+    return {k: entrada[k] for k in CAMPOS} | {"ajuste": None}
 
 
 def tokens_generacion(pregunta: str, sha256_pdf: str) -> dict | None:
     """Tokens que costó generar esa normalización (lo que gastaría en vivo sin la caché)."""
-    entrada = _cargar().get(clave(pregunta, sha256_pdf))
+    entrada = _vigente(pregunta, sha256_pdf)
     return entrada.get("tokens") if entrada else None
+
+
+def _vigente(pregunta: str, sha256_pdf: str) -> dict | None:
+    entrada = _cargar().get(clave(pregunta, sha256_pdf))
+    return entrada if entrada and entrada.get("version") == VERSION_NORMALIZACION else None
 
 
 # --- Escritura: solo desde ai/preparar_demo.py (local, preguntas públicas) ---
 
 
 def guardar(entradas: dict[str, dict]) -> None:
-    datos = dict(_cargar())
-    datos.update(entradas)
+    datos = {k: v for k, v in _cargar().items() if v.get("version") == VERSION_NORMALIZACION}
+    datos.update({k: {"version": VERSION_NORMALIZACION, **v} for k, v in entradas.items()})
     RUTA.parent.mkdir(parents=True, exist_ok=True)
     RUTA.write_text(
         json.dumps(dict(sorted(datos.items())), ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"

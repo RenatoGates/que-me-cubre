@@ -85,7 +85,7 @@ def correr(a: argparse.Namespace) -> int:
         if norm is None:
             print(f"{q['id']}: falta la normalización en la caché (python -m ai.preparar_demo)")
             return 1
-        pas = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm["terminos"], k=a.k,
+        pas = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), k=a.k, titulos=norm.get("titulos"),
                         continuar=a.continuar, presupuesto_caracteres=a.presupuesto)
         usuario = mensaje_respuesta(q["pregunta"], norm["hechos"], pol.secciones, pasajes_xml(pas))
         crudo, error = None, None
@@ -238,7 +238,7 @@ def resumen(_a: argparse.Namespace) -> int:
         for q in qs.values():
             pol = poliza(q["poliza"])
             norm = cache_normalizacion.buscar(q["pregunta"], pol.sha256)
-            pas = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm["terminos"], **cfg)
+            pas = recuperar(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), titulos=norm.get("titulos"), **cfg)
             usuario = mensaje_respuesta(q["pregunta"], norm["hechos"], pol.secciones, pasajes_xml(pas))
             fs.append((q["id"], len(pas), len(usuario), acierta([p.trozo for p in pas], q["esperados"], q["modo"])))
         ev = [f for f in fs if f[3] is not None]

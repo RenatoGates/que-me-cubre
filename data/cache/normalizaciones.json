@@ -1,477 +1,415 @@
 {
   "2acb4b63a331dbac|si durante el viaje el medico me pide una radiografia rimac la cubre": {
+    "version": 2,
     "documento": "rimac_viajes",
     "sha256_pdf": "2acb4b63a331dbacfbcfbe88b1d0dc2b84b32ac85ecc8064c04ef3cf98bda0b0",
     "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
     "variantes": [
-      "Gastos médicos por radiografía solicitada durante el viaje, cobertura de exámenes diagnósticos y reembolso de costos hospitalarios",
-      "Exclusiones aplicables a radiografías realizadas por condiciones preexistentes o falta de autorización previa de la aseguradora",
-      "Condiciones de cobertura: vigencia del seguro durante el viaje, límite de suma asegurada para exámenes diagnósticos y deducible aplicable",
-      "Trámite de siniestro: aviso a la central de asistencia, plazo de presentación de facturas, documentos requeridos para reembolso de radiografía",
-      "Cobertura de urgencia médica: atención de emergencias, diagnóstico y tratamiento inmediato, incluido examen radiográfico, según póliza de viaje"
+      "Cobertura de radiografía solicitada por médico durante el viaje según la cláusula Accidentes Personales.",
+      "Exclusiones que podrían impedir el pago de la radiografía solicitada por médico en el viaje.",
+      "Vigencia, territorialidad y límites de la cobertura para radiografías durante el viaje.",
+      "Aviso y trámite para solicitar el reembolso de la radiografía solicitada por médico mientras se está de viaje.",
+      "Procedimiento para reclamar el beneficio de la radiografía bajo la cobertura de Accidentes Personales."
     ],
-    "terminos": [
-      "gastos médicos",
-      "radiografía",
-      "cobertura",
-      "exclusión",
-      "deducible",
-      "suma asegurada",
-      "vigencia",
-      "siniestro",
-      "reembolso",
-      "diagnóstico"
+    "titulos": [
+      "Accidentes Personales",
+      "Asistencia médica por accidente y por Enfermedad",
+      "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
+      "EXCLUSIONES",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO",
+      "COBERTURA"
+    ],
+    "clausulas": [
+      "Accidentes Personales"
+    ],
+    "articulos": [
+      "Asistencia médica por accidente y por Enfermedad",
+      "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
+      "EXCLUSIONES",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO",
+      "COBERTURA"
     ],
     "hechos": [
-      "Durante el viaje el médico solicitó una radiografía",
-      "El asegurado pregunta si Rimac cubre ese gasto"
+      "Médico solicita radiografía.",
+      "Situación ocurre durante el viaje."
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 629,
-      "salida": 281,
-      "razonamiento": 6
+      "entrada": 1607,
+      "salida": 390,
+      "razonamiento": 140
     }
   },
   "61e8b4651899302e|me fracture la pierna esquiando en una pista autorizada en bariloche pacifico me cubre": {
+    "version": 2,
     "documento": "pacifico_viajes",
     "sha256_pdf": "61e8b4651899302e69d0496c0c49ebd644cf47351ac37edd91a1b56c61e181f9",
     "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
     "variantes": [
-      "Cobertura de gastos médicos por accidente de esquí, atención de urgencia, hospitalización, diagnóstico y tratamiento de fractura de pierna en Bariloche.",
-      "Exclusión de lesiones ocurridas fuera de pista autorizada, actividades de riesgo no declaradas y fracturas preexistentes no cubiertas por la póliza.",
-      "Condiciones de vigencia durante el viaje, territorio de cobertura en Argentina, límite de suma asegurada, deducible aplicable y ausencia de carencia para accidentes de esquí.",
-      "Procedimiento de aviso de siniestro a la central de asistencia, plazo de notificación, documentos requeridos y reembolso de gastos médicos conforme al beneficio contratado.",
-      "Posible requerimiento de autorización previa para tratamiento especializado y exclusión de gastos por equipos de protección no homologados."
+      "¿La cobertura de accidente incluye fractura de pierna al practicar esquí en pista autorizada?",
+      "¿Existen exclusiones que impidan la cobertura por una fractura de pierna al esquiar en Bariloche?",
+      "¿La vigencia y validez territorial del seguro cubren un accidente de esquí en Bariloche?",
+      "¿Cuál es el medio y plazo para avisar del siniestro de una fractura al esquiar y solicitar la cobertura?",
+      "¿Se aplica alguna condición adicional para la cobertura de accidente deportivo en pista autorizada?"
     ],
-    "terminos": [
-      "accidente",
-      "lesión",
-      "gastos médicos",
-      "hospitalización",
-      "deducible",
-      "suma asegurada",
-      "exclusión",
-      "vigencia",
-      "siniestr o",
-      "reembolso"
+    "titulos": [
+      "COBERTURAS",
+      "EXCLUSIONES",
+      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "Coberturas Básicas",
+      "Principales exclusiones",
+      "Vigencia del Seguro",
+      "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Medio y plazo establecido para el aviso del siniestro"
+    ],
+    "clausulas": [
+      "COBERTURAS",
+      "EXCLUSIONES",
+      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO"
+    ],
+    "articulos": [
+      "Coberturas Básicas",
+      "Principales exclusiones",
+      "Vigencia del Seguro",
+      "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Medio y plazo establecido para el aviso del siniestro"
     ],
     "hechos": [
-      "fractura de pierna",
-      "esquí en pista autorizada",
-      "occurrido en Bariloche"
+      "fracturó la pierna",
+      "esquiando en pista autorizada",
+      "Bariloche"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 635,
-      "salida": 387,
-      "razonamiento": 95
-    }
-  },
-  "668a7e8adda8c4b0|choque el auto que alquile durante el viaje el seguro paga la reparacion": {
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
-    "variantes": [
-      "Cobertura de gastos de reparación del vehículo alquilado por accidente durante el viaje, incluye repuesto y mano de obra, con límite según suma asegurada.",
-      "Exclusión de daños causados por conducción bajo efecto de alcohol, exceso de velocidad o negligencia del conductor, no cubre reparaciones en esos casos.",
-      "Condiciones: vigencia durante la duración del alquiler, territorio Perú, deducible aplicable por colisión, límite máximo de cobertura por siniestro, sin carencia para daños a vehículo alquilado.",
-      "Trámite de siniestro: notificación inmediata a la central de asistencia, presentación de informe policial, facturas de reparación y fotos, plazo de 15 días para presentar reclamo y recibir reembolso.",
-      "Límite de responsabilidad: la aseguradora cubre hasta el valor declarado del alquiler, excluye daños a accesorios no incluidos en el contrato de arrendamiento."
-    ],
-    "terminos": [
-      "accidente",
-      "reparación",
-      "vehículo alquilado",
-      "cobertura",
-      "exclusión",
-      "deducible",
-      "límite",
-      "suma asegurada",
-      "siniestro",
-      "reembolso"
-    ],
-    "hechos": [
-      "Choqué el auto que alquilé",
-      "Durante el viaje",
-      "Solicito saber si el seguro paga la reparación"
-    ],
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 627,
-      "salida": 357,
-      "razonamiento": 37
-    }
-  },
-  "668a7e8adda8c4b0|cuantos dias tengo para avisar al seguro despues del accidente": {
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "¿Cuántos días tengo para avisar al seguro después del accidente?",
-    "variantes": [
-      "Plazo máximo para notificar siniestro por accidente y presentar reclamo de indemnización.",
-      "Exclusión de cobertura si la notificación del siniestro excede el período permitido.",
-      "Condiciones de vigencia y límite temporal para avisar al seguro tras accidente.",
-      "Trámite de aviso de siniestro: documentación requerida y plazo de presentación después del accidente.",
-      "Requisitos de notificación y consecuencias de retraso en la comunicación del siniestro."
-    ],
-    "terminos": [
-      "siniestro",
-      "accidente",
-      "plazo",
-      "notificación",
-      "reclamo",
-      "cobertura",
-      "exclusión",
-      "vigencia",
-      "documentación",
-      "reembolso"
-    ],
-    "hechos": [
-      "Pregunta sobre número de días para avisar al seguro después del accidente."
-    ],
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 623,
-      "salida": 217,
-      "razonamiento": 7
+      "entrada": 1649,
+      "salida": 390,
+      "razonamiento": 101
     }
   },
   "668a7e8adda8c4b0|la aerolinea perdio mi maleta en el vuelo que me pagan": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
     "variantes": [
-      "Gastos de reposición y compra de efectos personales por pérdida de equipaje durante el vuelo, reembolso de valor declarado y asistencia de emergencia.",
-      "Exclusiones aplicables a pérdida de equipaje cuando el contenido está excluido, valor declarado no supera el límite, o la pérdida ocurre por negligencia del asegurado.",
-      "Condiciones y límites: cobertura vigente durante el itinerario, límite máximo por reclamo, valor declarado de la maleta, deducible aplicable y exclusión de artículos de valor sin declaración previa.",
-      "Trámite de siniestro: notificación a la aseguradora y a la aerolínea dentro de 24 horas, presentación de constancia de pérdida, facturas de compra, formulario de reclamación y plazo de reembolso de 30 días.",
-      "Beneficio adicional de asistencia en destino: entrega de kit de emergencia, adelanto de efectivo para compras esenciales y cobertura de gastos de vestuario temporal."
+      "¿Cuál es la cobertura para la pérdida de equipaje?",
+      "¿Qué exclusiones pueden aplicar a la pérdida de equipaje?",
+      "¿Cuál es la vigencia y territorio de la cobertura por pérdida de equipaje?",
+      "¿Cuál es el aviso y el procedimiento para solicitar la cobertura por pérdida de equipaje?",
+      "¿Qué condiciones de cobertura se requieren para el reembolso por pérdida de equipaje?"
     ],
-    "terminos": [
-      "pérdida de equipaje",
-      "valor declarado",
-      "gastos de reposición",
-      "límite máximo",
-      "deducible",
-      "exclusión",
-      "vigencia",
-      "reembolso",
-      "siniestro",
-      "asistencia"
+    "titulos": [
+      "Pérdida de Equipaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Pérdida de Equipaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
     ],
     "hechos": [
       "La aerolínea perdió mi maleta",
-      "Ocurrió durante el vuelo",
-      "Quiero saber qué me pagan"
+      "Ocurrió durante el vuelo"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 626,
-      "salida": 359,
-      "razonamiento": 32
+      "entrada": 1576,
+      "salida": 349,
+      "razonamiento": 133
     }
   },
   "668a7e8adda8c4b0|me dijeron que me saque una radiografia al llegar a lima porque alla no tenian la especialidad eso tambien me cubre": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
     "variantes": [
-      "Cobertura de gastos médicos por diagnóstico de urgencia, incluye radiografía solicitada al llegar a Lima por falta de especialidad.",
-      "Exclusión de cobertura por procedimiento no prescrito previamente o no considerado emergencia médica bajo la póliza vigente.",
-      "Condiciones aplicables: vigencia del seguro durante estancia en Perú, territorio incluido, deducible aplicable y límite de suma asegurada para exámenes diagnósticos.",
-      "Trámite de siniestro: notificar a la central de asistencia, presentar factura de radiografía, plazo de reembolso dentro de 30 días hábiles.",
-      "Reembolso de gastos de diagnóstico si la radiografía es requerida por médico de la red y está autorizada antes de la realización."
+      "¿La cobertura de gastos médicos por accidente y/o enfermedad durante el viaje incluye la radiografía solicitada al llegar a Lima?",
+      "¿Existen exclusiones que impidan cubrir la radiografía requerida en Lima por falta de especialidad local?",
+      "¿La vigencia individual y territorio del seguro permite la cobertura de radiografías realizadas en Lima durante el viaje?",
+      "¿Cuál es el aviso del siniestro y procedimiento para solicitar la cobertura de una radiografía al llegar a Lima?",
+      "¿La condición de cobertura contempla estudios diagnósticos como radiografías cuando la especialidad no está disponible en el destino?"
     ],
-    "terminos": [
-      "gastos médicos",
-      "radiografía",
-      "diagnóstico",
-      "cobertura",
-      "exclusión",
-      "vigencia",
-      "territorio",
-      "deducible",
-      "límite",
-      "reembolso",
-      "siniestro",
-      "autoridad previa"
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
     ],
     "hechos": [
-      "Le solicitaron radiografía al llegar a Lima.",
-      "En el destino no había la especialidad requerida.",
-      "Pregunta si ese gasto está cubierto por el seguro."
+      "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 636,
-      "salida": 350,
-      "razonamiento": 54
+      "entrada": 1586,
+      "salida": 479,
+      "razonamiento": 209
     }
   },
   "668a7e8adda8c4b0|me enferme dos dias antes de viajar y no pude subir al avion me devuelven lo que pague": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
     "variantes": [
-      "Reembolso del importe del pasaje por enfermedad de carácter súbito que impide el viaje, según cobertura de cancelación por salud.",
-      "Exclusión de la cobertura cuando la enfermedad es preexistente o no se ha cumplido el periodo de carencia establecido.",
-      "Condiciones de vigencia: la enfermedad debe manifestarse dentro del plazo de 48 horas antes del vuelo, con deducible aplicable y límite de suma asegurada.",
-      "Trámite de siniestro: aviso inmediato a la central, presentación de certificado médico y documentos de compra del billete dentro del plazo de 5 días para reembolso."
+      "cobertura por cancelación del viaje por enfermedad antes del inicio del viaje",
+      "exclusiones relacionadas con enfermedad preexistente que puedan impedir la cobertura",
+      "vigencia del seguro y territorio aplicable a la cancelación del viaje por enfermedad",
+      "aviso del siniestro y procedimiento para solicitar la devolución por cancelación del viaje",
+      "condiciones de cobertura y requisitos para recibir el reembolso por enfermedad antes del vuelo"
     ],
-    "terminos": [
-      "enfermedad súbita",
-      "cancelación de viaje",
-      "reembolso",
-      "pasaje",
-      "cobertura",
-      "exclusión",
-      "preexistente",
-      "carencia",
-      "deducible",
-      "límite"
+    "titulos": [
+      "Cancelación del Viaje",
+      "Condiciones Generales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Cancelación del Viaje",
+      "Condiciones Generales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
     ],
     "hechos": [
-      "Enfermedad dos días antes del viaje",
-      "No pudo subir al avión",
-      "Solicita devolución del importe pagado"
+      "se enfermó dos días antes del viaje",
+      "no pudo subir al avión",
+      "desea que le devuelvan lo pagado"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 634,
-      "salida": 282,
-      "razonamiento": 21
+      "entrada": 1584,
+      "salida": 387,
+      "razonamiento": 146
     }
   },
   "668a7e8adda8c4b0|me torci el dedo en tarapoto y fui a un centro medico me cubre los gastos": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
     "variantes": [
-      "Gastos médicos por lesión accidental en Tarapoto, atención de urgencia, reembolso de consultas, exámenes y hospitalización.",
-      "Exclusión de cobertura por lesiones preexistentes o actividades de riesgo no declaradas durante el viaje a Tarapoto.",
-      "Cobertura sujeta a vigencia del seguro, territorio Perú, deducible aplicable y límite máximo de suma asegurada para gastos médicos.",
-      "Procedimiento de siniestro: aviso inmediato a la central de asistencia, presentación de facturas y recetas dentro de 48 horas para reembolso.",
-      "Reembolso de tratamiento de emergencia por lesión súbita, siempre que se haya obtenido autorización previa cuando sea requerida por la póliza."
+      "¿cubre gastos médicos por accidente el seguro según los riesgos cubiertos?",
+      "¿existen exclusiones que impidan la cobertura del gasto por torcedura de dedo?",
+      "¿es válida la cobertura en Tarapoto bajo la vigencia y territorio del seguro?",
+      "¿qué aviso del siniestro y procedimiento para solicitar la cobertura debo seguir?",
+      "¿se requiere cumplir alguna condición de cobertura para que el gasto sea reembolsado?"
     ],
-    "terminos": [
-      "lesión accidental",
-      "gastos médicos",
-      "urgencia",
-      "deducible",
-      "suma asegurada",
-      "exclusión",
-      "preexistente",
-      "territorio",
-      "reembolso",
-      "siniestro"
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
     ],
     "hechos": [
-      "Se torció el dedo",
-      "Ocurrió en Tarapoto",
-      "Acudió a un centro médico",
-      "Pregunta sobre cobertura de los gastos"
+      "torció el dedo",
+      "ocurrió en Tarapoto",
+      "acudió a un centro médico"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 632,
-      "salida": 287,
-      "razonamiento": 6
-    }
-  },
-  "668a7e8adda8c4b0|que documentos tengo que presentar para pedir el reembolso": {
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "¿Qué documentos tengo que presentar para pedir el reembolso?",
-    "variantes": [
-      "Requisitos para presentar documentos y obtener reembolso de gastos médicos, facturas, informes y comprobantes de pago.",
-      "Documentación necesaria para el trámite de reembolso: facturas originales, recetas, reportes médicos y comprobante de pago.",
-      "Procedimiento de reembolso incluye presentar factura detallada, diagnóstico, receta, certificado de urgencia y formulario de siniestro.",
-      "Para solicitar indemnización se deben adjuntar factura, informe de atención de urgencia, receta, copia del pasaporte y comprobante de pago.",
-      "Reembolso de gastos hospitalarios requiere facturas, notas de evolución, prescripción médica y comprobante de pago dentro del plazo establecido."
-    ],
-    "terminos": [
-      "reembolso",
-      "documentos",
-      "factura",
-      "informe médico",
-      "receta",
-      "comprobante de pago",
-      "trámite",
-      "siniestro",
-      "indemnización",
-      "plazo"
-    ],
-    "hechos": [
-      "El asegurado pregunta por los documentos necesarios para solicitar el reembolso."
-    ],
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 620,
-      "salida": 256,
-      "razonamiento": 6
+      "entrada": 1582,
+      "salida": 408,
+      "razonamiento": 159
     }
   },
   "668a7e8adda8c4b0|quiero aprovechar el viaje para operarme la nariz por estetica lo cubre el seguro": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Quiero aprovechar el viaje para operarme la nariz por estética, ¿lo cubre el seguro?",
     "variantes": [
-      "Cobertura de gastos médicos por intervención quirúrgica estética en nariz, incluyendo honorarios, anestesia, hospitalización y postoperatorio.",
-      "Exclusión de tratamientos de carácter estético o electivo, no cubiertos bajo la póliza de seguro de viaje.",
-      "Condiciones de cobertura: vigencia del seguro durante el viaje, suma asegurada máxima, deducible aplicable, exclusión de preexistencias y carencia para procedimientos electivos.",
-      "Trámite de sinistro: notificación al asegurador antes de la cirugía, presentación de presupuesto y facturas, plazo de reembolso de treinta días, documentación médica requerida.",
-      "Limitación territorial: cobertura válida únicamente dentro del territorio del país de destino y en establecimientos médicos acreditados por la aseguradora."
+      "¿el seguro cubre la cirugía estética de la nariz durante el viaje según riesgos cubiertos?",
+      "¿existen exclusiones que impidan cubrir una operación estética de la nariz en el viaje?",
+      "¿la cobertura está vigente en el territorio del viaje y permite gastos médicos electivos?",
+      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar cobertura de una operación estética?",
+      "¿la póliza permite solicitar reembolso por cirugía estética programada durante el viaje?"
     ],
-    "terminos": [
-      "gastos médicos",
-      "intervención quirúrgica estética",
-      "exclusión",
-      "preexistente",
-      "deducible",
-      "suma asegurada",
-      "vigencia",
-      "siniestró",
-      "reembolso",
-      "hospitalización"
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Vigencia Individual y Territorio"
     ],
     "hechos": [
-      "El asegurado desea operarse la nariz por motivos estéticos durante el viaje."
+      "operación estética de la nariz",
+      "durante el viaje"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 629,
-      "salida": 292,
-      "razonamiento": 11
+      "entrada": 1579,
+      "salida": 388,
+      "razonamiento": 154
     }
   },
   "668a7e8adda8c4b0|se me rompio un diente comiendo durante el viaje me cubre el dentista": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
     "variantes": [
-      "Cobertura de gastos médicos dentales por lesión súbita durante el viaje, atención de urgencia dental y reembolso de tratamiento odontológico.",
-      "Exclusión de cobertura para lesiones dentales preexistentes o causadas por consumo de alimentos contaminados durante el viaje.",
-      "Condiciones de cobertura dental: vigencia durante la estancia, territorio del viaje, deducible aplicable, límite anual de gastos dentales y ausencia de carencia para lesiones agudas.",
-      "Trámite de siniestro dental: aviso inmediato a la aseguradora, presentación de factura del dentista, plazo de 48 horas para notificar, envío de documentos para reembolso.",
-      "Beneficio opcional de asistencia odontológica de emergencia: acceso a red de dentistas, autorización previa para procedimientos mayores y cobertura de exámenes diagnósticos."
+      "¿cubre el gasto odontológico de emergencia durante el viaje por una fractura dental?",
+      "¿existen exclusiones que impidan la cobertura del gasto odontológico de emergencia durante el viaje?",
+      "¿el gasto odontológico de emergencia durante el viaje está vigente en el territorio del seguro y dentro de los límites establecidos?",
+      "¿cuál es el aviso del siniestro y el procedimiento para solicitar la cobertura del gasto odontológico de emergencia durante el viaje?",
+      "¿se incluye la asistencia dental como parte de la cobertura de gastos odontológicos de emergencia durante el viaje?"
     ],
-    "terminos": [
-      "gastos médicos dentales",
-      "lesión súbita",
-      "urgencia dental",
-      "reembolso",
-      "exclusión",
-      "preexistente",
-      "deducible",
-      "límite",
-      "vigencia",
-      "siniestr"
+    "titulos": [
+      "Gastos Odontológicos de Emergencia durante el Viaje",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Odontológicos de Emergencia durante el Viaje",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio",
+      "Condiciones de Cobertura"
     ],
     "hechos": [
       "Se rompió un diente",
-      "Ocurrió mientras comía",
-      "Durante el viaje"
+      "Ocurrió durante el viaje",
+      "Necesita atención del dentista"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 630,
-      "salida": 301,
-      "razonamiento": 6
+      "entrada": 1580,
+      "salida": 515,
+      "razonamiento": 234
     }
   },
   "668a7e8adda8c4b0|tengo diabetes desde hace anos si me descompenso durante el viaje me cubren la atencion": {
+    "version": 2,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Tengo diabetes desde hace años; si me descompenso durante el viaje, ¿me cubren la atención?",
     "variantes": [
-      "Cobertura de gastos médicos por descompensación de enfermedad preexistente durante la vigencia del seguro de viaje, incluyendo atención de urgencia, diagnóstico y tratamiento hospitalario.",
-      "Exclusión de cobertura para enfermedades preexistentes no declaradas o sin autorización previa, limitando el reembolso a situaciones de urgencia comprobada durante el viaje.",
-      "Condiciones aplicables: carencia de 30 días para enfermedad preexistente, deducible de US$50 por siniestro, suma asegurada máxima US$20,000, cobertura limitada al territorio peruano y a la duración del viaje.",
-      "Trámite de siniestro: notificar a la central de asistencia dentro de 24 horas, presentar facturas y certificados médicos, solicitud de reembolso dentro de 15 días hábiles posteriores al evento.",
-      "Requisitos adicionales: autorización médica previa para tratamiento de enfermedad crónica, exclusión de gastos de medicación rutinaria, cobertura solo para emergencias agudas relacionadas con la diabetes."
+      "¿La cobertura incluye atención médica por enfermedad durante el viaje?",
+      "¿Existen exclusiones que impidan cubrir una descompensación de diabetes?",
+      "¿La cobertura está vigente en el territorio del viaje y tiene límites para enfermedad?",
+      "¿Cómo debe avisarse el siniestro y cuál es el procedimiento para solicitar la cobertura por enfermedad?",
+      "¿Qué requisitos de acceso y límites de permanencia aplican para la cobertura de enfermedad preexistente?"
     ],
-    "terminos": [
-      "enfermedad preexistente",
-      "descompensación",
-      "gastos médicos",
-      "urgencia",
-      "diagnóstico",
-      "tratamiento",
-      "carencia",
-      "deducible",
-      "suma asegurada",
-      "vigencia",
-      "siniestro",
-      "reembolso"
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
+      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
+      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
     ],
     "hechos": [
-      "El asegurado tiene diabetes desde hace años.",
-      "Pregunta si la atención médica por descompensación está cubierta durante el viaje."
+      "tiene diabetes desde hace años",
+      "puede descompensarse durante el viaje"
     ],
+    "ajuste": null,
     "proveedor": "groq",
     "modelo": "openai/gpt-oss-120b",
     "fecha": "2026-11-07",
     "tokens": {
-      "entrada": 631,
-      "salida": 382,
-      "razonamiento": 31
-    }
-  },
-  "668a7e8adda8c4b0|tenia que llamar a la central de asistencia antes de ir al centro medico": {
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "¿Tenía que llamar a la central de asistencia antes de ir al centro médico?",
-    "variantes": [
-      "¿Es necesario notificar a la central de asistencia antes de recibir atención médica de urgencia durante el viaje?",
-      "¿Existe exclusión si se acude a un centro médico sin previa autorización de la central de asistencia?",
-      "Condiciones de aviso al siniestro: plazos para comunicar a la central de asistencia y requisitos de documentación antes de la atención médica.",
-      "Trámite de reembolso: presentación de facturas y comprobantes después de la atención, siempre que se haya avisado a la central de asistencia según el procedimiento establecido.",
-      "¿Se aplican deducibles o límites al beneficio de atención médica si no se contactó a la central de asistencia previamente?"
-    ],
-    "terminos": [
-      "central de asistencia",
-      "aviso de siniestro",
-      "atención médica de urgencia",
-      "reembolso",
-      "documentación",
-      "plazo",
-      "exclusión",
-      "deducible",
-      "límite",
-      "beneficio"
-    ],
-    "hechos": [
-      "El asegurado pregunta si debía llamar a la central de asistencia antes de ir al centro médico."
-    ],
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 626,
-      "salida": 270,
-      "razonamiento": 7
+      "entrada": 1581,
+      "salida": 419,
+      "razonamiento": 151
     }
   }
 }

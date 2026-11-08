@@ -1,9 +1,15 @@
 """Recuperación (RAG, sesión 08): de la pregunta normalizada a los pasajes de la póliza.
 
-Producto: BM25 con varias consultas. Cada variante de la normalización, los términos del
-seguro y la pregunta original (a medio peso) se buscan por separado y los rankings se
-combinan con Reciprocal Rank Fusion (RRF). Así una sola reformulación desafortunada no
-deja fuera la cláusula: basta que una variante use las palabras de la póliza.
+Producto: BM25 con varias consultas. Cada variante de la normalización, cada título del
+documento que la normalización eligió, los términos y la pregunta original (a medio peso)
+se buscan por separado y los rankings se combinan con Reciprocal Rank Fusion (RRF). Así una
+sola reformulación desafortunada no deja fuera la cláusula: basta que una consulta use las
+palabras de la póliza.
+
+Cada consulta se busca dos veces: en el texto de los trozos y en un índice aparte que solo
+tiene sus títulos (cláusula y artículo). En el texto, "Gastos Médicos por Accidente" son
+cuatro palabras entre doscientas y aparecen en casi todas las cláusulas; en los títulos
+pesan solas. Si la consulta coincide con el título, el pasaje sube.
 
 Los métodos con embeddings existen solo para la comparación de pruebas/: la app no carga
 el modelo (ocupa ~1,2 GB de RAM con torch).
@@ -22,6 +28,7 @@ from ai.troceado import Trozo
 
 K_RRF = 60
 PESO_PREGUNTA = 0.5  # la pregunta coloquial trae palabras que confunden ("dedo" -> desmembramiento)
+PESO_TITULO = 1.0  # ranking por títulos frente al del texto, para la misma consulta
 METODOS = ("bm25_pregunta", "bm25_variantes", "emb_pregunta", "emb_variantes")
 
 
@@ -42,6 +49,21 @@ def _ranking_bm25(indice: Indice, consulta: str) -> np.ndarray:
     return orden[puntajes[orden] > 0]
 
 
+def _ranking_titulos(indice: Indice, consulta: str) -> tuple[np.ndarray, np.ndarray]:
+    """Trozos cuyo título coincide con la consulta y su puesto. Los empatados (las partes de
+    un mismo artículo, que comparten título) comparten puesto: el título sube el artículo
+    entero, no una parte al azar."""
+    tk = tokens(consulta)
+    if not tk:
+        return np.array([], dtype=int), np.array([], dtype=int)
+    puntajes = np.round(indice.bm25_titulos.get_scores(tk), 6)
+    orden = np.argsort(-puntajes, kind="stable")
+    orden = orden[puntajes[orden] > 0]
+    distintos = -np.unique(-puntajes[orden])  # de mayor a menor
+    puesto = {v: r for r, v in enumerate(distintos)}
+    return orden, np.array([puesto[v] for v in puntajes[orden]], dtype=int)
+
+
 def _ranking_embeddings(indice: Indice, consulta: str) -> np.ndarray:
     from ai.indice import embeber_consulta  # carga perezosa: solo en evaluación
 
@@ -50,19 +72,40 @@ def _ranking_embeddings(indice: Indice, consulta: str) -> np.ndarray:
     return np.argsort(-(indice.vectores @ embeber_consulta(consulta)))
 
 
-def _rrf(rankings: list[tuple[np.ndarray, float]], n: int) -> list[tuple[int, float]]:
+def _rrf(rankings: list[tuple[np.ndarray, np.ndarray | None, float]], n: int) -> list[tuple[int, float]]:
+    """rankings: (orden, puesto de cada uno o None si es su posición, peso)."""
     puntaje = np.zeros(n)
-    for orden, peso in rankings:
-        for r, i in enumerate(orden[:100]):
+    for orden, puestos, peso in rankings:
+        for pos, i in enumerate(orden[:100]):
+            r = pos if puestos is None else puestos[pos]
             puntaje[i] += peso / (K_RRF + r + 1)
     orden = np.argsort(-puntaje)
     return [(int(i), float(puntaje[i])) for i in orden if puntaje[i] > 0]
 
 
-def rankear(indice: Indice, pregunta: str, variantes: list[str], terminos: list[str], metodo: str) -> list[tuple[int, float]]:
-    """Ranking completo (índice del trozo, puntaje) según el método."""
+def _rankings_bm25(indice: Indice, consultas: list[tuple[str, float]], peso_titulo: float):
+    salida = [(_ranking_bm25(indice, c), None, p) for c, p in consultas]
+    if peso_titulo > 0:
+        salida += [(*_ranking_titulos(indice, c), p * peso_titulo) for c, p in consultas]
+    return salida
+
+
+def rankear(
+    indice: Indice,
+    pregunta: str,
+    variantes: list[str],
+    terminos: list[str],
+    metodo: str,
+    titulos: list[str] | None = None,
+    peso_titulo: float = PESO_TITULO,
+) -> list[tuple[int, float]]:
+    """Ranking completo (índice del trozo, puntaje) según el método. `titulos` son los
+    títulos del documento que eligió la normalización: cada uno es una consulta más.
+    `peso_titulo=0` apaga el índice de títulos (BM25 solo sobre el texto)."""
     n = len(indice.trozos)
     if metodo == "bm25_pregunta":
+        if peso_titulo > 0:
+            return _rrf(_rankings_bm25(indice, [(pregunta, 1.0)], peso_titulo), n)
         orden = _ranking_bm25(indice, pregunta)
         return [(int(i), 1.0 / (r + 1)) for r, i in enumerate(orden)]
     if metodo == "emb_pregunta":
@@ -70,17 +113,27 @@ def rankear(indice: Indice, pregunta: str, variantes: list[str], terminos: list[
         return [(int(i), 1.0 / (r + 1)) for r, i in enumerate(orden)]
 
     consultas = [(v, 1.0) for v in variantes]
+    consultas += [(t, 1.0) for t in titulos or []]
     if terminos:
         consultas.append((" ".join(terminos), 1.0))
     consultas.append((pregunta, PESO_PREGUNTA))
     if metodo == "bm25_variantes":
-        return _rrf([(_ranking_bm25(indice, c), p) for c, p in consultas], n)
+        return _rrf(_rankings_bm25(indice, consultas, peso_titulo), n)
     if metodo == "emb_variantes":
-        return _rrf([(_ranking_embeddings(indice, c), p) for c, p in consultas], n)
+        return _rrf([(_ranking_embeddings(indice, c), None, p) for c, p in consultas], n)
     raise ValueError(f"método desconocido: {metodo}")
 
 
-def top_k(indice: Indice, pregunta: str, variantes: list[str], terminos: list[str], metodo: str, k: int) -> list[tuple[int, float]]:
+def top_k(
+    indice: Indice,
+    pregunta: str,
+    variantes: list[str],
+    terminos: list[str],
+    metodo: str,
+    k: int,
+    titulos: list[str] | None = None,
+    peso_titulo: float = PESO_TITULO,
+) -> list[tuple[int, float]]:
     """Los k mejores trozos sin repetir texto.
 
     Los condicionados repiten artículos idénticos en cada cláusula adicional (en Chubb,
@@ -88,13 +141,13 @@ def top_k(indice: Indice, pregunta: str, variantes: list[str], terminos: list[st
     solo lugar, y entre sus copias se elige la de la sección cuyo nombre más coincide con
     la consulta: para una pregunta de gastos médicos, la copia de "Gastos Médicos".
     """
-    consulta = Counter(tokens(" ".join([*variantes, *terminos, pregunta])))
+    consulta = Counter(tokens(" ".join([*variantes, *(titulos or []), *terminos, pregunta])))
 
     def afinidad(i: int) -> int:
         return sum(consulta[t] for t in set(tokens(indice.trozos[i].seccion)))
 
     grupos: dict[int, list[tuple[int, float]]] = {}
-    for i, p in rankear(indice, pregunta, variantes, terminos, metodo):
+    for i, p in rankear(indice, pregunta, variantes, terminos, metodo, titulos, peso_titulo):
         grupos.setdefault(indice.claves_texto[i], []).append((i, p))
     elegidos = []
     for miembros in list(grupos.values())[:k]:  # los grupos conservan el orden del ranking
@@ -113,6 +166,8 @@ def recuperar(
     continuar: int = 2,
     maximo: int = 12,
     presupuesto_caracteres: int = 6500,
+    titulos: list[str] | None = None,
+    peso_titulo: float = PESO_TITULO,
 ) -> list[Pasaje]:
     """Los k pasajes más relevantes y, para los `continuar` primeros, las otras partes de
     su mismo artículo (un artículo largo partido en dos no debe llegar a medias).
@@ -120,7 +175,7 @@ def recuperar(
     `presupuesto_caracteres` limita las continuaciones (los k primeros entran siempre): el
     plan gratuito cuenta tokens por minuto. k = 5 y 6500 caracteres es la opción A de
     pruebas/opciones.md: unos 4600 tokens por respuesta en vez de 6600."""
-    ranking = top_k(indice, pregunta, variantes, terminos, metodo, k)
+    ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
     total = sum(len(indice.trozos[i].texto) for i in presentes)

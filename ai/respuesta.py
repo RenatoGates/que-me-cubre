@@ -20,13 +20,14 @@ import hashlib
 from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
-from ai.indice import Indice, tokens
+from ai.indice import Indice, limpiar_titulo, tokens
 from ai.llm import LimiteAlcanzado, Proveedor, ProveedorNoDisponible, SalidaInvalida, Uso, obtener_proveedor
 from ai.prompts import (
     ESQUEMA_NORMALIZACION,
     ESQUEMA_RESPUESTA,
     SISTEMA_NORMALIZACION,
     SISTEMA_RESPUESTA,
+    mensaje_normalizacion,
     mensaje_respuesta,
 )
 from ai.recuperacion import Pasaje, pasajes_xml, recuperar, resaltar
@@ -62,17 +63,48 @@ class Poliza:
 # ---------------------------------------------------------------------------
 
 
-def normalizar(pregunta: str, proveedor: Proveedor) -> tuple[dict, Uso]:
-    datos, uso = proveedor.json("normalizacion", SISTEMA_NORMALIZACION, pregunta, ESQUEMA_NORMALIZACION)
+def _del_documento(elegidos: list[str], lista: list[str]) -> tuple[list[str], list[str]]:
+    """Los títulos elegidos que existen en el documento, con su texto exacto del PDF, y los
+    que no. Se comparan por sus palabras (sin mayúsculas, tildes ni numeración)."""
+    por_clave = {" ".join(tokens(t)): t for t in lista}
+    validos, fuera = [], []
+    for e in elegidos:
+        limpio = limpiar_titulo(e) or ""
+        t = por_clave.get(" ".join(tokens(limpio)))
+        if t and t not in validos:
+            validos.append(t)
+        elif not t and e.strip():
+            fuera.append(e.strip())
+    return validos, fuera
+
+
+def normalizar(pregunta: str, proveedor: Proveedor, indice: Indice) -> tuple[dict, Uso]:
+    """Variantes de búsqueda y títulos del documento para la pregunta. Los títulos solo
+    pueden ser del índice del documento: el modelo elige de la lista y el código descarta
+    lo que no esté en ella."""
+    clausulas_doc, articulos_doc = indice.vocabulario()
+    usuario = mensaje_normalizacion(pregunta, clausulas_doc, articulos_doc)
+    datos, uso = proveedor.json("normalizacion", SISTEMA_NORMALIZACION, usuario, ESQUEMA_NORMALIZACION)
+    clausulas, fuera_c = _del_documento(datos["clausulas"], clausulas_doc)
+    articulos, fuera_a = _del_documento(datos["articulos"], articulos_doc)
+    titulos = clausulas + articulos
     variantes = list(dict.fromkeys(v.strip() for v in datos["variantes"] if v.strip()))[:MAX_VARIANTES]
-    terminos = list(dict.fromkeys(t.strip() for t in datos["terminos"] if t.strip()))
-    ajuste = None
+    ajustes = []
+    if fuera_c or fuera_a:
+        ajustes.append(f"se descartaron títulos que no están en el documento: {fuera_c + fuera_a}")
     if len(variantes) < MIN_VARIANTES:  # el esquema no puede exigir cantidades: se completa aquí
-        ajuste = f"el modelo dio {len(variantes)} variantes; se completó con los términos y la pregunta"
-        for extra in (" ".join(terminos), pregunta):
+        ajustes.append(f"el modelo dio {len(variantes)} variantes; se completó con los títulos y la pregunta")
+        for extra in (" ".join(titulos), pregunta):
             if len(variantes) < MIN_VARIANTES and extra and extra not in variantes:
                 variantes.append(extra)
-    return {"variantes": variantes, "terminos": terminos, "hechos": datos["hechos"], "ajuste": ajuste}, uso
+    return {
+        "variantes": variantes,
+        "titulos": titulos,
+        "clausulas": clausulas,
+        "articulos": articulos,
+        "hechos": datos["hechos"],
+        "ajuste": "; ".join(ajustes) or None,
+    }, uso
 
 
 # ---------------------------------------------------------------------------
@@ -204,8 +236,9 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
                     error: Exception, k: int, usos: list[Uso]) -> dict:
     """Red de seguridad: sin texto generado, solo las cláusulas encontradas, resaltadas."""
     if norm:
-        consultas = [*norm["variantes"], *norm["terminos"], pregunta]
-        pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
+        consultas = [*norm["variantes"], *norm.get("titulos", []), *norm.get("terminos", []), pregunta]
+        pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm.get("terminos", []), k=k,
+                            titulos=norm.get("titulos"))
     else:  # sin normalización: búsqueda por palabras con la pregunta tal cual
         consultas = [pregunta]
         pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="bm25_pregunta")
@@ -269,12 +302,13 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
     desde_cache = norm is not None
     if norm is None:
         try:
-            norm, uso_n = normalizar(pregunta, proveedor)
+            norm, uso_n = normalizar(pregunta, proveedor, poliza.indice)
             usos.append(uso_n)
         except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
-    pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm["terminos"], k=k)
+    pasajes = recuperar(poliza.indice, pregunta, norm["variantes"], norm.get("terminos", []), k=k,
+                        titulos=norm.get("titulos"))
     usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
     try:
         crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)

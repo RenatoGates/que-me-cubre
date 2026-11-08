@@ -6,7 +6,8 @@ la normalización, leídas de pruebas/salidas/ (no se vuelve a llamar al LLM).
 
 Métodos:
 - bm25_pregunta:  BM25 con la pregunta tal como la escribió la persona.
-- bm25_variantes: BM25 con las 3-5 variantes + términos + pregunta, fusionadas (lo que usa la app).
+- bm25_variantes: BM25 con las 3-5 variantes + títulos elegidos del documento + pregunta, en el texto
+                  y en los títulos, fusionadas (lo que usa la app).
 - emb_pregunta:   embeddings e5-small con la pregunta (lo que se descartó por memoria).
 - emb_variantes:  embeddings con las mismas consultas que bm25_variantes.
 
@@ -46,7 +47,8 @@ def main() -> int:
         pol = poliza(q["poliza"])
         detalle[q["id"]] = {}
         for metodo in METODOS:
-            ranking = top_k(pol.indice, q["pregunta"], norm["variantes"], norm["terminos"], metodo, max(KS))
+            ranking = top_k(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), metodo, max(KS),
+                            titulos=norm.get("titulos"))
             trozos = [pol.indice.trozos[i] for i, _ in ranking]
             detalle[q["id"]][metodo] = {
                 f"k{k}": acierta(trozos[:k], q["esperados"], q["modo"]) for k in KS

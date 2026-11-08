@@ -59,6 +59,40 @@ def texto_para_bm25(t: Trozo) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Títulos: vocabulario del documento e índice BM25 solo de títulos
+# ---------------------------------------------------------------------------
+
+_PREFIJO_CLAUSULA = re.compile(r"^cl[áa]usula adicional(?: de)?\s*:?\s*", re.IGNORECASE)
+_NUMERACION = re.compile(
+    r"^(?:art[íi]culo\s*\d+\s*[°º]?\s*[:.\-–]*\s*"  # "Artículo 3° ", "ARTÍCULO 9º.- "
+    r"|[A-Z]\.\s+"  # "A. INFORMACION GENERAL", "PARTE C." queda aparte
+    r"|\d+(?:\.\d+)*\.?\s+)",  # "9.5. ", "2.1.1. ", "1. "
+    re.IGNORECASE,
+)
+_SIN_TITULO = re.compile(r"^(?:numeral\s+[\d.]+|texto (?:inicial|completo) de la secci[óo]n)$", re.IGNORECASE)
+
+
+def limpiar_titulo(segmento: str) -> str | None:
+    """Un segmento de título tal como lo dice el PDF, sin numeración. None si el troceado
+    lo inventó ("numeral 10.1", "Texto inicial de la sección")."""
+    s = segmento.strip()
+    if _SIN_TITULO.match(s):
+        return None
+    s = _PREFIJO_CLAUSULA.sub("", s)
+    s = re.sub(r"^parte\s+[a-z]\.\s*", "", s, flags=re.IGNORECASE)  # "PARTE C. EXCLUSIONES"
+    for _ in range(2):  # "Artículo 10° 10.1. ..." trae dos niveles
+        s = _NUMERACION.sub("", s)
+    s = s.strip(" :.-–")
+    return s if tokens(s) else None
+
+
+def titulos_de(t: Trozo) -> list[str]:
+    """Títulos que encabezan el trozo: su cláusula y cada nivel de su artículo."""
+    partes = [t.seccion, *t.articulo.split(" › ")]
+    return [s for s in (limpiar_titulo(p) for p in partes) if s]
+
+
+# ---------------------------------------------------------------------------
 # Embeddings
 # ---------------------------------------------------------------------------
 
@@ -104,9 +138,23 @@ class Indice:
 
     def __post_init__(self) -> None:
         self.bm25 = BM25Okapi([tokens(texto_para_bm25(t)) or ["_"] for t in self.trozos])
+        # Índice aparte solo con los títulos: en el cuerpo, las palabras del título son unas
+        # pocas entre cientos; aquí pesan solas (documentos cortos, palabras menos repetidas).
+        self.bm25_titulos = BM25Okapi([tokens(" ".join(titulos_de(t))) or ["_"] for t in self.trozos])
         # Mismo texto (sin importar la sección) -> misma clave: sirve para no repetir
         # artículos idénticos de distintas cláusulas al recuperar.
         self.claves_texto = [hash(" ".join(tokens(t.texto))) for t in self.trozos]
+
+    def vocabulario(self) -> tuple[list[str], list[str]]:
+        """(títulos de cláusula, títulos de artículo) del documento, sin repetir, en orden.
+        Es la lista de la que la normalización tiene que elegir."""
+        if not hasattr(self, "_vocabulario"):
+            clausulas = _unicos(limpiar_titulo(t.seccion) for t in self.trozos)
+            articulos = _unicos(s for t in self.trozos for s in titulos_de(t)[1:])
+            vistos = {" ".join(tokens(c)) for c in clausulas}
+            articulos = [a for a in articulos if " ".join(tokens(a)) not in vistos]
+            self._vocabulario = (clausulas, articulos)
+        return self._vocabulario
 
     @classmethod
     def construir(cls, trozos: list[Trozo], meta: dict, con_embeddings: bool = True) -> "Indice":
@@ -142,3 +190,14 @@ class Indice:
         if vectores is not None and len(vectores) != len(trozos):
             raise ValueError(f"{doc_id}: {len(vectores)} vectores para {len(trozos)} trozos; reindexa")
         return cls(trozos, vectores, meta)
+
+
+def _unicos(titulos) -> list[str]:
+    """Sin repetir por sus palabras (mayúsculas, tildes y signos no cuentan)."""
+    salida, vistos = [], set()
+    for t in titulos:
+        clave = " ".join(tokens(t or ""))
+        if clave and clave not in vistos:
+            vistos.add(clave)
+            salida.append(t)
+    return salida
