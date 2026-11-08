@@ -26,31 +26,53 @@ de su propio PDF y cita artículo y página.
 
 ## 2. Founder
 
-Pendiente.
+**[PENDIENTE: founder]** Quién eres y por qué este problema.
 
 ## 3. Problema
 
-Pendiente: quién lo sufre, cuánto le cuesta y cómo lo resuelve hoy.
+**[PENDIENTE: founder]** Quién lo sufre, cuánto le cuesta y cómo lo resuelve hoy.
 
 Evidencia: notas de 3 conversaciones con usuarios potenciales en [`docs/research/`](docs/research/).
 
 ## 4. Solución e insight
 
-Pendiente.
+**Solución.** Subes el PDF de tu póliza (o eliges un condicionado precargado) y preguntas
+como hablas: "me torcí el dedo en Tarapoto, ¿me cubre?". La app busca en tu propio documento
+los pasajes que responden, el modelo redacta la respuesta en JSON con citas, y el código
+verifica cada cita letra por letra contra la página del PDF antes de mostrarla. Arriba va el
+veredicto ("Cubre con límites"), debajo la explicación, lo que la póliza menciona pero no
+trae, y las citas con su artículo y página. Si el modelo falla, se ven igual las cláusulas
+encontradas.
+
+**Insight** (borrador, por confirmar): el modelo redacta, pero lo que el asegurado puede
+comprobar lo pone el código. Cada cita está literal en su página, y lo que la póliza
+menciona sin incluir su texto (en Chubb, la cobertura "B4 - Continuación de Tratamiento en
+País de Residencia") aparece siempre, con su página, aunque el modelo no lo diga: en 5 de 5
+corridas de P02 lo mostró el bloque del código, mientras que el modelo solo no lo nombró en
+ninguna de 5.
 
 ## 5. Why now
 
-Pendiente.
+**[PENDIENTE: founder]**
 
 ## 6. Demo
 
-- **URL pública:** pendiente (Streamlit Community Cloud).
+- **URL pública:** [queqbre.streamlit.app](https://queqbre.streamlit.app/) (Streamlit
+  Community Cloud). Dos pestañas: "Pregunta a tu póliza" y "Dónde atenderte".
+- **Video de respaldo:** **[PENDIENTE: link al video]**, por si en la demo falla la conexión
+  o la cuota.
+- **Casos de la demo:** las dos preguntas reales de Tarapoto, como botones, sobre el
+  condicionado de Chubb · JetSmart: la torcedura (P01) y la radiografía al llegar a Lima
+  (P02).
+- **Resultados, al primer intento y sin reintento (lo que vive el usuario):** 8 de 10
+  preguntas de prueba con veredicto aceptable (9 de 10 si el script reintenta una vez). P01
+  y P02, cinco veces cada una con el tope de 3800 tokens: **[medición en curso: se completa al terminar]**. Detalle y
+  límites en Limitaciones.
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
   inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
-  cita desplegada y "Dónde atenderte" en Tarapoto. Tomadas en local con respuestas grabadas
-  de `pruebas/` (ahí se explica).
+  cita desplegada y "Dónde atenderte" en Tarapoto. Por ahora, tomadas en local con respuestas grabadas de `pruebas/` (ahí se explica); se reemplazan por capturas de la app desplegada con respuestas en vivo.
 - **Diagrama de arquitectura:** [`docs/arquitectura.md`](docs/arquitectura.md) (Mermaid) y
-  [`docs/arquitectura.png`](docs/arquitectura.png).
+  [`docs/arquitectura.png`](docs/arquitectura.png), incluida la pestaña del mapa.
 - **Modelos y por qué:** ver abajo.
 
 ### Modelos y por qué
@@ -165,34 +187,50 @@ Viaje, 20 págs. a dos columnas).
 
 ## 7. Modelo de negocio
 
-Pendiente: quién paga y precio concreto.
+**[PENDIENTE: founder]** Quién paga y precio concreto.
 
 **Costo por consulta hoy: USD 0.** El modelo corre en el plan gratuito de Groq y la app en
-el plan gratuito de Streamlit Community Cloud, ninguno de los dos cobra por token ni por
-hora. Lo que se cede a cambio es capacidad: el plan gratuito limita peticiones y tokens por
-minuto y por día. Cada consulta hace dos llamadas al modelo (normalizar y responder); las
-preguntas ensayadas tienen la normalización en una caché versionada y gastan una sola.
+el plan gratuito de Streamlit Community Cloud; ninguno cobra por token ni por hora. Lo que
+se cede a cambio es capacidad: el plan gratuito limita peticiones y tokens por minuto y por
+día. Cada consulta hace dos llamadas al modelo (normalizar y responder); las preguntas
+ensayadas tienen la normalización en una caché versionada y gastan una sola.
 
-Tokens por consulta medidos en las 10 preguntas ([`pruebas/resultados.md`](pruebas/resultados.md)):
-la respuesta gasta en promedio 6583 (entre 5631 y 7421: unos 4770 de entrada, casi todo
-pasajes, y 1813 de salida, de la que el 71 % es razonamiento del modelo); la normalización,
-unos 950 más. Una pregunta nueva gasta en promedio 7541. La normalización anclada cuesta
-más, entre 1925 y 2095 tokens, porque lleva en la entrada la lista de títulos del documento.
+**Tokens por consulta**, promedio de la corrida de las 10 preguntas con la configuración
+actual (5 pasajes, [`pruebas/resultados.md`](pruebas/resultados.md)):
 
-El límite que pesa es el de **8000 tokens por minuto**. Medido con las cabeceras de Groq:
-funciona como un balde que se rellena a 133 tokens por segundo; una llamada entra si quedan
-libres más o menos los tokens de su entrada (Groq pidió 5428 para una entrada de 5040, sin
-contar el máximo de salida) y después se descuenta lo que gastó de verdad. Con estas cifras,
-5 consultas seguidas necesitan una cada 46 s si están en la caché y una cada 54 s si son
-nuevas.
+| Llamada | Entrada | Salida (incluye razonamiento) | Total |
+|---|---:|---:|---:|
+| Normalizar la pregunta | 1590 | 410 | 2000 |
+| Responder | 3428 | 1570 | 4998 |
+| **Pregunta nueva (las dos)** | **5018** | **1980** | **6998** |
 
-Por eso la app manda 5 pasajes al modelo en vez de unos 10 (opción A de
+Una pregunta ensayada, con la normalización en la caché, gasta solo la respuesta: 4998. La
+cifra de 6583 tokens que se citaba antes era la respuesta con la configuración anterior, de
+unos 10 pasajes ([`pruebas/opciones.md`](pruebas/opciones.md)). Con el tope de la respuesta
+subido a 3800, una respuesta larga puede gastar algo más que el promedio: el primer intento
+de P01 en la medición nueva usó 6372.
+
+**Con 100 usuarios haciendo 10 consultas al mes** (1000 consultas, todas preguntas nuevas):
+5,02 millones de tokens de entrada y 1,98 millones de salida. Al precio de pago de Groq para
+`gpt-oss-120b`, USD 0,15 por millón de entrada y 0,60 por millón de salida ([página del
+modelo](https://console.groq.com/docs/model/openai/gpt-oss-120b), consultada el 2026-11-08):
+5,02 × 0,15 + 1,98 × 0,60 = 0,75 + 1,19 ≈ **USD 1,94 al mes**, unos 0,2 centavos por
+consulta. A ese volumen el plan gratuito ya no alcanza, aunque cueste cero: 1000 consultas
+al mes son unas 33 al día y unos 233 000 tokens diarios, por encima de los 200 000 por día
+del plan. Habría que pasar al plan de pago por token de Groq. El límite por minuto no es el
+que pesa: con 5 pasajes entra una pregunta nueva cada ~36 s.
+
+**Cómo funciona el límite por minuto (8000 tokens).** Medido con las cabeceras de Groq: es
+un balde que se rellena a 133 tokens por segundo; para `gpt-oss-120b`, una llamada entra si
+quedan libres más o menos los tokens de su entrada (Groq pidió 5428 para una entrada de
+5040, sin contar el máximo de salida) y después se descuenta lo que gastó de verdad. Con
+unos 10 pasajes, 5 consultas seguidas necesitaban una cada 46 s si estaban en la caché y una
+cada 54 s si eran nuevas; por eso la app manda 5 pasajes (opción A de
 [`pruebas/opciones.md`](pruebas/opciones.md)): 5 consultas en la caché entran una cada 28 a
-34 s. Medido después en la corrida completa con 5 pasajes: la respuesta gasta en promedio
-4998 tokens (entre 3693 y 5849) y una pregunta nueva, con la normalización anclada, 6998. Se midieron también respuestas más cortas
-(menos razonamiento: más barato, pero dos veredictos de diez empeoran) y `gpt-oss-20b`
-(mismo tope de 8000 por minuto, y Groq le cuenta el máximo de salida dentro de lo pedido,
-así que algunas consultas se rechazan aun con el balde lleno). Scripts:
+34 s, y una nueva cada 36 s. Se midieron también respuestas más cortas (menos razonamiento:
+más barato, pero dos veredictos de diez empeoran) y `gpt-oss-20b` (mismo tope de 8000 por
+minuto, y Groq le suma el máximo de salida a lo pedido, así que algunas consultas se
+rechazan aun con el balde lleno). Scripts:
 [`pruebas/medir_cuota.py`](pruebas/medir_cuota.py) (tokens y cabeceras de una consulta),
 [`pruebas/simular_cuota.py`](pruebas/simular_cuota.py) (el límite por minuto) y
 [`pruebas/comparar_opciones.py`](pruebas/comparar_opciones.py) (las opciones de recorte).
@@ -201,13 +239,39 @@ así que algunas consultas se rechazan aun con el balde lleno). Scripts:
 
 | Herramienta | Sesión | Dónde está en el código |
 |---|---|---|
-| Document AI: extraer el texto del PDF conservando página y artículo | 10 | [`ai/extraccion.py`](ai/extraccion.py): texto por página con pdfplumber, detección de dos columnas, limpieza de membretes, secciones y artículos |
-| LLM con salidas estructuradas y RAG | 08 | Troceado por artículo en [`ai/troceado.py`](ai/troceado.py); índice en [`ai/indice.py`](ai/indice.py); prompts y esquemas JSON en [`ai/prompts.py`](ai/prompts.py); proveedor del LLM detrás de una interfaz en [`ai/llm.py`](ai/llm.py); recuperación BM25 multiconsulta en [`ai/recuperacion.py`](ai/recuperacion.py); flujo y validación de citas en [`ai/respuesta.py`](ai/respuesta.py) y [`ai/verificacion.py`](ai/verificacion.py) |
-| Datos abiertos geográficos en un mapa | pendiente | Pestaña "Dónde atenderte" en [`app/app.py`](app/app.py): la persona elige departamento y distrito y ve los establecimientos activos de RENIPRESS (SUSALUD, [datosabiertos.gob.pe](https://www.datosabiertos.gob.pe/dataset/registro-nacional-de-entidades-prestadoras-de-servicios-de-salud-renipress)) en un mapa y una lista; preparación y filtros en [`ai/renipress.py`](ai/renipress.py). No usa el modelo, así que funciona sin cuota |
+| Document AI: extraer el texto del PDF conservando página y artículo | 10 | [`ai/extraccion.py`](ai/extraccion.py): texto por página con pdfplumber, detección de dos columnas, limpieza de membretes, secciones y artículos; troceado por artículo en [`ai/troceado.py`](ai/troceado.py) |
+| LLM con salidas estructuradas y RAG | 08 | Índice en [`ai/indice.py`](ai/indice.py); prompts y esquemas JSON estrictos en [`ai/prompts.py`](ai/prompts.py); proveedor del LLM detrás de una interfaz en [`ai/llm.py`](ai/llm.py); recuperación BM25 multiconsulta en [`ai/recuperacion.py`](ai/recuperacion.py); flujo y validación de citas en [`ai/respuesta.py`](ai/respuesta.py) y [`ai/verificacion.py`](ai/verificacion.py) |
+| Mapas con datos abiertos | 06 | Pestaña "Dónde atenderte" (`pantalla_mapa` en [`app/app.py`](app/app.py)): la persona elige departamento y distrito y ve los establecimientos activos de RENIPRESS (SUSALUD, [datosabiertos.gob.pe](https://www.datosabiertos.gob.pe/dataset/registro-nacional-de-entidades-prestadoras-de-servicios-de-salud-renipress)) en un mapa y una lista; preparación y filtros en [`ai/renipress.py`](ai/renipress.py). No usa el modelo, así que funciona sin cuota |
 
 ## 9. Qué hizo el agente
 
-Pendiente.
+*Borrador para revisar.* El código, las pruebas y las mediciones los escribió un agente de
+programación (Claude Code, de Anthropic) bajo la dirección del founder. Las decisiones
+fueron del founder, a partir de opciones y mediciones que el agente presentó: Groq con
+retención cero como proveedor, BM25 en vez de embeddings en la app, el bloque determinista
+para lo mencionado pero ausente, marcar la apertura contradictoria en vez de recortarla,
+aceptar la variación del veredicto de P02, no reintentar en la app y revertir la regla del
+"Sí"/"No".
+
+Lo que hizo el agente:
+
+- Extracción con página y artículo, troceado, índice BM25, normalización anclada al
+  documento, verificación de citas contra el PDF con dos lectores, bloque de lo mencionado
+  pero ausente, red de seguridad, la app de Streamlit y la pestaña del mapa.
+- Pruebas sin red ni cuota:
+  [`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py) (42 casos),
+  [`pruebas/probar_llm.py`](pruebas/probar_llm.py) (36) y
+  [`pruebas/probar_app.py`](pruebas/probar_app.py) (23, la interfaz con respuestas
+  grabadas).
+- Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
+  citas, la cuota por minuto y por día, y las opciones de recorte (todo en `pruebas/`).
+- El despliegue verificado en la nube con un navegador sin interfaz (Playwright), sin llamar
+  al modelo, y las capturas.
+
+Errores del agente, documentados: desplegó sin medir una regla de prompt que hizo cortar las
+respuestas en el tope de tokens (3 de 3); sus scripts de prueba reintentaban en silencio y
+el "9 de 10" era 8 de 10 al primer intento; y en un commit afirmó una regla de admisión por
+minuto de Groq que era la de otro modelo, corregida en el siguiente.
 
 ---
 
@@ -215,13 +279,17 @@ Pendiente.
 
 ```
 que-me-cubre/
-├── app/          app de Streamlit (y su requirements.txt)
-├── ai/           normalización, troceado, recuperación, prompts y respuesta estructurada
+├── app/            app de Streamlit (y su requirements.txt)
+├── ai/             extracción, troceado, índice, recuperación, prompts, respuesta y RENIPRESS
 ├── data/
-│   ├── polizas/  condicionados públicos de prueba (se versionan)
-│   └── privado/  pólizas personales para pruebas locales (ignorado por git)
-├── docs/         arquitectura, capturas y research/ con las 3 conversaciones
-└── notebooks/    exploración
+│   ├── polizas/    condicionados públicos de prueba (se versionan)
+│   ├── indices/    índices ya construidos de esos condicionados
+│   ├── cache/      normalizaciones de las preguntas de ensayo y de prueba
+│   ├── demo/       preguntas de ensayo de la demo
+│   ├── renipress/  establecimientos activos de RENIPRESS para el mapa
+│   └── privado/    pólizas personales para pruebas locales (ignorado por git)
+├── docs/           arquitectura, capturas y research/ con las 3 conversaciones
+└── pruebas/        preguntas, corridas medidas con sus salidas y pruebas sin red
 ```
 
 ## Limitaciones
@@ -334,6 +402,14 @@ que-me-cubre/
   No se usa la ubicación de la persona: elige departamento y distrito. Para actualizarlo,
   bajar el CSV del mes y correr `python -m ai.renipress --csv ... --corte ... --url ...`
   (la procedencia queda en [`data/renipress/fuente.json`](data/renipress/fuente.json)).
+- **Cuota diaria del plan gratuito:** 200 000 tokens por día para `gpt-oss-120b`, que se
+  reponen de a poco (unos 8300 por hora; Groq no lo informa en las cabeceras, solo en el
+  mensaje del 429). Desde el balde lleno alcanzan para unas 28 preguntas nuevas o 40
+  ensayadas, y cuando se agota la app muestra la red de seguridad. Pasó durante el
+  desarrollo: tras un día de pruebas quedaban 1907 tokens y la medición de P01 y P02 tuvo
+  que esperar la reposición entre intento e intento. Para la demo: llegar con la cuota
+  descansada y dejar unos 35 s entre P01 y P02 (el límite por minuto; la app espera como
+  mucho 8 s y si no, muestra la red de seguridad).
 - **Caché de normalizaciones:** solo contiene preguntas públicas de ensayo y de prueba
   (`data/demo/`, `pruebas/`), generadas en local con `python -m ai.preparar_demo`. La app
   la lee, nunca escribe en ella.

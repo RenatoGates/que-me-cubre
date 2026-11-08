@@ -1,8 +1,9 @@
 # Arquitectura
 
-Una consulta, de la pregunta a la pantalla. Lo que hace el modelo está en naranja; todo lo
-demás es código, incluida la verificación de cada cita contra el PDF. La app corre en
-Streamlit Community Cloud. Versión en imagen: [`arquitectura.png`](arquitectura.png).
+Una consulta, de la pregunta a la pantalla, y la pestaña del mapa. Lo que hace el modelo
+está en naranja; todo lo demás es código, incluida la verificación de cada cita contra el
+PDF. La app corre en Streamlit Community Cloud ([queqbre.streamlit.app](https://queqbre.streamlit.app/)).
+Versión en imagen: [`arquitectura.png`](arquitectura.png).
 
 ```mermaid
 flowchart TD
@@ -11,7 +12,7 @@ flowchart TD
         PREP["python -m ai.preparar_demo<br/>normalización de las preguntas de ensayo → data/cache/"]
     end
 
-    subgraph App["App: app/app.py"]
+    subgraph App["App: app/app.py, pestaña «Pregunta a tu póliza»"]
         PDF["PDF de la póliza<br/>precargado, o subido: solo en la memoria de la sesión"]
         EXT["Extracción (ai/extraccion.py, pdfplumber)<br/>texto, página, sección y artículo"]
         TRO["Troceado por artículo (ai/troceado.py)<br/>con la posición de cada página"]
@@ -19,14 +20,18 @@ flowchart TD
         AUS["Referencias ausentes (ai/referencias.py)<br/>B4, Condiciones Particulares…: se calcula una vez"]
         PREG["Pregunta en lenguaje común"]
         CACHE{"¿Normalización<br/>en la caché?"}
-        NORM["Normalizar: elige cláusulas del índice<br/>y escribe 3-5 variantes"]
+        NORM["Normalizar: elige cláusulas del índice<br/>y escribe 3-5 variantes<br/>(tope 1200 tokens, razonamiento bajo)"]
         REC["Búsqueda (ai/recuperacion.py)<br/>BM25 multiconsulta + RRF, filtro suave por cláusula → 5 pasajes"]
-        RESP["Responder: JSON con esquema estricto<br/>veredicto, citas, condiciones, podrían aplicar"]
+        RESP["Responder: JSON con esquema estricto<br/>veredicto, citas, condiciones, podrían aplicar<br/>(tope 3800 tokens, razonamiento medio)"]
         VER["Validación (ai/respuesta.py, ai/verificacion.py)<br/>cada cita literal en su pasaje y en su página del PDF (2 lectores)<br/>texto libre sin referencias que no estén citadas<br/>apertura contra el veredicto: se marca"]
         BLO["Bloque determinista<br/>lo mencionado pero ausente en los 5 pasajes, con página"]
-        RED["Red de seguridad<br/>cláusulas encontradas, resaltadas, sin veredicto"]
+        RED["Red de seguridad, sin reintento<br/>cláusulas encontradas, resaltadas, «Sin veredicto»"]
+        LOG["Logs de la app (stderr, Manage app)<br/>tarea, código y mensaje de Groq;<br/>nunca la pregunta ni la póliza"]
         UI["Pantalla<br/>1 veredicto: campo estructurado<br/>2 explicación del modelo<br/>3 ausentes: B4 resaltado, remisiones plegadas<br/>4 citas desplegables<br/>5 podrían aplicar"]
-        MAPA["Dónde atenderte (ai/renipress.py)<br/>departamento y distrito → establecimientos activos<br/>en mapa y lista; sin modelo ni ubicación"]
+    end
+
+    subgraph Tab2["Pestaña «Dónde atenderte»"]
+        MAPA["ai/renipress.py<br/>departamento y distrito → establecimientos activos<br/>en mapa y lista; sin modelo ni ubicación"]
     end
 
     RENI["RENIPRESS de SUSALUD<br/>datosabiertos.gob.pe → data/renipress/"]
@@ -44,6 +49,7 @@ flowchart TD
     AUS --> BLO --> UI
     RESP -. "límite, error o JSON inválido" .-> RED --> UI
     NORM -. "límite o error" .-> RED
+    RED -.-> LOG
     RENI -.-> MAPA
 
     classDef modelo fill:#ffe3c2,stroke:#d9822b,color:#3b2405
@@ -53,6 +59,13 @@ flowchart TD
 **Qué sale de la app.** Solo la pregunta y los 5 pasajes recuperados (no el PDF entero),
 hacia Groq (`openai/gpt-oss-120b`, retención cero de datos activada en la cuenta). Una
 pregunta de ensayo hace una llamada (la normalización está en la caché); una nueva, dos.
+Si una llamada falla, la app no reintenta: muestra la red de seguridad y deja en sus logs
+una línea con la tarea, el código y el mensaje de Groq, sin la pregunta ni la póliza.
+
+**La pestaña del mapa** no toca el modelo ni la ubicación de la persona: filtra por
+departamento y distrito el registro de establecimientos activos de RENIPRESS (SUSALUD,
+datos abiertos), preparado una vez con `python -m ai.renipress` y versionado en
+`data/renipress/`.
 
 **Qué no depende del modelo.** La extracción con página y artículo, la búsqueda, la
 verificación de cada cita contra el PDF, el bloque de lo mencionado pero ausente y el

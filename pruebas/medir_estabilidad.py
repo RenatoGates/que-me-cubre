@@ -47,6 +47,10 @@ def resumen(qs: list[dict], veces: int) -> str:
         "el script de entonces abortó sin guardarlo y lo rehízo: al primer intento fueron 6 llamadas, 1 sin",
         "texto (tipo de falla no registrado).",
         "",
+        "La serie anterior con el bloque, con el mismo prompt y el tope de 3000 tokens (P02 en el commit",
+        "a80fb90, P01 en 039314c), está en `pruebas/estabilidad/039314c/`: P02 aceptables 3 de 5 y B4 en el",
+        "bloque 5 de 5; P01 aceptables 5 de 5. La de abajo es con el tope de 3000 subido a 3800.",
+        "",
     ]
     for q in qs:
         intentos = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(CARPETA.glob(f"{q['id']}_*.json"))][:veces]
