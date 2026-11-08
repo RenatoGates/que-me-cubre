@@ -84,14 +84,25 @@ Reglas que no se rompen:
 1. Usa solo lo que dicen los pasajes. No uses lo que sepas de seguros, de leyes ni de \
 otras pólizas. No deduzcas, no completes y no estimes montos, plazos ni porcentajes: si \
 una cifra no está escrita en un pasaje, no existe para ti.
-2. Toda afirmación tiene que estar respaldada por una cita. Una cita es un fragmento \
-copiado exactamente, carácter por carácter, de un solo pasaje: sin resumirlo, sin \
-corregir su ortografía, sin cambiar mayúsculas y sin puntos suspensivos. De una a tres \
-oraciones por cita. Numera las citas desde 1 en el campo "n".
-3. Si los pasajes no tratan la situación, el veredicto es "no_encontrado". Es una \
-respuesta correcta y valiosa: no la evites forzando una cita que no responde la pregunta.
-4. No supongas hechos que la persona no dijo (por ejemplo, si llamó o no a la central de \
-asistencia). Si la cobertura depende de ese hecho, ponlo como condición.
+2. La persona escribe en lenguaje común y los pasajes están en lenguaje técnico: el mismo \
+concepto puede aparecer en un pasaje con otro término (por ejemplo, "pastillas" y \
+"medicamentos", o "me desmayé" y "pérdida de conocimiento"). Reconócelo y úsalo. Eso no \
+es salir de los pasajes: lo que afirmas sigue saliendo de un pasaje y la cita sigue siendo \
+literal. "Usa solo los pasajes" quiere decir no agregar información de fuera; no quiere \
+decir que el pasaje tenga que usar las mismas palabras que la pregunta.
+3. Toda afirmación tiene que estar respaldada por una cita. Una cita es un fragmento \
+copiado exactamente, carácter por carácter, de un solo pasaje y de una sola parte seguida \
+de él: sin resumirlo, sin unir oraciones que en el pasaje no van juntas, sin corregir su \
+ortografía ni su puntuación, sin cambiar mayúsculas y sin puntos suspensivos. De una a \
+tres oraciones por cita. Numera las citas desde 1 en el campo "n".
+4. Si los pasajes no tratan la situación, el veredicto es "no_encontrado". Es una \
+respuesta correcta y valiosa: no la evites forzando una cita que no responde la pregunta. \
+Pero antes de decidirlo, revisa si algún pasaje trata la situación con otras palabras \
+(regla 2).
+5. No supongas hechos que la persona no dijo (por ejemplo, que tiene una enfermedad \
+preexistente, o si llamó o no a la central de asistencia). Lo que dependa de un hecho que \
+no dijo va en "podrian_aplicar", nunca en "condiciones" ni en "exclusiones_aplicables", y \
+la respuesta no lo afirma como si aplicara.
 
 Veredicto ("cubre"):
 - "si": un pasaje cubre la situación de forma explícita y ninguna condición o límite de \
@@ -104,22 +115,30 @@ previa, documentos, preexistencias).
 
 Campos:
 - citas: las pruebas, en el orden en que las uses.
-- condiciones: cada condición o límite que importa para el caso, en lenguaje simple, con \
-los números de las citas que la respaldan. Incluye siempre el límite principal (hasta \
-cuándo, hasta dónde, hasta cuánto o dónde está fijado ese monto).
-- exclusiones_aplicables: solo las exclusiones de los pasajes que podrían aplicar a los \
-hechos de la pregunta, con sus citas. No copies listas enteras de exclusiones.
+- condiciones: cada condición o límite que aplica a lo que la persona contó, en lenguaje \
+simple, con los números de las citas que lo respaldan. Incluye siempre el límite \
+principal (hasta cuándo, hasta dónde, hasta cuánto o dónde está fijado ese monto).
+- exclusiones_aplicables: solo las exclusiones de los pasajes que aplican a los hechos \
+que la persona contó, con sus citas. No copies listas enteras de exclusiones.
+- podrian_aplicar: exclusiones o condiciones de los pasajes que aplicarían solo si se da \
+un hecho que la persona no contó (una condición preexistente, no haber llamado a la \
+central de asistencia, etc.), con sus citas. Escríbelas como posibilidad ("si tenías una \
+condición preexistente, ..."), nunca como algo que ya aplica.
 - no_incluido_en_documento: cuando un pasaje menciona una cobertura, cláusula, anexo o \
 documento cuyo texto NO está en este documento (compáralo con el índice del documento \
 que te doy) y esa pieza importa para responder. Por ejemplo, una cobertura que se \
 nombra pero cuya cláusula no aparece en el índice, o las Condiciones Particulares o el \
-Certificado de Seguro donde se fija un monto. Indica el nombre tal como aparece, por qué \
-importa para esta pregunta y el número de la cita donde se menciona. Es un hallazgo para \
-el asegurado, no un error: le dice qué documento pedirle a su aseguradora.
+Certificado de Seguro donde se fija un monto. Indica el nombre tal como aparece en la \
+cita, por qué importa para esta pregunta y el número de la cita donde se menciona. Es un \
+hallazgo para el asegurado, no un error: le dice qué documento pedirle a su aseguradora.
 - respuesta: de 2 a 4 oraciones en español sencillo, en segunda persona ("tu póliza..."). \
 No afirmes nada que las citas no respalden. Menciona el límite principal y, si aplica, \
-qué no está en el documento. Si el veredicto es "no_encontrado", empieza con "No \
-encontré esto en tu póliza" y di de qué tratan los pasajes revisados.\
+qué no está en el documento. No nombres artículos, cláusulas, coberturas ni documentos \
+que no aparezcan en tus citas: las oraciones que lo hagan se borran. Lo de \
+"podrian_aplicar" no se afirma aquí; como mucho di que hay exclusiones que podrían \
+aplicar según su caso. Si el veredicto es "no_encontrado", empieza con "No encontré esto \
+en tu póliza" y di en palabras generales de qué tratan los pasajes revisados, sin nombrar \
+cláusulas ni artículos (la app los muestra aparte).\
 """
 
 _CITA_REF = {"type": "array", "items": {"type": "integer"}}
@@ -158,6 +177,15 @@ ESQUEMA_RESPUESTA = {
                 "additionalProperties": False,
             },
         },
+        "podrian_aplicar": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {"descripcion": {"type": "string"}, "citas": _CITA_REF},
+                "required": ["descripcion", "citas"],
+                "additionalProperties": False,
+            },
+        },
         "no_incluido_en_documento": {
             "type": "array",
             "items": {
@@ -174,7 +202,9 @@ ESQUEMA_RESPUESTA = {
         "cubre": {"type": "string", "enum": ["si", "no", "con_limites", "no_encontrado"]},
         "respuesta": {"type": "string"},
     },
-    "required": ["citas", "condiciones", "exclusiones_aplicables", "no_incluido_en_documento", "cubre", "respuesta"],
+    "required": [
+        "citas", "condiciones", "exclusiones_aplicables", "podrian_aplicar", "no_incluido_en_documento", "cubre", "respuesta",
+    ],
     "additionalProperties": False,
 }
 

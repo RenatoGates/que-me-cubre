@@ -1,9 +1,14 @@
 """Flujo completo: pregunta -> normalización -> recuperación -> respuesta JSON verificada.
 
 La validación es código, no confianza en el modelo:
-- cada cita debe estar literal en un pasaje recuperado y en su página del PDF;
-- condiciones, exclusiones y menciones sin cita válida se descartan;
-- una "mención no incluida" se descarta si su nombre sí es una sección del documento;
+- cada cita debe estar literal en un pasaje recuperado y en su página del PDF (la única
+  tolerancia es el signo de puntuación final: ai/verificacion.py);
+- condiciones, exclusiones, "podrían aplicar" y menciones sin cita válida se descartan;
+- una "mención no incluida" se descarta si su nombre no está en su cita o si sí es una
+  sección del documento;
+- el texto libre (respuesta y descripciones) no puede nombrar artículos, numerales,
+  códigos de cobertura, documentos ni títulos de cláusula que no estén en las citas
+  verificadas: la oración que lo hace se recorta;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
 Red de seguridad: si el proveedor llega a su límite, no responde o el modelo no genera un
@@ -31,7 +36,7 @@ from ai.prompts import (
     mensaje_respuesta,
 )
 from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
-from ai.verificacion import ubicar, verificar_en_pdf
+from ai.verificacion import recortar, ubicar_cita, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
 NO_ENCONTRADO = "No encontré esto en tu póliza."
@@ -131,11 +136,11 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
         indicado = por_id.get(c["pasaje"])
         misma = [p for p in pasajes if indicado and p is not indicado and p.trozo.seccion == indicado.trozo.seccion]
         candidatos = ([indicado] if indicado else []) + misma + [p for p in pasajes if p is not indicado and p not in misma]
-        hallado = next(((p, u) for p in candidatos if (u := ubicar(p.trozo.texto, c["texto_literal"]))), None)
+        hallado = next(((p, u) for p in candidatos if (u := ubicar_cita(p.trozo.texto, c["texto_literal"]))), None)
         if hallado is None:
             descartes.append({"tipo": "cita", "n": c["n"], "texto": c["texto_literal"], "motivo": "no está literal en ningún pasaje"})
             continue
-        p, (a, b) = hallado
+        p, ((a, b), literal, signo_ignorado) = hallado
         t = p.trozo
         paginas = t.paginas_de(a, b) or t.paginas
         # El tramo citado del pasaje, partido por página (la cita ya coincide con t.texto[a:b])
@@ -157,44 +162,66 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
                 "articulo": t.articulo + (f" (parte {t.parte} de {t.partes})" if t.partes > 1 else ""),
                 "pagina": paginas[0],
                 "paginas": paginas,
-                "texto_literal": c["texto_literal"],
+                "texto_literal": literal,
                 "pasaje": p.id,
                 "trozo_id": t.id,
                 "posicion": [a, b],
-                "verificacion": {"en_pasaje": True, **en_pdf},
+                "verificacion": {"en_pasaje": True, "puntuacion_final_ignorada": signo_ignorado, **en_pdf},
             }
         )
+
+    # Texto libre: no puede nombrar artículos, cláusulas ni documentos ausentes de las citas
+    clausulas_doc = poliza.indice.vocabulario()[0]
+
+    def sin_referencias_ajenas(texto: str, campo: str) -> str:
+        recortado, quitadas = recortar(texto, citas, clausulas_doc)
+        for q in quitadas:
+            descartes.append({"tipo": "texto", "campo": campo, "texto": q["oracion"],
+                              "motivo": f"nombra {', '.join(q['nombra'])}, que no está en las citas verificadas"})
+        return recortado
 
     def con_citas(items: list[dict], campo: str) -> list[dict]:
         salida = []
         for it in items:
             refs = [renumerar[n] for n in it["citas"] if n in renumerar]
-            if refs:
-                salida.append({"descripcion": it["descripcion"], "citas": refs})
-            else:
+            if not refs:
                 descartes.append({"tipo": campo, "texto": it["descripcion"], "motivo": "sin cita válida"})
+                continue
+            descripcion = sin_referencias_ajenas(it["descripcion"], campo)
+            if descripcion:
+                salida.append({"descripcion": descripcion, "citas": refs})
         return salida
 
     condiciones = con_citas(crudo["condiciones"], "condicion")
     exclusiones = con_citas(crudo["exclusiones_aplicables"], "exclusion")
+    podrian_aplicar = con_citas(crudo.get("podrian_aplicar", []), "podria_aplicar")
 
     no_incluido = []
     for m in crudo["no_incluido_en_documento"]:
-        if m["cita"] not in renumerar:
+        cita = next((c for c in citas if c["n"] == renumerar.get(m["cita"])), None)
+        tn, tc = tokens(m["nombre"]), tokens(cita["texto_literal"]) if cita else []
+        if cita is None:
             descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "sin cita válida"})
+        elif not tn or not any(tc[i : i + len(tn)] == tn for i in range(len(tc) - len(tn) + 1)):
+            descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "el nombre no está en su cita"})
         elif _es_seccion_del_documento(m["nombre"], poliza.secciones):
             descartes.append({"tipo": "no_incluido", "texto": m["nombre"], "motivo": "sí es una sección del documento"})
         else:
-            no_incluido.append({"nombre": m["nombre"], "por_que_importa": m["por_que_importa"], "cita": renumerar[m["cita"]]})
+            no_incluido.append({"nombre": m["nombre"], "por_que_importa": sin_referencias_ajenas(m["por_que_importa"], "no_incluido"),
+                                "cita": cita["n"]})
 
     cubre, respuesta = crudo["cubre"], crudo["respuesta"].strip()
     degradado = False
     if cubre != "no_encontrado" and not citas:
         cubre, degradado = "no_encontrado", True
         respuesta = f"{NO_ENCONTRADO} No pude respaldar ninguna afirmación con una cita literal del documento."
-        condiciones, exclusiones, no_incluido = [], [], []
-    elif cubre == "no_encontrado" and not respuesta.startswith("No encontré"):
-        respuesta = f"{NO_ENCONTRADO} {respuesta}"
+        condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
+    else:
+        respuesta = sin_referencias_ajenas(respuesta, "respuesta")
+        if cubre == "no_encontrado" and not respuesta.startswith("No encontré"):
+            respuesta = f"{NO_ENCONTRADO} {respuesta}".strip()
+        elif not respuesta:
+            respuesta = "Revisa abajo las condiciones y las citas del documento."
 
     return (
         {
@@ -202,6 +229,7 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza) -> tuple[dict, 
             "respuesta": respuesta,
             "condiciones": condiciones,
             "exclusiones_aplicables": exclusiones,
+            "podrian_aplicar": podrian_aplicar,
             "no_incluido_en_documento": no_incluido,
             "citas": citas,
             "veredicto_degradado": degradado,
@@ -261,6 +289,7 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         "respuesta": None,
         "condiciones": [],
         "exclusiones_aplicables": [],
+        "podrian_aplicar": [],
         "no_incluido_en_documento": [],
         "citas": [],
         "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),

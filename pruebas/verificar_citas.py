@@ -46,37 +46,42 @@ def esta(cita: str, paginas: list[int], textos: dict[int, str]) -> bool:
 
 def main() -> int:
     utf8()
-    filas, fallas, total, crudas = [], 0, 0, 0
+    filas, fallas, total, crudas, ignoradas = [], 0, 0, 0, 0
     for ruta in sorted(SALIDAS.glob("P*.json")):
         r = json.loads(ruta.read_text(encoding="utf-8"))
         pdf = (RAIZ / "data" / "polizas" / fuentes()[r["prueba"]["poliza"]]["archivo"]).read_bytes()
         crudas += len(r["modelo_crudo"]["citas"])
         for c in r["citas"]:
             total += 1
+            ignoradas += bool(c["verificacion"].get("puntuacion_final_ignorada"))
             textos = paginas_pdf(pdf, c["paginas"])
             ok = {lector: esta(c["texto_literal"], c["paginas"], t) for lector, t in textos.items()}
             valida = any(ok.values())
             fallas += not valida
             filas.append(
                 f"| {ruta.stem} | {c['n']} | {c['seccion']} › {c['articulo']} | {c['pagina'] if len(c['paginas']) == 1 else '–'.join(map(str, c['paginas']))} "
-                f"| {'✓' if ok['pdfplumber'] else '✗'} | {'✓' if ok['pypdf'] else '✗'} | {'sí' if valida else '**NO**'} |"
+                f"| {'✓' if ok['pdfplumber'] else '✗'} | {'✓' if ok['pypdf'] else '✗'} | {'sí' if valida else '**NO**'} "
+                f"| {repr(c['verificacion'].get('puntuacion_final_ignorada')) if c['verificacion'].get('puntuacion_final_ignorada') else '—'} |"
             )
         for d in r["descartes"]:
             if d["tipo"] == "cita":
-                filas.append(f"| {ruta.stem} | (descartada) | {d['motivo']} | — | — | — | descartada por el flujo |")
+                filas.append(f"| {ruta.stem} | (descartada) | {d['motivo']} | — | — | — | descartada por el flujo | — |")
 
     md = [
         "# Verificación de citas contra el PDF",
         "",
         "Generado por `pruebas/verificar_citas.py`: abre cada PDF y busca cada cita en la página que dice.",
-        "Se comparan los caracteres en orden, ignorando solo espacios, saltos de línea y guiones.",
+        "Se comparan los caracteres en orden, ignorando solo espacios, saltos de línea y guiones (como siempre).",
+        "La cita que se audita es la que muestra la app: si el flujo le quitó un signo final (. : ; ,) para",
+        "encontrarla, la columna lo dice y lo auditado es el texto sin ese signo.",
         "",
         f"- Citas que propuso el modelo: {crudas}",
         f"- Citas que el flujo aceptó y mostró: {total}",
         f"- De esas, encontradas textualmente en su página: {total - fallas} de {total}",
+        f"- Con un signo final ignorado: {ignoradas}",
         "",
-        "| Prueba | Cita | Sección › artículo | Página | pdfplumber | pypdf | ¿En su página? |",
-        "|---|---|---|---|---|---|---|",
+        "| Prueba | Cita | Sección › artículo | Página | pdfplumber | pypdf | ¿En su página? | Signo final ignorado |",
+        "|---|---|---|---|---|---|---|---|",
         *filas,
     ]
     (PRUEBAS / "verificacion_citas.md").write_text("\n".join(md) + "\n", encoding="utf-8", newline="\n")

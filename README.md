@@ -52,9 +52,9 @@ Pendiente.
 | Paso | Qué usa | Por qué |
 |---|---|---|
 | Extraer texto, página y artículo | pdfplumber (sin modelo) | Los condicionados tienen capa de texto; no hace falta OCR |
-| Normalizar la pregunta en 3-5 variantes | `openai/gpt-oss-120b` en Groq | Traduce "me torcí el dedo" a "accidente, lesión, gastos médicos, atención de urgencia" |
-| Buscar los pasajes | BM25 sobre las variantes (sin modelo) | Ver la decisión de memoria abajo |
-| Redactar la respuesta JSON con citas | `openai/gpt-oss-120b` en Groq | Salida con esquema JSON estricto; las citas se verifican después contra el PDF |
+| Normalizar la pregunta | `openai/gpt-oss-120b` en Groq | Elige del índice del PDF la cláusula que la respondería ("Gastos Médicos por Accidente y/o Enfermedad durante el Viaje" para "me torcí el dedo") y escribe 3-5 variantes con las palabras de ese documento; el código descarta títulos que no existan en él |
+| Buscar los pasajes | BM25 sobre las variantes y la cláusula elegida, cuyos pasajes valen el doble (sin modelo) | Ver la decisión de memoria y [`pruebas/normalizacion.md`](pruebas/normalizacion.md) |
+| Redactar la respuesta JSON con citas | `openai/gpt-oss-120b` en Groq | Salida con esquema JSON estricto; las citas se verifican después contra el PDF y el texto libre se recorta si nombra algo que no está citado |
 
 **Proveedor: Groq, plan gratuito, con Zero Data Retention.** La app promete que la póliza
 no se guarda ni se reutiliza, y ese discurso solo se sostiene sobre un proveedor que no
@@ -82,12 +82,21 @@ de 2,7 GB por app ([Manage your app](https://docs.streamlit.io/deploy/streamlit-
 la cifra de 1 GB con la que se planificó era la de documentación anterior. Aun con el
 máximo actual, el modelo quedaría por encima del mínimo garantizado y se arriesgaría la
 demo en vivo, así que la app usa BM25. Como BM25 busca por palabras, la normalización no
-devuelve una frase sino de 3 a 5 variantes con los sinónimos del seguro, y los rankings se
-combinan. Medido en las 9 preguntas de prueba con artículo esperado
-([`pruebas/recuperacion.md`](pruebas/recuperacion.md)): con los 5 primeros pasajes, BM25 con
-variantes encuentra el artículo en 6 de 9, embeddings con la pregunta original en 5 de 9 y
-BM25 con la pregunta original en 2 de 9. Los embeddings no ganan en conjunto, pero sí
-encuentran el caso de la torcedura en Tarapoto (P01), que BM25 deja en el puesto 9.
+devuelve una frase sino de 3 a 5 variantes, y los rankings se combinan. Medido en las 9
+preguntas de prueba con artículo esperado ([`pruebas/recuperacion.md`](pruebas/recuperacion.md),
+con la normalización v1): con los 5 primeros pasajes, BM25 con variantes encuentra el
+artículo en 6 de 9, embeddings con la pregunta original en 5 de 9 y BM25 con la pregunta
+original en 2 de 9. Los embeddings no ganan en conjunto, pero sí encuentran el caso de la
+torcedura en Tarapoto (P01), que BM25 dejaba en el puesto 9.
+
+**Normalización anclada al documento.** La primera versión escribía las variantes con
+vocabulario genérico de seguros ("lesión accidental") y BM25 no las encontraba en una
+póliza que dice "Accidentes". Ahora el modelo recibe los títulos de cláusula y de artículo
+del PDF y elige de ellos; la cláusula elegida es una consulta más y sus pasajes valen el
+doble (filtro suave: no excluye el resto). Se probaron también un índice aparte solo de
+títulos y usar los artículos elegidos: los dos empeoraron la búsqueda y quedaron apagados.
+Resultados, con sus límites, en [`pruebas/normalizacion.md`](pruebas/normalizacion.md) y en
+Limitaciones.
 
 ### Cómo correrlo en local
 
@@ -120,7 +129,8 @@ preguntas ensayadas tienen la normalización en una caché versionada y gastan u
 Tokens por consulta medidos en las 10 preguntas ([`pruebas/resultados.md`](pruebas/resultados.md)):
 la respuesta gasta en promedio 6583 (entre 5631 y 7421: unos 4770 de entrada, casi todo
 pasajes, y 1813 de salida, de la que el 71 % es razonamiento del modelo); la normalización,
-unos 950 más. Una pregunta nueva gasta en promedio 7541.
+unos 950 más. Una pregunta nueva gasta en promedio 7541. La normalización anclada cuesta
+más, entre 1925 y 2095 tokens, porque lleva en la entrada la lista de títulos del documento.
 
 El límite que pesa es el de **8000 tokens por minuto**. Medido con las cabeceras de Groq:
 funciona como un balde que se rellena a 133 tokens por segundo; una llamada entra si quedan
@@ -181,12 +191,38 @@ que-me-cubre/
   ocurrió en 1 de unas 30 llamadas con `gpt-oss-120b`). Si el límite llega en la
   normalización de una pregunta nueva, la búsqueda usa la pregunta tal cual y es menos
   precisa (en las pruebas, BM25 con la pregunta original acierta 4 de 9 con 8 pasajes).
-- **Resultados de las pruebas:** 6 de 10 veredictos aceptables. En P01 y P02 (los dos casos
-  reales) la búsqueda no trae el artículo que responde; en P03 el modelo unió oraciones no
+- **Resultados de las pruebas:** pendiente volver a correr las 10 con la normalización
+  anclada, el filtro suave y el prompt de respuesta nuevo. La última corrida completa (8
+  pasajes, normalización v1) dio 6 de 10 veredictos aceptables: en P01 y P02 (los dos casos
+  reales) la búsqueda no traía el artículo que responde; en P03 el modelo unió oraciones no
   contiguas en sus citas, la verificación las descartó y el veredicto pasó a "no
   encontrado"; en P09 el modelo leyó como total una exclusión de esquí que es solo fuera de
-  pista. Todas las citas mostradas están literales en su página
-  ([`pruebas/verificacion_citas.md`](pruebas/verificacion_citas.md)).
+  pista. Todas las citas mostradas estaban literales en su página.
+- **El filtro suave por cláusula está ajustado a las preguntas de la demo.** Subió P01 del
+  puesto 9 al 4 y P02 de 18 y 3 a 3 y 4, y bajó P10 del puesto 1 al 11 (el modelo eligió la
+  cláusula de Accidentes Personales en vez del Condicionado General, y el doble de puntaje
+  bastó para enterrar el artículo correcto). En total quedan 7 de 9 preguntas con el artículo
+  en los 5 primeros pasajes, contra 6 de 9 antes: casi un empate, y la mejora cayó justo en
+  las dos preguntas de la demo. Eso es ajuste al caso de prueba. El factor (×2) no está
+  calibrado: ×2, ×3, ×5 y el filtro duro dan exactamente el mismo resultado en estas 9
+  preguntas, así que ellas no permiten elegir entre ellos. Nueve preguntas no alcanzan para
+  calibrar nada; haría falta un conjunto de preguntas bastante más grande, escrito sin mirar
+  los resultados ([`pruebas/normalizacion.md`](pruebas/normalizacion.md)).
+- **Verificación de citas:** la cita tiene que estar en el pasaje y en su página del PDF,
+  carácter por carácter. Se ignoran los espacios, los saltos de línea y los guiones de fin de
+  línea (el PDF corta las palabras), las comillas tipográficas y un único signo de puntuación
+  al final de la cita (. : ; ,), porque el modelo suele cerrar con punto una cita que en el
+  PDF termina en dos puntos. En ese caso se muestra la cita sin el signo. Nada más se relaja:
+  una tilde, una palabra o una coma interna distinta la invalidan
+  ([`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py)).
+- **Texto libre de la respuesta:** no puede nombrar artículos, numerales, códigos de
+  cobertura (B4), documentos (Condiciones Particulares, Certificado de Seguro, endosos…) ni
+  títulos de cláusula que no estén en las citas verificadas; la oración que lo hace se
+  recorta y el recorte queda registrado. Un título de cláusula se detecta solo si se nombra
+  completo: una paráfrasis ("la cláusula dental") pasa sin control.
+- **La respuesta no es determinista:** con la normalización en la caché, la búsqueda sí lo
+  es (mismos pasajes y mismo mensaje al modelo en cada corrida), pero el modelo puede
+  responder distinto a la misma entrada. Medido en [`pruebas/estabilidad.md`](pruebas/estabilidad.md).
 - **Caché de normalizaciones:** solo contiene preguntas públicas de ensayo y de prueba
   (`data/demo/`, `pruebas/`), generadas en local con `python -m ai.preparar_demo`. La app
   la lee, nunca escribe en ella.

@@ -92,6 +92,52 @@
       "razonamiento": 101
     }
   },
+  "668a7e8adda8c4b0|choque el auto que alquile durante el viaje el seguro paga la reparacion": {
+    "version": 2,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
+    "variantes": [
+      "¿está cubierto el desmembramiento accidental del vehículo alquilado según riesgos cubiertos?",
+      "¿existen exclusiones que impidan pagar la reparación del auto por accidente?",
+      "¿la cobertura aplica dentro de la vigencia individual y territorio del seguro para el auto alquilado?",
+      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar el pago de la reparación?",
+      "¿las condiciones de acceso y límites de permanencia permiten la reparación del daño al vehículo?"
+    ],
+    "titulos": [
+      "Desmembramiento Accidental",
+      "Condiciones Generales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de acceso y límites de permanencia",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Desmembramiento Accidental",
+      "Condiciones Generales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Condiciones de acceso y límites de permanencia",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "hechos": [
+      "choqué el auto alquilado",
+      "durante el viaje"
+    ],
+    "ajuste": null,
+    "proveedor": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "fecha": "2026-11-07",
+    "tokens": {
+      "entrada": 1577,
+      "salida": 374,
+      "razonamiento": 132
+    }
+  },
   "668a7e8adda8c4b0|la aerolinea perdio mi maleta en el vuelo que me pagan": {
     "version": 2,
     "documento": "chubb_viajes_jetsmart",

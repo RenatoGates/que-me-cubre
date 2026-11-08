@@ -10,7 +10,7 @@ usan exactamente las mismas variantes y cada respuesta gasta una sola llamada.
 
 Ritmo: después de cada pregunta espera lo que el plan gratuito tarda en reponer los tokens
 que gastó (8000 por minuto), así ninguna prueba cae en el modo sin texto generado por culpa
-de la anterior.
+de la anterior. Si se acaba el límite diario, espera lo que Groq indique (ProveedorPaciente).
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ import json
 import statistics
 import time
 
-from comun import PRUEBAS, RAIZ, SALIDAS, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, SALIDAS, ProveedorPaciente, guardar_json, poliza, preguntas, utf8
 
 from ai import cache_normalizacion
 from ai.llm import ErrorLLM, obtener_proveedor
@@ -109,7 +109,7 @@ def main() -> int:
     p.add_argument("--solo", action="append")
     args = p.parse_args()
     try:
-        proveedor = obtener_proveedor()
+        proveedor = ProveedorPaciente(obtener_proveedor())  # espera los límites en vez de fallar
     except ErrorLLM as e:
         print(f"✗ {e}")
         return 1

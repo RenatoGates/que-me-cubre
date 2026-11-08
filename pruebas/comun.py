@@ -62,3 +62,34 @@ def guardar_json(ruta: Path, datos) -> None:
 def utf8() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
+
+
+class ProveedorPaciente:
+    """Envuelve un proveedor para las pruebas: si Groq pide esperar (límite por minuto o por
+    día), espera lo que dice retry-after y reintenta. La app nunca espera: muestra las
+    cláusulas. El límite diario se repone continuo (~8300 tokens por hora), así que una
+    corrida larga puede pausar varias veces."""
+
+    def __init__(self, proveedor, espera_maxima: float = 4 * 3600):
+        self._proveedor = proveedor
+        self.espera_maxima = espera_maxima
+
+    def __getattr__(self, nombre):
+        return getattr(self._proveedor, nombre)
+
+    def json(self, *args, **kwargs):
+        import datetime as dt
+        import time
+
+        from ai.llm import LimiteAlcanzado
+
+        while True:
+            try:
+                return self._proveedor.json(*args, **kwargs)
+            except LimiteAlcanzado as e:
+                espera = e.espera_segundos if e.espera_segundos is not None else 60
+                if espera > self.espera_maxima:
+                    raise
+                sigue = (dt.datetime.now() + dt.timedelta(seconds=espera + 2)).strftime("%H:%M:%S")
+                print(f"  límite del plan gratuito: espero {espera:.0f} s (sigo a las {sigue})", flush=True)
+                time.sleep(espera + 2)
