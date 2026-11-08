@@ -153,6 +153,32 @@ def main() -> int:
     caso("el 'no incluido' del modelo que repite el bloque se descarta (no sale dos veces)",
          (final["no_incluido_en_documento"], [d["motivo"] for d in descartes if d["tipo"] == "no_incluido"]),
          ([], ["ya está en el bloque de mencionadas pero ausentes"]))
+    caso("jerarquía: B4 arriba como cláusula ausente, las remisiones genéricas debajo",
+         [(m["nombre"][:2], m["nivel"]) for m in bloque],
+         [("B4", "clausula_ausente"), ("Co", "remision"), ("Ce", "remision")])
+
+    print("Apertura del texto contra el veredicto:")
+
+    def abre(respuesta: str, cubre: str) -> tuple[str, str]:
+        f, d = _validar({**crudo, "cubre": cubre, "respuesta": respuesta}, pas, pol)
+        return f["respuesta"], next((x["motivo"] for x in d if x["tipo"] == "texto" and "abre con" in x["motivo"]), "")
+
+    caso("'Sí, …' con veredicto 'con límites' pierde esa oración (el intento 5 de P02)",
+         abre("Sí, la radiografía está cubierta siempre que sea de urgencia. Si fuera de rutina, podría quedar excluida.", "con_limites"),
+         ("Si fuera de rutina, podría quedar excluida.", "abre con «Sí» y el veredicto es «con_limites»"))
+    caso("'Sí, …' con veredicto 'sí' se mantiene", abre("Sí, tu póliza cubre los gastos médicos.", "si"),
+         ("Sí, tu póliza cubre los gastos médicos.", ""))
+    caso("'No, …' con veredicto 'con límites' pierde esa oración",
+         abre("No, eso no está cubierto. Solo cubre urgencias.", "con_limites"),
+         ("Solo cubre urgencias.", "abre con «No» y el veredicto es «con_limites»"))
+    caso("'No …' con veredicto 'no' se mantiene", abre("No cubre exámenes de rutina.", "no"), ("No cubre exámenes de rutina.", ""))
+    caso("'Si la radiografía…' (condicional, sin tilde) no es un 'Sí'",
+         abre("Si la radiografía es de urgencia, tu póliza la cubre.", "con_limites"),
+         ("Si la radiografía es de urgencia, tu póliza la cubre.", ""))
+    caso("'No obstante, …' no es un 'No'", abre("No obstante, tu póliza cubre urgencias.", "con_limites"),
+         ("No obstante, tu póliza cubre urgencias.", ""))
+    caso("una sola oración contradictoria deja el texto de respaldo",
+         abre("Sí, está cubierta.", "con_limites")[0], "Revisa abajo las condiciones y las citas del documento.")
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

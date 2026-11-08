@@ -19,7 +19,7 @@ import hashlib
 import json
 import time
 
-from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, bloque_txt, guardar_json, poliza, preguntas, utf8
 
 from ai.llm import ErrorLLM, obtener_proveedor
 from ai.respuesta import responder
@@ -70,7 +70,7 @@ def resumen(qs: list[dict], veces: int) -> str:
         ]
         for n, r in enumerate(intentos, 1):
             if r["modo"] != "completo":
-                bloque = "; ".join(m["nombre"] for m in r.get("mencionadas_ausentes", [])) or "—"
+                bloque = bloque_txt(r)
                 lineas.append(f"| {n} | sin respuesta ({r.get('error', '?')}: {r['aviso'][:60]}…) | **no** | — | — | {bloque} | — | — | — | — |")
                 continue
             ignorados = sum(bool(c["verificacion"].get("puntuacion_final_ignorada")) for c in r["citas"])
@@ -78,7 +78,7 @@ def resumen(qs: list[dict], veces: int) -> str:
             lineas.append(
                 f"| {n} | {ETIQUETA[r['cubre']]} | {'sí' if aceptable(q, r) else '**no**'} | "
                 f"{len(r['citas'])} / {len(r['modelo_crudo']['citas'])} | {ignorados} | "
-                f"{'; '.join(m['nombre'] for m in r.get('mencionadas_ausentes', [])) or '—'} | "
+                f"{bloque_txt(r)} | "
                 f"{'; '.join(m['nombre'] for m in r['no_incluido_en_documento']) or '—'} | {len(r.get('podrian_aplicar', []))} | "
                 f"{recortes} | {r['uso']['tokens']} |"
             )

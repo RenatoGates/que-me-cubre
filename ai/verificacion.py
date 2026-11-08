@@ -150,6 +150,12 @@ def referencia_permitida(ref: tuple[str, str], citas: list[dict]) -> bool:
 _ORACION = re.compile(r"(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ¿¡\"(])")
 
 
+def partir_primera_oracion(texto: str) -> tuple[str, str, str]:
+    """(primera oración, separador, resto), con el mismo corte de oraciones que `recortar`."""
+    partes = _ORACION.split(texto.strip(), maxsplit=1)
+    return (partes[0], " ", partes[1]) if len(partes) == 2 else (partes[0], "", "")
+
+
 def recortar(texto: str, citas: list[dict], clausulas_documento: list[str]) -> tuple[str, list[dict]]:
     """Quita del texto las oraciones que nombran algo que no está en las citas verificadas.
     Devuelve (texto recortado, [{"oracion", "nombra"}] de lo quitado)."""

@@ -20,7 +20,7 @@ import json
 import statistics
 import time
 
-from comun import PRUEBAS, RAIZ, SALIDAS, ProveedorPaciente, aceptable, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, SALIDAS, ProveedorPaciente, aceptable, bloque_txt, guardar_json, poliza, preguntas, utf8
 
 from ai import cache_normalizacion
 from ai.llm import ErrorLLM, obtener_proveedor
@@ -54,7 +54,7 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
     for f in filas:
         lineas.append(
             f"| {f['id']} | {f['pregunta']} | {ETIQUETA[f['cubre']]} | {'sí' if f['aceptable'] else '**no**'} | "
-            f"{f['citas_validas']} / {f['citas_propuestas']} | {f['ausentes'] or '—'} | {f['no_incluido'] or '—'} | {f['pasajes']} | "
+            f"{f['citas_validas']} / {f['citas_propuestas']} | {f['ausentes']} | {f['no_incluido'] or '—'} | {f['pasajes']} | "
             f"{f['tokens_normalizacion'] or '—'} | {f['entrada']} | {f['salida']} ({f['razonamiento']}) | "
             f"{f['consulta_completa']} | {f['segundos']:.1f} |"
         )
@@ -89,7 +89,7 @@ def fila(q: dict, r: dict) -> dict:
         "citas_propuestas": len(r.get("modelo_crudo", {}).get("citas", [])),
         "citas_validas": len(r["citas"]),
         "no_incluido": "; ".join(m["nombre"] for m in r["no_incluido_en_documento"]),
-        "ausentes": "; ".join(m["nombre"] for m in r.get("mencionadas_ausentes", [])),
+        "ausentes": bloque_txt(r),
         "pasajes": len(r["pasajes"]),
         "entrada": respuesta["tokens_entrada"],
         "salida": respuesta["tokens_salida"],

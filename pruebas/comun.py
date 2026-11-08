@@ -68,6 +68,15 @@ def nombres_ausentes(r: dict) -> list[str]:
     return [m["nombre"] for m in r.get("mencionadas_ausentes", [])] + [m["nombre"] for m in r["no_incluido_en_documento"]]
 
 
+def bloque_txt(r: dict) -> str:
+    """El bloque determinista en una celda: las cláusulas ausentes por nombre, las remisiones contadas."""
+    bloque = r.get("mencionadas_ausentes", [])
+    remision = [m.get("nivel", "remision" if m["tipo"] == "documento" else "clausula_ausente") == "remision" for m in bloque]
+    nombres = [m["nombre"] for m, es in zip(bloque, remision) if not es]
+    remisiones = sum(remision)
+    return "; ".join(nombres + ([f"+{remisiones} remisiones"] if remisiones else [])) or "—"
+
+
 def guardar_json(ruta: Path, datos) -> None:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")

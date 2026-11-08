@@ -9,12 +9,20 @@ La validación es código, no confianza en el modelo:
 - el texto libre (respuesta y descripciones) no puede nombrar artículos, numerales,
   códigos de cobertura, documentos ni títulos de cláusula que no estén en las citas
   verificadas: la oración que lo hace se recorta;
+- la respuesta no puede abrir con "Sí" o "No" si el veredicto dice otra cosa ("Sí, está
+  cubierta…" con veredicto "con límites"): esa primera oración se recorta;
 - sin ninguna cita válida, el veredicto pasa a "no_encontrado".
 
 Aparte, sin pasar por el modelo: si un pasaje recuperado menciona una cobertura, un anexo o
 un documento cuyo texto no está en el PDF (B4, Condiciones Particulares…), la salida trae
 el bloque "mencionadas_ausentes" con la mención literal, su página y el aviso de pedírselo
-a la aseguradora (ai/referencias.py). Sale siempre, también en la red de seguridad.
+a la aseguradora (ai/referencias.py). Sale siempre, también en la red de seguridad, con dos
+niveles: "clausula_ausente" (cobertura o anexo con nombre propio, como B4: arriba y
+resaltado) y "remision" (Condiciones Particulares, Certificado…: debajo y plegado).
+
+Límite que el código no cubre: la verificación garantiza que cada cita existe literal en
+su página, no que la conclusión se siga de las citas. Eso puede fallar en las dos
+direcciones (un "sí" o un "no" apoyados en citas reales que no lo dicen).
 
 Red de seguridad: si el proveedor llega a su límite, no responde o el modelo no genera un
 JSON válido, el resultado sale en modo "solo_clausulas": los pasajes encontrados con las
@@ -43,7 +51,7 @@ from ai.prompts import (
 )
 from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
 from ai.referencias import MENSAJE
-from ai.verificacion import recortar, ubicar_cita, verificar_en_pdf
+from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
 NO_ENCONTRADO = "No encontré esto en tu póliza."
@@ -156,8 +164,25 @@ def mencionadas_ausentes(pasajes: list[Pasaje], poliza: Poliza) -> list[dict]:
                 "pasaje": p.id,
                 "trozo_id": t.id,
                 "posicion": [m.inicio, m.fin],
+                # Jerarquía para mostrarlo: arriba y resaltada la cobertura o el anexo con nombre
+                # propio (B4); debajo y plegadas las remisiones genéricas (Condiciones
+                # Particulares, Certificado), que salen en casi todas las respuestas.
+                "nivel": "remision" if m.tipo == "documento" else "clausula_ausente",
             })
-    return sorted(salida, key=lambda x: x["tipo"] == "documento")  # estable: dentro de cada grupo, orden de aparición
+    return sorted(salida, key=lambda x: x["nivel"] == "remision")  # estable: dentro de cada nivel, orden de aparición
+
+
+_ABRE_SI = re.compile(r"^\W*(?:sí\b|si(?=\s*[,.;:!]))", re.IGNORECASE)  # "Sí, …"; no "Si la radiografía…"
+_ABRE_NO = re.compile(r"^\W*no\b(?!\s+(?:obstante|solo|sólo)\b)", re.IGNORECASE)  # no "No obstante, …"
+
+
+def apertura_contradictoria(respuesta: str, cubre: str) -> str | None:
+    """"Sí" o "No" si el texto abre con esa palabra y el veredicto dice otra cosa."""
+    if _ABRE_SI.match(respuesta) and cubre != "si":
+        return "Sí"
+    if _ABRE_NO.match(respuesta) and cubre not in ("no", "no_encontrado"):
+        return "No"
+    return None
 
 
 def _misma_referencia(nombre: str, ausente: dict) -> bool:
@@ -265,6 +290,12 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
         condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
     else:
         respuesta = sin_referencias_ajenas(respuesta, "respuesta")
+        palabra = apertura_contradictoria(respuesta, cubre)
+        if palabra:  # "Sí, está cubierta…" con veredicto "con límites": la primera oración se recorta
+            primera, _, resto = partir_primera_oracion(respuesta)
+            descartes.append({"tipo": "texto", "campo": "respuesta", "texto": primera,
+                              "motivo": f"abre con «{palabra}» y el veredicto es «{cubre}»"})
+            respuesta = resto
         if cubre == "no_encontrado" and not respuesta.startswith("No encontré"):
             respuesta = f"{NO_ENCONTRADO} {respuesta}".strip()
         elif not respuesta:
