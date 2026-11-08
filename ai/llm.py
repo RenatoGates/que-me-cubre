@@ -164,9 +164,14 @@ class ProveedorGroq(Proveedor):
         "respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: "
         "Groq no los guarda ni los reutiliza."
     )
-    # max_completion_tokens moderado: el plan gratuito limita los tokens por minuto
+    # Tope de salida (incluye el razonamiento). La respuesta pasó de 3000 a 3800: la más larga
+    # medida usó 2550 y 2 de 27 llamadas se quedaron sin texto al primer intento; un corte por
+    # tope llega como 400 json_validate_failed. Para 120b, Groq admite la llamada por la
+    # entrada estimada, sin sumar el tope (pruebas/opciones.md): subirlo no cambia la admisión
+    # por minuto, solo deja que una respuesta larga termine. Lo consumido es lo generado; P02,
+    # la entrada más grande (3734), llegaría a 7534 de 8000 si usara el tope entero.
     _ESFUERZO = {"normalizacion": "low", "respuesta": "medium"}
-    _MAX_TOKENS = {"normalizacion": 1200, "respuesta": 3000}
+    _MAX_TOKENS = {"normalizacion": 1200, "respuesta": 3800}
 
     def __init__(self) -> None:
         super().__init__()

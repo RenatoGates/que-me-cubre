@@ -34,6 +34,8 @@ GENERADO = '{"citas":[{"n":1,"pasaje":"P3","texto_literal":"Los gastos médicos 
 PREGUNTA = "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?"
 ORG = "org_01abcdefghijklmnop"
 
+TOPE = ProveedorGroq._MAX_TOKENS["respuesta"]
+
 # El cuerpo que devolvió Groq el 2026-11-08 al reproducir P01 con el tope de 3000 (recortado)
 CORTE = {"error": {
     "message": "max completion tokens reached before generating a valid document: the output was truncated to fit "
@@ -129,8 +131,8 @@ def probar(nombre: str, falla, esperada: type, mensaje_contiene: str = "", log_c
 def main() -> int:
     utf8()
     probar("corte por tope (400 json_validate_failed)", error_http(groq.BadRequestError, 400, CORTE), SalidaInvalida,
-           "tope de 3000 tokens", ("respuesta", "BadRequestError 400 json_validate_failed", "max completion tokens reached",
-                                   "tope 3000", "razonamiento medium", "'podrian_aplicar'"))
+           f"tope de {TOPE} tokens", ("respuesta", "BadRequestError 400 json_validate_failed", "max completion tokens reached",
+                                      f"tope {TOPE}", "razonamiento medium", "'podrian_aplicar'"))
     probar("JSON fuera del esquema (400 json_validate_failed)", error_http(groq.BadRequestError, 400, ESQUEMA),
            SalidaInvalida, "no generó un JSON que cumpla el esquema",
            ("json_validate_failed", "does not match the expected schema", "'con_limites'"))

@@ -236,20 +236,23 @@ que-me-cubre/
   alcanzan, la app muestra las cláusulas encontradas sin texto generado. Lo mismo pasa si el
   modelo no logra un JSON válido, y la app no reintenta (un reintento duplica la espera y la
   cuota). Groq lo rechaza con `json_validate_failed`, y ese código incluye el caso más
-  común: la respuesta se cortó al llegar al tope de 3000 tokens de salida, que cuenta
-  también el razonamiento del modelo. El tope no se puede subir mucho: por los 413 que dio
-  Groq en las pruebas, cuenta la entrada más el tope contra los 8000 tokens por minuto (P02
-  entra con 3734). Con el prompt actual, en las corridas medidas 2 de 27 llamadas salieron
-  sin texto al primer intento: P05 en la corrida de las 10 preguntas y un intento de la
-  primera serie de P02, que el script de entonces rehízo sin guardarlo. Ninguno registró el
-  tipo de falla; la salida más larga que sí entró usó 2550 de los 3000. Una regla agregada
-  al prompt para que la respuesta no abriera con "Sí" ni "No" lo empeoró: desplegada sin
-  medir, 3 de 3 consultas se cortaron (2 en la app desplegada y la reproducción en local,
-  con el mensaje de Groq "max completion tokens reached"), y se revirtió al prompt de las
-  corridas medidas. Cada falla deja en los logs la tarea, el código y el mensaje de Groq,
-  sin la pregunta ni lo generado. Si el límite llega en la normalización de una pregunta
-  nueva, la búsqueda usa la pregunta tal cual y es menos precisa (en las pruebas, BM25 con
-  la pregunta original acierta 4 de 9 con 8 pasajes).
+  común: la respuesta se cortó al llegar al tope de tokens de salida, que cuenta también el
+  razonamiento del modelo. Con el prompt actual y el tope de 3000, en las corridas medidas 2
+  de 27 llamadas salieron sin texto al primer intento: P05 en la corrida de las 10 preguntas
+  y un intento de la primera serie de P02, que el script de entonces rehízo sin guardarlo.
+  Ninguno registró el tipo de falla; la salida más larga que sí entró usó 2550 de los 3000.
+  Por eso el tope de la respuesta subió a 3800. Para `gpt-oss-120b`, Groq admite cada
+  llamada por la entrada estimada, sin sumar el tope
+  ([`pruebas/opciones.md`](pruebas/opciones.md)), así que subirlo no cambia la admisión por
+  minuto: solo deja terminar una respuesta larga, y P02, la entrada más grande (3734),
+  usaría como mucho 7534 de los 8000 por minuto. Una regla agregada al prompt para que la
+  respuesta no abriera con "Sí" ni "No" empeoró los cortes: desplegada sin medir, 3 de 3
+  consultas se cortaron (2 en la app desplegada y la reproducción en local, con el mensaje
+  de Groq "max completion tokens reached"), y se revirtió al prompt de las corridas medidas.
+  Cada falla deja en los logs la tarea, el código y el mensaje de Groq, sin la pregunta ni
+  lo generado. Si el límite llega en la normalización de una pregunta nueva, la búsqueda usa
+  la pregunta tal cual y es menos precisa (en las pruebas, BM25 con la pregunta original
+  acierta 4 de 9 con 8 pasajes).
 - **Resultados de las pruebas:** 8 de 10 veredictos aceptables al primer intento, que es lo
   que vive el usuario porque la app no reintenta. El script de pruebas reintenta una vez
   para avanzar la corrida y con ese reintento da 9 de 10: P05 salió sin texto la primera vez
