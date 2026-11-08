@@ -43,8 +43,11 @@ Pendiente.
 ## 6. Demo
 
 - **URL pública:** pendiente (Streamlit Community Cloud).
-- **Capturas:** pendiente (`docs/`).
-- **Diagrama de arquitectura:** pendiente (`docs/`).
+- **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
+  inicial, la radiografía al llegar a Lima (P02) y la torcedura en Tarapoto (P01) con una
+  cita desplegada. Tomadas en local con respuestas grabadas de `pruebas/` (ahí se explica).
+- **Diagrama de arquitectura:** [`docs/arquitectura.md`](docs/arquitectura.md) (Mermaid) y
+  [`docs/arquitectura.png`](docs/arquitectura.png).
 - **Modelos y por qué:** ver abajo.
 
 ### Modelos y por qué
@@ -123,7 +126,23 @@ explica por qué y se muestran los pasajes resaltados y el bloque de lo menciona
 
 ### Cómo correrlo en local
 
-App: pendiente.
+App (Python 3.11), con `GROQ_API_KEY=...` en un `.env` en la raíz:
+
+```bash
+uv pip install -r app/requirements.txt
+streamlit run app/app.py
+```
+
+Para maquetar sin gastar cuota, `QMC_PROVEEDOR=grabado streamlit run app/app.py`: la
+respuesta del modelo es la que ya dio para esa pregunta en `pruebas/salidas/` y todo lo
+demás corre de verdad (las preguntas sin grabación caen en la red de seguridad). La
+interfaz se prueba sin navegador con `python pruebas/probar_app.py`, y las capturas salen
+de `python pruebas/capturas.py --url ...` (Playwright, solo en local).
+
+Desplegar en Streamlit Community Cloud: *Create app* desde este repositorio, rama `main`,
+archivo `app/app.py`; en *Advanced settings*, Python 3.11 y en *Secrets*
+`GROQ_API_KEY = "..."`. La clave nunca va al repositorio. Las dependencias salen de
+[`app/requirements.txt`](app/requirements.txt), sin torch (ver "Por qué BM25").
 
 Reconstruir los índices de los condicionados precargados (Python 3.11):
 

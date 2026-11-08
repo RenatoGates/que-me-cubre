@@ -246,7 +246,53 @@ class ProveedorGemini(Proveedor):
 
 # ---------------------------------------------------------------------------
 
-PROVEEDORES: dict[str, type[Proveedor]] = {"groq": ProveedorGroq, "gemini": ProveedorGemini}
+# ---------------------------------------------------------------------------
+# Grabado: para maquetar y sacar capturas sin gastar cuota (nunca en la app desplegada)
+# ---------------------------------------------------------------------------
+
+
+class ProveedorGrabado(Proveedor):
+    """Devuelve la salida cruda que el modelo ya dio para esa misma pregunta, guardada en
+    pruebas/salidas/ (y, si no está ahí, en pruebas/estabilidad/). Todo lo demás corre de
+    verdad con el código actual: la búsqueda, la verificación de citas contra el PDF y el
+    bloque de lo mencionado pero ausente. Una pregunta sin grabación se comporta como un
+    proveedor caído (red de seguridad). Se elige a mano con QMC_PROVEEDOR=grabado; con
+    QMC_GRABACIONES="estabilidad/P02_3" se fuerza una grabación concreta."""
+
+    nombre = "grabado"
+    variable_clave = ""
+    reutiliza_datos = False
+    aviso = "Respuesta grabada en pruebas/: no se llamó al modelo ahora (sirve para maquetar sin gastar cuota)."
+    modelos = {"normalizacion": "grabado", "respuesta": "grabado"}
+
+    def __init__(self) -> None:  # noqa: D107 - no necesita clave
+        from pathlib import Path
+
+        from ai.cache_normalizacion import texto_clave
+
+        pruebas = Path(__file__).resolve().parent.parent / "pruebas"
+        forzadas = [pruebas / f"{x.strip()}.json" for x in (config("QMC_GRABACIONES", "") or "").split(",") if x.strip()]
+        rutas = forzadas + sorted((pruebas / "salidas").glob("P*.json")) + sorted((pruebas / "estabilidad").glob("P*.json"))
+        self._texto_clave = texto_clave
+        self._grabadas: dict[str, dict] = {}
+        for ruta in rutas:
+            r = json.loads(ruta.read_text(encoding="utf-8"))
+            if r.get("modelo_crudo"):
+                self._grabadas.setdefault(texto_clave(r["pregunta"]), r["modelo_crudo"])
+
+    def _llamar(self, tarea, modelo, sistema, usuario, esquema):  # pragma: no cover - no se usa
+        raise NotImplementedError
+
+    def json(self, tarea: Tarea, sistema: str, usuario: str, esquema: dict) -> tuple[dict, Uso]:
+        if tarea == "respuesta" and "<pregunta>" in usuario:
+            pregunta = usuario.rsplit("<pregunta>", 1)[1].split("</pregunta>")[0].strip()
+            crudo = self._grabadas.get(self._texto_clave(pregunta))
+            if crudo is not None:
+                return json.loads(json.dumps(crudo)), Uso(self.nombre, "grabado", 0, 0, 0.0)
+        raise ProveedorNoDisponible("No hay una respuesta grabada para esta pregunta (proveedor de maqueta).")
+
+
+PROVEEDORES: dict[str, type[Proveedor]] = {"groq": ProveedorGroq, "gemini": ProveedorGemini, "grabado": ProveedorGrabado}
 
 
 def nombre_proveedor() -> str:

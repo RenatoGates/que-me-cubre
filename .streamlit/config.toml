@@ -1,0 +1,16 @@
+# Configuración de Streamlit (local y Streamlit Community Cloud).
+
+[browser]
+# Sin estadísticas de uso hacia Streamlit: la app promete no registrar nada.
+gatherUsageStats = false
+
+[server]
+# MB. Un condicionado completo pesa 1-5 MB; esto deja margen sin abrir la puerta a archivos enormes.
+maxUploadSize = 20
+
+[theme]
+primaryColor = "#1f5f8b"
+
+[client]
+# Sin el botón "Deploy" ni el menú de desarrollo en la app publicada.
+toolbarMode = "viewer"
