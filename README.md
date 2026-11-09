@@ -101,8 +101,8 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
   ([`pruebas/estabilidad.md`](pruebas/estabilidad.md)). Detalle y límites en Limitaciones.
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
   inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
-  cita desplegada y "Dónde atenderte" en Tarapoto, tomadas en local con respuestas grabadas
-  de `pruebas/` (ahí se explica).
+  cita desplegada y "Dónde atenderte" en Tarapoto, tomadas de la app desplegada con
+  respuestas en vivo de Groq.
 - **Diagrama de arquitectura:** [`docs/arquitectura.md`](docs/arquitectura.md) (Mermaid) y
   [`docs/arquitectura.png`](docs/arquitectura.png), incluida la pestaña del mapa.
 - **Modelos y por qué:** ver abajo.

@@ -75,24 +75,25 @@ que la verificación no garantiza (ver Limitaciones en el README).
 
 ## Capturas
 
-Tomadas con `python pruebas/capturas.py` sobre la app en local con el proveedor de maqueta
-(`QMC_PROVEEDOR=grabado`): la respuesta del modelo es la que ya dio para esa pregunta en
-`pruebas/salidas/`, y todo lo demás (búsqueda, verificación de citas, bloque de ausentes,
-interfaz) corrió de verdad. Por eso el aviso de arriba dice "Respuesta grabada" en vez de
-Groq.
+Tomadas el 2026-11-08 de la app desplegada ([queqbre.streamlit.app](https://queqbre.streamlit.app/)),
+con respuestas en vivo de Groq (`openai/gpt-oss-120b`), con
+`python pruebas/capturas.py --url https://queqbre.streamlit.app --espera 45`. El script deja pasar
+el límite por minuto entre las dos preguntas y se detiene sin guardar si una respuesta sale sin
+veredicto o sin el bloque de B4.
 
-1. Inicio: póliza, pregunta y los dos casos reales de Tarapoto como botones.
+1. Inicio: póliza, pregunta y los dos ejemplos de Tarapoto, que solo aparecen con la póliza
+   de Chubb.
 
    ![Inicio](capturas/1_inicio.png)
 
-2. La radiografía al llegar a Lima (P02): veredicto arriba, explicación, B4 resaltado con su
-   página y las remisiones plegadas.
+2. La radiografía al llegar a Lima (P02): "Cubre con límites" arriba, la explicación, B4
+   resaltado con su página, las remisiones plegadas, las citas y la preexistencia en
+   "exclusiones que podrían aplicar según tu caso".
 
    ![Respuesta a la radiografía](capturas/2_respuesta_radiografia.png)
 
-3. La torcedura en Tarapoto (P01): una cita desplegada con su texto literal y página, y la
-   preexistencia en "exclusiones que podrían aplicar según tu caso". El texto grabado abre
-   con "Sí,": quedó marcado y la etiqueta de arriba, "Cubre con límites", es la que manda.
+3. La torcedura en Tarapoto (P01): "Cubre con límites", B4 y una cita desplegada con su texto
+   literal, su página y la verificación contra el PDF.
 
    ![Respuesta a la torcedura con citas](capturas/3_respuesta_torcedura_citas.png)
 
