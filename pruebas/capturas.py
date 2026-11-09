@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+import time
 from pathlib import Path
 
 ANCHO, ALTO = 1000, 3600  # alto: Streamlit hace scroll dentro de su contenedor, no de la página
@@ -39,7 +40,7 @@ def esperar_app(pagina, timeout: int = 180_000) -> None:
 
 def esperar_respuesta(pagina, timeout: int = 120_000) -> None:
     pagina.locator(".qmc-veredicto").first.wait_for(timeout=timeout)
-    pagina.wait_for_timeout(1500)  # que terminen de pintarse los bloques de abajo
+    time.sleep(1.5)  # que terminen de pintarse los bloques de abajo (en la nube, `pagina` es el iframe)
 
 
 def comprobar(marco, caso: str) -> str:
