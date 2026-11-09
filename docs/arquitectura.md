@@ -75,20 +75,23 @@ que la verificación no garantiza (ver Limitaciones en el README).
 
 ## Capturas
 
-Tomadas el 2026-11-08 de la app desplegada ([queqbre.streamlit.app](https://queqbre.streamlit.app/)),
+Tomadas el 2026-11-09 de la app desplegada ([queqbre.streamlit.app](https://queqbre.streamlit.app/)),
 con respuestas en vivo de Groq (`openai/gpt-oss-120b`), con
 `python pruebas/capturas.py --url https://queqbre.streamlit.app --espera 45`. El script deja pasar
 el límite por minuto entre las dos preguntas y se detiene sin guardar si una respuesta sale sin
-veredicto o sin el bloque de B4.
+veredicto o sin el bloque de B4: el primer intento de P02 cayó en la red de seguridad (respuesta
+sin el formato esperado) y se descartó; estas son del segundo.
 
-1. Inicio: póliza, pregunta y los dos ejemplos de Tarapoto, que solo aparecen con la póliza
-   de Chubb.
+1. Inicio: los tres pasos de cómo funciona; arriba, subir el PDF de la póliza (uno o varios
+   archivos); debajo, en letra chica, los condicionados de ejemplo; la pregunta con "Una
+   pregunta a la vez." y los dos ejemplos de Tarapoto, que solo aparecen con la póliza de Chubb.
 
    ![Inicio](capturas/1_inicio.png)
 
-2. La radiografía al llegar a Lima (P02): "Cubre con límites" arriba, la explicación, B4
-   resaltado con su página, las remisiones plegadas, las citas y la preexistencia en
-   "exclusiones que podrían aplicar según tu caso".
+2. La radiografía al llegar a Lima (P02): "Cubre con límites" arriba, B4 resaltado con su
+   página, las remisiones plegadas y tres citas. Esta vez la explicación salió corta y el
+   modelo puso la exclusión de exámenes de rutina entre las que aplican, aunque la radiografía
+   la indicó un médico: es el hueco de la conclusión que se describe en Limitaciones.
 
    ![Respuesta a la radiografía](capturas/2_respuesta_radiografia.png)
 

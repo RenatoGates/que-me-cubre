@@ -366,7 +366,9 @@ que-me-cubre/
   Ninguno registró el tipo de falla; la salida más larga que sí entró usó 2550 de los 3000.
   Por eso el tope de la respuesta subió a 3800, y con él, en las 10 corridas siguientes de P01 y P02,
   ninguna se quedó sin texto al primer intento; la salida más larga usó 3150 tokens, que con el
-  tope de 3000 se habría cortado. Para `gpt-oss-120b`, Groq admite cada
+  tope de 3000 se habría cortado. De las 14 respuestas pedidas con el tope de 3800 (las 10 de
+  la medición y 4 en la app desplegada el 9 de noviembre), una salió sin texto: P02, al tomar
+  las capturas; el tipo de falla quedó en los logs de la app. Para `gpt-oss-120b`, Groq admite cada
   llamada por la entrada estimada, sin sumar el tope
   ([`pruebas/opciones.md`](pruebas/opciones.md)), así que subirlo no cambia la admisión por
   minuto: solo deja terminar una respuesta larga, y P02, la entrada más grande (3734),
