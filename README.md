@@ -459,6 +459,19 @@ que-me-cubre/
   condicionados peruanos ("Cláusula Adicional", "Artículo N°", "PARTE B", numerales). Una
   póliza con otro formato puede quedar con trozos por página sin artículo.
 
+## Próximos pasos
+
+Tres cosas que hoy no se pueden hacer:
+
+- **Red de la aseguradora:** hoy el mapa usa RENIPRESS, que es el registro de todos los
+  establecimientos del país. Saber en cuáles te atienden con tu póliza requiere un convenio
+  con cada compañía; esa lista no es dato público.
+- **Entrada por voz:** preguntar con una nota de audio desde el celular, con Whisper. Es el
+  caso de uso natural, porque el momento de la duda es cuando ya estás enfermo y fuera de
+  casa.
+- **API de embeddings:** hoy uso BM25 porque el modelo de embeddings no entra en la memoria
+  del plan gratuito de Streamlit. Con una API de embeddings se resuelve por centavos.
+
 ## Licencia
 
 [MIT](LICENSE).
