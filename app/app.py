@@ -410,7 +410,7 @@ def pantalla_poliza() -> None:
     if resultado is not None and poliza is not None and de[:2] == (poliza.doc_id, poliza.sha256):
         with st.container(key="tarjeta_resultado"):
             st.caption(f"Pregunta: {resultado['pregunta']}")
-            mostrar(resultado, poliza.archivos)
+            mostrar(resultado, getattr(poliza, "archivos", None))  # una Poliza en caché de antes no lo tiene
 
 
 # ---------------------------------------------------------------------------
