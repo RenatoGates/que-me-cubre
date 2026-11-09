@@ -43,16 +43,24 @@ def main() -> int:
     caso("aviso permanente: PDF en memoria", "se procesa en memoria y no se guarda" in t)
     caso("aviso permanente: lo que se envía al proveedor", "Respuesta grabada" in t or "Groq" in t)
     caso("aviso permanente: informativo, decide la aseguradora", "la decisión final sobre la cobertura la toma tu aseguradora" in t)
-    caso("dos botones de Tarapoto con el texto exacto",
-         [b.label for b in at.button if b.key and b.key.startswith("tarapoto_")] == [
-             "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
-             "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?"])
+    def ejemplos(at: AppTest) -> list[str]:
+        return [b.label for b in at.button if b.key and b.key.startswith("tarapoto_")]
 
-    # P02 desde Pacífico: el botón tiene que cambiar a la póliza de Chubb
+    caso("con Chubb: los dos ejemplos con el texto exacto (el de la caché)", ejemplos(at) == [
+        "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
+        "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?"])
+    caso("con Chubb: rótulo discreto 'Prueba con un ejemplo:'", "Prueba con un ejemplo:" in t and "Casos reales" not in t)
+
+    # Los ejemplos son de Chubb: con otra póliza o con un PDF propio no aparecen
     at.radio(key="fuente").set_value("pacifico_viajes").run()
+    caso("con Pacífico: sin ejemplos", not ejemplos(at) and "Prueba con un ejemplo:" not in textos(at), str(ejemplos(at)))
+    at.radio(key="fuente").set_value("Subir el PDF de mi póliza").run()
+    caso("con un PDF propio: sin ejemplos", not ejemplos(at), str(ejemplos(at)))
+
+    # P02 con Chubb
+    at.radio(key="fuente").set_value("chubb_viajes_jetsmart").run()
     at.button(key="tarapoto_1").click().run()
     caso("P02: responde sin errores", not at.exception, str(at.exception))
-    caso("P02: el botón cambia a la póliza de Chubb", at.radio(key="fuente").value == "chubb_viajes_jetsmart")
     t = textos(at)
     html = "\n".join(m.value for m in at.markdown)
     caso("P02: el veredicto arriba es la etiqueta del campo estructurado", 'class="qmc-veredicto"' in html and "Cubre con límites" in html)

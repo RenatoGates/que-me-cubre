@@ -72,11 +72,46 @@ st.markdown(
                     border: 2px solid; display: inline-block; margin: .2rem 0 .8rem 0;}
     .qmc-pasaje {font-size: .92rem; line-height: 1.5; white-space: normal;}
     .qmc-pasaje mark {background: #ffe58a; color: #1d1d1d; padding: 0 .1em; border-radius: .15em;}
-    .qmc-cita {border-left: 4px solid #4F46E5; padding: .35rem 0 .35rem .9rem; margin: .3rem 0 .6rem 0;
+    .qmc-cita {border-left: 4px solid #4338CA; padding: .35rem 0 .35rem .9rem; margin: .3rem 0 .6rem 0;
                font-size: 1rem; line-height: 1.55;}
     /* Streamlit dibuja st.caption al 60 % de opacidad: sobre el fondo azul claro del tema queda en
        4,2:1, bajo el 4,5:1 de WCAG AA. Ahí van la página y la verificación de cada cita. */
     [data-testid="stCaptionContainer"] {opacity: .75;}
+
+    /* Encabezado fijo de Streamlit con el mismo degradado que la banda, íconos en blanco */
+    header[data-testid="stHeader"] {background: linear-gradient(90deg, #4C2FC9, #6366F1);}
+    header[data-testid="stHeader"] button, header[data-testid="stHeader"] a,
+    header[data-testid="stHeader"] span, header[data-testid="stHeader"] svg {color: #FFFFFF; fill: #FFFFFF;}
+    [data-testid="stDecoration"] {display: none;}
+    [data-testid="stMain"] {overflow-x: hidden;}
+    [data-testid="stMainBlockContainer"] {padding-top: 3.75rem;}
+
+    /* Banda del título a todo el ancho, pegada al encabezado */
+    .qmc-banda {position: relative; z-index: 0; padding: 1.4rem 0 1.7rem 0; margin-bottom: .4rem;}
+    /* el fondo sube por debajo del encabezado fijo para que banda y encabezado se vean como una sola pieza */
+    .qmc-banda::before {content: ""; position: absolute; z-index: -1; top: -6rem; bottom: 0; left: 50%;
+                        width: 100vw; transform: translateX(-50%);
+                        background: linear-gradient(90deg, #4C2FC9, #6366F1);}
+    [data-testid="stMarkdownContainer"] p.qmc-titulo {color: #FFFFFF; font-size: clamp(2rem, 7vw, 2.75rem) !important;
+                 font-weight: 700; line-height: 1.15; margin: 0 0 .45rem 0;}
+    [data-testid="stMarkdownContainer"] p.qmc-bajada {color: rgba(255, 255, 255, .85); font-size: 1.05rem !important;
+                 line-height: 1.45; margin: 0;}
+
+    /* Tarjetas blancas: el contenido (y el texto de las cláusulas) siempre sobre blanco */
+    div[class*="st-key-tarjeta_"] {background: #FFFFFF; border-radius: 12px; padding: 1.25rem 1.25rem 1rem;
+                                   border: 1px solid rgba(22, 26, 46, .05);
+                                   box-shadow: 0 1px 2px rgba(22, 26, 46, .05), 0 4px 14px rgba(22, 26, 46, .06);}
+
+    /* Ejemplos: chicos, tipo enlace */
+    div[class*="st-key-tarapoto_"] button {padding: 0; min-height: 0; justify-content: flex-start;}
+    div[class*="st-key-tarapoto_"] button p {font-size: .92rem; color: #4338CA; text-align: left;
+                                              text-decoration: underline; text-underline-offset: 2px;}
+
+    @media (max-width: 640px) {
+        .qmc-banda {padding: 1rem 0 1.25rem 0;}
+        [data-testid="stMarkdownContainer"] p.qmc-bajada {font-size: 1rem !important;}
+        div[class*="st-key-tarjeta_"] {padding: 1rem .85rem .75rem;}
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -292,7 +327,7 @@ def mostrar(r: dict) -> None:
 
 
 def elegir_tarapoto(pregunta: str) -> None:
-    """Botón de caso real: pone la póliza de Chubb y el texto exacto, y pide responder."""
+    """Ejemplo (solo visible con la póliza de Chubb): pone el texto exacto y pide responder."""
     st.session_state["fuente"] = POLIZA_TARAPOTO
     st.session_state["pregunta"] = pregunta
     st.session_state["consultar"] = True
@@ -303,49 +338,53 @@ def pedir_respuesta() -> None:
 
 
 def pantalla_poliza() -> None:
-    opciones = [*fuentes(), SUBIR]
-    fuente = st.radio(
-        "Póliza", opciones, key="fuente", horizontal=True,
-        format_func=lambda x: x if x == SUBIR else etiqueta_fuente(x),
-    )
-    poliza: Poliza | None = None
-    if fuente == SUBIR:
-        archivo = st.file_uploader("PDF de tu póliza (condicionado con texto seleccionable)", type=["pdf"])
-        if archivo is not None:
-            try:
-                with st.spinner("Leyendo tu póliza…"):
-                    poliza = poliza_subida(archivo)
-                st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
-                           "fragmentos. Vive solo en esta sesión.")
-            except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
-                st.error(f"No pude leer ese PDF: {e}")
-    else:
-        poliza = poliza_precargada(fuente)
-
-    st.text_area("Tu pregunta", key="pregunta", height=90,
-                 placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
-    st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
-    st.caption("Casos reales, sobre la póliza de Chubb · JetSmart:")
-    for i, texto in enumerate(PREGUNTAS_TARAPOTO):
-        st.button(texto, key=f"tarapoto_{i}", on_click=elegir_tarapoto, args=(texto,), width="stretch")
-
-    if st.session_state.pop("consultar", False):
-        pregunta = (st.session_state.get("pregunta") or "").strip()
-        if poliza is None:
-            st.warning("Primero elige una póliza o sube tu PDF.")
-        elif not pregunta:
-            st.warning("Escribe una pregunta.")
+    with st.container(key="tarjeta_consulta"):
+        opciones = [*fuentes(), SUBIR]
+        fuente = st.radio(
+            "Póliza", opciones, key="fuente", horizontal=True,
+            format_func=lambda x: x if x == SUBIR else etiqueta_fuente(x),
+        )
+        poliza: Poliza | None = None
+        if fuente == SUBIR:
+            archivo = st.file_uploader("PDF de tu póliza (condicionado con texto seleccionable)", type=["pdf"])
+            if archivo is not None:
+                try:
+                    with st.spinner("Leyendo tu póliza…"):
+                        poliza = poliza_subida(archivo)
+                    st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
+                               "fragmentos. Vive solo en esta sesión.")
+                except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
+                    st.error(f"No pude leer ese PDF: {e}")
         else:
-            with st.spinner("Buscando en tu póliza y verificando las citas…"):
-                st.session_state["resultado"] = responder(pregunta, poliza, proveedor())
-            st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
+            poliza = poliza_precargada(fuente)
+
+        st.text_area("Tu pregunta", key="pregunta", height=90,
+                     placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
+        st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
+        # Los ejemplos son de la póliza de Chubb: solo tienen sentido con ella elegida. Con el texto
+        # exacto usan la normalización de la caché (una llamada al modelo en vez de dos).
+        if fuente == POLIZA_TARAPOTO:
+            st.caption("Prueba con un ejemplo:")
+            for i, texto in enumerate(PREGUNTAS_TARAPOTO):
+                st.button(texto, key=f"tarapoto_{i}", on_click=elegir_tarapoto, args=(texto,), type="tertiary")
+
+        if st.session_state.pop("consultar", False):
+            pregunta = (st.session_state.get("pregunta") or "").strip()
+            if poliza is None:
+                st.warning("Primero elige una póliza o sube tu PDF.")
+            elif not pregunta:
+                st.warning("Escribe una pregunta.")
+            else:
+                with st.spinner("Buscando en tu póliza y verificando las citas…"):
+                    st.session_state["resultado"] = responder(pregunta, poliza, proveedor())
+                st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
 
     resultado = st.session_state.get("resultado")
     de = st.session_state.get("resultado_de", (None, None))
     if resultado is not None and poliza is not None and de[:2] == (poliza.doc_id, poliza.sha256):
-        st.divider()
-        st.caption(f"Pregunta: {resultado['pregunta']}")
-        mostrar(resultado)
+        with st.container(key="tarjeta_resultado"):
+            st.caption(f"Pregunta: {resultado['pregunta']}")
+            mostrar(resultado)
 
 
 # ---------------------------------------------------------------------------
@@ -359,6 +398,11 @@ def establecimientos_registrados():
 
 
 def pantalla_mapa() -> None:
+    with st.container(key="tarjeta_mapa"):
+        _mapa()
+
+
+def _mapa() -> None:
     df = establecimientos_registrados()
     st.markdown("Elige la zona y te muestro los establecimientos de salud registrados en SUSALUD. "
                 "No uso tu ubicación.")
@@ -383,7 +427,7 @@ def pantalla_mapa() -> None:
 
     en_mapa = sel.dropna(subset=["lat", "lon"])
     if len(en_mapa):
-        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#4F46E5")
+        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#4338CA")
     st.warning("Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.", icon="🏥")
     st.caption(f"{len(sel)} establecimientos activos en {etiqueta((provincia, distrito))}"
                + (f"; {len(sel) - len(en_mapa)} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
@@ -403,8 +447,12 @@ def pantalla_mapa() -> None:
 # Pantalla
 # ---------------------------------------------------------------------------
 
-st.title("¿Qué me cubre?")
-st.markdown("Pregunta en español normal y te respondo citando la cláusula exacta de tu póliza, con artículo y página.")
+st.markdown(
+    '<div class="qmc-banda"><p class="qmc-titulo" role="heading" aria-level="1">¿Qué me cubre?</p>'
+    '<p class="qmc-bajada">Pregunta en español normal y te respondo citando la cláusula exacta de tu póliza, '
+    "con artículo y página.</p></div>",
+    unsafe_allow_html=True,
+)
 st.info(
     "**Tu PDF se procesa en memoria y no se guarda** (ni en disco ni en registros). "
     f"{proveedor().aviso}\n\n"

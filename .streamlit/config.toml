@@ -9,12 +9,16 @@ gatherUsageStats = false
 maxUploadSize = 20
 
 [theme]
-# Fondo azul muy claro con índigo de acento.
-primaryColor = "#4F46E5"
-backgroundColor = "#F4F5FD"
-secondaryBackgroundColor = "#E8EAFB"
-textColor = "#1B1F3B"
+# Índigo como identidad: fondo azulado, contenido en tarjetas blancas (CSS en app/app.py).
+primaryColor = "#4338CA"
+backgroundColor = "#EDF0FA"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#161A2E"
 font = "sans serif"
+# Con el fondo secundario blanco, las cajas de texto y los selectores sobre las tarjetas blancas
+# necesitan un borde para verse.
+showWidgetBorder = true
+borderColor = "#C9CEE6"
 # El texto amarillo por defecto (#926C05) queda en 4,4:1 sobre este fondo, bajo el 4,5:1 de WCAG AA;
 # un poco más oscuro llega a 5,1:1. Lo usan el bloque de B4, la red de seguridad y el aviso del mapa.
 yellowTextColor = "#85620A"
