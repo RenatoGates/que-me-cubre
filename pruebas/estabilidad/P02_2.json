@@ -1,0 +1,288 @@
+{
+  "modo": "completo",
+  "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "no",
+  "etiqueta_veredicto": "No cubre",
+  "respuesta": "Tu póliza excluye las radiografías que se consideren exámenes de rutina sin indicación objetiva. Por eso, el hecho de que te pidan una radiografía al llegar a Lima no está cubierto según lo indicado en la póliza.",
+  "apertura_contradictoria": null,
+  "condiciones": [],
+  "exclusiones_aplicables": [
+    {
+      "descripcion": "Las radiografías están excluidas como exámenes de rutina sin indicación objetiva.",
+      "citas": [
+        1
+      ]
+    }
+  ],
+  "podrian_aplicar": [],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
+      "pagina": 18,
+      "paginas": [
+        18
+      ],
+      "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0069",
+      "posicion": [
+        0,
+        159
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "B4 - Continuación de Tratamiento en País de Residencia",
+      "tipo": "cobertura",
+      "mensaje": "Tu póliza menciona «B4 - Continuación de Tratamiento en País de Residencia» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "B4 - Continuación de Tratamiento en País de Residencia",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "posicion": [
+        595,
+        649
+      ],
+      "nivel": "clausula_ausente"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 2° Vigencia Individual y Territorio (parte 1 de 2)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0059",
+      "posicion": [
+        298,
+        322
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 2° Vigencia Individual y Territorio (parte 1 de 2)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0059",
+      "posicion": [
+        327,
+        348
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 2° Vigencia Individual y Territorio",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0069",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 5° Exclusiones",
+      "parte": [
+        5,
+        5
+      ],
+      "paginas": [
+        18
+      ],
+      "texto": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.\ncc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.\ndd)Tratamientos rejuvenecedores, o estéticos.\nee)Gastos en compras de prótesis que no sean originados como consecuencia de un accidente cubierto por esta póliza.\nff)Anormalidades congénitas y condiciones que resulten de las mismas.\ngg)Gastos incurridos con relación a pie frágil, deformado o plano, callos o uñas del pie.\nhh)Diagnóstico y tratamiento de acné.\nii)Tabique desviado, incluyendo resección submucosa y/o cualquier corrección quirúrgica de los mismos.\njj)Cuidados de niños sanos, incluyendo exámenes e inmunizaciones (vacunas).\nkk)Anteojos, lentes de contacto, audífonos y exámenes para la prescripción o ajuste de los mismos, a menos que la lesión o la enfermedad haya causado el deterioro de la visión o la audición.\nll)Trastornos mentales, nerviosos o emocionales o curas de sueño.\nmm)Procedimientos electivos o adelantar tratamientos o procedimientos de larga duración."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0064",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        17
+      ],
+      "texto": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0059",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 2° Vigencia Individual y Territorio",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        15,
+        16
+      ],
+      "texto": "Artículo 2° Vigencia Individual y Territorio\nEl derecho a las indemnizaciones y prestaciones contempladas para la presente cobertura se refiere a contingencias que ocurran a una distancia superior a doscientos (200) kilómetros contados desde el domicilio particular del ASEGURADO que figura en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEl inicio de la vigencia de la presente cobertura de viaje internacional se computará a partir del paso del ASEGURADO por Policía Internacional o Departamento de Migraciones, en el lugar de embarque, en cada viaje, y en todo caso no antes de la fecha de inicio del VIAJE indicada en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, si esta es posterior a la fecha de embarque.\nLa protección termina en cualquiera de las siguientes fechas, lo que ocurra primero:\na)En la FECHA DE LLEGADA aún si esta es anterior a la que estaba originalmente prevista y en el momento del paso por la Policía Internacional o Departamento de Migraciones;\nb)Al final de la vigencia en días indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda;\nc)Al final del plazo de VIGENCIA DE LA PÓLIZA.\nEl ámbito territorial de las coberturas se extiende a todo el mundo, exceptuando los siguientes países:"
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        16
+      ],
+      "texto": "Artículo 3° Cobertura\nEl reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:\n•B2 - Gastos Odontológicos durante el Viaje.\n•B3 - Gastos Farmacéuticos durante el Viaje.\n•B4 - Continuación de Tratamiento en País de Residencia.\nPara fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:\na)Servicios prestados por el Médico.\nb)Servicios médicos u hospitalarios para garantizar la recuperación inicial y las condiciones físicas necesarias que permitan la normal continuación del viaje.\nc)Hospitalización y uso del quirófano.\nd)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.\ne)Anestesias (incluyendo administración de la misma, exámenes o tratamientos radiológicos y análisis de laboratorio)."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0058",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 1° Definiciones",
+      "parte": [
+        3,
+        3
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "Médico: Es un profesional habilitado y autorizado legalmente para practicar la medicina dentro del ámbito de su especialidad. No será considerado como MÉDICO:\n•El ASEGURADO\n•Su cónyuge\n•Cualquier pariente del ASEGURADO o de su cónyuge con los siguientes parentescos: hijo(a), padres, hermano(a), parientes consanguíneos o afines, aun cuando se encuentre habilitado para ejercer la práctica de la medicina.\nViaje: Es el período de tiempo comprendido entre la fecha de salida y llegada especificadas en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, sujeto a un máximo continuo de días por viaje."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0065",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 5° Exclusiones",
+      "parte": [
+        1,
+        5
+      ],
+      "paginas": [
+        17
+      ],
+      "texto": "Artículo 5° Exclusiones\nLa presente Cláusula Adicional no otorga ninguna de las coberturas o beneficios estipulados en ella, cuando se originen por, o sean una consecuencia o complicación de:\na)ENFERMEDADES, CONDICIONES O LESIONES PRE-EXISTENTES al VIAJE del ASEGURADO y cualquiera de sus consecuencias, incluyendo convalecencias y alteraciones durante tratamientos que no se encuentran todavía en una etapa consolidada, y las secuelas de enfermedades anteriores al VIAJE.\nb)Participación en cualquier equipo deportivo profesional o semiprofesional y cualquier deporte o actividad riesgosa que incluye: aviación privada, paracaidismo, ala delta, parapente, bungee jumping, alpinismo, escalada, motociclismo, artes marciales, boxeo, rodeo, rugby, equitación, polo, buceo.\nc)Suicidio, intento de suicidio o LESIÓN intencionalmente infringida por el ASEGURADO a sí mismo.\nd)Prestación de servicios en las fuerzas armadas o unidades auxiliares de las mismas en casos de Guerras civiles nacionales o extranjeras, motines, movimientos populares, represalias, restricciones a la libre circulación, huelgas, explosiones, misiones para la obtención o mantenimiento de la paz."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "¿La cobertura de gastos médicos por accidente y/o enfermedad durante el viaje incluye la radiografía solicitada al llegar a Lima?",
+      "¿Existen exclusiones que impidan cubrir la radiografía requerida en Lima por falta de especialidad local?",
+      "¿La vigencia individual y territorio del seguro permite la cobertura de radiografías realizadas en Lima durante el viaje?",
+      "¿Cuál es el aviso del siniestro y procedimiento para solicitar la cobertura de una radiografía al llegar a Lima?",
+      "¿La condición de cobertura contempla estudios diagnósticos como radiografías cuando la especialidad no está disponible en el destino?"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Condiciones de Cobertura"
+    ],
+    "hechos": [
+      "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad"
+    ],
+    "ajuste": null
+  },
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Las radiografías están excluidas como exámenes de rutina sin indicación objetiva.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "podrian_aplicar": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no",
+    "respuesta": "Tu póliza excluye las radiografías que se consideren exámenes de rutina sin indicación objetiva. Por eso, el hecho de que te pidan una radiografía al llegar a Lima no está cubierto según lo indicado en la póliza."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "groq",
+    "modelo": "openai/gpt-oss-120b",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "groq",
+        "modelo": "openai/gpt-oss-120b",
+        "tokens_entrada": 3734,
+        "tokens_salida": 995,
+        "tokens_razonamiento": 778,
+        "segundos": 2.69,
+        "costo_usd": 0.0
+      }
+    ],
+    "tokens": 4729,
+    "costo_usd": 0.0,
+    "segundos": 2.69
+  },
+  "estabilidad": {
+    "intento": 2,
+    "huella_pasajes": "38f63ab304925e0b"
+  }
+}

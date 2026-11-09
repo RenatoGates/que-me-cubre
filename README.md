@@ -72,8 +72,8 @@ encontradas.
 **Insight:** el modelo redacta, pero lo que el asegurado puede comprobar lo pone el código.
 Cada cita está literal en su página, y lo que la póliza menciona sin incluir su texto (en
 Chubb, la cobertura "B4 - Continuación de Tratamiento en País de Residencia") aparece
-siempre, con su página, aunque el modelo no lo diga: en 5 de 5 corridas de P02 lo mostró el
-bloque del código, mientras que el modelo solo no lo nombró en ninguna de 5.
+siempre, con su página, aunque el modelo no lo diga: en las 10 corridas de P02 con el bloque
+lo mostró el código, mientras que el modelo solo no lo nombró en ninguna de 5.
 
 ## 5. Why now
 
@@ -94,11 +94,11 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
   condicionado de Chubb · JetSmart: la torcedura (P01) y la radiografía al llegar a Lima
   (P02).
 - **Resultados, al primer intento y sin reintento (lo que vive el usuario):** 8 de 10
-  preguntas de prueba con veredicto aceptable (9 de 10 si el script reintenta una vez). Con
-  el tope de 3000 tokens, P01 fue aceptable en 5 de 5 corridas y P02 en 3 de 5, con B4 en el
-  bloque las 5 veces ([`pruebas/estabilidad/039314c/`](pruebas/estabilidad/039314c/)); la
-  serie con el tope de 3800 se está corriendo y queda en
-  [`pruebas/estabilidad.md`](pruebas/estabilidad.md). Detalle y límites en Limitaciones.
+  preguntas de prueba con veredicto aceptable (9 de 10 si el script reintenta una vez). Las
+  dos preguntas de la demo, cinco veces cada una con el tope de 3800 tokens: las 10
+  respuestas salieron completas al primer intento; P01 fue aceptable en 5 de 5 y P02 en 4 de
+  5 (una corrida respondió "no"), y B4 apareció en el bloque las 10 veces
+  ([`pruebas/estabilidad.md`](pruebas/estabilidad.md)). Detalle y límites en Limitaciones.
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
   inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
   cita desplegada y "Dónde atenderte" en Tarapoto, tomadas en local con respuestas grabadas
@@ -353,7 +353,9 @@ que-me-cubre/
   de 27 llamadas salieron sin texto al primer intento: P05 en la corrida de las 10 preguntas
   y un intento de la primera serie de P02, que el script de entonces rehízo sin guardarlo.
   Ninguno registró el tipo de falla; la salida más larga que sí entró usó 2550 de los 3000.
-  Por eso el tope de la respuesta subió a 3800. Para `gpt-oss-120b`, Groq admite cada
+  Por eso el tope de la respuesta subió a 3800, y con él, en las 10 corridas siguientes de P01 y P02,
+  ninguna se quedó sin texto al primer intento; la salida más larga usó 3150 tokens, que con el
+  tope de 3000 se habría cortado. Para `gpt-oss-120b`, Groq admite cada
   llamada por la entrada estimada, sin sumar el tope
   ([`pruebas/opciones.md`](pruebas/opciones.md)), así que subirlo no cambia la admisión por
   minuto: solo deja terminar una respuesta larga, y P02, la entrada más grande (3734),
@@ -421,12 +423,14 @@ que-me-cubre/
   responder distinto a la misma entrada. Estas series no reintentan: cada corrida es un
   primer intento, como en la app (salvo un intento de la primera serie de P02 que cayó en la
   red de seguridad y el script de entonces rehízo; ver "Plan gratuito del modelo"). En P02,
-  el veredicto del modelo es estable en 8 de 10 corridas sobre la misma entrada ("con
-  límites"; las otras 2, "no"); el bloque determinista no depende de eso: B4 salió en las 5
-  corridas en que estaba activo. P01 dio "con límites" en 5 de 5, con la preexistencia en
-  "podrían aplicar" y nunca afirmada. Medido en
-  [`pruebas/estabilidad.md`](pruebas/estabilidad.md) (la primera serie de P02, sin el
-  bloque, en `pruebas/estabilidad/sin_bloque/`).
+  el veredicto del modelo es estable en 12 de 15 corridas sobre la misma entrada ("con
+  límites"; las otras 3, "no"): 8 de 10 en las dos series con el tope de 3000 y 4 de 5 en la
+  de 3800. El bloque determinista no depende de eso: B4 salió en las 10 corridas en que
+  estaba activo. P01 dio "con límites" en 10 de 10, con la preexistencia en "podrían
+  aplicar" y nunca como exclusión que aplica. Ninguna de las 10 corridas con el tope de 3800
+  abrió con "Sí" o "No" contra el veredicto. Medido en
+  [`pruebas/estabilidad.md`](pruebas/estabilidad.md); las series anteriores, en
+  `pruebas/estabilidad/039314c/` y `pruebas/estabilidad/sin_bloque/`.
 - **Mencionadas pero ausentes:** se detectan las coberturas con código ("B4 - Nombre"), los
   anexos con letra o número ("Anexo A - Nombre") y las remisiones a Condiciones Particulares,
   Certificado de Seguro, Condiciones Especiales, Condiciones Generales y Tabla o Plan de
