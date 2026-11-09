@@ -94,8 +94,10 @@ st.markdown(
                         background: linear-gradient(90deg, #4C2FC9, #6366F1);}
     [data-testid="stMarkdownContainer"] p.qmc-titulo {color: #FFFFFF; font-size: clamp(2rem, 7vw, 2.75rem) !important;
                  font-weight: 700; line-height: 1.15; margin: 0 0 .45rem 0;}
-    [data-testid="stMarkdownContainer"] p.qmc-bajada {color: rgba(255, 255, 255, .85); font-size: 1.05rem !important;
-                 line-height: 1.45; margin: 0;}
+    /* Texto grande para WCAG (19 px en negrita): pide 3:1, y el blanco al 85 % da de 3,7:1 (extremo
+       claro del degradado) a 6,4:1. A tamaño normal pediría 4,5:1 y no llegaría en el extremo claro. */
+    [data-testid="stMarkdownContainer"] p.qmc-bajada {color: rgba(255, 255, 255, .85); font-size: 19px !important;
+                 font-weight: 700; line-height: 1.4; margin: 0;}
 
     /* Tarjetas blancas: el contenido (y el texto de las cláusulas) siempre sobre blanco */
     div[class*="st-key-tarjeta_"] {background: #FFFFFF; border-radius: 12px; padding: 1.25rem 1.25rem 1rem;
@@ -109,7 +111,6 @@ st.markdown(
 
     @media (max-width: 640px) {
         .qmc-banda {padding: 1rem 0 1.25rem 0;}
-        [data-testid="stMarkdownContainer"] p.qmc-bajada {font-size: 1rem !important;}
         div[class*="st-key-tarjeta_"] {padding: 1rem .85rem .75rem;}
     }
     </style>
