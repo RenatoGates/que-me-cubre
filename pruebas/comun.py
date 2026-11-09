@@ -86,6 +86,26 @@ def apertura_txt(r: dict) -> str:
     return f"«{viejo['motivo'].split('«')[1].split('»')[0]}» (recortada)" if viejo else "—"
 
 
+def partir_pdf(pdf: bytes, cortes: list[int]) -> list[bytes]:
+    """El PDF partido en varios, cortando antes de cada página dada (numeradas desde 1):
+    cortes=[11] da las páginas 1-10 y 11-fin. Simula una póliza que viene en partes."""
+    import io
+
+    from pypdf import PdfReader, PdfWriter
+
+    lector = PdfReader(io.BytesIO(pdf))
+    limites = [1, *cortes, len(lector.pages) + 1]
+    partes = []
+    for desde, hasta in zip(limites, limites[1:]):
+        escritor = PdfWriter()
+        for i in range(desde - 1, hasta - 1):
+            escritor.add_page(lector.pages[i])
+        salida = io.BytesIO()
+        escritor.write(salida)
+        partes.append(salida.getvalue())
+    return partes
+
+
 def guardar_json(ruta: Path, datos) -> None:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")

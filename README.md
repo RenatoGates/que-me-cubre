@@ -44,7 +44,7 @@ atenderte por no saber si te cubre.
 **Cómo se resuelve hoy:** no se resuelve. Se llama a la aseguradora en horario de oficina,
 se pregunta a un conocido, o se asume lo peor.
 
-**Evidencia**, tres conversaciones en [`docs/research/`](docs/research/):
+**Evidencia**, cuatro conversaciones en [`docs/research/`](docs/research/):
 
 - [Entrevistado 1](docs/research/entrevista_1.md), seguro de salud del trabajo: "No, tendría
   que ponerme a descargar la póliza del seguro, investigar, ponerme a leer". Pagaría menos
@@ -54,6 +54,11 @@ se pregunta a un conocido, o se asume lo peor.
 - [Entrevistado 3](docs/research/entrevista_3.md), seguro de viaje: se accidentó en
   Tarapoto, fue a un centro médico de noche y pagó de su bolsillo sin saber si le
   reembolsaban. Después le indicaron una radiografía en Lima y tampoco sabía si eso entraba.
+- [Entrevistado 4](docs/research/entrevista_4.md), seguro laboral y de viaje: "Por la
+  urgencia o desconocimiento he optado por correr con los gastos médicos por mi cuenta.
+  Muchas veces las pólizas son muy extensas, muy técnicas, y no me he dado el tiempo de
+  leerlas. Buscar qué cobertura aplica a tu caso es poco práctico." Le parece una
+  alternativa interesante para responder concretamente a casos particulares.
 
 **Advertencia metodológica:** las dos primeras entrevistas incluyeron preguntas dirigidas
 sobre la app, así que la disposición a pagar que reportan no es evidencia fuerte. La tercera
@@ -61,13 +66,13 @@ sí es un episodio real con gasto real.
 
 ## 4. Solución e insight
 
-**Solución.** Subes el PDF de tu póliza (o eliges un condicionado precargado) y preguntas
-como hablas: "me torcí el dedo en Tarapoto, ¿me cubre?". La app busca en tu propio documento
-los pasajes que responden, el modelo redacta la respuesta en JSON con citas, y el código
-verifica cada cita letra por letra contra la página del PDF antes de mostrarla. Arriba va el
-veredicto ("Cubre con límites"), debajo la explicación, lo que la póliza menciona pero no
-trae, y las citas con su artículo y página. Si el modelo falla, se ven igual las cláusulas
-encontradas.
+**Solución.** Subes el PDF de tu póliza, aunque venga en varios archivos (o eliges un
+condicionado de ejemplo), y preguntas como hablas: "me torcí el dedo en Tarapoto, ¿me
+cubre?". La app busca en tu propio documento los pasajes que responden, el modelo redacta la
+respuesta en JSON con citas, y el código verifica cada cita letra por letra contra la página
+del PDF antes de mostrarla. Arriba va el veredicto ("Cubre con límites"), debajo la
+explicación, lo que la póliza menciona pero no trae, y las citas con su artículo y página.
+Si el modelo falla, se ven igual las cláusulas encontradas.
 
 **Insight:** el modelo redacta, pero lo que el asegurado puede comprobar lo pone el código.
 Cada cita está literal en su página, y lo que la póliza menciona sin incluir su texto (en
@@ -88,8 +93,9 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
 
 - **URL pública:** [queqbre.streamlit.app](https://queqbre.streamlit.app/) (Streamlit
   Community Cloud). Dos pestañas: "Pregunta a tu póliza" y "Dónde atenderte".
-- **Video de respaldo:** **[PENDIENTE: link al video]**, por si en la demo falla la conexión
-  o la cuota.
+- **Video de respaldo:**
+  [drive.google.com/file/d/1BBLOAqQeCcqQB9-K4aNmMfPMfCDSsZDF](https://drive.google.com/file/d/1BBLOAqQeCcqQB9-K4aNmMfPMfCDSsZDF/view?usp=drive_link),
+  por si en la demo falla la conexión o la cuota.
 - **Casos de la demo:** las dos preguntas reales de Tarapoto, como botones, sobre el
   condicionado de Chubb · JetSmart: la torcedura (P01) y la radiografía al llegar a Lima
   (P02).
@@ -99,6 +105,10 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
   respuestas salieron completas al primer intento; P01 fue aceptable en 5 de 5 y P02 en 4 de
   5 (una corrida respondió "no"), y B4 apareció en el bloque las 10 veces
   ([`pruebas/estabilidad.md`](pruebas/estabilidad.md)). Detalle y límites en Limitaciones.
+- **Pruebas de usuario:** dos personas probaron la app desplegada el 9 de noviembre de 2026
+  ([`docs/research/pruebas_de_usuario.md`](docs/research/pruebas_de_usuario.md)). De ahí
+  salen la subida de una póliza en varios PDF, los pasos de "cómo funciona", el aviso de
+  avance y "Una pregunta a la vez".
 - **Capturas:** en [`docs/arquitectura.md`](docs/arquitectura.md#capturas): la pantalla
   inicial, la radiografía al llegar a Lima (P02), la torcedura en Tarapoto (P01) con una
   cita desplegada y "Dónde atenderte" en Tarapoto, tomadas de la app desplegada con
@@ -177,7 +187,8 @@ Contrato para la interfaz (los campos salen de `responder` en [`ai/respuesta.py`
    código: arriba y resaltadas las cláusulas con nombre propio (`nivel: clausula_ausente`,
    como B4), con su mención literal y su página; debajo y plegadas las remisiones genéricas
    a Condiciones Particulares o Certificado de Seguro (`nivel: remision`).
-5. Las citas, con documento, sección, artículo y página.
+5. Las citas, con documento, sección, artículo y página; si la póliza se subió en varios PDF,
+   también el archivo y la página dentro de ese archivo.
 
 En la red de seguridad (`modo: solo_clausulas`) la etiqueta dice "Sin veredicto", el aviso
 explica por qué y se muestran los pasajes resaltados y el bloque de lo mencionado pero ausente.
@@ -336,8 +347,8 @@ que-me-cubre/
 
 ## Limitaciones
 
-- **PDF escaneados:** la extracción necesita capa de texto. Si la mayoría de páginas no la
-  tiene, la ingesta lo rechaza (haría falta OCR).
+- **PDF escaneados:** la extracción necesita capa de texto. Si la mayoría de páginas de un
+  archivo no la tiene, se rechaza diciendo cuál (haría falta OCR).
 - **Tablas:** las filas de tablas (por ejemplo, porcentajes de indemnización) se leen fila
   por fila con pdfplumber, pero otro extractor (pypdf) las ordena distinto. En las tres
   pólizas precargadas, 41 de 5427 líneas no se pudieron confirmar con pypdf y todas son
@@ -400,6 +411,11 @@ que-me-cubre/
   PDF termina en dos puntos. En ese caso se muestra la cita sin el signo. Nada más se relaja:
   una tilde, una palabra o una coma interna distinta la invalidan
   ([`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py)).
+- **Una pregunta a la vez:** si el texto trae dos preguntas, la app responde solo la
+  primera; la búsqueda y la respuesta están armadas para una sola consulta. Se vio en las
+  pruebas de usuario del 9 de noviembre
+  ([`docs/research/pruebas_de_usuario.md`](docs/research/pruebas_de_usuario.md)), y debajo
+  de la caja de pregunta la app lo avisa: "Una pregunta a la vez."
 - **Texto libre de la respuesta:** no puede nombrar artículos, numerales, códigos de
   cobertura (B4), documentos (Condiciones Particulares, Certificado de Seguro, endosos…) ni
   títulos de cláusula que no estén en las citas verificadas; la oración que lo hace se
@@ -470,9 +486,10 @@ Tres cosas que hoy no se pueden hacer:
 - **Red de la aseguradora:** hoy el mapa usa RENIPRESS, que es el registro de todos los
   establecimientos del país. Saber en cuáles te atienden con tu póliza requiere un convenio
   con cada compañía; esa lista no es dato público.
-- **Entrada por voz:** preguntar con una nota de audio desde el celular, con Whisper. Es el
-  caso de uso natural, porque el momento de la duda es cuando ya estás enfermo y fuera de
-  casa.
+- **Entrada por voz:** preguntar con una nota de audio desde el celular: el widget de
+  grabación de audio de Streamlit (`st.audio_input`) y Whisper por API para pasarla a texto,
+  que es viable y barato. Es el caso de uso natural, porque el momento de la duda es cuando
+  ya estás enfermo y fuera de casa.
 - **API de embeddings:** hoy uso BM25 porque el modelo de embeddings no entra en la memoria
   del plan gratuito de Streamlit. Con una API de embeddings se resuelve por centavos.
 

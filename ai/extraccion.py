@@ -68,11 +68,22 @@ class DocumentoExtraido:
     paginas_dos_columnas: list[int]
     lineas_quitadas: list[str]  # membretes y pies detectados (sin repetir)
     bloques: list[Bloque]
+    paginas_por_archivo: list[int] = field(default_factory=list)  # varios PDF: páginas de cada uno, en orden
 
     @property
     def es_escaneado(self) -> bool:
         """Más de la mitad de las páginas sin capa de texto: haría falta OCR."""
         return self.paginas_total > 0 and len(self.paginas_sin_texto) > self.paginas_total / 2
+
+    def archivos_escaneados(self) -> list[int]:
+        """Índices (desde 0) de los archivos con más de la mitad de sus páginas sin texto."""
+        malos, desde = [], 0
+        for i, n in enumerate(self.paginas_por_archivo or [self.paginas_total]):
+            vacias = sum(desde < p <= desde + n for p in self.paginas_sin_texto)
+            if n > 0 and vacias > n / 2:
+                malos.append(i)
+            desde += n
+        return malos
 
 
 # ---------------------------------------------------------------------------
@@ -469,8 +480,28 @@ def texto_de_paginas(pdf_bytes: bytes, paginas: list[int]) -> str:
 
 def extraer(pdf_bytes: bytes) -> DocumentoExtraido:
     """Del PDF (bytes en memoria) a bloques por sección y artículo, con su página."""
-    crudas, vacias, dos_columnas = lineas_por_pagina(pdf_bytes)
-    limpias, quitadas = _quitar_membretes(crudas)
+    return extraer_varios([pdf_bytes])
+
+
+def extraer_varios(pdfs: list[bytes]) -> DocumentoExtraido:
+    """Una póliza que viene en varios PDF, como un solo documento. Los membretes se quitan por
+    archivo (cada uno tiene los suyos); las páginas se numeran de corrido en el orden dado, que
+    es el de las páginas del PDF unido (ai/subida.py), y la estructura se lee de corrido: un
+    artículo que empieza en un archivo y sigue en el otro queda en un mismo bloque."""
+    limpias: list[list[str]] = []
+    vacias: list[int] = []
+    dos_columnas: list[int] = []
+    quitadas: list[str] = []
+    por_archivo: list[int] = []
+    for pdf_bytes in pdfs:
+        crudas, v, d = lineas_por_pagina(pdf_bytes)
+        estas, q = _quitar_membretes(crudas)
+        base = len(limpias)
+        vacias += [base + n for n in v]
+        dos_columnas += [base + n for n in d]
+        quitadas += [x for x in q if x not in quitadas]
+        limpias += estas
+        por_archivo.append(len(crudas))
 
     lineas = [Linea(t, n) for n, pag in enumerate(limpias, start=1) for t in pag]
     _marcar_indices(lineas)
@@ -486,9 +517,10 @@ def extraer(pdf_bytes: bytes) -> DocumentoExtraido:
     bloques = [b for b in bloques if len(_cuerpo(b)) >= 20]
 
     return DocumentoExtraido(
-        paginas_total=len(crudas),
+        paginas_total=len(limpias),
         paginas_sin_texto=vacias,
         paginas_dos_columnas=dos_columnas,
         lineas_quitadas=quitadas,
         bloques=bloques,
+        paginas_por_archivo=por_archivo,
     )

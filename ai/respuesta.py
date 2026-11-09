@@ -40,6 +40,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
@@ -78,6 +79,9 @@ class Poliza:
     indice: Indice
     pdf_bytes: bytes
     _sha256: str | None = field(default=None, repr=False)
+    # Si se subió en varios PDF: [(nombre del archivo, páginas)] en el orden de las páginas de
+    # pdf_bytes (el PDF unido). Para mostrar de qué archivo sale cada cita (ai/subida.py).
+    archivos: list[tuple[str, int]] = field(default_factory=list)
 
     @property
     def secciones(self) -> list[str]:
@@ -416,27 +420,34 @@ def _uso(usos: list[Uso], desde_cache: bool) -> dict:
     }
 
 
-def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 5) -> dict:
+def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 5,
+              avance: Callable[[str], None] | None = None) -> dict:
+    """`avance`, si se da, recibe un texto por cada paso (la app lo muestra mientras espera)."""
     proveedor = proveedor or obtener_proveedor()
     usos: list[Uso] = []
+    avisar = avance or (lambda _texto: None)
 
     norm = cache_normalizacion.buscar(pregunta, poliza.sha256)
     desde_cache = norm is not None
     if norm is None:
+        avisar("Entendiendo tu pregunta…")
         try:
             norm, uso_n = normalizar(pregunta, proveedor, poliza.indice)
             usos.append(uso_n)
         except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
+    avisar("Buscando en tu póliza las cláusulas que aplican…")
     pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
     usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
+    avisar("Redactando la respuesta: suele tardar entre 5 y 10 segundos…")
     try:
         crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)
         usos.append(uso_r)
     except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
         return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos, desde_cache)
 
+    avisar("Verificando cada cita contra tu PDF…")
     ausentes = mencionadas_ausentes(pasajes, poliza)
     final, descartes = _validar(crudo, pasajes, poliza, ausentes)
     return {

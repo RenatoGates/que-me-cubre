@@ -13,7 +13,7 @@ flowchart TD
     end
 
     subgraph App["App: app/app.py, pestaña «Pregunta a tu póliza»"]
-        PDF["PDF de la póliza<br/>precargado, o subido: solo en la memoria de la sesión"]
+        PDF["PDF de la póliza: de ejemplo, o subido en uno o varios archivos<br/>(ai/subida.py: un solo documento, solo en memoria;<br/>cada cita dice de qué archivo sale)"]
         EXT["Extracción (ai/extraccion.py, pdfplumber)<br/>texto, página, sección y artículo"]
         TRO["Troceado por artículo (ai/troceado.py)<br/>con la posición de cada página"]
         IDX["Índice (ai/indice.py)<br/>BM25, títulos del documento"]

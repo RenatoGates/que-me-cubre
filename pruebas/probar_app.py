@@ -5,7 +5,8 @@ pregunta en pruebas/salidas/; la búsqueda, la verificación de citas y el bloqu
 ausentes corren de verdad. Comprueba el contrato del README ("Cómo se muestra una
 respuesta"): veredicto arriba sacado del campo estructurado, explicación, B4 resaltado,
 remisiones plegadas, citas desplegables, "podrían aplicar" aparte, aviso permanente, y la
-red de seguridad cuando no hay modelo.
+red de seguridad cuando no hay modelo. También la pantalla de entrada (subir el PDF arriba,
+condicionados de ejemplo debajo, cómo funciona) y la subida de una póliza en dos PDF.
 
     python pruebas/probar_app.py      # termina con código 1 si algo falla
 """
@@ -14,7 +15,7 @@ from __future__ import annotations
 
 import os
 
-from comun import RAIZ, utf8
+from comun import RAIZ, partir_pdf, utf8
 
 os.environ["QMC_PROVEEDOR"] = "grabado"
 
@@ -43,6 +44,18 @@ def main() -> int:
     caso("aviso permanente: PDF en memoria", "se procesa en memoria y no se guarda" in t)
     caso("aviso permanente: lo que se envía al proveedor", "Respuesta grabada" in t or "Groq" in t)
     caso("aviso permanente: informativo, decide la aseguradora", "la decisión final sobre la cobertura la toma tu aseguradora" in t)
+    caso("cómo funciona: los tres pasos debajo del título",
+         all(x in t for x in ("Sube el PDF de tu póliza o usa un ejemplo.", "Pregunta en español normal.",
+                              "Te respondo con la cláusula exacta y su página.")))
+    caso("arriba y destacado: subir el PDF (varios archivos)",
+         "Sube el PDF de tu póliza" in t and at.file_uploader(key="pdfs").accept_multiple_files)
+    caso("debajo, en chico: los condicionados de ejemplo, Chubb elegido",
+         "¿No tienes una a mano? Prueba con un condicionado de ejemplo:" in t
+         and at.radio(key="fuente").options == ["Chubb Seguros Perú · Seguro de Viajes JetSmart",
+                                                 "Pacífico Seguros · Seguro de Viajes Pacífico",
+                                                 "Rimac Seguros · Seguro de Viaje"]
+         and at.radio(key="fuente").value == "chubb_viajes_jetsmart", str(at.radio(key="fuente").options))
+    caso("ayuda bajo la pregunta: 'Una pregunta a la vez.'", "Una pregunta a la vez." in t)
     def ejemplos(at: AppTest) -> list[str]:
         return [b.label for b in at.button if b.key and b.key.startswith("tarapoto_")]
 
@@ -51,11 +64,9 @@ def main() -> int:
         "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?"])
     caso("con Chubb: rótulo discreto 'Prueba con un ejemplo:'", "Prueba con un ejemplo:" in t and "Casos reales" not in t)
 
-    # Los ejemplos son de Chubb: con otra póliza o con un PDF propio no aparecen
+    # Los ejemplos son de Chubb: con otra póliza no aparecen (con un PDF propio, abajo)
     at.radio(key="fuente").set_value("pacifico_viajes").run()
     caso("con Pacífico: sin ejemplos", not ejemplos(at) and "Prueba con un ejemplo:" not in textos(at), str(ejemplos(at)))
-    at.radio(key="fuente").set_value("Subir el PDF de mi póliza").run()
-    caso("con un PDF propio: sin ejemplos", not ejemplos(at), str(ejemplos(at)))
 
     # P02 con Chubb
     at.radio(key="fuente").set_value("chubb_viajes_jetsmart").run()
@@ -104,6 +115,27 @@ def main() -> int:
     at.selectbox(key="mapa_departamento").set_value("LIMA").run()
     caso("mapa: cambiar de departamento no rompe",
          not at.exception and at.selectbox(key="mapa_distrito").value[0] != "SAN MARTIN", str(at.exception))
+
+    # Una póliza en dos PDF (la de Chubb partida antes de la página 11): un solo documento
+    parte1, parte2 = partir_pdf((RAIZ / "data" / "polizas" / "chubb_viajes_jetsmart.pdf").read_bytes(), [11])
+    at.file_uploader(key="pdfs").set_value([("condiciones_generales.pdf", parte1, "application/pdf"),
+                                            ("clausulas_adicionales.pdf", parte2, "application/pdf")]).run()
+    t = textos(at)
+    caso("dos PDF: se leen como un solo documento", not at.exception and "Listo: 62 páginas, 246 fragmentos" in t,
+         str(at.exception) or t[-300:])
+    caso("dos PDF: sin condicionados de ejemplo ni ejemplos de Chubb",
+         not [r for r in at.radio if r.key == "fuente"] and not ejemplos(at))
+    # Sin normalización en la caché para estos archivos, el proveedor de maqueta cae en la red
+    # de seguridad: muestra los pasajes encontrados con el archivo de cada uno
+    at.text_area(key="pregunta").set_value("¿Me cubren la continuación de tratamiento en mi país de residencia?").run()
+    at.button[0].click().run()
+    caso("dos PDF: responde sin errores", not at.exception, str(at.exception))
+    etiquetas = [e.label for e in at.expander]
+    caso("dos PDF: cada pasaje dice de qué archivo sale y su página",
+         any("clausulas_adicionales.pdf, pág." in e for e in etiquetas), str(etiquetas)[:300])
+    b4 = [w.body for w in at.warning if "B4" in w.body]
+    caso("dos PDF: B4 con su archivo y su página en ese archivo",
+         bool(b4) and "clausulas_adicionales.pdf, pág. 6" in b4[0], str(b4)[:300])
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

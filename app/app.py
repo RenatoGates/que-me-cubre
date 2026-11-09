@@ -1,7 +1,8 @@
 """¿Qué me cubre? Interfaz de Streamlit: una sola pantalla.
 
-Elegir la póliza (precargada o un PDF propio), preguntar en lenguaje común y ver la
-respuesta con el contrato del README ("Cómo se muestra una respuesta"):
+Subir el PDF de la póliza (uno o varios archivos, leídos como un solo documento: ai/subida.py)
+o probar con un condicionado de ejemplo, preguntar en lenguaje común y ver la respuesta con el
+contrato del README ("Cómo se muestra una respuesta"):
 
 1. el veredicto arriba, como etiqueta, sacado del campo estructurado (`etiqueta_veredicto`);
 2. el texto del modelo debajo, como explicación, con sus condiciones y exclusiones;
@@ -26,7 +27,6 @@ registra.
 
 from __future__ import annotations
 
-import hashlib
 import html
 import json
 import re
@@ -39,16 +39,13 @@ if str(RAIZ) not in sys.path:
 
 import streamlit as st  # noqa: E402
 
-from ai import renipress  # noqa: E402
-from ai.extraccion import extraer  # noqa: E402
+from ai import renipress, subida  # noqa: E402
 from ai.indice import Indice  # noqa: E402
 from ai.llm import ErrorLLM, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
 from ai.respuesta import ETIQUETA_VEREDICTO, Poliza, responder  # noqa: E402
-from ai.troceado import trocear  # noqa: E402
 
 POLIZAS = RAIZ / "data" / "polizas"
 INDICES = RAIZ / "data" / "indices"
-SUBIR = "Subir el PDF de mi póliza"
 POLIZA_TARAPOTO = "chubb_viajes_jetsmart"
 # Las preguntas de los casos reales, con el texto exacto con el que están en la caché
 PREGUNTAS_TARAPOTO = [
@@ -109,7 +106,23 @@ st.markdown(
     div[class*="st-key-tarapoto_"] button p {font-size: .92rem; color: #4338CA; text-align: left;
                                               text-decoration: underline; text-underline-offset: 2px;}
 
+    /* Cómo funciona: tres pasos debajo del título */
+    [data-testid="stMarkdownContainer"] ol.qmc-pasos {list-style: none; display: flex; gap: .6rem;
+                                                       margin: .1rem 0 .4rem 0; padding: 0;}
+    ol.qmc-pasos li {flex: 1; display: flex; align-items: center; gap: .6rem; margin: 0; padding: .6rem .8rem;
+                     background: #FFFFFF; border-radius: 12px; font-size: .95rem; line-height: 1.35;
+                     box-shadow: 0 1px 2px rgba(22, 26, 46, .05), 0 4px 14px rgba(22, 26, 46, .06);}
+    ol.qmc-pasos li span {flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #4338CA;
+                          color: #FFFFFF; font-weight: 700; font-size: .9rem; display: inline-flex;
+                          align-items: center; justify-content: center;}
+
+    /* Condicionados de ejemplo: en letra chica, debajo de la subida */
+    div.st-key-fuente p {font-size: .9rem !important;}
+
     @media (max-width: 640px) {
+        [data-testid="stMarkdownContainer"] ol.qmc-pasos {flex-direction: column; gap: .35rem;}
+        ol.qmc-pasos li {padding: .4rem .7rem; font-size: .92rem;}
+        ol.qmc-pasos li span {width: 1.45rem; height: 1.45rem; font-size: .8rem;}
         .qmc-banda {padding: 1rem 0 1.25rem 0;}
         div[class*="st-key-tarjeta_"] {padding: 1rem .85rem .75rem;}
     }
@@ -142,25 +155,15 @@ def poliza_precargada(doc_id: str) -> Poliza:
     return Poliza(doc_id, indice.meta["documento"], indice, pdf)
 
 
-def poliza_subida(archivo) -> Poliza:
-    """El PDF del usuario: se procesa en memoria con las mismas funciones que la ingesta y
-    vive solo en esta sesión. No se escribe en disco ni en st.cache (compartida)."""
-    datos = archivo.getvalue()
-    sha = hashlib.sha256(datos).hexdigest()
+def poliza_subida(archivos) -> Poliza:
+    """Los PDF del usuario, uno o varios, como un solo documento (ai/subida.py): se procesan en
+    memoria y viven solo en esta sesión. No se escriben en disco ni en st.cache (compartida)."""
+    pares = [(a.name, a.getvalue()) for a in archivos]
+    clave = subida.huella([datos for _, datos in pares])
     guardada = st.session_state.get("poliza_subida")
-    if guardada is not None and guardada.sha256 == sha:
+    if guardada is not None and guardada.sha256 == clave:
         return guardada
-    doc = extraer(datos)
-    if doc.es_escaneado:
-        raise ValueError("El PDF no tiene texto seleccionable en la mayoría de páginas (parece escaneado). "
-                         "Necesitaría OCR, que esta versión no hace.")
-    nombre = "Tu póliza"
-    trozos = trocear(doc.bloques, "subida", nombre)
-    if not trozos:
-        raise ValueError("No encontré texto en el PDF.")
-    indice = Indice.construir(trozos, {"doc_id": "subida", "documento": nombre, "paginas": doc.paginas_total},
-                              con_embeddings=False)
-    poliza = Poliza("subida", nombre, indice, datos, sha)
+    poliza = subida.poliza_de_pdfs(pares)
     st.session_state["poliza_subida"] = poliza
     return poliza
 
@@ -200,8 +203,17 @@ def md(texto: str) -> str:
     return _MD_ESPECIALES.sub(r"\\\1", texto)
 
 
-def paginas(c: dict) -> str:
+Archivos = list[tuple[str, int]]
+
+
+def varios(archivos: Archivos | None) -> bool:
+    return bool(archivos) and len(archivos) > 1
+
+
+def paginas(c: dict, archivos: Archivos | None = None) -> str:
     ps = c.get("paginas") or [c.get("pagina")]
+    if varios(archivos):  # la póliza vino en varios PDF: de qué archivo sale y su página en él
+        return subida.paginas_con_archivo(archivos, ps)
     return f"pág. {ps[0]}" if len(ps) == 1 else f"págs. {ps[0]}–{ps[-1]}"
 
 
@@ -234,7 +246,7 @@ def nivel(m: dict) -> str:
     return m.get("nivel") or ("remision" if m["tipo"] == "documento" else "clausula_ausente")
 
 
-def mencionadas_ausentes(r: dict) -> None:
+def mencionadas_ausentes(r: dict, archivos: Archivos | None = None) -> None:
     bloque = r.get("mencionadas_ausentes", [])
     clausulas = [m for m in bloque if nivel(m) == "clausula_ausente"]
     remisiones = [m for m in bloque if nivel(m) == "remision"]
@@ -245,7 +257,7 @@ def mencionadas_ausentes(r: dict) -> None:
     for m in clausulas:
         st.warning(
             f"**{md(m['mensaje'])}**\n\n"
-            f"Se menciona en {md(m['seccion'])} › {md(m['articulo'])}, {paginas(m)}: «{md(m['mencion'])}»",
+            f"Se menciona en {md(m['seccion'])} › {md(m['articulo'])}, {paginas(m, archivos)}: «{md(m['mencion'])}»",
             icon="📄",
         )
     for m in del_modelo:
@@ -254,21 +266,24 @@ def mencionadas_ausentes(r: dict) -> None:
     if remisiones:
         with st.expander(f"Remisiones a otros documentos ({len(remisiones)}): ahí suelen estar los montos"):
             for m in remisiones:
-                st.markdown(f"- {md(m['mensaje'])} Se menciona en {md(m['seccion'])} › {md(m['articulo'])}, {paginas(m)}.")
+                st.markdown(f"- {md(m['mensaje'])} Se menciona en {md(m['seccion'])} › {md(m['articulo'])}, "
+                            f"{paginas(m, archivos)}.")
 
 
-def citas(r: dict) -> None:
+def citas(r: dict, archivos: Archivos | None = None) -> None:
     if not r["citas"]:
         return
     st.markdown("#### Citas de tu póliza")
     for c in r["citas"]:
-        with st.expander(f"Cita {c['n']} · {c['articulo']} · {paginas(c)}"):
-            st.caption(f"{c['seccion']} › {c['articulo']} · {paginas(c)}")
+        donde = paginas(c, archivos)
+        with st.expander(f"Cita {c['n']} · {c['articulo']} · {donde}"):
+            st.caption(f"{c['seccion']} › {c['articulo']} · {donde}")
             literal = html.escape(c["texto_literal"]).replace("\n", "<br>")
             st.markdown(f'<div class="qmc-cita">{literal}</div>', unsafe_allow_html=True)
             v = c["verificacion"]
             lectores = " y ".join(n for n in ("pdfplumber", "pypdf") if v.get(n))
-            nota = f"Verificada: el texto está literal en la {paginas(c)} del PDF (leído con {lectores})."
+            nota = (f"Verificada: el texto está literal en {donde} (leído con {lectores})." if varios(archivos)
+                    else f"Verificada: el texto está literal en la {donde} del PDF (leído con {lectores}).")
             if v.get("puntuacion_final_ignorada"):
                 nota += f" Se quitó el signo final «{v['puntuacion_final_ignorada']}» que agregó el modelo."
             st.caption(nota)
@@ -294,29 +309,29 @@ def pasaje_resaltado(p: dict) -> str:
     return '<div class="qmc-pasaje">' + "".join(partes).replace("\n", "<br>") + "</div>"
 
 
-def pasajes(r: dict, abiertos: bool) -> None:
+def pasajes(r: dict, abiertos: bool, archivos: Archivos | None = None) -> None:
     for p in r["pasajes"]:
-        etiqueta = f"{p['seccion']} › {p['articulo']} · {paginas(p)}"
+        etiqueta = f"{p['seccion']} › {p['articulo']} · {paginas(p, archivos)}"
         with st.expander(etiqueta, expanded=abiertos):
             st.markdown(pasaje_resaltado(p), unsafe_allow_html=True)
 
 
-def mostrar(r: dict) -> None:
+def mostrar(r: dict, archivos: Archivos | None = None) -> None:
     veredicto(r)
     if r["modo"] != "completo":  # red de seguridad: sin texto generado
         st.warning(r["aviso"], icon="⚠️")
-        mencionadas_ausentes(r)
+        mencionadas_ausentes(r, archivos)
         st.markdown("#### Cláusulas que encontré para tu pregunta")
         st.caption("Resaltadas, las palabras de la búsqueda. Aquí no hay un veredicto: léelas tú.")
-        pasajes(r, abiertos=False)
+        pasajes(r, abiertos=False, archivos=archivos)
         return
     explicacion(r)
-    mencionadas_ausentes(r)
-    citas(r)
+    mencionadas_ausentes(r, archivos)
+    citas(r, archivos)
     podrian_aplicar(r)
     with st.expander(f"Pasajes que revisé ({len(r['pasajes'])})"):
         st.caption("Lo que se le envió al modelo, en el orden de la búsqueda.")
-        pasajes(r, abiertos=False)
+        pasajes(r, abiertos=False, archivos=archivos)
     info = r.get("proveedor") or {}
     st.caption(f"Modelo: {info.get('modelo', '—')} en {info.get('nombre', '—')} · costo de esta consulta: USD 0 "
                "(plan gratuito)")
@@ -340,27 +355,33 @@ def pedir_respuesta() -> None:
 
 def pantalla_poliza() -> None:
     with st.container(key="tarjeta_consulta"):
-        opciones = [*fuentes(), SUBIR]
-        fuente = st.radio(
-            "Póliza", opciones, key="fuente", horizontal=True,
-            format_func=lambda x: x if x == SUBIR else etiqueta_fuente(x),
-        )
+        st.markdown("#### Sube el PDF de tu póliza")
+        archivos = st.file_uploader("PDF de tu póliza", type=["pdf"], accept_multiple_files=True, key="pdfs",
+                                    label_visibility="collapsed")
+        st.caption("Si tu póliza viene en varios archivos, súbelos juntos: se leen como un solo documento. "
+                   "Necesita texto seleccionable (no escaneado).")
         poliza: Poliza | None = None
-        if fuente == SUBIR:
-            archivo = st.file_uploader("PDF de tu póliza (condicionado con texto seleccionable)", type=["pdf"])
-            if archivo is not None:
-                try:
-                    with st.spinner("Leyendo tu póliza…"):
-                        poliza = poliza_subida(archivo)
-                    st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
-                               "fragmentos. Vive solo en esta sesión.")
-                except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
-                    st.error(f"No pude leer ese PDF: {e}")
+        fuente: str | None = None
+        if archivos:
+            try:
+                n = len(archivos)
+                with st.spinner(f"Leyendo tu póliza ({n} archivo{'s' if n > 1 else ''}). Un documento largo "
+                                "puede tardar medio minuto…"):
+                    poliza = poliza_subida(archivos)
+                st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
+                           "fragmentos. Vive solo en esta sesión. Para probar con un ejemplo, quita tus archivos.")
+            except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
+                st.error(f"No pude leer tu póliza: {e}")
         else:
+            # Sin PDF a mano (quien entra solo a probar): los condicionados públicos precargados
+            st.caption("¿No tienes una a mano? Prueba con un condicionado de ejemplo:")
+            fuente = st.radio("Condicionado de ejemplo", list(fuentes()), key="fuente", horizontal=True,
+                              format_func=etiqueta_fuente, label_visibility="collapsed")
             poliza = poliza_precargada(fuente)
 
         st.text_area("Tu pregunta", key="pregunta", height=90,
                      placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
+        st.caption("Una pregunta a la vez.")
         st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
         # Los ejemplos son de la póliza de Chubb: solo tienen sentido con ella elegida. Con el texto
         # exacto usan la normalización de la caché (una llamada al modelo en vez de dos).
@@ -372,12 +393,16 @@ def pantalla_poliza() -> None:
         if st.session_state.pop("consultar", False):
             pregunta = (st.session_state.get("pregunta") or "").strip()
             if poliza is None:
-                st.warning("Primero elige una póliza o sube tu PDF.")
+                st.warning("Primero sube tu PDF o elige un condicionado de ejemplo.")
             elif not pregunta:
                 st.warning("Escribe una pregunta.")
             else:
-                with st.spinner("Buscando en tu póliza y verificando las citas…"):
-                    st.session_state["resultado"] = responder(pregunta, poliza, proveedor())
+                # Avance visible mientras busca, redacta y verifica: que no parezca colgada
+                marcador = st.empty()
+                with marcador.status("Buscando en tu póliza…", expanded=False) as estado:
+                    st.session_state["resultado"] = responder(pregunta, poliza, proveedor(),
+                                                              avance=lambda texto: estado.update(label=texto))
+                marcador.empty()
                 st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
 
     resultado = st.session_state.get("resultado")
@@ -385,7 +410,7 @@ def pantalla_poliza() -> None:
     if resultado is not None and poliza is not None and de[:2] == (poliza.doc_id, poliza.sha256):
         with st.container(key="tarjeta_resultado"):
             st.caption(f"Pregunta: {resultado['pregunta']}")
-            mostrar(resultado)
+            mostrar(resultado, poliza.archivos)
 
 
 # ---------------------------------------------------------------------------
@@ -452,6 +477,14 @@ st.markdown(
     '<div class="qmc-banda"><p class="qmc-titulo" role="heading" aria-level="1">¿Qué me cubre?</p>'
     '<p class="qmc-bajada">Pregunta en español normal y te respondo citando la cláusula exacta de tu póliza, '
     "con artículo y página.</p></div>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    '<ol class="qmc-pasos">'
+    "<li><span>1</span>Sube el PDF de tu póliza o usa un ejemplo.</li>"
+    "<li><span>2</span>Pregunta en español normal.</li>"
+    "<li><span>3</span>Te respondo con la cláusula exacta y su página.</li>"
+    "</ol>",
     unsafe_allow_html=True,
 )
 st.info(
