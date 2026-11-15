@@ -55,7 +55,7 @@ from ai.prompts import (
     sistema_normalizacion,
     sistema_respuesta,
 )
-from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
+from ai.recuperacion import Pasaje, metodo_efectivo, pasajes_xml, recuperar, recuperar_normalizada, resaltar
 from ai.referencias import MENSAJE
 from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verificar_en_pdf
 
@@ -370,7 +370,8 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
     else:  # sin normalización: búsqueda por palabras con la pregunta tal cual
         consultas = [pregunta]
-        pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="bm25_pregunta")
+        con_vectores = not metodo_efectivo(poliza.indice).startswith("bm25")
+        pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="emb_pregunta" if con_vectores else "bm25_pregunta")
     if isinstance(error, LimiteAlcanzado):
         espera = f" Vuelve a intentar en unos {round(error.espera_segundos)} segundos." if error.espera_segundos else ""
         motivo = f"{getattr(error, 'motivo_publico', None) or 'Se alcanzó el límite de uso del modelo por ahora.'}{espera}"
@@ -470,6 +471,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
         "secciones_revisadas": list(dict.fromkeys(f"{p.trozo.seccion} › {p.trozo.articulo}" for p in pasajes)),
         "pasajes": _pasajes_dict(pasajes),
         "normalizacion": norm,
+        "busqueda": metodo_efectivo(poliza.indice),
         "modelo_crudo": crudo,
         "descartes": descartes,
         "proveedor": _info_proveedor(proveedor),

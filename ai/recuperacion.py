@@ -20,26 +20,45 @@ Determinista: con las mismas consultas sale siempre el mismo orden. Los empates 
 por la posición del trozo en el documento (orden estable), no por el algoritmo de numpy ni
 por la CPU.
 
-Los métodos con embeddings existen solo para la comparación de pruebas/: la app no carga
-el modelo (ocupa ~1,2 GB de RAM con torch).
+Embeddings por API (ai/embeddings.py): "emb_variantes" ordena por similitud de vectores con
+las mismas consultas y el mismo filtro suave, e "hibrido_variantes" fusiona con RRF los
+rankings de BM25 y de embeddings. El método lo fija QMC_RECUPERACION; si pide embeddings y
+no hay clave, el índice no tiene vectores de ese modelo o la API falla, se busca con BM25.
 """
 
 from __future__ import annotations
 
+import logging
 import re
 from collections import Counter
 from dataclasses import dataclass
 
 import numpy as np
 
+from ai import embeddings
 from ai.indice import Indice, tokens
+from ai.llm import config
 from ai.troceado import Trozo
 
 K_RRF = 60
 PESO_PREGUNTA = 0.5  # la pregunta coloquial trae palabras que confunden ("dedo" -> desmembramiento)
 PESO_TITULO = 0.0  # ranking por títulos frente al del texto (0 = apagado; ver arriba)
 FACTOR_CLAUSULA = 2.0  # puntaje de los pasajes de la cláusula elegida; fijado antes de medir
-METODOS = ("bm25_pregunta", "bm25_variantes", "emb_pregunta", "emb_variantes")
+METODOS = ("bm25_pregunta", "bm25_variantes", "emb_pregunta", "emb_variantes", "hibrido_variantes")
+METODO_SIN_EMBEDDINGS = "bm25_variantes"
+METODO_POR_DEFECTO = "bm25_variantes"  # hasta medir embeddings con la API (pruebas/recuperacion.md)
+
+log = logging.getLogger("qmc.llm")
+
+
+def metodo_efectivo(indice: Indice) -> str:
+    """El método de QMC_RECUPERACION, o BM25 si pide embeddings y no se pueden usar."""
+    metodo = (config("QMC_RECUPERACION", METODO_POR_DEFECTO) or METODO_POR_DEFECTO).strip().lower()
+    if metodo not in METODOS:
+        raise ValueError(f"QMC_RECUPERACION='{metodo}' no existe; usa: {', '.join(METODOS)}")
+    if metodo.startswith("bm25") or (embeddings.disponible() and indice.con_vectores()):
+        return metodo
+    return METODO_SIN_EMBEDDINGS
 
 
 @dataclass
@@ -74,12 +93,12 @@ def _ranking_titulos(indice: Indice, consulta: str) -> tuple[np.ndarray, np.ndar
     return orden, np.array([puesto[v] for v in puntajes[orden]], dtype=int)
 
 
-def _ranking_embeddings(indice: Indice, consulta: str) -> np.ndarray:
-    from ai.indice import embeber_consulta  # carga perezosa: solo en evaluación
-
+def _rankings_embeddings(indice: Indice, consultas: list[tuple[str, float]]):
+    """Una sola llamada a la API para todas las consultas."""
     if indice.vectores is None:
-        raise ValueError("este índice no tiene embeddings")
-    return np.argsort(-(indice.vectores @ embeber_consulta(consulta)), kind="stable")
+        raise embeddings.ErrorEmbeddings("este índice no tiene embeddings")
+    vectores = embeddings.embeber([c for c, _ in consultas], "query")
+    return [(np.argsort(-(indice.vectores @ v), kind="stable"), None, p) for v, (_, p) in zip(vectores, consultas)]
 
 
 def _rrf(rankings: list[tuple[np.ndarray, np.ndarray | None, float]], n: int) -> np.ndarray:
@@ -131,7 +150,7 @@ def rankear(
         orden = _ranking_bm25(indice, pregunta)
         return [(int(i), 1.0 / (r + 1)) for r, i in enumerate(orden)]
     if metodo == "emb_pregunta":
-        orden = _ranking_embeddings(indice, pregunta)
+        orden = _rankings_embeddings(indice, [(pregunta, 1.0)])[0][0]
         return [(int(i), 1.0 / (r + 1)) for r, i in enumerate(orden)]
 
     consultas = [(v, 1.0) for v in variantes]
@@ -142,7 +161,9 @@ def rankear(
     if metodo == "bm25_variantes":
         puntaje = _rrf(_rankings_bm25(indice, consultas, peso_titulo), n)
     elif metodo == "emb_variantes":
-        puntaje = _rrf([(_ranking_embeddings(indice, c), None, p) for c, p in consultas], n)
+        puntaje = _rrf(_rankings_embeddings(indice, consultas), n)
+    elif metodo == "hibrido_variantes":
+        puntaje = _rrf(_rankings_bm25(indice, consultas, peso_titulo) + _rankings_embeddings(indice, consultas), n)
     else:
         raise ValueError(f"método desconocido: {metodo}")
     if clausulas and factor_clausula != 1.0:
@@ -190,7 +211,7 @@ def recuperar(
     variantes: list[str],
     terminos: list[str],
     k: int = 5,
-    metodo: str = "bm25_variantes",
+    metodo: str | None = None,
     continuar: int = 2,
     maximo: int = 12,
     presupuesto_caracteres: int = 6500,
@@ -205,7 +226,13 @@ def recuperar(
     `presupuesto_caracteres` limita las continuaciones (los k primeros entran siempre): el
     plan gratuito cuenta tokens por minuto. k = 5 y 6500 caracteres es la opción A de
     pruebas/opciones.md: unos 4600 tokens por respuesta en vez de 6600."""
-    ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo, clausulas, factor_clausula)
+    metodo = metodo or metodo_efectivo(indice)
+    try:
+        ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo, clausulas, factor_clausula)
+    except embeddings.ErrorEmbeddings as e:  # la búsqueda no se cae por la API de embeddings
+        log.warning("recuperacion: %s; se busca con BM25", e)
+        respaldo = "bm25_pregunta" if metodo == "emb_pregunta" else METODO_SIN_EMBEDDINGS
+        ranking = top_k(indice, pregunta, variantes, terminos, respaldo, k, titulos, peso_titulo, clausulas, factor_clausula)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
     total = sum(len(indice.trozos[i].texto) for i in presentes)
