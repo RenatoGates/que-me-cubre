@@ -45,7 +45,7 @@ from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
 from ai.indice import Indice, limpiar_titulo, tokens
-from ai.llm import ErrorLLM, LimiteAlcanzado, Proveedor, SalidaInvalida, Uso, obtener_proveedor
+from ai.llm import ErrorLLM, LimiteAlcanzado, Proveedor, SalidaInvalida, Uso, config, obtener_proveedor
 from ai.prompts import (
     ESQUEMA_NORMALIZACION,
     ESQUEMA_RESPUESTA,
@@ -60,6 +60,9 @@ from ai.referencias import MENSAJE
 from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
+NORMALIZAR = "0"  # con búsqueda por embeddings no se normaliza; QMC_NORMALIZAR=1 la vuelve a activar
+SIN_NORMALIZACION = {"variantes": [], "titulos": [], "clausulas": [], "articulos": [], "hechos": [],
+                     "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"}
 NO_ENCONTRADO = "No encontré esto en tu póliza."
 # Texto fijo: fuera de alcance no se muestra nada redactado por el modelo.
 FUERA_DE_ALCANCE = ("Solo puedo responder sobre lo que dice la póliza que cargaste. No recomiendo aseguradoras, "
@@ -437,8 +440,11 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
     usos: list[Uso] = []
     avisar = avance or (lambda _texto: None)
 
-    norm = cache_normalizacion.buscar(pregunta, poliza.sha256)
-    desde_cache = norm is not None
+    # Con embeddings la búsqueda usa la pregunta tal cual: la normalización (una llamada más al
+    # modelo) solo hace falta para buscar con BM25. Medido en pruebas/resultados*.md.
+    sin_normalizar = metodo_efectivo(poliza.indice) == "emb_pregunta" and (config("QMC_NORMALIZAR", NORMALIZAR) or NORMALIZAR) == "0"
+    norm = SIN_NORMALIZACION | {"hechos": []} if sin_normalizar else cache_normalizacion.buscar(pregunta, poliza.sha256)
+    desde_cache = norm is not None and not sin_normalizar
     if norm is None:
         avisar("Entendiendo tu pregunta…")
         try:

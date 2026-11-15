@@ -5,50 +5,32 @@
   "aviso": null,
   "cubre": "con_limites",
   "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre gastos odontológicos de emergencia durante el viaje, pero el primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El pago tiene un límite total y por diente que no aparece en este documento, sino en las Condiciones Particulares o el Certificado de Seguro, y solo hasta 30 días después de iniciado el tratamiento. Podrían aplicar exclusiones según tu caso, como si la rotura no fue por accidente o si no llamaste a la Central de Asistencia.",
+  "respuesta": "Tu póliza cubre gastos odontológicos de emergencia recibidos durante el viaje, y el beneficio incluye arreglos de prótesis si derivan de un traumatismo. El primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El monto máximo por diente y total está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "El primer tratamiento del diente debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia.",
+      "descripcion": "La cobertura de emergencia odontológica exige que el primer tratamiento se realice en el exterior y comience dentro de las 24 horas siguientes a la emergencia.",
       "citas": [
         1,
         2
       ]
     },
     {
-      "descripcion": "El pago tiene un límite total y por diente, fijado en las Condiciones Particulares o el Certificado de Seguro, y solo cubre hasta 30 días después de iniciado el primer tratamiento.",
+      "descripcion": "El pago se limita al monto total y por diente fijado en las Condiciones Particulares y/o Certificado de Seguro, y solo aplica hasta 30 días después de iniciado el primer tratamiento. El monto no aparece en los pasajes revisados.",
       "citas": [
         3
       ]
     }
   ],
-  "exclusiones_aplicables": [],
-  "podrian_aplicar": [
+  "exclusiones_aplicables": [
     {
-      "descripcion": "Si la rotura no fue causada por un accidente, el tratamiento dental no estaría cubierto.",
+      "descripcion": "Tratamiento dental por lesiones en dientes naturales sanos ocasionados por un accidente queda excluido de la exclusión general; la exclusión de tratamiento dental no aplica a lesiones accidentales en dientes naturales sanos.",
       "citas": [
         4
       ]
-    },
-    {
-      "descripcion": "Si tenías una enfermedad preexistente y viajaste por ese tratamiento, la compañía quedaría exenta de cubrirlo.",
-      "citas": [
-        6
-      ]
-    },
-    {
-      "descripcion": "Si contrataste servicios sin autorización previa de la Central de Asistencia y no hubo fuerza mayor, no se cubrirían.",
-      "citas": [
-        7
-      ]
-    },
-    {
-      "descripcion": "Si el tratamiento se realizó fuera del territorio de cobertura indicado en las Condiciones Particulares o el Certificado de Seguro, no se cubriría.",
-      "citas": [
-        8
-      ]
     }
   ],
+  "podrian_aplicar": [],
   "no_incluido_en_documento": [],
   "citas": [
     {
@@ -130,7 +112,7 @@
         22
       ],
       "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.",
-      "pasaje": "P4",
+      "pasaje": "P3",
       "trozo_id": "chubb_viajes_jetsmart:0084",
       "posicion": [
         0,
@@ -147,86 +129,17 @@
       "n": 5,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura (parte 1 de 3)",
-      "pagina": 23,
-      "paginas": [
-        23
-      ],
-      "texto_literal": "Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.",
-      "pasaje": "P5",
-      "trozo_id": "chubb_viajes_jetsmart:0086",
-      "posicion": [
-        83,
-        457
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 6,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "articulo": "Artículo 3° Cobertura",
       "pagina": 21,
       "paginas": [
         21
       ],
-      "texto_literal": "En los casos que se constate que el ASEGURADO realizó su VIAJE con motivo del tratamiento de una ENFERMEDAD PRE-EXISTENTE, la COMPAÑÍA queda exenta de prestar sus servicios de acuerdo a esta Cláusula Adicional.",
-      "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0080",
+      "texto_literal": "Este beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo.",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0079",
       "posicion": [
-        38,
-        248
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 7,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 4 de 5)",
-      "pagina": 22,
-      "paginas": [
-        22
-      ],
-      "texto_literal": "q)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.",
-      "pasaje": "P4",
-      "trozo_id": "chubb_viajes_jetsmart:0084",
-      "posicion": [
-        383,
-        627
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 8,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 4 de 5)",
-      "pagina": 22,
-      "paginas": [
-        22
-      ],
-      "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
-      "pasaje": "P4",
-      "trozo_id": "chubb_viajes_jetsmart:0084",
-      "posicion": [
-        628,
-        845
+        350,
+        501
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -280,9 +193,9 @@
   "secciones_revisadas": [
     "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
     "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
-    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 4° Condiciones de Cobertura",
     "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 1° Definiciones",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 4° Condiciones de Cobertura"
   ],
   "pasajes": [
     {
@@ -318,21 +231,6 @@
     {
       "id": "P3",
       "rango": 3,
-      "trozo_id": "chubb_viajes_jetsmart:0080",
-      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 4° Condiciones de Cobertura",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        21
-      ],
-      "texto": "Artículo 4° Condiciones de Cobertura\n•En los casos que se constate que el ASEGURADO realizó su VIAJE con motivo del tratamiento de una ENFERMEDAD PRE-EXISTENTE, la COMPAÑÍA queda exenta de prestar sus servicios de acuerdo a esta Cláusula Adicional. La COMPAÑÍA se reserva el derecho de investigar la conexión del hecho actual con la ENFERMEDAD PRE-EXISTENTE.\n•De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
       "trozo_id": "chubb_viajes_jetsmart:0084",
       "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
       "articulo": "Artículo 5° Exclusiones",
@@ -346,54 +244,45 @@
       "texto": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.\no)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.\np)Acto delictivo cometido, en calidad de autor o cómplice, por un beneficiario o quien pudiere reclamar el monto asegurado o la indemnización.\nq)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\nr)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\ns)La asistencia por ENFERMEDADES mentales o estados patológicos producidos durante el viaje por ingestión voluntaria de alcohol, drogas, sustancias tóxicas, narcóticos o medicamentos adquiridos sin prescripción médica.\nt)La asistencia que consista en el suministro de prótesis, anteojos y/o lentes de contacto, aun cuando obedezcan a eventos ocurridos durante el viaje."
     },
     {
-      "id": "P5",
-      "rango": 5,
-      "trozo_id": "chubb_viajes_jetsmart:0086",
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0076",
       "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "articulo": "Artículo 1° Definiciones",
       "parte": [
-        1,
-        3
+        2,
+        2
       ],
       "paginas": [
-        23
+        20
       ],
-      "texto": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura\nAviso: Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.\nIndependientemente de la intervención del servicio de asistencia, el ASEGURADO o su beneficiario deberán dar aviso a la COMPAÑÍA por cualquiera de los medios de comunicación pactados, de la ocurrencia del siniestro, en un plazo no mayor a treinta (30) días calendario luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio, o después de dicho plazo, tan pronto como sea posible Documentos: En caso el ASEGURADO no pueda llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos odontológicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:"
+      "texto": "Médico: Es un profesional habilitado y autorizado legalmente para practicar la medicina dentro del ámbito de su especialidad. No será considerado como MÉDICO:\n•El ASEGURADO\n•Su cónyuge\n•Cualquier pariente del ASEGURADO o de su cónyuge con los siguientes parentescos: hijo(a), padres, hermano(a), parientes consanguíneos o afines, aun cuando se encuentre habilitado para ejercer la práctica de la medicina.\nViaje: Es el período de tiempo comprendido entre la fecha de salida y llegada especificadas en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, sujeto a un máximo continuo de días por viaje."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0080",
+      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        21
+      ],
+      "texto": "Artículo 4° Condiciones de Cobertura\n•En los casos que se constate que el ASEGURADO realizó su VIAJE con motivo del tratamiento de una ENFERMEDAD PRE-EXISTENTE, la COMPAÑÍA queda exenta de prestar sus servicios de acuerdo a esta Cláusula Adicional. La COMPAÑÍA se reserva el derecho de investigar la conexión del hecho actual con la ENFERMEDAD PRE-EXISTENTE.\n•De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
     }
   ],
   "normalizacion": {
-    "variantes": [
-      "Gastos odontológicos de emergencia durante el viaje por accidente, cobertura y condiciones de la cobertura del seguro",
-      "Exclusiones aplicables a gastos odontológicos de emergencia durante el viaje, principales exclusiones y exclusiones de la póliza",
-      "Vigencia individual y territorio de la cobertura de gastos odontológicos de emergencia durante el viaje y sus límites",
-      "Aviso del siniestro y procedimiento para la solicitud de cobertura del seguro en gastos odontológicos de emergencia durante el viaje"
-    ],
-    "titulos": [
-      "Gastos Odontológicos de Emergencia durante el Viaje",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Exclusiones",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "clausulas": [
-      "Gastos Odontológicos de Emergencia durante el Viaje"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Exclusiones",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "hechos": [
-      "Se rompió un diente comiendo",
-      "La rotura ocurrió durante el viaje",
-      "La persona busca atención con dentista"
-    ],
-    "ajuste": null
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
   },
-  "busqueda": "bm25_variantes",
+  "busqueda": "emb_pregunta",
   "modelo_crudo": {
     "citas": [
       {
@@ -413,97 +302,54 @@
       },
       {
         "n": 4,
-        "pasaje": "P4",
+        "pasaje": "P3",
         "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
       },
       {
         "n": 5,
-        "pasaje": "P5",
-        "texto_literal": "Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro."
-      },
-      {
-        "n": 6,
-        "pasaje": "P3",
-        "texto_literal": "En los casos que se constate que el ASEGURADO realizó su VIAJE con motivo del tratamiento de una ENFERMEDAD PRE-EXISTENTE, la COMPAÑÍA queda exenta de prestar sus servicios de acuerdo a esta Cláusula Adicional."
-      },
-      {
-        "n": 7,
-        "pasaje": "P4",
-        "texto_literal": "q)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización."
-      },
-      {
-        "n": 8,
-        "pasaje": "P4",
-        "texto_literal": "r)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+        "pasaje": "P1",
+        "texto_literal": "Este beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "El primer tratamiento del diente debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia.",
+        "descripcion": "La cobertura de emergencia odontológica exige que el primer tratamiento se realice en el exterior y comience dentro de las 24 horas siguientes a la emergencia.",
         "citas": [
           1,
           2
         ]
       },
       {
-        "descripcion": "El pago tiene un límite total y por diente, fijado en las Condiciones Particulares o el Certificado de Seguro, y solo cubre hasta 30 días después de iniciado el primer tratamiento.",
+        "descripcion": "El pago se limita al monto total y por diente fijado en las Condiciones Particulares y/o Certificado de Seguro, y solo aplica hasta 30 días después de iniciado el primer tratamiento. El monto no aparece en los pasajes revisados.",
         "citas": [
           3
         ]
       }
     ],
-    "exclusiones_aplicables": [],
-    "podrian_aplicar": [
+    "exclusiones_aplicables": [
       {
-        "descripcion": "Si la rotura no fue causada por un accidente, el tratamiento dental no estaría cubierto.",
+        "descripcion": "Tratamiento dental por lesiones en dientes naturales sanos ocasionados por un accidente queda excluido de la exclusión general; la exclusión de tratamiento dental no aplica a lesiones accidentales en dientes naturales sanos.",
         "citas": [
           4
         ]
-      },
-      {
-        "descripcion": "Si tenías una enfermedad preexistente y viajaste por ese tratamiento, la compañía quedaría exenta de cubrirlo.",
-        "citas": [
-          6
-        ]
-      },
-      {
-        "descripcion": "Si contrataste servicios sin autorización previa de la Central de Asistencia y no hubo fuerza mayor, no se cubrirían.",
-        "citas": [
-          7
-        ]
-      },
-      {
-        "descripcion": "Si el tratamiento se realizó fuera del territorio de cobertura indicado en las Condiciones Particulares o el Certificado de Seguro, no se cubriría.",
-        "citas": [
-          8
-        ]
       }
     ],
+    "podrian_aplicar": [],
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Ahí se fija el monto máximo total y por diente que pagan por el tratamiento dental, y el territorio de cobertura.",
+        "por_que_importa": "Ahí se fija el monto máximo total y por diente que paga la cobertura odontológica de emergencia.",
         "cita": 3
-      },
-      {
-        "nombre": "Lista de documentos para pedir el reembolso de gastos odontológicos",
-        "por_que_importa": "Si no puedes llamar a la Central de Asistencia, debes presentar documentos para el reembolso, y la lista no aparece completa en el documento.",
-        "cita": 5
       }
     ],
     "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre gastos odontológicos de emergencia durante el viaje, pero el primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El pago tiene un límite total y por diente que no aparece en este documento, sino en las Condiciones Particulares o el Certificado de Seguro, y solo hasta 30 días después de iniciado el tratamiento. Podrían aplicar exclusiones según tu caso, como si la rotura no fue por accidente o si no llamaste a la Central de Asistencia."
+    "respuesta": "Tu póliza cubre gastos odontológicos de emergencia recibidos durante el viaje, y el beneficio incluye arreglos de prótesis si derivan de un traumatismo. El primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El monto máximo por diente y total está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista."
   },
   "descartes": [
     {
       "tipo": "no_incluido",
       "texto": "Condiciones Particulares y/o Certificado de Seguro",
       "motivo": "ya está en el bloque de mencionadas pero ausentes"
-    },
-    {
-      "tipo": "no_incluido",
-      "texto": "Lista de documentos para pedir el reembolso de gastos odontológicos",
-      "motivo": "el nombre no está en su cita"
     }
   ],
   "proveedor": {
@@ -514,21 +360,21 @@
   },
   "uso": {
     "llamadas": 1,
-    "normalizacion_desde_cache": true,
+    "normalizacion_desde_cache": false,
     "detalle": [
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 6523,
-        "tokens_salida": 3901,
+        "tokens_entrada": 6184,
+        "tokens_salida": 1048,
         "tokens_razonamiento": 0,
-        "segundos": 15.72,
-        "costo_usd": 0.002603
+        "segundos": 4.26,
+        "costo_usd": 0.001142
       }
     ],
-    "tokens": 10424,
-    "costo_usd": 0.002603,
-    "segundos": 15.72
+    "tokens": 7232,
+    "costo_usd": 0.001142,
+    "segundos": 4.26
   },
   "prueba": {
     "id": "P06",

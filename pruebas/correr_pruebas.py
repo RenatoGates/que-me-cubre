@@ -85,10 +85,10 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str, precios: tuple[fl
             f"aceptadas tras verificar contra el pasaje y el PDF: {sum(f['citas_validas'] for f in filas)}.",
             f"- Tokens por respuesta (normalización desde la caché, una llamada): promedio {statistics.mean(resp):.0f}, "
             f"mínimo {min(resp)}, máximo {max(resp)}.",
-            f"- Tokens por consulta completa (pregunta nueva, dos llamadas): promedio {statistics.mean(completa):.0f}, "
+            f"- Tokens por consulta completa (pregunta nueva): promedio {statistics.mean(completa):.0f}, "
             f"máximo {max(completa)}.",
             f"- De la salida, razonamiento: {sum(f['razonamiento'] for f in filas) / max(1, sum(f['salida'] for f in filas)):.0%}.",
-            f"- Costo por consulta completa (pregunta nueva, dos llamadas): promedio USD "
+            f"- Costo por consulta completa (pregunta nueva): promedio USD "
             f"{statistics.mean(f['usd_completa'] for f in filas):.4f}, máximo USD {max(f['usd_completa'] for f in filas):.4f}.",
             f"- Tiempo por respuesta (sin la normalización): promedio {statistics.mean(f['segundos'] for f in filas):.1f} s, "
             f"máximo {max(f['segundos'] for f in filas):.1f} s.",
@@ -104,6 +104,8 @@ def fila(q: dict, r: dict, precios: tuple[float, float] = (0.0, 0.0)) -> dict:
     respuesta = r["uso"]["detalle"][-1] if r["modo"] == "completo" else vacio
     primero = r.get("primer_intento")
     norm = cache_normalizacion.tokens_generacion(q["pregunta"], poliza(q["poliza"]).sha256)
+    if ((r.get("normalizacion") or {}).get("ajuste") or "").startswith("sin normalización"):
+        norm = None  # la consulta no pasó por la normalización: no hay nada que sumarle
     t_norm = norm["entrada"] + norm["salida"] if norm else 0
     en_cache = len(r["uso"]["detalle"]) <= 1
     usd_norm = (norm["entrada"] * precios[0] + norm["salida"] * precios[1]) / 1e6 if norm and en_cache else 0.0

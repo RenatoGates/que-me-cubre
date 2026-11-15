@@ -160,8 +160,8 @@ def main() -> int:
     texto = salida.getvalue()
     caso("responder: red de seguridad con 'Sin veredicto'", r["modo"] == "solo_clausulas" and r["error"] == "SalidaInvalida"
          and r["etiqueta_veredicto"] == "Sin veredicto", f"{r['modo']} {r.get('error')}")
-    caso("responder: normalización de la caché y una sola llamada al modelo",
-         r["uso"]["normalizacion_desde_cache"] and llamadas == ["respuesta"], str(llamadas))
+    caso("responder: búsqueda por embeddings sin normalizar, una sola llamada al modelo",
+         r["normalizacion"]["variantes"] == [] and llamadas == ["respuesta"], str(llamadas))
     caso("responder: el bloque de ausentes sale igual (B4)", any("B4" in m["nombre"] for m in r["mencionadas_ausentes"]))
     caso("responder: el registro no trae la pregunta ni los pasajes",
          "Tarapoto" not in texto and "dedo" not in texto and r["pasajes"][0]["texto"][:40] not in texto, texto)

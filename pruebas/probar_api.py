@@ -25,7 +25,6 @@ os.environ.update({
     "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
     "QMC_LIMITE_DISPOSITIVO_DIA": "3",
     "QMC_TOPE_GLOBAL_USD": "2.00",
-    "QMC_RECUPERACION": "bm25_variantes",
     "LANGFUSE_PUBLIC_KEY": "",
     "LANGFUSE_SECRET_KEY": "",
     "VOYAGE_API_KEY": "",

@@ -8,8 +8,10 @@ búsqueda queda en BM25 (ai/recuperacion.py).
 
 from __future__ import annotations
 
+import json
 import logging
 import time
+from pathlib import Path
 from typing import Literal
 
 import httpx
@@ -30,6 +32,11 @@ log = logging.getLogger("qmc.llm")
 tokens_usados = 0  # del proceso; el backend lo lee para la observabilidad
 _ultima_peticion = 0.0
 _consultas: dict[tuple[str, str], np.ndarray] = {}  # (modelo, texto) -> vector, de este proceso
+# Vectores de las preguntas públicas de ensayo y de prueba (data/demo/, pruebas/), versionados
+# como la caché de normalizaciones: esas preguntas no llaman a Voyage y las pruebas corren sin
+# red. Solo `python -m ai.embeddings` escribe aquí; las preguntas de los usuarios, nunca.
+RUTA_PUBLICAS = Path(__file__).resolve().parent.parent / "data" / "cache" / "vectores_consultas.npz"
+_publicas_cargadas = False
 
 
 class ErrorEmbeddings(RuntimeError):
@@ -88,17 +95,41 @@ def embeber(textos: list[str], tipo: Literal["document", "query"]) -> np.ndarray
     """Vectores normalizados (n, d), en el orden de `textos`."""
     global tokens_usados
     clave = config("VOYAGE_API_KEY")
-    if not clave:
-        raise ErrorEmbeddings("Falta VOYAGE_API_KEY.")
-    if tipo == "query":  # las consultas repetidas (la misma pregunta con otro método) no se vuelven a pedir
+    if tipo == "query":  # las consultas repetidas y las públicas guardadas no se vuelven a pedir
+        _cargar_publicas()
         faltan = list(dict.fromkeys(t for t in textos if (modelo(), t) not in _consultas))
         if faltan:
+            if not clave:
+                raise ErrorEmbeddings("Falta VOYAGE_API_KEY.")
             for t, v in zip(faltan, _embeber(faltan, tipo, clave)):
                 if len(_consultas) > 2000:
                     _consultas.clear()
                 _consultas[(modelo(), t)] = v
         return np.stack([_consultas[(modelo(), t)] for t in textos])
+    if not clave:
+        raise ErrorEmbeddings("Falta VOYAGE_API_KEY.")
     return _embeber(textos, tipo, clave)
+
+
+def _cargar_publicas() -> None:
+    global _publicas_cargadas
+    if _publicas_cargadas:
+        return
+    _publicas_cargadas = True
+    if RUTA_PUBLICAS.exists():
+        with np.load(RUTA_PUBLICAS) as datos:
+            textos, nombre = json.loads(str(datos["textos"])), str(datos["modelo"])
+            for t, v in zip(textos, datos["vectores"].astype(np.float32)):
+                _consultas.setdefault((nombre, t), v)
+
+
+def guardar_publicas(textos: list[str]) -> int:
+    """Calcula y guarda los vectores de preguntas públicas. Se corre a mano, en local."""
+    textos = list(dict.fromkeys(textos))
+    vectores = embeber(textos, "query")
+    RUTA_PUBLICAS.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(RUTA_PUBLICAS, vectores=vectores, textos=json.dumps(textos, ensure_ascii=False), modelo=modelo())
+    return len(textos)
 
 
 def _embeber(textos: list[str], tipo: str, clave: str) -> np.ndarray:
@@ -110,3 +141,12 @@ def _embeber(textos: list[str], tipo: str, clave: str) -> np.ndarray:
         filas += [d["embedding"] for d in sorted(datos["data"], key=lambda d: d["index"])]
     v = np.asarray(filas, dtype=np.float32)
     return v / np.maximum(np.linalg.norm(v, axis=1, keepdims=True), 1e-12)
+
+
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    from ai.preparar_demo import RAIZ, preguntas_publicas
+
+    load_dotenv(RAIZ / ".env")
+    print(f"{guardar_publicas([p for _, p in preguntas_publicas()])} preguntas públicas en {RUTA_PUBLICAS.name}")

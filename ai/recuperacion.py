@@ -1,6 +1,10 @@
-"""Recuperación (RAG, sesión 08): de la pregunta normalizada a los pasajes de la póliza.
+"""Recuperación (RAG, sesión 08): de la pregunta a los pasajes de la póliza.
 
-Producto: BM25 con varias consultas. Cada variante de la normalización, la cláusula del
+Producto: embeddings por API con la pregunta tal como la escribió la persona
+("emb_pregunta"). Respaldo, si no hay vectores o la API de embeddings falla: BM25 con
+varias consultas, que es lo que usaba el prototipo y se describe a continuación.
+
+BM25 con varias consultas. Cada variante de la normalización, la cláusula del
 documento que la normalización eligió y la pregunta original (a medio peso) se buscan por
 separado y los rankings se combinan con Reciprocal Rank Fusion (RRF). Así una sola
 reformulación desafortunada no deja fuera la cláusula: basta que una consulta use las
@@ -46,7 +50,9 @@ PESO_TITULO = 0.0  # ranking por títulos frente al del texto (0 = apagado; ver 
 FACTOR_CLAUSULA = 2.0  # puntaje de los pasajes de la cláusula elegida; fijado antes de medir
 METODOS = ("bm25_pregunta", "bm25_variantes", "emb_pregunta", "emb_variantes", "hibrido_variantes")
 METODO_SIN_EMBEDDINGS = "bm25_variantes"
-METODO_POR_DEFECTO = "bm25_variantes"  # hasta medir embeddings con la API (pruebas/recuperacion.md)
+# Medido en pruebas/recuperacion.md: con 5 pasajes, los embeddings con la pregunta tal cual
+# traen el artículo esperado en 7 de 9 preguntas; BM25 con variantes, en 5 de 9.
+METODO_POR_DEFECTO = "emb_pregunta"
 
 log = logging.getLogger("qmc.llm")
 
@@ -56,7 +62,7 @@ def metodo_efectivo(indice: Indice) -> str:
     metodo = (config("QMC_RECUPERACION", METODO_POR_DEFECTO) or METODO_POR_DEFECTO).strip().lower()
     if metodo not in METODOS:
         raise ValueError(f"QMC_RECUPERACION='{metodo}' no existe; usa: {', '.join(METODOS)}")
-    if metodo.startswith("bm25") or (embeddings.disponible() and indice.con_vectores()):
+    if metodo.startswith("bm25") or indice.con_vectores():
         return metodo
     return METODO_SIN_EMBEDDINGS
 
@@ -231,7 +237,7 @@ def recuperar(
         ranking = top_k(indice, pregunta, variantes, terminos, metodo, k, titulos, peso_titulo, clausulas, factor_clausula)
     except embeddings.ErrorEmbeddings as e:  # la búsqueda no se cae por la API de embeddings
         log.warning("recuperacion: %s; se busca con BM25", e)
-        respaldo = "bm25_pregunta" if metodo == "emb_pregunta" else METODO_SIN_EMBEDDINGS
+        respaldo = METODO_SIN_EMBEDDINGS if variantes else "bm25_pregunta"
         ranking = top_k(indice, pregunta, variantes, terminos, respaldo, k, titulos, peso_titulo, clausulas, factor_clausula)
     elegidos: list[tuple[int, float, int]] = [(i, p, r + 1) for r, (i, p) in enumerate(ranking)]
     presentes = {i for i, _, _ in elegidos}
