@@ -1,0 +1,297 @@
+{
+  "modo": "completo",
+  "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
+  "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+  "aviso": null,
+  "cubre": "no_encontrado",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la cobertura por muerte causada por un accidente y de la pérdida de equipaje, además de algunas exclusiones generales. No mencionan la atención de lesiones como una fractura, así que no puedo decir si tu caso está cubierto.",
+  "apertura_contradictoria": null,
+  "condiciones": [],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente.",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0029",
+      "posicion": [
+        409,
+        643
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza.",
+      "pasaje": "P4",
+      "trozo_id": "pacifico_viajes:0048",
+      "posicion": [
+        81,
+        274
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "pasaje": "P3",
+      "trozo_id": "pacifico_viajes:0032",
+      "posicion": [
+        294,
+        315
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "pasaje": "P3",
+      "trozo_id": "pacifico_viajes:0032",
+      "posicion": [
+        545,
+        569
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 1. COBERTURA DE MUERTE ACCIDENTAL",
+    "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
+    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
+    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "pacifico_viajes:0047",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "1. COBERTURA DE MUERTE ACCIDENTAL",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        16
+      ],
+      "texto": "1. COBERTURA DE MUERTE ACCIDENTAL\n1.1. Aviso de siniestro Los beneficiarios deberán informar por escrito o por el mismo mecanismo de medio, forma y lugar que usó para contratar el seguro, a PACÍFICO SEGUROS sobre la ocurrencia del siniestro objeto de la cobertura a más tardar dentro de los siete (7) días siguientes a la fecha que se tenga conocimiento de la ocurrencia del siniestro o del beneficio, según corresponda.\n1.2. Documentos sustentatorios:\nPara la solicitud de cobertura, los beneficiarios deberán presentar a PACIFICO SEGUROS en cualquiera de sus oficinas a nivel nacional el original o copia certificada notarialmente de los siguientes documentos, en cualquier momento:\n1. Una declaración escrita, que contenga ineludiblemente la fecha y hora del accidente; el nombre, apellidos, edad y domicilio de la persona que murió a causa del accidente y el lugar y circunstancias en que éste ocurrió.\n2. Certificado Médico de Defunción.\n3. Partida de Defunción.\n4. Protocolo de Necropsia completo, con los resultados del Dosaje Etílico y Examen Toxicológico, en caso corresponda.\n5. Declaratoria de Herederos Legales, Acta Notarial de Declaratoria de Herederos o Testamento, debidamente inscritos en los Registros Públicos, a falta de designación de Beneficiarios en la Póliza."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "pacifico_viajes:0044",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        7,
+        8
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "• Riesgos profesionales Accidentes o enfermedades derivados del ejercicio de una actividad de alto riesgo que estuviera realizando el Titular incluyendo, pero no limitado a: trabajo en obras, andamios, alturas, pozos, utilización de maquinarias, instrumentos de corte, manejo o manipulación de mercancías u objetos pesados o peligrosos, productos tóxicos, corrosivos, explosivos o inflamables, trabajo en fuerzas armadas o seguridad, actividades agrícolas y transportistas. En todos los casos, los servicios descritos en estas Condiciones Generales serán complementarios de los que deban prestarse por parte de entidades asistenciales y de seguros según las normas de seguridad industrial y de riesgos laborales aplicables en el país donde se presente la enfermedad o accidente objeto del servicio.\n• Gastos no autorizados Gastos de hotel, restaurante, taxis, comunicaciones, etc. que no hayan sido expresamente autorizados por la aseguradora.\n• Acompañantes y gastos extras En los casos de hospitalización del Titular, se excluyen expresamente todos los gastos extras, así como de acompañantes."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "pacifico_viajes:0032",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        12
+      ],
+      "texto": "2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:\nLa suma asegurada es por Titular. No obstante, en caso de un accidente que involucre a más de un Titular, la responsabilidad máxima por todos los titulares afectados no será mayor al monto indicado en su Certificado de Seguro como máximo global por un mismo siniestro. En caso de que la suma de las indemnizaciones a abonar supere los montos antedichos, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida en las Condiciones Particulares y/ Certificado de Seguro."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "pacifico_viajes:0048",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
+      "parte": [
+        1,
+        3
+      ],
+      "paginas": [
+        16,
+        17
+      ],
+      "texto": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE\n2.1. Indemnización por extravío del equipaje PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza. En caso de que el peso del equipaje no pueda ser determinado, éste se calculará tomando la suma indemnizada por la línea aérea sobre el monto indemnizatorio por kilogramo que ésta utilice.\n2.2. Disposiciones generales para la indemnización Consulte en su póliza el valor por kilogramo despachado aplicable al producto adquirido El Titular tendrá derecho a percibir hasta el monto máximo indicado en las Condiciones Particulares y/o Certificado de Seguro, sin importar la cantidad de eventos (demora o pérdida) que pudieran ocurrir durante la vigencia de su póliza, incluso si la misma fuera de validez anual.\nNo se tomará en consideración el contenido y/o valor real del equipaje extraviado."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "pacifico_viajes:0029",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        10,
+        11
+      ],
+      "texto": "2.1.2. RIESGOS ASEGURADOS\n• Muerte en transporte público: Muerte únicamente como consecuencia de un accidente mientras el Titular viaja como pasajero en un medio de transporte público, terrestre, marítimo, aéreo, o mientras viaja en taxi o limusina, siempre que el mismo esté regulado por un ente estatal y siempre que el tarjetahabiente no sea miembro de la tripulación, piloto o conductor del transporte.\n• Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente. IMPORTANTE: Cuando la póliza incluye dos alternativas de indemnización, según las circunstancias que hayan ocasionado la Muerte Accidental, una y solo una de ellas será indemnizable. Queda entendido y convenido entonces que la indemnización correspondiente a la Cobertura de Muerte Accidental 24 horas, excluye la indemnización correspondiente a Muerte Accidental en Transporte Público."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0038",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        1,
+        8
+      ],
+      "paginas": [
+        13
+      ],
+      "texto": "1. EXCLUSIONES GENERALES\n• Enfermedades crónicas y/o preexistentes:\nQuedan expresamente excluidos los estudios y/o los tratamientos relacionados con enfermedades Preexistentes.\nCuando se trate de enfermedades excluidas, PACIFICO SEGUROS sólo tomará a su cargo gastos hasta el tope indicado en su póliza y Condiciones Particulares en concepto de “Primera atención médica por enfermedades preexistentes”, cuando no se indique esta cláusula, el tope será de USD 300, siempre y cuando la misma se produzca durante un viaje internacional. PACIFICO SEGUROS no tomará a su cargo exámenes o internaciones tendientes a evaluar la condición médica de las enfermedades preexistentes y/o para descartar su relación con la afección que motiva la asistencia.\nSe deja expresa constancia que la limitación indicada en el párrafo precedente se refiere única y exclusivamente a la responsabilidad económica de PACIFICO SEGUROS y no a la atención médica por emergencia que resulte necesaria."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "cobertura por accidente que causa fractura de pierna durante la práctica de deportes de nieve, riesgos asegurados y coberturas básicas",
+      "exclusiones aplicables a accidentes en deportes de riesgo o actividades deportivas, principales exclusiones y exclusiones generales de la póliza",
+      "validez territorial de la cobertura en Argentina, vigencia del seguro y límites de suma asegurada para gastos médicos por accidente",
+      "medio y plazo para el aviso del siniestro y procedimiento para solicitar la cobertura en caso de accidente y fractura"
+    ],
+    "titulos": [
+      "COBERTURAS",
+      "EXCLUSIONES",
+      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "RIESGOS ASEGURADOS",
+      "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
+      "Medio y plazo establecido para el aviso del siniestro"
+    ],
+    "clausulas": [
+      "COBERTURAS",
+      "EXCLUSIONES",
+      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO"
+    ],
+    "articulos": [
+      "RIESGOS ASEGURADOS",
+      "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
+      "Medio y plazo establecido para el aviso del siniestro"
+    ],
+    "hechos": [
+      "Se fracturó la pierna",
+      "Ocurrió esquiando",
+      "La pista de esquí estaba autorizada",
+      "El lugar fue Bariloche"
+    ],
+    "ajuste": null
+  },
+  "busqueda": "bm25_variantes",
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P5",
+        "texto_literal": "Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente."
+      },
+      {
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza."
+      }
+    ],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la cobertura por muerte causada por un accidente y de la pérdida de equipaje, además de algunas exclusiones generales. No mencionan la atención de lesiones como una fractura, así que no puedo decir si tu caso está cubierto."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6925,
+        "tokens_salida": 1442,
+        "tokens_razonamiento": 0,
+        "segundos": 6.59,
+        "costo_usd": 0.001414
+      }
+    ],
+    "tokens": 8367,
+    "costo_usd": 0.001414,
+    "segundos": 6.59
+  },
+  "prueba": {
+    "id": "P09",
+    "poliza": "pacifico_viajes",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites",
+      "no_encontrado"
+    ],
+    "que_deberia_pasar": "La exclusión de esquí aplica solo fuera de pistas reglamentarias. Las coberturas básicas de este documento son muerte accidental y pérdida de equipaje; la asistencia médica estaría en cláusulas adicionales que no están en el documento."
+  }
+}

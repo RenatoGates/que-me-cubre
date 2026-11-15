@@ -17,7 +17,6 @@ import json
 import re
 import unicodedata
 from dataclasses import dataclass
-from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -26,7 +25,6 @@ from rank_bm25 import BM25Okapi
 
 from ai.troceado import Trozo
 
-MODELO_EMBEDDINGS = "intfloat/multilingual-e5-small"
 VERSION_INDICE = 1  # súbela si cambia el extractor o el troceado
 
 # ---------------------------------------------------------------------------
@@ -97,32 +95,10 @@ def titulos_de(t: Trozo) -> list[str]:
 # ---------------------------------------------------------------------------
 
 
-@lru_cache(maxsize=1)
-def modelo_embeddings():
-    """Carga el modelo una sola vez por proceso (en la app, además, con st.cache_resource)."""
-    from sentence_transformers import SentenceTransformer
+def embeber_pasajes(trozos: list[Trozo]) -> np.ndarray:
+    from ai import embeddings
 
-    return SentenceTransformer(MODELO_EMBEDDINGS, device="cpu")
-
-
-def embeber_pasajes(trozos: list[Trozo], lote: int = 16) -> np.ndarray:
-    modelo = modelo_embeddings()
-    vectores = modelo.encode(
-        [t.texto_para_embedding() for t in trozos],
-        batch_size=lote,
-        normalize_embeddings=True,
-        convert_to_numpy=True,
-        show_progress_bar=False,
-    )
-    return vectores.astype(np.float32)
-
-
-def embeber_consulta(consulta: str) -> np.ndarray:
-    # Formato del modelo e5: las consultas llevan el prefijo "query: ".
-    v = modelo_embeddings().encode(
-        [f"query: {consulta}"], normalize_embeddings=True, convert_to_numpy=True, show_progress_bar=False
-    )
-    return v[0].astype(np.float32)
+    return embeddings.embeber([t.texto_para_embedding() for t in trozos], "document")
 
 
 # ---------------------------------------------------------------------------
@@ -133,7 +109,7 @@ def embeber_consulta(consulta: str) -> np.ndarray:
 @dataclass
 class Indice:
     trozos: list[Trozo]
-    vectores: np.ndarray | None  # (n, 384) normalizados; None si no hay embeddings
+    vectores: np.ndarray | None  # (n, d) normalizados; None si no hay embeddings
     meta: dict
 
     def __post_init__(self) -> None:
@@ -170,14 +146,23 @@ class Indice:
 
     @classmethod
     def construir(cls, trozos: list[Trozo], meta: dict, con_embeddings: bool = True) -> "Indice":
+        from ai import embeddings
+
         vectores = embeber_pasajes(trozos) if con_embeddings and trozos else None
         meta = {
             **meta,
             "version_indice": VERSION_INDICE,
-            "modelo_embeddings": MODELO_EMBEDDINGS if vectores is not None else None,
+            "modelo_embeddings": embeddings.modelo() if vectores is not None else None,
             "n_trozos": len(trozos),
         }
         return cls(trozos, vectores, meta)
+
+    def con_vectores(self) -> bool:
+        """¿Tiene vectores del modelo de embeddings configurado? Los de otro modelo no sirven
+        para comparar con la consulta."""
+        from ai import embeddings
+
+        return self.vectores is not None and self.meta.get("modelo_embeddings") == embeddings.modelo()
 
     # --- disco (solo para los condicionados públicos precargados) ---
 

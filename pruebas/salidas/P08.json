@@ -4,7 +4,9 @@
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
   "cubre": "no_encontrado",
-  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de cobertura por muerte accidental, desmembramiento, vigencia y exclusiones, pero no mencionan reparación de vehículos o daños al auto alquilado.",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de accidentes personales, gastos médicos, odontológicos y farmacéuticos durante el viaje, traslados, cancelaciones, equipaje y pagos de siniestros, pero ninguno menciona daños a un auto alquilado ni su reparación.",
+  "apertura_contradictoria": null,
   "condiciones": [],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [],
@@ -17,17 +19,17 @@
       "tipo": "documento",
       "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Condiciones Particulares",
-      "seccion": "Condiciones Generales",
-      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
-      "pagina": 6,
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
+      "pagina": 31,
       "paginas": [
-        6
+        31
       ],
-      "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0115",
       "posicion": [
-        292,
-        316
+        200,
+        224
       ],
       "nivel": "remision"
     },
@@ -36,156 +38,145 @@
       "tipo": "documento",
       "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Certificado de Seguro",
-      "seccion": "Condiciones Generales",
-      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
-      "pagina": 6,
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
+      "pagina": 31,
       "paginas": [
-        6
+        31
       ],
-      "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0115",
       "posicion": [
-        327,
-        348
+        229,
+        250
       ],
       "nivel": "remision"
     }
   ],
   "secciones_revisadas": [
-    "Condiciones Generales › Artículo 2°: Cobertura Principal – Muerte Accidental",
-    "Cláusula Adicional: Desmembramiento Accidental › Artículo 4° Exclusiones",
-    "Cláusula Adicional: Desmembramiento Accidental › Artículo 2° Vigencia Individual y Territorio",
-    "Cláusula Adicional: Desmembramiento Accidental › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+    "Resumen Informativo › INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 13° Indemnización de los Siniestros",
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
   ],
   "pasajes": [
     {
       "id": "P1",
       "rango": 1,
-      "trozo_id": "chubb_viajes_jetsmart:0023",
-      "seccion": "Condiciones Generales",
-      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        6,
-        7
-      ],
-      "texto": "Artículo 2°: Cobertura Principal – Muerte Accidental\nEn caso que el ASEGURADO fallezca a consecuencia de un accidente ocurrido durante la vigencia de esta Póliza, ya sea que el accidente haya ocurrido en territorio nacional o internacional, LA COMPAÑÍA pagará los beneficios señalados en las Condiciones Particulares y/o en el Certificado de Seguro, en los plazos y términos que se señalan en los mismos, siempre que las causas del accidente no se encuentren comprendidas dentro de las exclusiones de este seguro.\nEste seguro cubre la muerte accidental del ASEGURADO hasta por un (1) año luego de producido el accidente. En este caso, es condición esencial para que surja la responsabilidad de LA COMPAÑÍA que la muerte sobreviniente sea efecto directo de las lesiones originadas por el accidente.\nEl seguro cubre también la muerte del ASEGURADO como consecuencia de accidentes sobrevenidos al tratar de salvar vidas humanas."
-    },
-    {
-      "id": "P2",
-      "rango": 2,
-      "trozo_id": "chubb_viajes_jetsmart:0047",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-      "articulo": "Artículo 4° Exclusiones",
-      "parte": [
-        2,
-        4
-      ],
-      "paginas": [
-        13
-      ],
-      "texto": "e)Las enfermedades epidémicas y sus consecuencias, que provengan directa o indirectamente de pandemia, ya sea que haya sido declarada por la Organización Mundial de la Salud o el organismo que lo reemplace, o bien, por la autoridad correspondiente de cualquiera de los países, localidades o regiones afectadas.\nf)Todo hecho que reconozca su origen o sea resultado de un viaje a, en o a través de cualquiera de los países o territorios especificados en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda como, asimismo, el pago solicitado en dicho país, cualquiera sea la causa, aun cuando la permanencia en el país excluido pudiere ser considerada como fortuita para el ASEGURADO.\ng)Comisión de actos calificados como delito, así como la participación activa en rebelión, revolución, sublevación, asonadas, motín, conmoción civil, subversión y terrorismo.\nh)Encontrarse el ASEGURADO en estado de ebriedad, o bajo los efectos de cualquier narcótico, a menos que hubiese sido administrado por prescripción médica. Estos estados deberán ser certificados por la autoridad competente.\ni)Desempeñarse el ASEGURADO como piloto o tripulante de aviones civiles o comerciales, a menos que expresa y específicamente se prevea y acepte su cobertura por el asegurador."
-    },
-    {
-      "id": "P3",
-      "rango": 3,
-      "trozo_id": "chubb_viajes_jetsmart:0043",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-      "articulo": "Artículo 2° Vigencia Individual y Territorio",
-      "parte": [
-        2,
-        2
-      ],
-      "paginas": [
-        11,
-        12
-      ],
-      "texto": "Afganistán, Cuba, República Democrática del Congo, Irán, Iraq, Liberia, Sudán o Siria o cualquier país que ingrese a la lista OFAC, en cualquiera que sea el medio de transporte utilizado. Sin perjuicio de lo anterior, se podrán excluir expresamente los hechos ocurridos directa o indirectamente como resultado de un viaje a, en o a través de otros países o territorios especificados en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda.\nEl CONTRATANTE de la PÓLIZA, deberá informar el ingreso del ASEGURADO, hasta máximo veinticuatro (24) horas previas al viaje del ASEGURADO y la vigencia de su cobertura quedará especificada en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nTodos los ASEGURADOS deberán completar los requisitos de asegurabilidad establecidos en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda y su ingreso será automático en la PÓLIZA. Todo ASEGURADO que no haya sido notificado y/o no haya completado los requisitos de asegurabilidad establecidos en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda, no tendrá cobertura en el presente seguro."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "chubb_viajes_jetsmart:0054",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "trozo_id": "chubb_viajes_jetsmart:0073",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
       "parte": [
         4,
         4
       ],
       "paginas": [
-        14
+        19
       ],
-      "texto": "Si la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA o, de ser el caso, la correspondiente prórroga, se pagará el beneficio dentro de los treinta (30) días calendarios siguientes"
+      "texto": "Si la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA o, de ser el caso, la correspondiente prórroga, se pagará el beneficio dentro de los treinta (30) días calendarios siguientes."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0008",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        2
+      ],
+      "texto": "INFORMACIÓN DE LA PÓLIZA DE SEGURO 1.Riesgos Cubiertos\nAccidentes Personales Muerte Accidental:\nDesmembramiento Accidental Reembolso médico y ortodoncista por accidente o enfermedad Gastos médicos por accidente y/o enfermedad durante el viaje Gastos odontológicos de Emergencia durante el viaje Gastos Farmacéuticos durante el viaje Reembolso de gastos de hotel y gastos de acompañante Recuperación en hotel durante el viaje Acompañante en caso de hospitalización prolongada durante el viaje Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje Repatriación Traslado de Restos Mortales (Repatriación funeraria) Repatriación en Vida – Traslado Médico por Emergencia Cancelaciones, interrupción, regreso anticipado del menor Cancelación de viaje Interrupción de viaje y regreso anticipado Retorno de menores Pérdida de equipaje y reembolso por retraso Pérdida de equipaje Reembolso de Gastos por Demora de Equipaje"
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0219",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 13° Indemnización de los Siniestros",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        58
+      ],
+      "texto": "Artículo 13° Indemnización de los Siniestros\nLa COMPAÑÍA indemnizará las pérdidas o daños que directa y efectivamente ocurran por efecto de un siniestro, entendido como tal la realización de uno de los riesgos materia de cobertura; siempre que el evento se inicie dentro del período de vigencia de la Póliza y el CONTRATANTE y/o ASEGURADO y/o BENEFICIARIO haya cumplido con las obligaciones a su cargo emanadas del contrato de seguro."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        4,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEn el caso que el ASEGURADO no pueda realizar cambio en sus pasajes de TRANSPORTE PÚBLICO AUTORIZADO, la COMPAÑÍA le entregará un pasaje aéreo en la misma clase que viajaba originalmente para su retorno al país de origen, en caso de que él mismo quede inhabilitado de continuar el VIAJE. Este pasaje será entregado sólo en caso de que no sea posible utilizar el medio de TRANSPORTE PÚBLICO AUTORIZADO originalmente previsto.\nCondiciones:\n•LA COMPAÑÍA no será responsable por ninguna multa o penalidad adicional incurrida que no hubiese sido impuesta si el ASEGURADO hubiera notificado a LA COMPAÑÍA durante las setenta y dos (72) horas siguientes de ocurrido el siniestro."
     },
     {
       "id": "P5",
       "rango": 5,
-      "trozo_id": "chubb_viajes_jetsmart:0042",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-      "articulo": "Artículo 2° Vigencia Individual y Territorio",
+      "trozo_id": "chubb_viajes_jetsmart:0088",
+      "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
       "parte": [
-        1,
-        2
+        3,
+        3
       ],
       "paginas": [
-        11
+        23
       ],
-      "texto": "Artículo 2° Vigencia Individual y Territorio\nEl derecho a las indemnizaciones y prestaciones contempladas para la presente cobertura se refiere a contingencias que ocurran a una distancia superior a doscientos (200) kilómetros contados desde el domicilio particular del ASEGURADO que figura en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEl inicio de la vigencia de la presente cobertura de viaje internacional se computará a partir del paso del ASEGURADO por Policía Internacional o Departamento de Migraciones, en el lugar de embarque, en cada viaje, y en todo caso no antes de la fecha de inicio del VIAJE indicada en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, si esta es posterior a la fecha de embarque.\nLa protección termina en cualquiera de las siguientes fechas, lo que ocurra primero:\na)En la FECHA DE LLEGADA aún si esta es anterior a la que estaba originalmente prevista y en el momento del paso por la Policía Internacional o Departamento de Migraciones;\nb)Al final de la vigencia en días indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda;\nc)Al final del plazo de VIGENCIA DE LA PÓLIZA.\nEl ámbito territorial de las coberturas se extiende a todo el mundo, exceptuando los siguientes países:"
+      "texto": "En caso que la COMPAÑÍA requiera aclaraciones o precisiones adicionales, respecto a la documentación e información presentada, la COMPAÑÍA podrá realizar tal requerimiento dentro de los primeros veinte (20) días de recibida la documentación completa presentada para la solicitud de cobertura, lo que suspenderá el plazo de aprobación o rechazo hasta la presentación de la documentación e información correspondiente.\nEl plazo de veinte (20) días antes indicado se encuentra dentro de los treinta (30) días con el que cuenta La Aseguradora para pronunciarse sobre la aprobación o rechazo de la solicitud de cobertura.\nSi la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA o, de ser el caso, la correspondiente prórroga, se pagará el beneficio dentro de los treinta (30) días calendarios siguientes."
     },
     {
       "id": "P6",
       "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0046",
-      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-      "articulo": "Artículo 4° Exclusiones",
+      "trozo_id": "chubb_viajes_jetsmart:0070",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
       "parte": [
         1,
         4
       ],
       "paginas": [
-        12,
-        13
+        18
       ],
-      "texto": "Artículo 4° Exclusiones\nLa presente Cláusula Adicional no otorga ninguna de las coberturas o beneficios estipulados en ella, cuando se originen por, o sean una consecuencia o complicación de:\na)ENFERMEDADES, CONDICIONES O LESIONES PRE-EXISTENTES al VIAJE del ASEGURADO y cualquiera de sus consecuencias, incluyendo convalecencias y alteraciones durante tratamientos que no se encuentran todavía en una etapa consolidada, y las secuelas de enfermedades anteriores al VIAJE.\nb)Participación en cualquier equipo deportivo profesional o semiprofesional y cualquier deporte o actividad riesgoso: que incluye: aviación privada, paracaidismo, ala delta, parapente, bungee jumping, alpinismo, escalada, motociclismo, artes marciales, boxeo, rodeo, rugby, equitación, polo, buceo.\nc)Suicidio, intento de suicidio o LESIÓN intencionalmente infringida por el ASEGURADO a sí mismo.\nd)Prestación de servicios en las fuerzas armadas o unidades auxiliares de las mismas en casos de Guerras civiles nacionales o extranjeras, motines, movimientos populares, represalias, restricciones a la libre circulación, huelgas, explosiones, misiones para la obtención o mantenimiento de la paz."
+      "texto": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura\nAviso: Cuando se produzca algún hecho que pueda dar origen a la cobertura que otorga la presente Cláusula Adicional, el ASEGURADO debe solicitar por teléfono la asistencia correspondiente, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa u otro dato que facilite su identificación al momento del uso del seguro.\nIndependientemente de la intervención del servicio de asistencia, el ASEGURADO o su beneficiario deberán dar aviso a la COMPAÑÍA por cualquiera de los medios de comunicación pactados, de la ocurrencia del siniestro, en un plazo no mayor a treinta (30) días calendario luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio, siempre y cuando el retraso obedezca a motivos de fuerza mayor, caso fortuito o imposibilidad de hecho."
+    },
+    {
+      "id": "P7",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0071",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        4
+      ],
+      "paginas": [
+        18,
+        19
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
     }
   ],
   "normalizacion": {
-    "variantes": [
-      "¿está cubierto el desmembramiento accidental del vehículo alquilado según riesgos cubiertos?",
-      "¿existen exclusiones que impidan pagar la reparación del auto por accidente?",
-      "¿la cobertura aplica dentro de la vigencia individual y territorio del seguro para el auto alquilado?",
-      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar el pago de la reparación?",
-      "¿las condiciones de acceso y límites de permanencia permiten la reparación del daño al vehículo?"
-    ],
-    "titulos": [
-      "Desmembramiento Accidental",
-      "Condiciones Generales",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de acceso y límites de permanencia",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "clausulas": [
-      "Desmembramiento Accidental",
-      "Condiciones Generales"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de acceso y límites de permanencia",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "hechos": [
-      "choqué el auto alquilado",
-      "durante el viaje"
-    ],
-    "ajuste": null
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
   },
+  "busqueda": "emb_pregunta",
   "modelo_crudo": {
     "citas": [],
     "condiciones": [],
@@ -193,32 +184,32 @@
     "podrian_aplicar": [],
     "no_incluido_en_documento": [],
     "cubre": "no_encontrado",
-    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de cobertura por muerte accidental, desmembramiento, vigencia y exclusiones, pero no mencionan reparación de vehículos o daños al auto alquilado."
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de accidentes personales, gastos médicos, odontológicos y farmacéuticos durante el viaje, traslados, cancelaciones, equipaje y pagos de siniestros, pero ninguno menciona daños a un auto alquilado ni su reparación."
   },
   "descartes": [],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
-    "normalizacion_desde_cache": true,
+    "normalizacion_desde_cache": false,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3694,
-        "tokens_salida": 445,
-        "tokens_razonamiento": 346,
-        "segundos": 1.64,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 7261,
+        "tokens_salida": 188,
+        "tokens_razonamiento": 0,
+        "segundos": 1.39,
+        "costo_usd": 0.00082
       }
     ],
-    "tokens": 4139,
-    "costo_usd": 0.0,
-    "segundos": 1.64
+    "tokens": 7449,
+    "costo_usd": 0.00082,
+    "segundos": 1.39
   },
   "prueba": {
     "id": "P08",

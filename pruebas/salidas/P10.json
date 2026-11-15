@@ -3,183 +3,230 @@
   "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
   "documento": "Rimac Seguros · Seguro de Viaje",
   "aviso": null,
-  "cubre": "no_encontrado",
-  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de coberturas por muerte accidental, invalidez y exclusiones de ciertos accidentes, pero no mencionan radiografías ni cobertura de estudios médicos durante el viaje.",
-  "condiciones": [],
-  "exclusiones_aplicables": [],
-  "podrian_aplicar": [],
-  "no_incluido_en_documento": [],
-  "citas": [],
-  "veredicto_degradado": false,
-  "mencionadas_ausentes": [
+  "cubre": "con_limites",
+  "etiqueta_veredicto": "Cubre con límites",
+  "respuesta": "Tu póliza cubre las radiografías como examen médico complementario en caso de enfermedad o accidente, cuando las indica el Departamento Médico de la Central de Asistencia o los médicos de la compañía. Si tu médico la pide durante el viaje, conviene que la indicación venga de esa central para que se cubra. No encontré en los pasajes un monto máximo específico para este examen.",
+  "apertura_contradictoria": null,
+  "condiciones": [
     {
-      "nombre": "Tabla de Beneficios",
-      "tipo": "documento",
-      "mensaje": "Tu póliza menciona «Tabla de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
-      "mencion": "Tabla de Beneficios",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "1. COBERTURA (parte 1 de 2)",
-      "pagina": 14,
-      "paginas": [
-        14
-      ],
-      "pasaje": "P1",
-      "trozo_id": "rimac_viajes:0107",
-      "posicion": [
-        312,
-        331
-      ],
-      "nivel": "remision"
+      "descripcion": "La radiografía se cubre cuando la indica el Departamento Médico de la Central de Asistencia (o los médicos de la compañía), y el examen debe hacerse en caso de enfermedad o accidente.",
+      "citas": [
+        1,
+        2
+      ]
     }
   ],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
+    {
+      "descripcion": "Si no fue indicada por el Departamento Médico de la Central de Asistencia, la cobertura podría no aplicar; la póliza exige esa indicación.",
+      "citas": [
+        2
+      ]
+    }
+  ],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico.",
+      "pasaje": "P1",
+      "trozo_id": "rimac_viajes:0040",
+      "posicion": [
+        37,
+        333
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad (parte 1 de 2)",
+      "pagina": 5,
+      "paginas": [
+        5
+      ],
+      "texto_literal": "C. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0035",
+      "posicion": [
+        534,
+        648
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [],
   "secciones_revisadas": [
-    "Cláusula Adicional de Accidentes Personales › 1. COBERTURA",
-    "Cláusula Adicional de Accidentes Personales › 4. EXCLUSIONES",
-    "Cláusula Adicional de Accidentes Personales › 3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.6. Traslados médicos de emergencia por recomenda",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante"
   ],
   "pasajes": [
     {
       "id": "P1",
       "rango": 1,
-      "trozo_id": "rimac_viajes:0107",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "1. COBERTURA",
-      "parte": [
-        1,
-        2
-      ],
-      "paginas": [
-        14
-      ],
-      "texto": "1. COBERTURA\nA) Muerte accidental Si el ASEGURADO sufre un accidente durante el viaje al extranjero, que dé lugar a su fallecimiento siempre que su causa directa y única fuera un accidente amparado por la Póliza de Seguro, la COMPAÑÍA pagará a los Beneficiarios, hasta el límite de suma asegurada indicada en la Tabla de Beneficios de la Póliza.\nEsta cobertura no se aplicará si la muerte del ASEGURADO ocurriera cuando esté viajando como piloto o conductor o miembro de la tripulación, dentro de, o subiendo a, o descendiendo de cualquier medio de transporte comercial aéreo, terrestre o acuático que funcione como transporte público comercial.\nEn caso de un accidente que involucre a más de un ASEGURADO, la responsabilidad máxima por todas las pólizas afectadas, no será mayor a US$ 500,000.00 (Quinientos Mil con 00/100 Dólares de los Estados Unidos de América). En caso de que la suma de las indemnizaciones a abonar supere el monto antes señalado, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida."
-    },
-    {
-      "id": "P2",
-      "rango": 2,
-      "trozo_id": "rimac_viajes:0113",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "4. EXCLUSIONES",
-      "parte": [
-        3,
-        3
-      ],
-      "paginas": [
-        15
-      ],
-      "texto": "i) Los provenientes de accidentes de trabajo; así como de la práctica o desempeño de profesión u oficio claramente riesgoso tales como: bomberos, mineros, pilotos o tripulantes de nave aérea o marítima, miembros de las Fuerzas Armadas o Policiales, ingenieros químicos, periodistas corresponsales de guerra, obreros de construcción, manipuladores de explosivos, que no hayan sido declarados por el ASEGURADO y aceptados por la COMPAÑÍA al momento de contratar el seguro o durante su vigencia.\nj) Bajo la influencia del alcohol (en grado igual o superior a 0.50 gramos de alcohol por litro de sangre al momento del accidente) y/o drogas o en estado de sonambulismo. Para efectos de esta exclusión, se presumirá que el ASEGURADO se encuentra bajo la influencia de alcohol o droga, si éste se negara a que se le practique el examen de alcoholemia o toxicológico correspondiente.\nk) Inhalación de gases, intoxicación o envenenamiento sistemático de cualquier naturaleza.\nl) Los llamados ‘Accidentes Médicos’, tales como apoplejías, congestiones, síncopes, vértigos, edemas agudos, infartos al miocardio, trombosis y ataques epilépticos; así como los casos de negligencia o impericia médica.\nm) Cualquier enfermedad corporal o mental, y a las consecuencias de tratamientos médicos o quirúrgicos que no sean motivados por accidentes amparados por la presente Póliza.\nn) Síndrome de Inmuno Deficiencia Adquirida (SIDA).\no) Las lesiones preexistentes al momento de contratar este Seguro.\np) Las complicaciones médicas de embarazos o partos.\nq) Las hernias, enredamientos intestinales, así como de insolaciones."
-    },
-    {
-      "id": "P3",
-      "rango": 3,
-      "trozo_id": "rimac_viajes:0108",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "1. COBERTURA",
-      "parte": [
-        2,
-        2
-      ],
-      "paginas": [
-        14
-      ],
-      "texto": "B) Invalidez permanente por accidente Si durante un viaje al extranjero, hasta un máximo de ciento ochenta (180) días consecutivos, el ASEGURADO sufre un accidente que dé lugar a su Invalidez Permanente Total o Invalidez Permanente Parcial, siempre que la causa directa y única de dicha invalidez fuera un accidente amparado por la póliza, la COMPAÑÍA pagará al ASEGURADO la suma correspondiente al grado de Invalidez Permanente, con base a lo establecido en el Anexo A - Tabla de Indemnizaciones por Invalidez Permanente.\nEn caso de un accidente que involucre a más de un ASEGURADO, la responsabilidad máxima por todas las pólizas afectadas, no será mayor a US$ 250,000.00 (Doscientos Cincuenta Mil con 00/100 Dólares de los Estados Unidos de América). En caso de que la suma de las indemnizaciones a abonar supere el importe antes señalado, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "rimac_viajes:0112",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "4. EXCLUSIONES",
-      "parte": [
-        2,
-        3
-      ],
-      "paginas": [
-        14,
-        15
-      ],
-      "texto": "e) Detonación nuclear, reacción, radiación nuclear o contaminación radiactiva; independientemente de la forma en que se haya ocasionado la detonación nuclear, reacción, radiación nuclear o contaminación radiactiva.\nf) Viajes aéreos y marítimos que haga el ASEGURADO en calidad de pasajero en vuelos de itinerarios no fijos ni regulares; así como operaciones o viajes submarinos.\ng) Participación como conductor, copiloto o acompañante, en carreras o entrenamiento para carreras de automóviles, bicicletas, motocicletas, motonetas, trimotos, cuatrimotos, motocicletas náuticas, lanchas a motor, avionetas y de caballos.\nh) Accidentes producidos a consecuencia de actividades o deportes notoriamente peligrosos tales como: uso de vehículos de carrera de cualquier tipo sea como conductor o pasajero, competencia en autos, motos terrestres o acuáticas, motocross, andinismo o alpinismo o escalamiento de montañas, cacería de fieras, pesca submarina, box, rodeo, puenting, ala delta, parapente, downhill, prácticas hípicas, artes marciales, paracaidismo, aeronaves ultraligeras, esquí acuático y sobre nieve, inmersión o caza submarina, salto desde puentes o puntos elevados al vacío, rodeo, surf, que no hayan sido declarados por el ASEGURADO y aceptados por la COMPAÑÍA al momento de contratar el seguro o durante su vigencia."
-    },
-    {
-      "id": "P5",
-      "rango": 5,
-      "trozo_id": "rimac_viajes:0110",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS",
+      "trozo_id": "rimac_viajes:0040",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        14
+        6
       ],
-      "texto": "3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS\nSi el ASEGURADO sufriera varios accidentes sucesivos durante la vigencia de la Póliza, el pago de las sumas correspondientes por Invalidez Parcial Permanente, de acuerdo a lo establecido en el Anexo A - Tabla de Indemnizaciones por Invalidez Permanente, no podrán exceder en conjunto del cien por ciento (100%) del beneficio previsto por este concepto en el Plan de Beneficio."
+      "texto": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "rimac_viajes:0035",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        5
+      ],
+      "texto": "9.1 Asistencia médica por accidente y por Enfermedad\nA. Consultas médicas: Se prestarán en caso de accidente o enfermedad aguda e imprevista, incluyendo la opción de repatriación del ASEGURADO a su país de origen si su estado de salud lo permite. La Central de Asistencia se reserva el derecho de decidir el más adecuado de entre los tratamientos propuestos por el Departamento Médico.\nB. Atención por especialistas: Cuando sea indicada por el Departamento Médico de la Central de Asistencia del área donde se encuentre el ASEGURADO.\nC. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.\nD. Internaciones: De acuerdo a la naturaleza de la lesión o enfermedad, y siempre que el Departamento Médico de la Central de Asistencia así lo prescriba, se procederá a la internación del ASEGURADO en el Centro Hospitalario más próximo al lugar donde éste se encuentre."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "rimac_viajes:0036",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        5
+      ],
+      "texto": "E. Intervenciones quirúrgicas: Cuando sean autorizadas por el Departamento Médico de la Central de Asistencia y en los casos de emergencia que requieran en forma inmediata este tratamiento, y que no puedan ser diferidas hasta el retorno del ASEGURADO a su país de origen. Si a juicio del Departamento Médico de la Central de Asistencia fuese posible el regreso al país de origen para sufrir en él, el tratamiento quirúrgico necesario, se procederá a la repatriación del ASEGURADO, quien está obligado a aceptar tal solución, perdiendo en caso de rechazo, todos los beneficios consignados en la Póliza."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "rimac_viajes:0041",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.6. Traslados médicos de emergencia por recomenda",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.6 Traslados médicos de emergencia por recomenda\nción médica En caso de emergencia, La COMPAÑÍA organizará el traslado al centro asistencial más próximo para que el beneficiario herido o enfermo reciba atención médica.\nEn caso que el médico tratante aconseje el traslado a otro centro asistencial más adecuado, previa autorización del Departamento Médico de La COMPAÑÍA, se procederá a la organización del mismo. Únicamente razones de índole médica, evaluadas a criterio exclusivo del Departamento Médico de La COMPAÑÍA, serán tomadas en cuenta para decidir la procedencia y/o urgencia del traslado del Beneficiario. Si el Beneficiario y/o sus acompañantes decidieran efectuar el traslado, dejando de lado la opinión del Departamento Médico de La COMPAÑÍA, ninguna responsabilidad recaerá sobre La COMPAÑÍA por dicha actitud, siendo el traslado y sus consecuencias por cuenta y riesgo del beneficiario y/o sus acompañantes. Este servicio está incluido en el límite de gastos médicos u hospitalarios por accidente o enfermedad."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "rimac_viajes:0044",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.9 Desplazamiento de acompañante\nSi como consecuencia de un accidente o enfermedad (no crónica, ni preexistente) ocurridos durante un viaje y durante la vigencia del contrato; el ASEGURADO se encontrase sin acompañante y como producto de su recuperación, fuera recomendable por el profesional médico la presencia de un familiar del ASEGURADO, LA COMPAÑÍA gestionará y cubrirá el costo de los gastos de transporte que requiera el familiar del Titular y/o Cliente para que acompañe a éste en el lugar donde se esté recuperando siempre y cuando su recuperación tome más de cinco (05) días."
     }
   ],
   "normalizacion": {
-    "variantes": [
-      "Cobertura de radiografía solicitada por médico durante el viaje según la cláusula Accidentes Personales.",
-      "Exclusiones que podrían impedir el pago de la radiografía solicitada por médico en el viaje.",
-      "Vigencia, territorialidad y límites de la cobertura para radiografías durante el viaje.",
-      "Aviso y trámite para solicitar el reembolso de la radiografía solicitada por médico mientras se está de viaje.",
-      "Procedimiento para reclamar el beneficio de la radiografía bajo la cobertura de Accidentes Personales."
-    ],
-    "titulos": [
-      "Accidentes Personales",
-      "Asistencia médica por accidente y por Enfermedad",
-      "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
-    ],
-    "clausulas": [
-      "Accidentes Personales"
-    ],
-    "articulos": [
-      "Asistencia médica por accidente y por Enfermedad",
-      "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
-    ],
-    "hechos": [
-      "Médico solicita radiografía.",
-      "Situación ocurre durante el viaje."
-    ],
-    "ajuste": null
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
   },
+  "busqueda": "emb_pregunta",
   "modelo_crudo": {
-    "citas": [],
-    "condiciones": [],
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "C. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La radiografía se cubre cuando la indica el Departamento Médico de la Central de Asistencia (o los médicos de la compañía), y el examen debe hacerse en caso de enfermedad o accidente.",
+        "citas": [
+          1,
+          2
+        ]
+      }
+    ],
     "exclusiones_aplicables": [],
-    "podrian_aplicar": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si no fue indicada por el Departamento Médico de la Central de Asistencia, la cobertura podría no aplicar; la póliza exige esa indicación.",
+        "citas": [
+          2
+        ]
+      }
+    ],
     "no_incluido_en_documento": [],
-    "cubre": "no_encontrado",
-    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de coberturas por muerte accidental, invalidez y exclusiones de ciertos accidentes, pero no mencionan radiografías ni cobertura de estudios médicos durante el viaje."
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre las radiografías como examen médico complementario en caso de enfermedad o accidente, cuando las indica el Departamento Médico de la Central de Asistencia o los médicos de la compañía. Si tu médico la pide durante el viaje, conviene que la indicación venga de esa central para que se cubra. No encontré en los pasajes un monto máximo específico para este examen."
   },
   "descartes": [],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
-    "normalizacion_desde_cache": true,
+    "normalizacion_desde_cache": false,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3267,
-        "tokens_salida": 426,
-        "tokens_razonamiento": 323,
-        "segundos": 1.39,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 5678,
+        "tokens_salida": 584,
+        "tokens_razonamiento": 0,
+        "segundos": 2.64,
+        "costo_usd": 0.00086
       }
     ],
-    "tokens": 3693,
-    "costo_usd": 0.0,
-    "segundos": 1.39
+    "tokens": 6262,
+    "costo_usd": 0.00086,
+    "segundos": 2.64
   },
   "prueba": {
     "id": "P10",

@@ -1,8 +1,8 @@
-"""¿Qué me cubre? Interfaz de Streamlit: una sola pantalla.
+"""¿Qué me cubre? Interfaz de Streamlit: cliente de la API (backend/main.py).
 
-Subir el PDF de la póliza (uno o varios archivos, leídos como un solo documento: ai/subida.py)
-o probar con un condicionado de ejemplo, preguntar en lenguaje común y ver la respuesta con el
-contrato del README ("Cómo se muestra una respuesta"):
+La pantalla es la misma del prototipo; lo que cambió es que ya no corre el pipeline aquí:
+sube el PDF, pregunta y pide el mapa a la API (QMC_API_URL), la misma que usa la app móvil.
+Muestra la respuesta con el contrato del README ("Cómo se muestra una respuesta"):
 
 1. el veredicto arriba, como etiqueta, sacado del campo estructurado (`etiqueta_veredicto`);
 2. el texto del modelo debajo, como explicación, con sus condiciones y exclusiones;
@@ -11,53 +11,31 @@ contrato del README ("Cómo se muestra una respuesta"):
 4. las citas, cada una desplegable, con su texto literal, cláusula, artículo y página;
 5. "exclusiones que podrían aplicar según tu caso", aparte y como posibilidad.
 
-Si el proveedor falla o se acaba la cuota: las cláusulas encontradas, resaltadas, con el
-aviso de por qué no hay texto generado (red de seguridad de ai/respuesta.py).
+Privacidad: el PDF subido viaja a la API, que lo tiene solo en memoria; aquí no se guarda.
 
-Pestaña "Dónde atenderte": la persona elige departamento y distrito y ve los
-establecimientos activos de RENIPRESS (SUSALUD) en un mapa y una lista. No usa el modelo ni
-la ubicación de la persona; son establecimientos registrados, no la red de su aseguradora.
-
-Privacidad: el PDF subido vive solo en la memoria de esta sesión (st.session_state); no se
-escribe en disco ni en la caché compartida entre sesiones. Nada de lo que se pregunta se
-registra.
-
+    uvicorn backend.main:app          # en otra terminal
     streamlit run app/app.py
 """
 
 from __future__ import annotations
 
+import hashlib
 import html
-import json
+import os
 import re
-import sys
-from pathlib import Path
+import uuid
 
-RAIZ = Path(__file__).resolve().parent.parent
-if str(RAIZ) not in sys.path:
-    sys.path.insert(0, str(RAIZ))
+import httpx
+import pandas as pd
+import streamlit as st
 
-import streamlit as st  # noqa: E402
-
-from ai import renipress, subida  # noqa: E402
-from ai.indice import Indice  # noqa: E402
-from ai.llm import ErrorLLM, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
-from ai.respuesta import ETIQUETA_VEREDICTO, Poliza, responder  # noqa: E402
-
-POLIZAS = RAIZ / "data" / "polizas"
-INDICES = RAIZ / "data" / "indices"
 POLIZA_TARAPOTO = "chubb_viajes_jetsmart"
-# Las preguntas de los casos reales, con el texto exacto con el que están en la caché
-PREGUNTAS_TARAPOTO = [
-    q["pregunta"]
-    for q in json.loads((RAIZ / "data" / "demo" / "preguntas_ensayo.json").read_text(encoding="utf-8"))
-    if q["documento"] == POLIZA_TARAPOTO and ("Tarapoto" in q["pregunta"] or "al llegar a Lima" in q["pregunta"])
-]
 COLORES = {  # fondo, texto, borde
     "si": ("#e3f4e8", "#14532d", "#4f9a69"),
     "con_limites": ("#fff3d1", "#6b4500", "#a67c00"),
     "no": ("#fde4e2", "#8a1c13", "#d0645a"),
     "no_encontrado": ("#eceff3", "#2f3640", "#7d8796"),
+    "fuera_de_alcance": ("#eceff3", "#2f3640", "#7d8796"),
     None: ("#eceff3", "#2f3640", "#7d8796"),
 }
 
@@ -133,13 +111,58 @@ st.markdown(
 
 
 # ---------------------------------------------------------------------------
-# Datos
+# La API
 # ---------------------------------------------------------------------------
 
 
-@st.cache_resource(show_spinner=False)
+def api_url() -> str:
+    try:
+        if "QMC_API_URL" in st.secrets:
+            return str(st.secrets["QMC_API_URL"]).rstrip("/")
+    except Exception:  # noqa: BLE001 - sin secrets.toml
+        pass
+    return os.environ.get("QMC_API_URL", "http://localhost:8000").rstrip("/")
+
+
+class ErrorAPI(RuntimeError):
+    def __init__(self, mensaje: str, codigo: str = "", status: int = 0) -> None:
+        super().__init__(mensaje)
+        self.codigo, self.status = codigo, status
+
+
+def dispositivo() -> str:
+    """Identificador de esta sesión del navegador: Streamlit no tiene uno que dure más."""
+    if "dispositivo" not in st.session_state:
+        st.session_state["dispositivo"] = f"web-{uuid.uuid4().hex}"
+    return st.session_state["dispositivo"]
+
+
+def api(metodo: str, ruta: str, **kwargs):
+    # El servidor gratuito se duerme sin tráfico y tarda en despertar: de ahí el tiempo de espera largo.
+    try:
+        r = httpx.request(metodo, api_url() + ruta, headers={"X-Dispositivo": dispositivo()}, timeout=150.0, **kwargs)
+    except httpx.HTTPError as e:
+        raise ErrorAPI("No pude conectarme con el servidor. Si estaba dormido tarda cerca de un minuto en "
+                       "despertar: vuelve a intentar.") from e
+    if r.status_code >= 400:
+        try:
+            detalle = r.json().get("detail")
+        except ValueError:
+            detalle = None
+        if isinstance(detalle, dict):
+            raise ErrorAPI(detalle.get("mensaje", "Error del servidor."), detalle.get("codigo", ""), r.status_code)
+        raise ErrorAPI(f"El servidor respondió con un error ({r.status_code}).", status=r.status_code)
+    return r.json()
+
+
+@st.cache_data(ttl=600, show_spinner="Conectando con el servidor…")
 def fuentes() -> dict[str, dict]:
-    return {f["id"]: f for f in json.loads((POLIZAS / "fuentes.json").read_text(encoding="utf-8"))}
+    return {f["poliza_id"]: f for f in api("GET", "/polizas")}
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def info() -> dict:
+    return api("GET", "/info")
 
 
 def etiqueta_fuente(doc_id: str) -> str:
@@ -147,47 +170,54 @@ def etiqueta_fuente(doc_id: str) -> str:
     return f"{f['aseguradora']} · {f['producto']}"
 
 
-@st.cache_resource(show_spinner="Cargando la póliza…")
-def poliza_precargada(doc_id: str) -> Poliza:
-    """Condicionados públicos: índice ya construido en data/indices/ (python -m ai.ingesta)."""
-    indice = Indice.cargar(INDICES, doc_id)
-    pdf = (POLIZAS / fuentes()[doc_id]["archivo"]).read_bytes()
-    return Poliza(doc_id, indice.meta["documento"], indice, pdf)
+def subir(pares: list[tuple[str, bytes]]) -> dict:
+    return api("POST", "/polizas", files=[("archivos", (nombre, datos, "application/pdf")) for nombre, datos in pares])
 
 
-def poliza_subida(archivos) -> Poliza:
-    """Los PDF del usuario, uno o varios, como un solo documento (ai/subida.py): se procesan en
-    memoria y viven solo en esta sesión. No se escriben en disco ni en st.cache (compartida)."""
+def poliza_subida(archivos) -> dict:
+    """Los PDF del usuario, uno o varios, como un solo documento. Se envían a la API, que los
+    procesa en memoria; en esta sesión queda solo el identificador que devuelve."""
     pares = [(a.name, a.getvalue()) for a in archivos]
-    clave = subida.huella([datos for _, datos in pares])
+    clave = hashlib.sha256(b"".join(hashlib.sha256(d).digest() for _, d in pares)).hexdigest()
     guardada = st.session_state.get("poliza_subida")
-    if guardada is not None and guardada.sha256 == clave:
+    if guardada is not None and guardada["huella"] == clave:
         return guardada
-    poliza = subida.poliza_de_pdfs(pares)
+    if guardada is not None:  # cambió de archivos: la anterior se borra del servidor
+        try:
+            api("DELETE", f"/polizas/{guardada['poliza_id']}")
+        except ErrorAPI:
+            pass
+    poliza = subir(pares) | {"huella": clave}
     st.session_state["poliza_subida"] = poliza
     return poliza
 
 
-class SinProveedor:
-    """Sin clave o con un proveedor mal configurado: todo va a la red de seguridad."""
-
-    nombre = "ninguno"
-    modelos = {"normalizacion": "—", "respuesta": "—"}
-    reutiliza_datos = False
-
-    def __init__(self, motivo: str) -> None:
-        self.aviso = motivo
-
-    def json(self, *args, **kwargs):
-        raise ProveedorNoDisponible(self.aviso)
-
-
-@st.cache_resource(show_spinner=False)
-def proveedor():
+def preguntar(poliza: dict, pregunta: str, archivos) -> dict:
     try:
-        return obtener_proveedor()
-    except ErrorLLM as e:
-        return SinProveedor(str(e))
+        return api("POST", "/preguntar", json={"poliza_id": poliza["poliza_id"], "pregunta": pregunta})
+    except ErrorAPI as e:
+        if e.codigo != "poliza_no_encontrada" or not archivos:
+            raise
+    # La póliza venció en la memoria del servidor (o este se reinició): se sube de nuevo
+    st.session_state.pop("poliza_subida", None)
+    return api("POST", "/preguntar", json={"poliza_id": poliza_subida(archivos)["poliza_id"], "pregunta": pregunta})
+
+
+def ubicar_pagina(archivos: list[tuple[str, int]], pagina: int) -> tuple[str, int]:
+    """Página de corrido → (archivo, página dentro de ese archivo)."""
+    desde = 0
+    for nombre, n in archivos:
+        if pagina <= desde + n:
+            return nombre, pagina - desde
+        desde += n
+    return archivos[-1][0], pagina - (desde - archivos[-1][1])
+
+
+def paginas_con_archivo(archivos: list[tuple[str, int]], paginas: list[int]) -> str:
+    (a1, p1), (a2, p2) = ubicar_pagina(archivos, paginas[0]), ubicar_pagina(archivos, paginas[-1])
+    if a1 != a2:
+        return f"{a1}, pág. {p1} – {a2}, pág. {p2}"
+    return f"{a1}, pág. {p1}" if p1 == p2 else f"{a1}, págs. {p1}–{p2}"
 
 
 # ---------------------------------------------------------------------------
@@ -213,7 +243,7 @@ def varios(archivos: Archivos | None) -> bool:
 def paginas(c: dict, archivos: Archivos | None = None) -> str:
     ps = c.get("paginas") or [c.get("pagina")]
     if varios(archivos):  # la póliza vino en varios PDF: de qué archivo sale y su página en él
-        return subida.paginas_con_archivo(archivos, ps)
+        return paginas_con_archivo(archivos, ps)
     return f"pág. {ps[0]}" if len(ps) == 1 else f"págs. {ps[0]}–{ps[-1]}"
 
 
@@ -223,7 +253,7 @@ def refs(numeros: list[int]) -> str:
 
 def veredicto(r: dict) -> None:
     cubre = r.get("cubre")
-    texto = r.get("etiqueta_veredicto") or ETIQUETA_VEREDICTO.get(cubre, "Sin veredicto")
+    texto = r.get("etiqueta_veredicto") or "Sin veredicto"
     fondo, color, borde = COLORES.get(cubre, COLORES[None])
     st.markdown(
         f'<div class="qmc-veredicto" style="background:{fondo};color:{color};border-color:{borde}">'
@@ -318,6 +348,9 @@ def pasajes(r: dict, abiertos: bool, archivos: Archivos | None = None) -> None:
 
 def mostrar(r: dict, archivos: Archivos | None = None) -> None:
     veredicto(r)
+    if r.get("cubre") == "fuera_de_alcance":
+        st.markdown(md(r["respuesta"]))
+        return
     if r["modo"] != "completo":  # red de seguridad: sin texto generado
         st.warning(r["aviso"], icon="⚠️")
         mencionadas_ausentes(r, archivos)
@@ -332,9 +365,9 @@ def mostrar(r: dict, archivos: Archivos | None = None) -> None:
     with st.expander(f"Pasajes que revisé ({len(r['pasajes'])})"):
         st.caption("Lo que se le envió al modelo, en el orden de la búsqueda.")
         pasajes(r, abiertos=False, archivos=archivos)
-    info = r.get("proveedor") or {}
-    st.caption(f"Modelo: {info.get('modelo', '—')} en {info.get('nombre', '—')} · costo de esta consulta: USD 0 "
-               "(plan gratuito)")
+    quien = r.get("proveedor") or {}
+    st.caption(f"Modelo: {quien.get('modelo', '—')} en {quien.get('nombre', '—')} · costo de esta consulta: "
+               f"USD {r['uso'].get('costo_usd', 0):.4f}")
 
 
 # ---------------------------------------------------------------------------
@@ -353,6 +386,10 @@ def pedir_respuesta() -> None:
     st.session_state["consultar"] = True
 
 
+def ejemplos_tarapoto() -> list[str]:
+    return [q for q in fuentes().get(POLIZA_TARAPOTO, {}).get("ejemplos", []) if "Tarapoto" in q or "al llegar a Lima" in q]
+
+
 def pantalla_poliza() -> None:
     with st.container(key="tarjeta_consulta"):
         st.markdown("#### Sube el PDF de tu póliza")
@@ -360,7 +397,7 @@ def pantalla_poliza() -> None:
                                     label_visibility="collapsed")
         st.caption("Si tu póliza viene en varios archivos, súbelos juntos: se leen como un solo documento. "
                    "Necesita texto seleccionable (no escaneado).")
-        poliza: Poliza | None = None
+        poliza: dict | None = None
         fuente: str | None = None
         if archivos:
             try:
@@ -368,16 +405,17 @@ def pantalla_poliza() -> None:
                 with st.spinner(f"Leyendo tu póliza ({n} archivo{'s' if n > 1 else ''}). Un documento largo "
                                 "puede tardar medio minuto…"):
                     poliza = poliza_subida(archivos)
-                st.caption(f"Listo: {poliza.indice.meta.get('paginas', '?')} páginas, {len(poliza.indice.trozos)} "
-                           "fragmentos. Vive solo en esta sesión. Para probar con un ejemplo, quita tus archivos.")
-            except Exception as e:  # noqa: BLE001 - PDF dañado, protegido o escaneado
+                st.caption(f"Listo: {poliza.get('paginas', '?')} páginas, {poliza['fragmentos']} "
+                           "fragmentos. Vive solo en la memoria del servidor mientras la usas. Para probar con un "
+                           "ejemplo, quita tus archivos.")
+            except ErrorAPI as e:
                 st.error(f"No pude leer tu póliza: {e}")
         else:
             # Sin PDF a mano (quien entra solo a probar): los condicionados públicos precargados
             st.caption("¿No tienes una a mano? Prueba con un condicionado de ejemplo:")
             fuente = st.radio("Condicionado de ejemplo", list(fuentes()), key="fuente", horizontal=True,
                               format_func=etiqueta_fuente, label_visibility="collapsed")
-            poliza = poliza_precargada(fuente)
+            poliza = {"poliza_id": fuente, "huella": fuente, "archivos": []}
 
         st.text_area("Tu pregunta", key="pregunta", height=90,
                      placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
@@ -387,30 +425,33 @@ def pantalla_poliza() -> None:
         # exacto usan la normalización de la caché (una llamada al modelo en vez de dos).
         if fuente == POLIZA_TARAPOTO:
             st.caption("Prueba con un ejemplo:")
-            for i, texto in enumerate(PREGUNTAS_TARAPOTO):
+            for i, texto in enumerate(ejemplos_tarapoto()):
                 st.button(texto, key=f"tarapoto_{i}", on_click=elegir_tarapoto, args=(texto,), type="tertiary")
 
         if st.session_state.pop("consultar", False):
             pregunta = (st.session_state.get("pregunta") or "").strip()
             if poliza is None:
                 st.warning("Primero sube tu PDF o elige un condicionado de ejemplo.")
-            elif not pregunta:
+            elif len(pregunta) < 3:
                 st.warning("Escribe una pregunta.")
             else:
-                # Avance visible mientras busca, redacta y verifica: que no parezca colgada
-                marcador = st.empty()
-                with marcador.status("Buscando en tu póliza…", expanded=False) as estado:
-                    st.session_state["resultado"] = responder(pregunta, poliza, proveedor(),
-                                                              avance=lambda texto: estado.update(label=texto))
-                marcador.empty()
-                st.session_state["resultado_de"] = (poliza.doc_id, poliza.sha256, pregunta)
+                try:
+                    with st.spinner("Buscando en tu póliza, redactando y verificando cada cita: suele tardar entre "
+                                    "5 y 15 segundos…"):
+                        st.session_state["resultado"] = preguntar(poliza, pregunta, archivos)
+                    st.session_state["resultado_de"] = poliza["huella"]
+                except ErrorAPI as e:
+                    st.session_state.pop("resultado", None)
+                    (st.warning if e.status == 429 else st.error)(str(e))
 
     resultado = st.session_state.get("resultado")
-    de = st.session_state.get("resultado_de", (None, None))
-    if resultado is not None and poliza is not None and de[:2] == (poliza.doc_id, poliza.sha256):
+    if resultado is not None and poliza is not None and st.session_state.get("resultado_de") == poliza["huella"]:
         with st.container(key="tarjeta_resultado"):
             st.caption(f"Pregunta: {resultado['pregunta']}")
-            mostrar(resultado, getattr(poliza, "archivos", None))  # una Poliza en caché de antes no lo tiene
+            mostrar(resultado, [(a["nombre"], a["paginas"]) for a in poliza.get("archivos", [])])
+            limites = resultado.get("limites") or {}
+            if limites:
+                st.caption(f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas por hoy.")
 
 
 # ---------------------------------------------------------------------------
@@ -418,53 +459,69 @@ def pantalla_poliza() -> None:
 # ---------------------------------------------------------------------------
 
 
-@st.cache_data(show_spinner=False)
-def establecimientos_registrados():
-    return renipress.cargar()
+@st.cache_data(ttl=3600, show_spinner=False)
+def departamentos() -> dict[str, str]:
+    return {d["id"]: d["nombre"] for d in api("GET", "/mapa/departamentos")}
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def distritos(departamento: str) -> list[dict]:
+    return api("GET", "/mapa/distritos", params={"departamento": departamento})
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def establecimientos(departamento: str, provincia: str, distrito: str, solo_internamiento: bool) -> dict:
+    return api("GET", "/mapa/establecimientos", params={"departamento": departamento, "provincia": provincia,
+                                                        "distrito": distrito, "solo_internamiento": solo_internamiento})
 
 
 def pantalla_mapa() -> None:
     with st.container(key="tarjeta_mapa"):
-        _mapa()
+        try:
+            _mapa()
+        except ErrorAPI as e:
+            st.error(str(e))
 
 
 def _mapa() -> None:
-    df = establecimientos_registrados()
     st.markdown("Elige la zona y te muestro los establecimientos de salud registrados en SUSALUD. "
                 "No uso tu ubicación.")
-    departamentos = sorted(df["departamento"].unique())
+    nombres_dep = departamentos()
+    lista = list(nombres_dep)
     c1, c2 = st.columns(2)
-    departamento = c1.selectbox("Departamento", departamentos, index=departamentos.index("SAN MARTIN"),
-                                format_func=renipress.nombre_propio, key="mapa_departamento")
-    opciones = renipress.distritos(df, departamento)
-    nombres = [d for _, d in opciones]
-    repetidos = {d for d in nombres if nombres.count(d) > 1}
+    departamento = c1.selectbox("Departamento", lista, index=lista.index("SAN MARTIN") if "SAN MARTIN" in lista else 0,
+                                format_func=nombres_dep.get, key="mapa_departamento")
+    datos = distritos(departamento)
+    opciones = [(d["provincia"], d["distrito"]) for d in datos]
+    nombre = {(d["provincia"], d["distrito"]): (d["nombre"], d["nombre_provincia"]) for d in datos}
+    solo_distrito = [d for _, d in opciones]
+    repetidos = {d for d in solo_distrito if solo_distrito.count(d) > 1}
 
     def etiqueta(o: tuple[str, str]) -> str:
-        provincia, distrito = o
-        extra = f" (provincia {renipress.nombre_propio(provincia)})" if distrito in repetidos else ""
-        return renipress.nombre_propio(distrito) + extra
+        propio, provincia = nombre[o]
+        return propio + (f" (provincia {provincia})" if o[1] in repetidos else "")
 
     defecto = opciones.index(("SAN MARTIN", "TARAPOTO")) if ("SAN MARTIN", "TARAPOTO") in opciones else 0
     provincia, distrito = c2.selectbox("Distrito", opciones, index=defecto, format_func=etiqueta, key="mapa_distrito")
-    sel = renipress.establecimientos(df, departamento, provincia, distrito)
-    if st.toggle("Solo hospitales y clínicas con internamiento", key="mapa_internamiento"):
-        sel = sel[sel["tipo"].str.contains("CON INTERNAMIENTO")]
+    internamiento = st.toggle("Solo hospitales y clínicas con internamiento", key="mapa_internamiento")
+    r = establecimientos(departamento, provincia, distrito, internamiento)
+    columnas = ["nombre", "clasificacion", "categoria", "direccion", "telefono", "horario", "institucion", "lat", "lon"]
+    sel = pd.DataFrame(r["establecimientos"], columns=columnas)
 
     en_mapa = sel.dropna(subset=["lat", "lon"])
     if len(en_mapa):
         st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#4338CA")
-    st.warning("Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.", icon="🏥")
-    st.caption(f"{len(sel)} establecimientos activos en {etiqueta((provincia, distrito))}"
-               + (f"; {len(sel) - len(en_mapa)} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
-                  if len(sel) > len(en_mapa) else "."))
+    st.warning(r["aviso"], icon="🏥")
+    st.caption(f"{r['total']} establecimientos activos en {etiqueta((provincia, distrito))}"
+               + (f"; {r['sin_coordenadas']} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
+                  if r["sin_coordenadas"] else "."))
     st.dataframe(
         sel[["nombre", "clasificacion", "categoria", "direccion", "telefono", "horario", "institucion"]].rename(columns={
             "nombre": "Nombre", "clasificacion": "Tipo", "categoria": "Categoría", "direccion": "Dirección",
             "telefono": "Teléfono", "horario": "Horario", "institucion": "Institución"}),
         hide_index=True, width="stretch",
     )
-    f = renipress.fuente()
+    f = r["fuente"]
     st.caption(f"Fuente: RENIPRESS, SUSALUD, en datosabiertos.gob.pe (corte del {f['corte']}, licencia ODC-BY). "
                "Solo establecimientos en estado activo.")
 
@@ -487,14 +544,27 @@ st.markdown(
     "</ol>",
     unsafe_allow_html=True,
 )
-st.info(
-    "**Tu PDF se procesa en memoria y no se guarda** (ni en disco ni en registros). "
-    f"{proveedor().aviso}\n\n"
-    "**Es informativo:** la decisión final sobre la cobertura la toma tu aseguradora.",
-    icon="🔒",
-)
-tab_poliza, tab_mapa = st.tabs(["Pregunta a tu póliza", "Dónde atenderte"])
-with tab_poliza:
-    pantalla_poliza()
-with tab_mapa:
-    pantalla_mapa()
+
+
+def aviso_privacidad() -> str:
+    i = info()
+    partes = ["**Tu PDF se procesa en memoria y no se guarda** (ni en disco ni en registros).", i["aviso_proveedor"]]
+    if i.get("embeddings"):
+        partes.append("Para buscar en ella, el texto de la póliza se envía también a Voyage AI, que calcula sus vectores.")
+    if i.get("registra_preguntas"):
+        partes.append("El texto de tu pregunta, sin la póliza ni la respuesta, se registra para medir el servicio.")
+    if i.get("sin_modelo_por_tope"):
+        partes.append("**Este mes el servicio llegó a su tope de gasto:** verás las cláusulas de tu póliza, sin veredicto.")
+    return " ".join(partes) + "\n\n**Es informativo:** la decisión final sobre la cobertura la toma tu aseguradora."
+
+
+try:
+    st.info(aviso_privacidad(), icon="🔒")
+    tab_poliza, tab_mapa = st.tabs(["Pregunta a tu póliza", "Dónde atenderte"])
+    with tab_poliza:
+        pantalla_poliza()
+    with tab_mapa:
+        pantalla_mapa()
+except ErrorAPI as e:
+    st.error(str(e))
+    st.button("Volver a intentar", on_click=st.cache_data.clear)

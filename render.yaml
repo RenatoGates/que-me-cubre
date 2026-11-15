@@ -1,0 +1,33 @@
+# Blueprint de Render: New > Blueprint > este repositorio. Las claves se escriben en el panel
+# de Render (sync: false): nunca van en este archivo.
+services:
+  - type: web
+    name: que-me-cubre-api
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /salud
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: VOYAGE_API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: LANGFUSE_BASE_URL
+        value: https://cloud.langfuse.com
+      - key: DATABASE_URL
+        sync: false
+      - key: QMC_LIMITE_DISPOSITIVO_DIA
+        value: "10"
+      - key: QMC_LIMITE_IP_DIA
+        value: "60"
+      - key: QMC_TOPE_GLOBAL_USD
+        value: "2.00"

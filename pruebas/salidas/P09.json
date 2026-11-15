@@ -3,9 +3,18 @@
   "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
   "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
   "aviso": null,
-  "cubre": "con_limites",
-  "respuesta": "Revisa abajo las condiciones y las citas del documento.",
-  "condiciones": [],
+  "cubre": "no_encontrado",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, por actos riesgosos y de cómo se rigen las coberturas en general. La exclusión por esquí solo aplica fuera de pistas autorizadas, así que por ese motivo tu caso no quedaría excluido, pero los pasajes no muestran qué cobertura da el seguro por lesiones. Eso podría estar en las Condiciones Particulares o Especiales, que no están en este documento.",
+  "apertura_contradictoria": null,
+  "condiciones": [
+    {
+      "descripcion": "La exclusión por esquí y otros deportes invernales se aplica solo si la práctica es fuera de pistas reglamentarias y autorizadas. Según contaste, te lesionaste en una pista autorizada, así que esa exclusión no aplicaría a tu caso.",
+      "citas": [
+        1
+      ]
+    }
+  ],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [],
   "no_incluido_en_documento": [],
@@ -13,18 +22,64 @@
     {
       "n": 1,
       "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-      "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS",
-      "pagina": 10,
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+      "pagina": 14,
       "paginas": [
-        10
+        14
       ],
-      "texto_literal": "El seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares.",
-      "pasaje": "P5",
-      "trozo_id": "pacifico_viajes:0027",
+      "texto_literal": "Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas.",
+      "pasaje": "P2",
+      "trozo_id": "pacifico_viajes:0041",
       "posicion": [
-        22,
-        240
+        943,
+        1142
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso.",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
+      "posicion": [
+        28,
+        259
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones (parte 3 de 3)",
+      "pagina": 4,
+      "paginas": [
+        4
+      ],
+      "texto_literal": "Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales.",
+      "pasaje": "P3",
+      "trozo_id": "pacifico_viajes:0012",
+      "posicion": [
+        1094,
+        1238
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -41,188 +96,168 @@
       "tipo": "documento",
       "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Condiciones Particulares",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
-      "pagina": 16,
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
       "paginas": [
-        16
+        29
       ],
-      "pasaje": "P3",
-      "trozo_id": "pacifico_viajes:0048",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
       "posicion": [
-        678,
-        702
+        191,
+        215
       ],
       "nivel": "remision"
     },
     {
-      "nombre": "Certificado de Seguro",
+      "nombre": "Condiciones Especiales",
       "tipo": "documento",
-      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
-      "mencion": "Certificado de Seguro",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
-      "pagina": 16,
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Especiales",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
       "paginas": [
-        16
+        29
       ],
-      "pasaje": "P3",
-      "trozo_id": "pacifico_viajes:0048",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
       "posicion": [
-        707,
-        728
+        220,
+        242
       ],
       "nivel": "remision"
     }
   ],
   "secciones_revisadas": [
-    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 1. COBERTURA DE MUERTE ACCIDENTAL",
+    "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
     "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
-    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
-    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS"
+    "PARTE G. CONDICIONES LEGALES › 6. Coberturas y Exclusiones"
   ],
   "pasajes": [
     {
       "id": "P1",
       "rango": 1,
-      "trozo_id": "pacifico_viajes:0047",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "1. COBERTURA DE MUERTE ACCIDENTAL",
+      "trozo_id": "pacifico_viajes:0011",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
       "parte": [
-        1,
-        1
+        2,
+        3
       ],
       "paginas": [
-        16
+        3
       ],
-      "texto": "1. COBERTURA DE MUERTE ACCIDENTAL\n1.1. Aviso de siniestro Los beneficiarios deberán informar por escrito o por el mismo mecanismo de medio, forma y lugar que usó para contratar el seguro, a PACÍFICO SEGUROS sobre la ocurrencia del siniestro objeto de la cobertura a más tardar dentro de los siete (7) días siguientes a la fecha que se tenga conocimiento de la ocurrencia del siniestro o del beneficio, según corresponda.\n1.2. Documentos sustentatorios:\nPara la solicitud de cobertura, los beneficiarios deberán presentar a PACIFICO SEGUROS en cualquiera de sus oficinas a nivel nacional el original o copia certificada notarialmente de los siguientes documentos, en cualquier momento:\n1. Una declaración escrita, que contenga ineludiblemente la fecha y hora del accidente; el nombre, apellidos, edad y domicilio de la persona que murió a causa del accidente y el lugar y circunstancias en que éste ocurrió.\n2. Certificado Médico de Defunción.\n3. Partida de Defunción.\n4. Protocolo de Necropsia completo, con los resultados del Dosaje Etílico y Examen Toxicológico, en caso corresponda.\n5. Declaratoria de Herederos Legales, Acta Notarial de Declaratoria de Herederos o Testamento, debidamente inscritos en los Registros Públicos, a falta de designación de Beneficiarios en la Póliza."
+      "texto": "• Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: a. Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación activa en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. b. Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. c. Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
     },
     {
       "id": "P2",
       "rango": 2,
-      "trozo_id": "pacifico_viajes:0044",
+      "trozo_id": "pacifico_viajes:0041",
       "seccion": "PARTE C. EXCLUSIONES",
       "articulo": "1. EXCLUSIONES GENERALES",
       "parte": [
-        7,
+        4,
+        8
+      ],
+      "paginas": [
+        14
+      ],
+      "texto": "• Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "pacifico_viajes:0012",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+      "parte": [
+        3,
+        3
+      ],
+      "paginas": [
+        3,
+        4
+      ],
+      "texto": "d. Las asistencias derivadas de cualquier tipo de ejercicio o juego atlético de acrobacia o que tenga por objeto pruebas de carácter excepcional o exhibiciones, o mientras participe en viajes o excursiones a regiones o zonas inexploradas, o cualquier clase de competencia de pericia o velocidad con vehículos mecánicos e. Las asistencias que puedan ocurrir como consecuencia de la práctica de trekking, senderismo y/o ciclismo luego de los 3.000 msnm (metros sobre el nivel del mar) y fuera de las ciclovías y/o senderos autorizados. f. Las asistencias que puedan ocurrir como consecuencia de la práctica de buceo por debajo de los 12 metros de profundidad. g. Enfermedades psicológicas, mentales, psicosis, neurosis y cualquiera de sus consecuencias mediatas o inmediatas h. Los chequeos o exámenes médicos de rutina, incluso aquellos que no sean relacionados con una enfermedad diagnosticada y comprobada, así como aquellos que no sean consecuencia directa de una enfermedad o accidente objeto del servicio PACIFICO SEGUROS. Exámenes médicos escolares o universitarios. Aplicación de vacunas Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales.\nTodas las demás exclusiones se encuentran señaladas en la parte C de las Condiciones Generales de la Póliza."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "pacifico_viajes:0045",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        8,
         8
       ],
       "paginas": [
         15
       ],
-      "texto": "• Riesgos profesionales Accidentes o enfermedades derivados del ejercicio de una actividad de alto riesgo que estuviera realizando el Titular incluyendo, pero no limitado a: trabajo en obras, andamios, alturas, pozos, utilización de maquinarias, instrumentos de corte, manejo o manipulación de mercancías u objetos pesados o peligrosos, productos tóxicos, corrosivos, explosivos o inflamables, trabajo en fuerzas armadas o seguridad, actividades agrícolas y transportistas. En todos los casos, los servicios descritos en estas Condiciones Generales serán complementarios de los que deban prestarse por parte de entidades asistenciales y de seguros según las normas de seguridad industrial y de riesgos laborales aplicables en el país donde se presente la enfermedad o accidente objeto del servicio.\n• Gastos no autorizados Gastos de hotel, restaurante, taxis, comunicaciones, etc. que no hayan sido expresamente autorizados por la aseguradora.\n• Acompañantes y gastos extras En los casos de hospitalización del Titular, se excluyen expresamente todos los gastos extras, así como de acompañantes."
+      "texto": "• Actos riesgosos, imprudencia, negligencia Las enfermedades o lesiones derivadas de actos notoriamente peligrosos o riesgosos, de grave imprudencia del Titular, sean en forma directa o indirecta, así como las derivadas de imprudencia, negligencia, impericia y/o acciones temerarias en la conducción de cualquier tipo de vehículos, contraviniendo normas de tránsito y/o seguridad internacional o del país del que se trate, tanto conducidos por el Titular como por un tercero, incluso excursiones contratadas.\n• Validez geográfica Están excluidos los países en guerra civil o extranjera (Ejemplos, incluyendo, pero no limitado a: Afganistán, Irak, Sudán, Somalia, Corea del Norte, etc.), y todo servicio originado dentro de una distancia menor a 100 km del lugar de residencia habitual del Beneficiario, salvo que el producto adquirido indique lo contrario.\nEn los países donde PACIFICO SEGUROS no presta asistencia, se limita únicamente al reembolso de gastos médicos en las circunstancias y condiciones establecidas en las Condiciones Generales de los servicios."
     },
     {
-      "id": "P3",
-      "rango": 3,
-      "trozo_id": "pacifico_viajes:0048",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "pacifico_viajes:0097",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        29
+      ],
+      "texto": "6. Coberturas y Exclusiones\nPACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso. El seguro contempla exclusiones y/o gastos no cubiertos por PACIFICO SEGUROS los cuales se especifican en estas Condiciones Generales y en las Condiciones Especiales o Endosos, de ser el caso."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0010",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
       "parte": [
         1,
         3
       ],
       "paginas": [
-        16,
-        17
+        3
       ],
-      "texto": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE\n2.1. Indemnización por extravío del equipaje PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza. En caso de que el peso del equipaje no pueda ser determinado, éste se calculará tomando la suma indemnizada por la línea aérea sobre el monto indemnizatorio por kilogramo que ésta utilice.\n2.2. Disposiciones generales para la indemnización Consulte en su póliza el valor por kilogramo despachado aplicable al producto adquirido El Titular tendrá derecho a percibir hasta el monto máximo indicado en las Condiciones Particulares y/o Certificado de Seguro, sin importar la cantidad de eventos (demora o pérdida) que pudieran ocurrir durante la vigencia de su póliza, incluso si la misma fuera de validez anual.\nNo se tomará en consideración el contenido y/o valor real del equipaje extraviado."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "pacifico_viajes:0032",
-      "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        12
-      ],
-      "texto": "2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:\nLa suma asegurada es por Titular. No obstante, en caso de un accidente que involucre a más de un Titular, la responsabilidad máxima por todos los titulares afectados no será mayor al monto indicado en su Certificado de Seguro como máximo global por un mismo siniestro. En caso de que la suma de las indemnizaciones a abonar supere los montos antedichos, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida en las Condiciones Particulares y/ Certificado de Seguro."
-    },
-    {
-      "id": "P5",
-      "rango": 5,
-      "trozo_id": "pacifico_viajes:0027",
-      "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        10
-      ],
-      "texto": "2. COBERTURAS BÁSICAS\nEl seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares.\nLas coberturas básicas son las siguientes:"
-    },
-    {
-      "id": "P6",
-      "rango": 0,
-      "trozo_id": "pacifico_viajes:0038",
-      "seccion": "PARTE C. EXCLUSIONES",
-      "articulo": "1. EXCLUSIONES GENERALES",
-      "parte": [
-        1,
-        8
-      ],
-      "paginas": [
-        13
-      ],
-      "texto": "1. EXCLUSIONES GENERALES\n• Enfermedades crónicas y/o preexistentes:\nQuedan expresamente excluidos los estudios y/o los tratamientos relacionados con enfermedades Preexistentes.\nCuando se trate de enfermedades excluidas, PACIFICO SEGUROS sólo tomará a su cargo gastos hasta el tope indicado en su póliza y Condiciones Particulares en concepto de “Primera atención médica por enfermedades preexistentes”, cuando no se indique esta cláusula, el tope será de USD 300, siempre y cuando la misma se produzca durante un viaje internacional. PACIFICO SEGUROS no tomará a su cargo exámenes o internaciones tendientes a evaluar la condición médica de las enfermedades preexistentes y/o para descartar su relación con la afección que motiva la asistencia.\nSe deja expresa constancia que la limitación indicada en el párrafo precedente se refiere única y exclusivamente a la responsabilidad económica de PACIFICO SEGUROS y no a la atención médica por emergencia que resulte necesaria."
+      "texto": "2. Principales exclusiones\nEntre otras exclusiones, se encuentran excluidos de los efectos de la presente Póliza, los daños o pérdidas que tenga su origen en, o provengan de, u ocurran en:\n• Riña, huelga o tumulto. Actos ilegales, ilícitos o dolosos\n• Afecciones, enfermedades o lesiones resultantes del intento de suicidio o causadas intencionalmente por el Titular a sí mismo, sea en posesión de sus facultades mentales o no, así como sus consecuencias.\n• Tratamiento de enfermedades o estados patológicos producidos por ingestión intencional o administración de tóxicos (drogas), narcóticos, o por la utilización de medicamentos sin orden médica. Asimismo, afecciones, enfermedades o lesiones derivadas de la ingestión de bebidas alcohólicas de cualquier tipo."
     }
   ],
   "normalizacion": {
-    "variantes": [
-      "¿La cobertura de accidente incluye fractura de pierna al practicar esquí en pista autorizada?",
-      "¿Existen exclusiones que impidan la cobertura por una fractura de pierna al esquiar en Bariloche?",
-      "¿La vigencia y validez territorial del seguro cubren un accidente de esquí en Bariloche?",
-      "¿Cuál es el medio y plazo para avisar del siniestro de una fractura al esquiar y solicitar la cobertura?",
-      "¿Se aplica alguna condición adicional para la cobertura de accidente deportivo en pista autorizada?"
-    ],
-    "titulos": [
-      "COBERTURAS",
-      "EXCLUSIONES",
-      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
-      "VALIDEZ TERRITORIAL DE LA COBERTURA",
-      "Medio y plazo establecido para el aviso del siniestro"
-    ],
-    "clausulas": [
-      "COBERTURAS",
-      "EXCLUSIONES",
-      "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO"
-    ],
-    "articulos": [
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
-      "VALIDEZ TERRITORIAL DE LA COBERTURA",
-      "Medio y plazo establecido para el aviso del siniestro"
-    ],
-    "hechos": [
-      "fracturó la pierna",
-      "esquiando en pista autorizada",
-      "Bariloche"
-    ],
-    "ajuste": null
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
   },
+  "busqueda": "emb_pregunta",
   "modelo_crudo": {
     "citas": [
       {
         "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+      },
+      {
+        "n": 2,
         "pasaje": "P5",
-        "texto_literal": "El seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares."
+        "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso."
+      },
+      {
+        "n": 3,
+        "pasaje": "P3",
+        "texto_literal": "Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La cobertura está limitada al monto máximo de la suma asegurada que figura en tus Condiciones Particulares o en el Certificado de Seguro.",
+        "descripcion": "La exclusión por esquí y otros deportes invernales se aplica solo si la práctica es fuera de pistas reglamentarias y autorizadas. Según contaste, te lesionaste en una pista autorizada, así que esa exclusión no aplicaría a tu caso.",
         "citas": [
           1
         ]
@@ -230,53 +265,56 @@
     ],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [],
-    "no_incluido_en_documento": [],
-    "cubre": "con_limites",
-    "respuesta": "Sí, tu póliza cubre la fractura de pierna que sufriste mientras esquiabas en una pista autorizada en Bariloche, siempre que el accidente haya ocurrido dentro del lugar declarado en tu viaje. La cobertura está limitada al monto máximo de la suma asegurada que aparece en tus Condiciones Particulares o en el Certificado de Seguro."
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Condiciones Especiales",
+        "por_que_importa": "Según los pasajes, las coberturas se rigen por estas condiciones además de las Condiciones Generales, así que ahí puede estar la cobertura que te aplica por lesiones.",
+        "cita": 2
+      },
+      {
+        "nombre": "cláusulas adicionales de las coberturas adicionales",
+        "por_que_importa": "Pueden contener exclusiones especiales que no aparecen en este documento.",
+        "cita": 3
+      }
+    ],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, por actos riesgosos y de cómo se rigen las coberturas en general. La exclusión por esquí solo aplica fuera de pistas autorizadas, así que por ese motivo tu caso no quedaría excluido, pero los pasajes no muestran qué cobertura da el seguro por lesiones. Eso podría estar en las Condiciones Particulares o Especiales, que no están en este documento."
   },
   "descartes": [
     {
-      "tipo": "texto",
-      "campo": "condicion",
-      "texto": "La cobertura está limitada al monto máximo de la suma asegurada que figura en tus Condiciones Particulares o en el Certificado de Seguro.",
-      "motivo": "nombra certificado de seguro, que no está en las citas verificadas"
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Condiciones Especiales",
+      "motivo": "ya está en el bloque de mencionadas pero ausentes"
     },
     {
-      "tipo": "texto",
-      "campo": "respuesta",
-      "texto": "La cobertura está limitada al monto máximo de la suma asegurada que aparece en tus Condiciones Particulares o en el Certificado de Seguro.",
-      "motivo": "nombra certificado de seguro, que no está en las citas verificadas"
-    },
-    {
-      "tipo": "texto",
-      "campo": "respuesta",
-      "texto": "Sí, tu póliza cubre la fractura de pierna que sufriste mientras esquiabas en una pista autorizada en Bariloche, siempre que el accidente haya ocurrido dentro del lugar declarado en tu viaje.",
-      "motivo": "abre con «Sí» y el veredicto es «con_limites»"
+      "tipo": "no_incluido",
+      "texto": "cláusulas adicionales de las coberturas adicionales",
+      "motivo": "el nombre no está en su cita"
     }
   ],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
-    "normalizacion_desde_cache": true,
+    "normalizacion_desde_cache": false,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3358,
-        "tokens_salida": 970,
-        "tokens_razonamiento": 748,
-        "segundos": 3.02,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6744,
+        "tokens_salida": 2924,
+        "tokens_razonamiento": 0,
+        "segundos": 13.47,
+        "costo_usd": 0.002136
       }
     ],
-    "tokens": 4328,
-    "costo_usd": 0.0,
-    "segundos": 3.02
+    "tokens": 9668,
+    "costo_usd": 0.002136,
+    "segundos": 13.47
   },
   "prueba": {
     "id": "P09",

@@ -20,6 +20,6 @@
   ],
   "n_bloques": 94,
   "version_indice": 1,
-  "modelo_embeddings": "intfloat/multilingual-e5-small",
+  "modelo_embeddings": "voyage-4-large",
   "n_trozos": 135
 }

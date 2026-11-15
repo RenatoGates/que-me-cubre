@@ -52,8 +52,7 @@ class Trozo:
         return sorted({p for p, a, b in self.segmentos if a < fin and b > inicio})
 
     def texto_para_embedding(self) -> str:
-        # Formato del modelo e5: los pasajes llevan el prefijo "passage: ".
-        return f"passage: {self.seccion}. {self.articulo}. {self.texto}"
+        return f"{self.seccion}. {self.articulo}. {self.texto}"
 
     def a_dict(self) -> dict:
         return asdict(self)

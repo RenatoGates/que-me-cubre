@@ -1,0 +1,272 @@
+{
+  "modo": "completo",
+  "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "no_encontrado",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de gastos médicos y farmacéuticos durante el viaje, de definiciones generales del contrato y de cómo se indemnizan los siniestros, y ninguno menciona alquiler de vehículos ni daños a un auto. Por eso no puedo decirte si la reparación está cubierta. Si tu póliza tiene otra parte que hable de vehículos, esa parte no está entre los pasajes que tengo.",
+  "apertura_contradictoria": null,
+  "condiciones": [],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [],
+  "no_incluido_en_documento": [],
+  "citas": [],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección (parte 3 de 7)",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0183",
+      "posicion": [
+        404,
+        428
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Especiales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Especiales",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección (parte 3 de 7)",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0183",
+      "posicion": [
+        430,
+        452
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Tabla de Beneficios",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Tabla de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Tabla de Beneficios",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección (parte 2 de 7)",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0182",
+      "posicion": [
+        663,
+        682
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 1° Definiciones (parte 1 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0056",
+      "posicion": [
+        945,
+        966
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 13° Indemnización de los Siniestros",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Texto inicial de la sección",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 2° Objeto del Contrato de Seguro",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0219",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 13° Indemnización de los Siniestros",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        58
+      ],
+      "texto": "Artículo 13° Indemnización de los Siniestros\nLa COMPAÑÍA indemnizará las pérdidas o daños que directa y efectivamente ocurran por efecto de un siniestro, entendido como tal la realización de uno de los riesgos materia de cobertura; siempre que el evento se inicie dentro del período de vigencia de la Póliza y el CONTRATANTE y/o ASEGURADO y/o BENEFICIARIO haya cumplido con las obligaciones a su cargo emanadas del contrato de seguro."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0183",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        3,
+        7
+      ],
+      "paginas": [
+        52
+      ],
+      "texto": "Contrato de Seguro: la COMPAÑIA se obliga, mediante el cobro de una prima y para el caso de que se produzca el evento cuyo riesgo es objeto de cobertura, a indemnizar dentro de los límites pactados el daño producido al Asegurado o a satisfacer un capital, una renta u otras prestaciones convenidas. El contrato de seguro está compuesto por las Cláusulas Generales de Contratación, Condiciones Generales, Condiciones Particulares, Condiciones Especiales, Cláusulas Adicionales y Endosos, de ser el caso.\nConvenio de Pago: Documento en el que consta el compromiso por parte del Contratante y/o Asegurado de pagar la prima en la forma y plazos convenidos con la COMPAÑIA.\nDeclaración de Salud: Es el cuestionario que el Asegurado completa al momento de solicitarse el seguro, en el cual manifiesta si él, sus dependientes o parientes cercanos, padecen o han padecido de alguna enfermedad anterior al inicio del seguro. Las condiciones preexistentes no declaradas impiden a la COMPAÑIA adoptar una decisión fundamentada al seleccionar el riesgo; por lo tanto, las condiciones preexistentes no declaradas pueden determinar el rechazo de la reclamación y/o nulidad de la póliza, o la modificación de la misma. La COMPAÑIA se reserva el derecho de no asegurar a aquellas personas que considere estén en mal estado de salud."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0182",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        2,
+        7
+      ],
+      "paginas": [
+        51,
+        52
+      ],
+      "texto": "Condiciones Generales: Conjunto de estipulaciones que recogen aspectos relativos a la extensión de la cobertura del seguro, riesgos excluidos, procedimiento para la solicitud de cobertura y de liquidación del siniestro, entre otros.\nCondiciones Particulares: Estipulaciones del Contrato de Seguro relativas al riesgo individualizado que se asegura, como la identificación de las partes, la designación del asegurado y del beneficiario, si lo hubiere, la descripción de la materia asegurada, la suma asegurada o el alcance de la cobertura, el importe de la prima, el lugar y la forma de pago, la vigencia del contrato, entre otras condiciones de aseguramiento. La Tabla de Beneficios, en caso hubiere, forma parte de las Condiciones Particulares.\nCondiciones Especiales: Estipulaciones que modifican, extiende, excluyen o aclaran coberturas específicas aplicables a una póliza determinada.\nContratante: Es la persona que suscribe la póliza con la COMPAÑIA y generalmente la obligada al pago de la prima.\nSuele ser el mismo asegurado, pero puede tratarse de una persona distinta. Es el que fija y solicita los montos asegurados y los riesgos que requiere asegurar, y el único que puede solicitar enmiendas a la póliza."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0188",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 2° Objeto del Contrato de Seguro",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        53
+      ],
+      "texto": "Artículo 2° Objeto del Contrato de Seguro\nEn virtud del presente contrato de seguro, el CONTRATANTE Y/O ASEGURADO se obliga al pago de la prima convenida y la COMPAÑIA a indemnizar al ASEGURADO o a sus Beneficiarios y/o endosatarios, hasta el límite de la Suma Asegurada y/o Beneficio Máximo Anual que figura en las Condiciones Particulares de la póliza, contra las pérdidas y/o daños que efectivamente ocasione la ocurrencia de los riesgos asegurados, con sujeción a los términos de la Solicitud de Seguro, las Cláusulas Generales de Contratación, las Condiciones Generales, las Condiciones Particulares, las Condiciones Especiales, Endosos y anexos, así como los demás documentos que formen parte en forma conjunta e indivisible del contrato de seguro."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0056",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 1° Definiciones",
+      "parte": [
+        1,
+        3
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "Artículo 1° Definiciones\nCentral de Asistencia: Es la empresa contratada por la COMPAÑÍA para coordinar el otorgamiento de los servicios de asistencia en viaje, así como también del pago directo, siempre por cuenta de la COMPAÑÍA, de los beneficios establecidos en este seguro.\nCondición Médica Pre-existente: Cualquier condición de alteración del estado de salud diagnosticada por un profesional médico colegiado, conocido por el ASEGURADO o dependiente y no resuelta en el momento previo a la presentación de la solicitud y/o de la declaración jurada de salud.\nEnfermedad de Carácter Súbito: Es el evento de carácter mórbido de causa no accidental, que primero se manifieste y sea contraído por el ASEGURADO durante el VIAJE y que requiera tratamiento terapéutico por parte de un MÉDICO.\nFecha de Llegada: Es la fecha que el ASEGURADO originalmente programó como regreso de su VIAJE y que está especificada en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda.\nFecha de Salida: Es la fecha indicada por el ASEGURADO originalmente y que programó para iniciar el VIAJE y que está especificada en las CONDICIONES PARTICULARES y/o Certificado de Seguro, según corresponda."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0181",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        1,
+        7
+      ],
+      "paginas": [
+        51
+      ],
+      "texto": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales\nÍndice Los términos que se indican a continuación tendrán el siguiente significado para todos los efectos de esta póliza de seguros:\nAsegurado: Es la persona que está expuesta al riesgo asegurado y a cuyo favor se extiende el seguro. Generalmente es la misma persona que contrata la póliza. Figura como tal en las Condiciones Particulares de la Póliza.\nBeneficiario: Persona designada en la póliza por el Contratante y/o Asegurado como titular de los derechos indemnizatorios que en dicho documento se establece.\nCertificado de Seguro: Documento que se emite en el caso de seguros de grupo o colectivo, vinculado a una póliza de seguro determinada. Contiene los datos de identificación del Contratante y/o Asegurado y del interés asegurado y demás condiciones de aseguramiento relativas al riesgo individualizado.\nCláusulas Adicionales: Son aquellas condiciones especiales y opcionales a una o más pólizas, que permiten extender o ampliar las coberturas principales del producto de seguros, comprendidas en las condiciones generales, incluyendo riesgos no contemplados o expresamente excluidos.\nCOMPAÑIA: Chubb Seguros Perú S.A.\nClausulas Generales de Contratación: Estipulaciones básicas establecidas por las empresas para regir los contratos pertenecientes a un mismo ramo o modalidad de seguro."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [
+      "Cobertura de daños materiales causados por accidente de vehículo alquilado durante el viaje, según riesgos cubiertos del contrato",
+      "Exclusiones aplicables a daños a vehículos, conducción, accidentes de tránsito y bienes de terceros en el seguro de accidentes personales",
+      "Vigencia individual, territorio y límites de la cobertura para el viaje y el vehículo alquilado durante la vigencia del seguro",
+      "Aviso del siniestro, plazos y procedimiento para solicitar la cobertura ante la compañía en caso de accidente durante el viaje",
+      "Condiciones generales y cargas del asegurado en un accidente de tránsito durante el viaje con vehículo alquilado"
+    ],
+    "titulos": [
+      "Desmembramiento Accidental",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "clausulas": [
+      "Desmembramiento Accidental",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "hechos": [
+      "El asegurado chocó el auto que alquiló durante el viaje"
+    ],
+    "ajuste": null
+  },
+  "busqueda": "bm25_variantes",
+  "modelo_crudo": {
+    "citas": [],
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [],
+    "no_incluido_en_documento": [],
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de gastos médicos y farmacéuticos durante el viaje, de definiciones generales del contrato y de cómo se indemnizan los siniestros, y ninguno menciona alquiler de vehículos ni daños a un auto. Por eso no puedo decirte si la reparación está cubierta. Si tu póliza tiene otra parte que hable de vehículos, esa parte no está entre los pasajes que tengo."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": true,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 7137,
+        "tokens_salida": 1167,
+        "tokens_razonamiento": 0,
+        "segundos": 6.72,
+        "costo_usd": 0.001297
+      }
+    ],
+    "tokens": 8304,
+    "costo_usd": 0.001297,
+    "segundos": 6.72
+  },
+  "prueba": {
+    "id": "P08",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia (control: la póliza no trata el tema)",
+    "veredictos_aceptables": [
+      "no_encontrado"
+    ],
+    "que_deberia_pasar": "Decir 'no encontré esto en tu póliza' y mostrar en qué secciones buscó. No hay cobertura de daños a vehículos en este condicionado."
+  }
+}

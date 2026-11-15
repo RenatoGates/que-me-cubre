@@ -1,5 +1,6 @@
 """Prueba la interfaz sin navegador y sin gastar cuota (streamlit.testing.AppTest).
 
+Levanta la API en este mismo proceso y la app la consume por HTTP, como desplegada.
 Usa el proveedor "grabado" (ai/llm.py): la respuesta del modelo es la que ya dio para esa
 pregunta en pruebas/salidas/; la búsqueda, la verificación de citas y el bloque de
 ausentes corren de verdad. Comprueba el contrato del README ("Cómo se muestra una
@@ -17,9 +18,44 @@ import os
 
 from comun import RAIZ, partir_pdf, utf8
 
-os.environ["QMC_PROVEEDOR"] = "grabado"
+import socket  # noqa: E402
+import tempfile  # noqa: E402
+import threading  # noqa: E402
+import time  # noqa: E402
 
+_base = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+_base.close()
+with socket.socket() as _s:
+    _s.bind(("127.0.0.1", 0))
+    PUERTO = _s.getsockname()[1]
+os.environ.update({
+    "QMC_PROVEEDOR": "grabado",
+    "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
+    "QMC_LIMITE_DISPOSITIVO_DIA": "50",
+    "LANGFUSE_PUBLIC_KEY": "",
+    "LANGFUSE_SECRET_KEY": "",
+    "VOYAGE_API_KEY": "",
+    "QMC_API_URL": f"http://127.0.0.1:{PUERTO}",
+})
+
+import httpx  # noqa: E402
+import uvicorn  # noqa: E402
 from streamlit.testing.v1 import AppTest  # noqa: E402
+
+from backend.main import app as api  # noqa: E402
+
+
+def levantar_api() -> None:
+    """La app es cliente de la API: se levanta la de verdad, en este proceso, con respuestas grabadas."""
+    servidor = uvicorn.Server(uvicorn.Config(api, host="127.0.0.1", port=PUERTO, log_level="warning"))
+    threading.Thread(target=servidor.run, daemon=True).start()
+    for _ in range(100):
+        try:
+            if httpx.get(f"http://127.0.0.1:{PUERTO}/salud", timeout=1).status_code == 200:
+                return
+        except httpx.HTTPError:
+            time.sleep(0.2)
+    raise RuntimeError("la API no levantó")
 
 FALLAS: list[str] = []
 
@@ -38,6 +74,7 @@ def textos(at: AppTest) -> str:
 
 def main() -> int:
     utf8()
+    levantar_api()
     at = AppTest.from_file(str(RAIZ / "app" / "app.py"), default_timeout=180).run()
     caso("la app carga sin errores", not at.exception, str(at.exception))
     t = textos(at)
@@ -53,7 +90,9 @@ def main() -> int:
          "¿No tienes una a mano? Prueba con un condicionado de ejemplo:" in t
          and at.radio(key="fuente").options == ["Chubb Seguros Perú · Seguro de Viajes JetSmart",
                                                  "Pacífico Seguros · Seguro de Viajes Pacífico",
-                                                 "Rimac Seguros · Seguro de Viaje"]
+                                                 "Rimac Seguros · Seguro de Viaje",
+                                                 "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+                                                 "Interseguro · Seguro de Viaje Internacional"]
          and at.radio(key="fuente").value == "chubb_viajes_jetsmart", str(at.radio(key="fuente").options))
     caso("ayuda bajo la pregunta: 'Una pregunta a la vez.'", "Una pregunta a la vez." in t)
     def ejemplos(at: AppTest) -> list[str]:
@@ -75,6 +114,8 @@ def main() -> int:
     t = textos(at)
     html = "\n".join(m.value for m in at.markdown)
     caso("P02: el veredicto arriba es la etiqueta del campo estructurado", 'class="qmc-veredicto"' in html and "Cubre con límites" in html)
+    caso("P02: 'podrían aplicar' aparte y como posibilidad",
+         "Exclusiones que podrían aplicar según tu caso" in t and "No es lo que pasó" in t)
     orden = [html.find('class="qmc-veredicto"'), t.find("Lo que tu póliza menciona pero no trae"), t.find("Citas de tu póliza")]
     caso("P02: orden veredicto → menciones → citas", -1 not in orden and orden == sorted(orden), str(orden))
     b4 = [w.body for w in at.warning if "B4" in w.body]
@@ -83,12 +124,12 @@ def main() -> int:
     caso("P02: cada cita es un desplegable con su página",
          sum(e.label.startswith("Cita ") and "pág." in e.label for e in at.expander) >= 1)
 
-    # P01: tiene "podrían aplicar" (preexistencia) en la grabación de pruebas/salidas
     at.button(key="tarapoto_0").click().run()
     t = textos(at)
+    html = "\n".join(m.value for m in at.markdown)
     caso("P01: responde sin errores", not at.exception, str(at.exception))
-    caso("P01: 'podrían aplicar' aparte y como posibilidad",
-         "Exclusiones que podrían aplicar según tu caso" in t and "No es lo que pasó" in t)
+    caso("P01: veredicto, B4 y citas", "Cubre con límites" in html and any("B4" in w.body for w in at.warning)
+         and "Citas de tu póliza" in t)
 
     # Red de seguridad: una pregunta sin grabación (el proveedor de maqueta no responde)
     at.text_area(key="pregunta").set_value("¿Me cubren si pierdo el pasaporte en Cusco?").run()

@@ -16,10 +16,18 @@ import io
 
 from pypdf import PdfReader, PdfWriter
 
+from ai import embeddings
 from ai.extraccion import extraer_varios
 from ai.indice import Indice
 from ai.respuesta import Poliza
 from ai.troceado import trocear
+
+
+def metodo_configurado() -> str:
+    from ai.llm import config
+    from ai.recuperacion import METODO_POR_DEFECTO
+
+    return (config("QMC_RECUPERACION", METODO_POR_DEFECTO) or METODO_POR_DEFECTO).strip().lower()
 
 
 class PolizaIlegible(ValueError):
@@ -63,8 +71,12 @@ def poliza_de_pdfs(archivos: list[tuple[str, bytes]]) -> Poliza:
         raise PolizaIlegible(f"No pude unir los PDF: {e}") from e
     if len(PdfReader(io.BytesIO(unido)).pages) != doc.paginas_total:
         raise PolizaIlegible("Las páginas del PDF unido no coinciden con las leídas.")
-    indice = Indice.construir(trozos, {"doc_id": "subida", "documento": nombre, "paginas": doc.paginas_total},
-                              con_embeddings=False)
+    meta = {"doc_id": "subida", "documento": nombre, "paginas": doc.paginas_total}
+    quiere_vectores = embeddings.disponible() and not metodo_configurado().startswith("bm25")
+    try:
+        indice = Indice.construir(trozos, meta, con_embeddings=quiere_vectores)
+    except embeddings.ErrorEmbeddings:  # la póliza se indexa igual; la búsqueda queda en BM25
+        indice = Indice.construir(trozos, meta, con_embeddings=False)
     return Poliza("subida", nombre, indice, unido, huella(pdfs),
                   archivos=[(n, p) for (n, _), p in zip(archivos, doc.paginas_por_archivo)])
 

@@ -1,0 +1,36 @@
+# Backend (backend/, ai/) y pruebas (pruebas/). Python 3.11.
+#
+#   python -m venv .venv
+#   .venv\Scripts\activate            (Windows)   |   source .venv/bin/activate   (macOS, Linux)
+#   pip install -r requirements.txt
+#
+# Incluye lo del Streamlit porque pruebas/probar_app.py lo levanta.
+-r app/requirements.txt
+
+# API
+fastapi==0.163.1
+uvicorn==0.54.0
+python-multipart==0.0.33
+python-dotenv==1.2.4
+
+# Extracción, búsqueda y verificación de citas
+pdfplumber==0.11.10
+pypdf==7.0.0
+fonttools==4.68.0                  # pypdf lo necesita para leer las fuentes de algunos PDF (Interseguro)
+rank-bm25==0.2.2
+snowballstemmer==3.1.1
+numpy==2.4.6
+
+# Modelo: Claude por defecto; Groq y Gemini quedan como proveedores alternativos (ai/llm.py)
+anthropic==2.6.0
+groq==1.7.0
+google-genai==3.0.0
+
+# Contadores de los topes (SQLite en local, Postgres en producción) y observabilidad
+sqlalchemy==2.1.8
+psycopg[binary]==3.3.9
+langfuse==5.2.0
+
+# Solo pruebas: PDF de prueba con instrucciones escondidas y medición de memoria
+reportlab==5.1.0
+psutil==7.2.2

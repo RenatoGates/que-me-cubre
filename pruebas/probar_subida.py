@@ -88,12 +88,12 @@ def main() -> int:
 
     pasos: list[str] = []
     r = responder(P01, poliza("chubb_viajes_jetsmart"), ProveedorGrabado(), avance=pasos.append)
-    caso("avance: buscar, redactar y verificar (normalización en la caché)",
+    caso("avance: buscar, redactar y verificar (con embeddings no hay paso de normalización)",
          r["modo"] == "completo" and [p.split()[0] for p in pasos] == ["Buscando", "Redactando", "Verificando"], str(pasos))
     pasos.clear()
-    responder("¿Me cubren si pierdo el pasaporte en Cusco?", poliza("chubb_viajes_jetsmart"), ProveedorGrabado(),
-              avance=pasos.append)
-    caso("avance: una pregunta nueva empieza por entenderla", pasos[:1] == ["Entendiendo tu pregunta…"], str(pasos))
+    # Una póliza subida sin clave de embeddings no tiene vectores: se busca con BM25, que sí normaliza
+    responder("¿Me cubren si pierdo el pasaporte en Cusco?", una, ProveedorGrabado(), avance=pasos.append)
+    caso("avance: sin vectores, una pregunta nueva empieza por entenderla", pasos[:1] == ["Entendiendo tu pregunta…"], str(pasos))
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

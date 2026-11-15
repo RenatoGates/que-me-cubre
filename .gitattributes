@@ -1,6 +1,7 @@
 # Binarios: git no debe tocar sus finales de línea
 *.pdf binary
 *.npy binary
+*.npz binary
 *.png binary
 
 # Índices de texto: siempre LF, en Windows y en Linux (Streamlit Cloud)

@@ -4,13 +4,14 @@
     python pruebas/correr_pruebas.py --rehacer  # todas de nuevo
     python pruebas/correr_pruebas.py --solo P02
 
-Usa el proveedor de QMC_PROVEEDOR (groq por defecto) con su clave en .env. Antes normaliza
+    python pruebas/correr_pruebas.py --rehacer --esfuerzo low --salidas salidas_low --resumen resultados_low.md
+
+Usa el proveedor de QMC_PROVEEDOR (claude por defecto) con su clave en .env. Antes normaliza
 las preguntas que falten en la caché versionada (data/cache/), así las pruebas y el demo
 usan exactamente las mismas variantes y cada respuesta gasta una sola llamada.
 
-Ritmo: después de cada pregunta espera lo que el plan gratuito tarda en reponer los tokens
-que gastó (8000 por minuto), así ninguna prueba cae en el modo sin texto generado por culpa
-de la anterior. Si se acaba el límite diario, espera lo que Groq indique (ProveedorPaciente).
+Ritmo: solo con Groq, después de cada pregunta espera lo que el plan gratuito tarda en
+reponer los tokens que gastó (8000 por minuto). Con Claude, de pago por token, no hay espera.
 
 Primer intento y reintento: si una respuesta sale sin texto generado, el script reintenta
 una vez para poder avanzar, pero guarda lo que pasó en el primer intento ("primer_intento"
@@ -26,36 +27,38 @@ import json
 import statistics
 import time
 
-from comun import PRUEBAS, RAIZ, SALIDAS, ProveedorPaciente, aceptable, apertura_txt, bloque_txt, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, ProveedorPaciente, aceptable, apertura_txt, bloque_txt, guardar_json, poliza, preguntas, utf8
 
 from ai import cache_normalizacion
 from ai.llm import ErrorLLM, obtener_proveedor
 from ai.preparar_demo import asegurar
 from ai.respuesta import responder
 
-ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado", None: "sin respuesta"}
+ETIQUETA = {"si": "sí", "no": "no", "con_limites": "con límites", "no_encontrado": "no encontrado",
+            "fuera_de_alcance": "fuera de alcance", None: "sin respuesta"}
 TPM = 8000  # tokens por minuto del plan gratuito de Groq (cabecera x-ratelimit-limit-tokens)
 ESPERA_REINTENTO = 60  # s: con el balde vacío, en un minuto se repone entero
 
 
-def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
+def resumen_md(filas: list[dict], proveedor: str, modelo: str, precios: tuple[float, float], nota: str) -> str:
     lineas = [
         "# Resultados de las 10 preguntas",
         "",
-        f"Proveedor: {proveedor} · modelo: `{modelo}` (plan gratuito: costo USD 0 por consulta).",
+        f"Proveedor: {proveedor} · modelo: `{modelo}` · {nota} · precio USD {precios[0]:g} por millón de tokens de "
+        f"entrada y {precios[1]:g} de salida.",
         "Generado por `pruebas/correr_pruebas.py`. Cada salida completa (variantes de la normalización,",
         "pasajes, respuesta cruda del modelo, citas verificadas y descartes) está en `pruebas/salidas/`.",
         "",
-        "Tokens: lo que cuenta el límite de tokens por minuto del plan gratuito (entrada + salida; la",
-        "salida incluye el razonamiento del modelo). *Normalización* es lo que costó generar la entrada",
+        "Tokens: entrada + salida (la salida incluye el razonamiento del modelo, que Claude no informa",
+        "por separado: sale 0). *Normalización* es lo que costó generar la entrada",
         "de la caché: una pregunta nueva en vivo lo gasta además de la respuesta.",
         "",
         "*Mencionadas pero ausentes* es el bloque que calcula el código (ai/referencias.py), sin el modelo;",
         "*No incluido* es lo que el modelo señaló y sobrevivió a la validación.",
         "",
         "| # | Pregunta | Veredicto | ¿Aceptable? | Citas válidas / propuestas | Mencionadas pero ausentes (código) "
-        "| No incluido (modelo) | Pasajes | Normalización | Respuesta: entrada | salida (razonamiento) | Consulta completa | Segundos |",
-        "|---|---|---|---|---|---|---|---:|---:|---:|---:|---:|---:|",
+        "| No incluido (modelo) | Pasajes | Normalización | Respuesta: entrada | salida (razonamiento) | Consulta completa | USD consulta completa | Segundos |",
+        "|---|---|---|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for f in filas:
         primero = "" if f["primer_intento"] is None else f" (al primer intento: sin texto, {f['primer_intento']})"
@@ -63,7 +66,7 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
             f"| {f['id']} | {f['pregunta']} | {ETIQUETA[f['cubre']]} | {'sí' if f['aceptable'] else '**no**'}{primero} | "
             f"{f['citas_validas']} / {f['citas_propuestas']} | {f['ausentes']} | {f['no_incluido'] or '—'} | {f['pasajes']} | "
             f"{f['tokens_normalizacion'] or '—'} | {f['entrada']} | {f['salida']} ({f['razonamiento']}) | "
-            f"{f['consulta_completa']} | {f['segundos']:.1f} |"
+            f"{f['consulta_completa']} | {f['usd_completa']:.4f} | {f['segundos']:.1f} |"
         )
     n = len(filas)
     if n:
@@ -82,10 +85,13 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
             f"aceptadas tras verificar contra el pasaje y el PDF: {sum(f['citas_validas'] for f in filas)}.",
             f"- Tokens por respuesta (normalización desde la caché, una llamada): promedio {statistics.mean(resp):.0f}, "
             f"mínimo {min(resp)}, máximo {max(resp)}.",
-            f"- Tokens por consulta completa (pregunta nueva, dos llamadas): promedio {statistics.mean(completa):.0f}, "
+            f"- Tokens por consulta completa (pregunta nueva): promedio {statistics.mean(completa):.0f}, "
             f"máximo {max(completa)}.",
             f"- De la salida, razonamiento: {sum(f['razonamiento'] for f in filas) / max(1, sum(f['salida'] for f in filas)):.0%}.",
-            f"- Tiempo promedio por respuesta: {statistics.mean(f['segundos'] for f in filas):.1f} s.",
+            f"- Costo por consulta completa (pregunta nueva): promedio USD "
+            f"{statistics.mean(f['usd_completa'] for f in filas):.4f}, máximo USD {max(f['usd_completa'] for f in filas):.4f}.",
+            f"- Tiempo por respuesta (sin la normalización): promedio {statistics.mean(f['segundos'] for f in filas):.1f} s, "
+            f"máximo {max(f['segundos'] for f in filas):.1f} s.",
             f"- Respuestas que abren con «Sí» o «No» contra el veredicto (ahora se marcan; las salidas "
             "generadas antes de ese cambio las tienen recortadas): "
             f"{sum(f['apertura'] for f in filas)} de {n}.",
@@ -93,13 +99,18 @@ def resumen_md(filas: list[dict], proveedor: str, modelo: str) -> str:
     return "\n".join(lineas) + "\n"
 
 
-def fila(q: dict, r: dict) -> dict:
+def fila(q: dict, r: dict, precios: tuple[float, float] = (0.0, 0.0)) -> dict:
     vacio = {"tokens_entrada": 0, "tokens_salida": 0, "tokens_razonamiento": 0}
     respuesta = r["uso"]["detalle"][-1] if r["modo"] == "completo" else vacio
     primero = r.get("primer_intento")
     norm = cache_normalizacion.tokens_generacion(q["pregunta"], poliza(q["poliza"]).sha256)
+    if ((r.get("normalizacion") or {}).get("ajuste") or "").startswith("sin normalización"):
+        norm = None  # la consulta no pasó por la normalización: no hay nada que sumarle
     t_norm = norm["entrada"] + norm["salida"] if norm else 0
+    en_cache = len(r["uso"]["detalle"]) <= 1
+    usd_norm = (norm["entrada"] * precios[0] + norm["salida"] * precios[1]) / 1e6 if norm and en_cache else 0.0
     return {
+        "usd_completa": r["uso"].get("costo_usd", 0.0) + usd_norm,
         "id": q["id"],
         "pregunta": q["pregunta"],
         "cubre": r["cubre"],
@@ -129,27 +140,35 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--rehacer", action="store_true")
     p.add_argument("--solo", action="append")
+    p.add_argument("--esfuerzo", help="esfuerzo de razonamiento de la respuesta (low, medium, high)")
+    p.add_argument("--salidas", default="salidas", help="carpeta dentro de pruebas/ para las salidas")
+    p.add_argument("--resumen", default="resultados.md")
     args = p.parse_args()
+    salidas = PRUEBAS / args.salidas
     try:
         proveedor = ProveedorPaciente(obtener_proveedor())  # espera los límites en vez de fallar
+        if args.esfuerzo:
+            proveedor._ESFUERZO["respuesta"] = args.esfuerzo
     except ErrorLLM as e:
         print(f"✗ {e}")
         return 1
 
     todas = preguntas()
     elegidas = [q for q in todas if not args.solo or q["id"] in args.solo]
-    pendientes = [q for q in elegidas if args.rehacer or not (SALIDAS / f"{q['id']}.json").exists()]
+    con_cuota = proveedor.nombre == "groq"
+    espera_reintento = ESPERA_REINTENTO if con_cuota else 2
+    pendientes = [q for q in elegidas if args.rehacer or not (salidas / f"{q['id']}.json").exists()]
     if pendientes:
         print("Normalizaciones (caché versionada):")
         nuevas, faltan = asegurar([(q["poliza"], q["pregunta"]) for q in pendientes], proveedor)
         if faltan:
             return 1
-        if nuevas:
+        if nuevas and con_cuota:
             time.sleep(ESPERA_REINTENTO)  # las normalizaciones seguidas dejan el balde casi vacío
 
     filas, problemas = [], []
     for q in todas:
-        ruta = SALIDAS / f"{q['id']}.json"
+        ruta = salidas / f"{q['id']}.json"
         if q in pendientes:
             print(f"▶ {q['id']}: {q['pregunta']}", flush=True)
             try:
@@ -157,8 +176,8 @@ def main() -> int:
                 if r["modo"] != "completo":
                     primero = {k: r.get(k) for k in ("modo", "error", "error_detalle")}
                     print(f"  sin texto al primer intento ({r.get('error_detalle') or r.get('error')}); espero "
-                          f"{ESPERA_REINTENTO} s y reintento una vez (cuenta como falla al primer intento)", flush=True)
-                    time.sleep(ESPERA_REINTENTO)
+                          f"{espera_reintento} s y reintento una vez (cuenta como falla al primer intento)", flush=True)
+                    time.sleep(espera_reintento)
                     r = responder(q["pregunta"], poliza(q["poliza"]), proveedor)
                     r["primer_intento"] = primero
             except ErrorLLM as e:
@@ -170,12 +189,13 @@ def main() -> int:
                 problemas.append(q["id"])
             r["prueba"] = {k: q[k] for k in ("id", "poliza", "origen", "veredictos_aceptables", "que_deberia_pasar")}
             guardar_json(ruta, r)
-            time.sleep(r["uso"]["tokens"] * 60 / TPM)  # lo que el plan tarda en reponer lo gastado
+            if con_cuota:
+                time.sleep(r["uso"]["tokens"] * 60 / TPM)  # lo que el plan tarda en reponer lo gastado
         elif ruta.exists():
             r = json.loads(ruta.read_text(encoding="utf-8"))
         else:
             continue
-        f = fila(q, r)
+        f = fila(q, r, proveedor.precios)
         filas.append(f)
         print(
             f"  {f['id']} {ETIQUETA[f['cubre']]:<14} aceptable={'sí' if f['aceptable'] else 'NO'} "
@@ -186,10 +206,12 @@ def main() -> int:
             flush=True,
         )
 
-    (PRUEBAS / "resultados.md").write_text(
-        resumen_md(filas, proveedor.nombre, proveedor.modelos["respuesta"]), encoding="utf-8", newline="\n"
+    nota = f"esfuerzo de razonamiento de la respuesta: {getattr(proveedor, '_ESFUERZO', {}).get('respuesta', '—')}"
+    (PRUEBAS / args.resumen).write_text(
+        resumen_md(filas, proveedor.nombre, proveedor.modelos["respuesta"], proveedor.precios, nota),
+        encoding="utf-8", newline="\n"
     )
-    print("\nResumen en pruebas/resultados.md" + (f" · sin completar: {problemas}" if problemas else ""))
+    print(f"\nResumen en pruebas/{args.resumen}" + (f" · sin completar: {problemas}" if problemas else ""))
     return 1 if problemas else 0
 
 
