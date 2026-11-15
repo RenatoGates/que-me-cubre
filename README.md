@@ -434,7 +434,7 @@ que-me-cubre/
 - **El Streamlit ya no muestra el avance paso a paso** (buscar, redactar, verificar): ahora
   espera la respuesta entera de la API con un solo aviso.
 - **Sin desplegar todavía.** El arranque en frío en Render no está medido; en esta máquina
-  la API arranca en 3,3 s y, con una póliza de 62 páginas subida, ocupa 214 MB de los 512 MB
+  la API arranca en 4,2 s y, con una póliza de 62 páginas subida, ocupa 214 MB de los 512 MB
   del plan gratuito ([`pruebas/arranque.md`](pruebas/arranque.md)). Al reiniciarse el
   servidor, las pólizas subidas se pierden y hay que subirlas de nuevo.
 - **Si el modelo falla:** sin saldo, sin conexión o con una salida que no cumple el formato,

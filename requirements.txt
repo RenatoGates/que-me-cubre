@@ -16,6 +16,7 @@ python-dotenv==1.2.4
 # Extracción, búsqueda y verificación de citas
 pdfplumber==0.11.10
 pypdf==7.0.0
+fonttools==4.68.0                  # pypdf lo necesita para leer las fuentes de algunos PDF (Interseguro)
 rank-bm25==0.2.2
 snowballstemmer==3.1.1
 numpy==2.4.6
