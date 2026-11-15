@@ -169,31 +169,45 @@ def recortar(texto: str, citas: list[dict], clausulas_documento: list[str]) -> t
     return " ".join(quedan).strip(), quitadas
 
 
-def verificar_en_pdf(pdf_bytes: bytes, partes: list[tuple[int, str]]) -> dict[str, bool]:
+def verificar_en_pdf(pdf_bytes: bytes, partes: list[tuple[int, str]], cache: dict | None = None) -> dict[str, bool]:
     """¿Cada parte de la cita está en su página del PDF? Con dos lectores distintos.
 
     `partes` es [(página, texto)]: una cita que cruza de una página a otra se verifica por
     tramos, porque entre ambas el PDF tiene el pie y el membrete de página.
     Tramos muy cortos para verificarse solos (< MIN_FRAGMENTO) se omiten; al menos uno
     tiene que verificarse.
+
+    `cache` (un dict por póliza) guarda el texto de cada página ya leída por cada lector:
+    releer la misma página da el mismo texto, y en un servidor lento cada lectura cuesta
+    más de un segundo.
     """
     from pypdf import PdfReader
 
+    cache = {} if cache is None else cache
     partes = [(n, t) for n, t in partes if len(_normalizar(t)[0]) >= MIN_FRAGMENTO]
     resultado = {"pdfplumber": False, "pypdf": False}
     if not partes:
         return resultado
+
+    def con_pdfplumber(n: int) -> str:
+        if ("pdfplumber", n) not in cache:
+            cache["pdfplumber", n] = texto_de_paginas(pdf_bytes, [n])
+        return cache["pdfplumber", n]
+
+    def con_pypdf(n: int) -> str:
+        if ("pypdf", n) not in cache:
+            if "lector" not in cache:
+                cache["lector"] = PdfReader(io.BytesIO(pdf_bytes))
+            lector = cache["lector"]
+            cache["pypdf", n] = lector.pages[n - 1].extract_text() or "" if 0 < n <= len(lector.pages) else ""
+        return cache["pypdf", n]
+
     try:
-        resultado["pdfplumber"] = all(ubicar(texto_de_paginas(pdf_bytes, [n]), t) is not None for n, t in partes)
+        resultado["pdfplumber"] = all(ubicar(con_pdfplumber(n), t) is not None for n, t in partes)
     except Exception:  # noqa: BLE001 - un lector que falla cuenta como "no verificado"
         pass
     try:
-        lector = PdfReader(io.BytesIO(pdf_bytes))
-
-        def pagina(n: int) -> str:
-            return lector.pages[n - 1].extract_text() or "" if 0 < n <= len(lector.pages) else ""
-
-        resultado["pypdf"] = all(ubicar(pagina(n), t) is not None for n, t in partes)
+        resultado["pypdf"] = all(ubicar(con_pypdf(n), t) is not None for n, t in partes)
     except Exception:  # noqa: BLE001
         pass
     return resultado

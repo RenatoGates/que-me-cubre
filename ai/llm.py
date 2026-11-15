@@ -35,7 +35,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Literal
 
-Tarea = Literal["normalizacion", "respuesta"]
+# Las tareas de la Fase 2 (triage, pasos, radiografia, superposicion) usan el modelo de "respuesta"
+Tarea = str
 
 ESPERA_MAXIMA_REINTENTO = 8.0  # s: si el proveedor pide esperar más, se avisa en vez de esperar
 
@@ -154,7 +155,7 @@ class Proveedor(ABC):
         """Devuelve (texto JSON, tokens de entrada, tokens de salida, de ellos de razonamiento)."""
 
     def json(self, tarea: Tarea, sistema: str, usuario: str, esquema: dict) -> tuple[dict, Uso]:
-        modelo = self.modelos[tarea]
+        modelo = self.modelos.get(tarea, self.modelos["respuesta"])
         t0 = time.perf_counter()
         with observar(tarea, self.nombre, modelo) as anotar:
             try:
@@ -189,7 +190,8 @@ class ProveedorClaude(Proveedor):
     # El tope de salida incluye el razonamiento (adaptativo, siempre activo en Haiku 5.5).
     # Respuesta con esfuerzo bajo: medido en las 10 preguntas, mismos veredictos aceptables que
     # con medio y la mitad de espera (pruebas/resultados.md y resultados_medium.md).
-    _MAX_TOKENS = {"normalizacion": 2000, "respuesta": 8000}
+    _MAX_TOKENS = {"normalizacion": 2000, "respuesta": 8000, "triage": 1000, "pasos": 6000, "radiografia": 12000,
+                   "superposicion": 4000}
 
     def __init__(self) -> None:
         super().__init__()
@@ -205,7 +207,7 @@ class ProveedorClaude(Proveedor):
     def _llamar(self, tarea, modelo, sistema, usuario, esquema):
         import anthropic
 
-        tope, esfuerzo = self._MAX_TOKENS[tarea], self._ESFUERZO[tarea]
+        tope, esfuerzo = self._MAX_TOKENS.get(tarea, 4000), self._ESFUERZO.get(tarea, "low")
 
         def registrar(e: Exception) -> str:
             mensaje = mensaje_seguro(getattr(e, "message", "") or "")
@@ -294,12 +296,12 @@ class ProveedorGroq(Proveedor):
                     "type": "json_schema",
                     "json_schema": {"name": tarea, "strict": True, "schema": esquema},
                 },
-                reasoning_effort=self._ESFUERZO[tarea],
+                reasoning_effort=self._ESFUERZO.get(tarea, "low"),
                 include_reasoning=False,
-                max_completion_tokens=self._MAX_TOKENS[tarea],
+                max_completion_tokens=self._MAX_TOKENS.get(tarea, 4000),
             )
 
-        tope, esfuerzo = self._MAX_TOKENS[tarea], self._ESFUERZO[tarea]
+        tope, esfuerzo = self._MAX_TOKENS.get(tarea, 4000), self._ESFUERZO.get(tarea, "low")
         for intento in (1, 2):
             try:
                 r = pedir()

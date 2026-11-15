@@ -1,0 +1,428 @@
+{
+  "version": 1,
+  "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+  "paginas": 42,
+  "secciones": [
+    "Inicio del documento",
+    "CONDICIONES GENERALES"
+  ],
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 11°.- VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "pagina": 27,
+      "paginas": [
+        27
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "modo": "radiografia",
+  "aviso": null,
+  "coberturas": [
+    {
+      "id": "C1",
+      "nombre": "Localización y transporte de equipajes y efectos personales",
+      "que_cubre": "Asesoría para denunciar el robo o extravío de equipaje y colaboración para localizarlo; si se recupera, transporte hasta destino o domicilio. Requiere pago de prima adicional y que esté indicada en la Solicitud-Certificado.",
+      "limite": null,
+      "citas": [
+        1
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "Asesoría legal por accidente de tránsito",
+      "que_cubre": "Si el asegurado es detenido o encausado por un accidente de tránsito, la compañía lo contacta con un abogado local y asume honorarios; el abogado es considerado agente del titular.",
+      "limite": "Límite máximo según las Condiciones Particulares de la póliza",
+      "citas": [
+        2
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "Gastos de hotel por reposo forzoso",
+      "que_cubre": "Reembolso de alojamiento en hotel tras hospitalización, cuando el médico prescribe reposo forzoso y con autorización previa de la central de asistencia.",
+      "limite": "Importe de límite diario y un máximo importe total según la Solicitud-Certificado",
+      "citas": [
+        3,
+        13
+      ]
+    }
+  ],
+  "exclusiones": [
+    {
+      "descripcion": "Accidentes ocurridos con alcohol por encima del límite legal (0.50 gramos por litro en sangre), bajo drogas o estupefacientes, o en enajenación mental; también intoxicaciones por alimentos o bebidas.",
+      "citas": [
+        4
+      ]
+    },
+    {
+      "descripcion": "Enfermedades relacionadas con el VIH y el SIDA, y enfermedades venéreas o de transmisión sexual.",
+      "citas": [
+        5
+      ]
+    },
+    {
+      "descripcion": "Práctica activa de deportes y actividades de alto riesgo listadas, como carreras de automóviles, corridas de toros, boxeo, montañismo, buceo, paracaidismo o esquí.",
+      "citas": [
+        6
+      ]
+    },
+    {
+      "descripcion": "Riesgos derivados de enfermedades endémicas, epidémicas o pandémicas declaradas por autoridades, y de cuarentenas, así como viajes a lugares no recomendados por las autoridades.",
+      "citas": [
+        7
+      ]
+    },
+    {
+      "descripcion": "Lesiones derivadas de riñas, huelgas, vandalismo o tumultos en los que el asegurado participó activamente, salvo legítima defensa.",
+      "citas": [
+        8
+      ]
+    },
+    {
+      "descripcion": "Gastos extras y de acompañantes durante una hospitalización.",
+      "citas": [
+        9
+      ]
+    },
+    {
+      "descripcion": "Cáncer diagnosticado por estudio anatomopatológico.",
+      "citas": [
+        10
+      ]
+    },
+    {
+      "descripcion": "Atención relacionada con COVID-19 si el asegurado no registró el inicio y fin de su viaje en la plataforma indicada.",
+      "citas": [
+        11
+      ]
+    }
+  ],
+  "deducibles": [],
+  "carencias": [
+    {
+      "descripcion": "Aviso de siniestro para muerte o invalidez por accidente dentro de los siete días siguientes a conocer el siniestro.",
+      "citas": [
+        12
+      ]
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 11°.- VALIDEZ TERRITORIAL DE LA COBERTURA (parte 16 de 30)",
+      "pagina": 30,
+      "paginas": [
+        30
+      ],
+      "texto_literal": "LA COMPAÑÍA brindará a EL ASEGURADO TITULAR el servicio de asesoría para la denuncia del robo o extravío de su equipaje y efectos personales, y para la colaboración en las gestiones tendientes a localizarlos",
+      "pasaje": "P4",
+      "trozo_id": "mapfre_viajes:0052",
+      "posicion": [
+        844,
+        1051
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 11°.- VALIDEZ TERRITORIAL DE LA COBERTURA (parte 13 de 30)",
+      "pagina": 27,
+      "paginas": [
+        27
+      ],
+      "texto_literal": "LA COMPAÑÍA lo pondrá en contacto con un abogado local, para que se haga cargo de su defensa civil o criminal, asumiendo además, el costo por concepto de honorarios.",
+      "pasaje": "P6",
+      "trozo_id": "mapfre_viajes:0049",
+      "posicion": [
+        246,
+        411
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 11°.- VALIDEZ TERRITORIAL DE LA COBERTURA (parte 3 de 30)",
+      "pagina": 20,
+      "paginas": [
+        20
+      ],
+      "texto_literal": "LA COMPAÑÍA reembolsará a EL ASEGURADO gastos de hotel, únicamente por concepto de alojamiento u hospedaje (sin extras de alimentación y comunicaciones)",
+      "pasaje": "P17",
+      "trozo_id": "mapfre_viajes:0039",
+      "posicion": [
+        120,
+        272
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 3 de 7)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Accidentes sufridos en situación de enajenación mental o bajo los efectos de bebidas alcohólicas (siempre que supere el límite legal permitido para la ingesta de alcohol, es decir, 0.50 gramos por litro de alcohol en la sangre) o de drogas y/o estupefacientes",
+      "pasaje": "P7",
+      "trozo_id": "mapfre_viajes:0014",
+      "posicion": [
+        3,
+        262
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 3 de 7)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "A consecuencia del VIH: Síndrome de inmunodeficiencia adquirida (SIDA) y VIH en todas sus formas, así como sus agudizaciones, secuelas y consecuencias.",
+      "pasaje": "P7",
+      "trozo_id": "mapfre_viajes:0014",
+      "posicion": [
+        333,
+        484
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 6,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 1 de 7)",
+      "pagina": 8,
+      "paginas": [
+        8
+      ],
+      "texto_literal": "Cuando el ASEGURADO participe de forma activa en carreras de automóviles, motos acuáticas; participación en corridas de toros",
+      "pasaje": "P9",
+      "trozo_id": "mapfre_viajes:0012",
+      "posicion": [
+        125,
+        250
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 7,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 4 de 7)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Quedan excluidos para todas las coberturas de la póliza, los riesgos y siniestros, así como sus consecuencias, derivadas por enfermedades endémicas, epidémicas, pandémicas",
+      "pasaje": "P8",
+      "trozo_id": "mapfre_viajes:0015",
+      "posicion": [
+        3,
+        174
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 8,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 4 de 7)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Afecciones, enfermedades o lesiones derivadas de una riña (salvo aquellos casos en que se establezca judicialmente, o a través de indicios razonables, la legítima defensa), huelga, actos de vandalismo o tumulto popular en que el ASEGURADO hubiese participado como elemento activo.",
+      "pasaje": "P8",
+      "trozo_id": "mapfre_viajes:0015",
+      "posicion": [
+        623,
+        903
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 9,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 7 de 7)",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "aa) Acompañantes y gastos extras: En los casos de hospitalización del ASEGURADO, se excluyen expresamente todos los gastos extras así como de acompañantes.",
+      "pasaje": "P10",
+      "trozo_id": "mapfre_viajes:0018",
+      "posicion": [
+        0,
+        155
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 10,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 7 de 7)",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "bb) Cáncer, diagnosticado por estudio anatomopatológico.",
+      "pasaje": "P10",
+      "trozo_id": "mapfre_viajes:0018",
+      "posicion": [
+        156,
+        212
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 11,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 3°.- EXCLUSIONES: (parte 7 de 7)",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "Queda excluida la atención relacionada a COVID-19 en caso EL ASEGURADO haya incumplido con registrar el inicio y fin de su viaje en la plataforma indicada por LAASEGURADORA.",
+      "pasaje": "P10",
+      "trozo_id": "mapfre_viajes:0018",
+      "posicion": [
+        217,
+        390
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 12,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 4°.- PROCEDIMIENTO PARA EL AVISO DE SINIESTRO Y PAGO DE LAS (parte 1 de 8)",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "dentro de los siete (7) días siguientes a la fecha en que se tenga conocimiento de la ocurrencia del siniestro o el beneficio.",
+      "pasaje": "P18",
+      "trozo_id": "mapfre_viajes:0019",
+      "posicion": [
+        614,
+        740
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 13,
+      "documento": "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
+      "seccion": "CONDICIONES GENERALES",
+      "articulo": "Art. 11°.- VALIDEZ TERRITORIAL DE LA COBERTURA (parte 3 de 30)",
+      "pagina": 20,
+      "paginas": [
+        20
+      ],
+      "texto_literal": "Para obtener este beneficio EL ASEGURADO deberá haber estado hospitalizado por un periodo mínimo de cinco (5) días",
+      "pasaje": "P17",
+      "trozo_id": "mapfre_viajes:0039",
+      "posicion": [
+        460,
+        574
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "no_encontrado": {
+    "deducibles": "No encontré deducibles ni copagos en este documento."
+  },
+  "sin_limite": "Donde no aparece un monto es porque no está en este documento: suele estar en las Condiciones Particulares o en el certificado.",
+  "pasajes_revisados": 18,
+  "uso": {
+    "llamadas": 1,
+    "costo_usd": 0.003338,
+    "segundos": 14.9,
+    "tokens_entrada": 10615,
+    "tokens_salida": 4553
+  }
+}

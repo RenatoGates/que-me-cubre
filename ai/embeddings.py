@@ -149,4 +149,7 @@ if __name__ == "__main__":
     from ai.preparar_demo import RAIZ, preguntas_publicas
 
     load_dotenv(RAIZ / ".env")
-    print(f"{guardar_publicas([p for _, p in preguntas_publicas()])} preguntas públicas en {RUTA_PUBLICAS.name}")
+    from ai import pasos, radiografia
+
+    fijas = [*radiografia.TEMAS.values(), pasos.CONSULTA]  # las consultas fijas de la Fase 2
+    print(f"{guardar_publicas([p for _, p in preguntas_publicas()] + fijas)} consultas públicas en {RUTA_PUBLICAS.name}")

@@ -1,0 +1,907 @@
+{
+  "version": 1,
+  "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+  "paginas": 40,
+  "secciones": [
+    "RESUMEN DE LA PÓLIZA",
+    "Condiciones Generales",
+    "PARTE A. TÉRMINOS Y DEFINICIONES",
+    "PARTE B. COBERTURAS",
+    "PARTE C. EXCLUSIONES",
+    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+    "PARTE E. DISPOSICIONES GENERALES",
+    "PARTE F. OBLIGACIONES DEL TITULAR",
+    "PARTE G. CONDICIONES LEGALES"
+  ],
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "condiciones particulares",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "A. INFORMACION GENERAL › 5. Medio y plazo establecido para el aviso del siniestro",
+      "pagina": 1,
+      "paginas": [
+        1
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "certificado de seguro",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "A. INFORMACION GENERAL › 5. Medio y plazo establecido para el aviso del siniestro",
+      "pagina": 1,
+      "paginas": [
+        1
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Especiales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "CONDICIONES ESPECIALES",
+      "seccion": "Condiciones Generales",
+      "articulo": "Texto completo de la sección",
+      "pagina": 8,
+      "paginas": [
+        8
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "modo": "radiografia",
+  "aviso": null,
+  "coberturas": [
+    {
+      "id": "C1",
+      "nombre": "Muerte Accidental",
+      "que_cubre": "Cobertura básica por fallecimiento accidental del asegurado, con sumas que varían según la edad del titular.",
+      "limite": "Titulares de 18 años o menores: la suma de las Condiciones Particulares o Certificado, o USD 60.000 si es menor; titulares de 19 a 74 años: la suma indicada en Condiciones Particulares y/o Certificado de Seguro.",
+      "citas": [
+        2,
+        10,
+        11
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "Pérdida de equipaje",
+      "que_cubre": "Indemnización por extravío del equipaje, calculada por kilogramo despachado y por bulto completo perdido.",
+      "limite": "Hasta el monto máximo indicado en la póliza, Condiciones Particulares y/o Certificado de Seguro.",
+      "citas": [
+        3,
+        12,
+        13
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente",
+      "que_cubre": "Gastos y asistencia médica por accidente o enfermedad no preexistente, si se contrata como beneficio adicional.",
+      "limite": null,
+      "citas": [
+        5
+      ]
+    },
+    {
+      "id": "C4",
+      "nombre": "Cancelación de viaje",
+      "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
+      "limite": null,
+      "citas": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "C5",
+      "nombre": "Robo de computador portátil",
+      "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
+      "limite": null,
+      "citas": [
+        5,
+        7
+      ]
+    },
+    {
+      "id": "C6",
+      "nombre": "Robo en cajero automático",
+      "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
+      "limite": null,
+      "citas": [
+        5,
+        8
+      ]
+    },
+    {
+      "id": "C7",
+      "nombre": "Repatriación o traslados funerarios",
+      "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
+      "limite": null,
+      "citas": [
+        5,
+        9
+      ]
+    }
+  ],
+  "exclusiones": [
+    {
+      "descripcion": "Accidentes o enfermedades por actividades de alto riesgo, como trabajos en obras, alturas, manejo de sustancias peligrosas, fuerzas armadas o actividades agrícolas.",
+      "citas": [
+        16
+      ]
+    },
+    {
+      "descripcion": "Gastos de hotel, restaurante, taxis, comunicaciones u otros no autorizados expresamente por la aseguradora.",
+      "citas": [
+        14
+      ]
+    },
+    {
+      "descripcion": "Gastos extras y de acompañantes durante hospitalización del titular.",
+      "citas": [
+        15
+      ]
+    },
+    {
+      "descripcion": "Tratamientos recibidos de personas o profesionales no autorizados por la aseguradora.",
+      "citas": [
+        17
+      ]
+    },
+    {
+      "descripcion": "Enfermedades o lesiones por actos notoriamente peligrosos o grave imprudencia del titular, y por conducción imprudente de vehículos.",
+      "citas": [
+        18
+      ]
+    },
+    {
+      "descripcion": "Países en guerra civil o extranjera, y servicios dentro de 100 km del lugar de residencia habitual, salvo que el producto indique lo contrario.",
+      "citas": [
+        19,
+        20
+      ]
+    },
+    {
+      "descripcion": "Beneficios afectados por enfermedades epidémicas o pandémicas, como traslado o estancia de un familiar y reembolso de vuelo demorado o cancelado.",
+      "citas": [
+        21
+      ]
+    }
+  ],
+  "deducibles": [
+    {
+      "descripcion": "Franquicia o deducible: monto fijo a cargo del titular, pagado al recibir la primera asistencia médica. El monto no está escrito en los pasajes.",
+      "citas": [
+        22
+      ]
+    },
+    {
+      "descripcion": "Copagos que el asegurado debe pagar al solicitar la cobertura; el monto se señalará en las Condiciones Particulares o Certificado de Seguro, que no se incluyen en los pasajes.",
+      "citas": [
+        23
+      ]
+    }
+  ],
+  "carencias": [
+    {
+      "descripcion": "Periodo de carencia de 72 horas en la compra fuera del país de residencia o durante el viaje, en el que la asistencia médica no tiene validez.",
+      "citas": [
+        24
+      ]
+    },
+    {
+      "descripcion": "Suspensión automática de la cobertura al cumplirse treinta días calendario desde el vencimiento de la prima impaga, si no se pactó plazo adicional.",
+      "citas": [
+        25
+      ]
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "Las coberturas básicas del seguro son las siguientes:",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        22,
+        75
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "• Muerte Accidental.",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        76,
+        96
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "• Pérdida de equipaje.",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        97,
+        119
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "La cuales están sujetas hasta el límite establecido en las Condiciones Particulares y/o en el Certificado de Seguro.",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        120,
+        236
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        237,
+        294
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 6,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "• Cancelación de viaje",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        740,
+        762
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 7,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "• Robo de computador portátil",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        916,
+        945
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 8,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "• Robo en cajero automático",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        946,
+        973
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 9,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "texto_literal": "• Repatriación o traslados funerarios",
+      "pasaje": "P1",
+      "trozo_id": "pacifico_viajes:0009",
+      "posicion": [
+        1081,
+        1118
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 10,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.4. SUMAS ASEGURADAS SEGÚN LA EDAD DEL BENEFICIARIO",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "Titulares de 18 años o menores: Estarán asegurados por la suma indicada en las condiciones particulares de su Certificado de Seguro o por la suma máxima de USD 60.000 (sesenta mil dólares estadounidenses), la que sea menor.",
+      "pasaje": "P11",
+      "trozo_id": "pacifico_viajes:0031",
+      "posicion": [
+        88,
+        311
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 11,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.4. SUMAS ASEGURADAS SEGÚN LA EDAD DEL BENEFICIARIO",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "Titulares entre 19 a 74 años: Estarán asegurados por la suma indicada en las Condiciones Particulares y/ Certificado de Seguro.",
+      "pasaje": "P11",
+      "trozo_id": "pacifico_viajes:0031",
+      "posicion": [
+        314,
+        441
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 12,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza.",
+      "pasaje": "P6",
+      "trozo_id": "pacifico_viajes:0048",
+      "posicion": [
+        81,
+        274
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 13,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
+      "pagina": 17,
+      "paginas": [
+        17
+      ],
+      "texto_literal": "No se tomará en consideración el contenido y/o valor real del equipaje extraviado.",
+      "pasaje": "P6",
+      "trozo_id": "pacifico_viajes:0048",
+      "posicion": [
+        884,
+        966
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 14,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 7 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "• Gastos no autorizados Gastos de hotel, restaurante, taxis, comunicaciones, etc. que no hayan sido expresamente autorizados por la aseguradora.",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0044",
+      "posicion": [
+        799,
+        943
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 15,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 7 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "En los casos de hospitalización del Titular, se excluyen expresamente todos los gastos extras, así como de acompañantes.",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0044",
+      "posicion": [
+        975,
+        1095
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 16,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 7 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "Accidentes o enfermedades derivados del ejercicio de una actividad de alto riesgo que estuviera realizando el Titular",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0044",
+      "posicion": [
+        24,
+        141
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 17,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 3 de 8)",
+      "pagina": 13,
+      "paginas": [
+        13
+      ],
+      "texto_literal": "Enfermedades, lesiones, afecciones, consecuencias o complicaciones resultantes de tratamientos o asistencias recibidas por el Titular de parte de personas o profesionales no pertenecientes o autorizadas por la aseguradora.",
+      "pasaje": "P14",
+      "trozo_id": "pacifico_viajes:0040",
+      "posicion": [
+        47,
+        269
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 18,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 8 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "Las enfermedades o lesiones derivadas de actos notoriamente peligrosos o riesgosos, de grave imprudencia del Titular, sean en forma directa o indirecta",
+      "pasaje": "P16",
+      "trozo_id": "pacifico_viajes:0045",
+      "posicion": [
+        44,
+        195
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 19,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 8 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "Están excluidos los países en guerra civil o extranjera",
+      "pasaje": "P16",
+      "trozo_id": "pacifico_viajes:0045",
+      "posicion": [
+        530,
+        585
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 20,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 8 de 8)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "todo servicio originado dentro de una distancia menor a 100 km del lugar de residencia habitual del Beneficiario, salvo que el producto adquirido indique lo contrario.",
+      "pasaje": "P16",
+      "trozo_id": "pacifico_viajes:0045",
+      "posicion": [
+        689,
+        856
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 21,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "19. Circunstancias excepciones y/o de caso fortuito o fuerza mayor (parte 2 de 2)",
+      "pagina": 24,
+      "paginas": [
+        24
+      ],
+      "texto_literal": "en caso de existencia de enfermedades epidémicas y/o pandémicas quedarán automáticamente excluidos",
+      "pasaje": "P7",
+      "trozo_id": "pacifico_viajes:0078",
+      "posicion": [
+        10,
+        108
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 22,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE A. TÉRMINOS Y DEFINICIONES",
+      "articulo": "Texto completo de la sección (parte 2 de 5)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Franquicia o Deducible: El monto fijo y determinado que será a cargo del Titular y deberá ser abonado por éste al momento de brindársele la primera asistencia médica",
+      "pasaje": "P18",
+      "trozo_id": "pacifico_viajes:0022",
+      "posicion": [
+        1031,
+        1196
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 23,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "1. Copagos",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "El seguro podrá tener copagos que el ASEGURADO deberá pagar al momento de solicitar la cobertura. El COPAGO se señalará en las Condiciones Particulares o en el Certificado de Seguro.",
+      "pasaje": "P17",
+      "trozo_id": "pacifico_viajes:0055",
+      "posicion": [
+        11,
+        193
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 24,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "6. Adquisición del producto fuera del país de residencia (parte 2 de 3)",
+      "pagina": 21,
+      "paginas": [
+        21
+      ],
+      "texto_literal": "tendrá un periodo de carencia de 72 horas durante el cual toda asistencia médica solicitada a consecuencia de un accidente o enfermedad no tendrá validez alguna.",
+      "pasaje": "P20",
+      "trozo_id": "pacifico_viajes:0063",
+      "posicion": [
+        223,
+        384
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 25,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "10. Incumplimiento del pago de la prima – efectos (parte 1 de 2)",
+      "pagina": 30,
+      "paginas": [
+        30
+      ],
+      "texto_literal": "se suspende automáticamente una vez que hayan transcurrido treinta (30) días calendarios desde la fecha de vencimiento de la obligación",
+      "pasaje": "P22",
+      "trozo_id": "pacifico_viajes:0101",
+      "posicion": [
+        203,
+        338
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 26,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "9. Limites aplicables",
+      "pagina": 22,
+      "paginas": [
+        22
+      ],
+      "texto_literal": "Los límites monetarios indicados en las Condiciones Particulares y/o Certificado de Seguro PACIFICO SEGUROS serán aplicables por el periodo total de vigencia de la póliza",
+      "pasaje": "P13",
+      "trozo_id": "pacifico_viajes:0067",
+      "posicion": [
+        22,
+        192
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 27,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE A. TÉRMINOS Y DEFINICIONES",
+      "articulo": "Texto completo de la sección (parte 3 de 5)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "en caso de siniestro la Compañía Aseguradora abonará la indemnización que corresponda A PRORRATA ENTRE LOS INTEGRANTES DE DICHO GRUPO FAMILIAR.",
+      "pasaje": "P3",
+      "trozo_id": "pacifico_viajes:0023",
+      "posicion": [
+        1004,
+        1147
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 28,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "La suma asegurada es por Titular.",
+      "pasaje": "P12",
+      "trozo_id": "pacifico_viajes:0032",
+      "posicion": [
+        90,
+        123
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 29,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE E. DISPOSICIONES GENERALES",
+      "articulo": "2. Inicio de la cobertura",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "La cobertura inicia a partir del embarque del ASEGURADO al lugar de destino, en el caso de ASEGURADOS residentes en el Perú.",
+      "pasaje": "P23",
+      "trozo_id": "pacifico_viajes:0056",
+      "posicion": [
+        26,
+        150
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 30,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE F. OBLIGACIONES DEL TITULAR",
+      "articulo": "2. OBLIGATORIEDAD DE INFORMAR DENTRO DE LAS 24 HORAS (parte 2 de 2)",
+      "pagina": 26,
+      "paginas": [
+        26
+      ],
+      "texto_literal": "No podrán superar los topes establecidos para la asistencia brindada según el producto adquirido.",
+      "pasaje": "P8",
+      "trozo_id": "pacifico_viajes:0086",
+      "posicion": [
+        190,
+        287
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "no_encontrado": {},
+  "sin_limite": "Donde no aparece un monto es porque no está en este documento: suele estar en las Condiciones Particulares o en el certificado.",
+  "pasajes_revisados": 23,
+  "uso": {
+    "llamadas": 1,
+    "costo_usd": 0.002787,
+    "segundos": 11.19,
+    "tokens_entrada": 10634,
+    "tokens_salida": 3447
+  }
+}

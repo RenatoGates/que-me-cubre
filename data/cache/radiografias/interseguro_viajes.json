@@ -1,0 +1,704 @@
+{
+  "version": 1,
+  "documento": "Interseguro · Seguro de Viaje Internacional",
+  "paginas": 36,
+  "secciones": [
+    "Inicio del documento"
+  ],
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Generales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Generales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Generales",
+      "seccion": "Inicio del documento",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Inicio del documento",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Tabla de Beneficios",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Tabla de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "tabla de beneficios",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "modo": "radiografia",
+  "aviso": null,
+  "coberturas": [
+    {
+      "id": "C1",
+      "nombre": "Upgrade protección tecnología INTERSEGURO",
+      "que_cubre": "Indemniza por pérdida, robo o hurto de cámaras de fotografía, filmadoras, teléfonos inteligentes, tabletas y computadores, en planes que lo establezcan.",
+      "limite": "Hasta el tope de cobertura del plan contratado.",
+      "citas": [
+        2
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "Upgrade Deportes",
+      "que_cubre": "Cubre costos de atención por accidentes en práctica recreativa de alto riesgo o competencias profesionales, para deportes listados en la categoría 2.",
+      "limite": "Hasta el tope de la cobertura médica contratada, sin exceder USD 100.000.",
+      "citas": [
+        3
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "Upgrade de asistencia médica por enfermedad preexistente",
+      "que_cubre": "Cubre enfermedades preexistentes con un upgrade parcial de la cobertura médica.",
+      "limite": "30% de la cobertura médica, sin exceder USD 30,000.",
+      "citas": [
+        4
+      ]
+    },
+    {
+      "id": "C4",
+      "nombre": "Asistencia médica por accidente/enfermedad o condición médica no preexistente",
+      "que_cubre": "Consultas médicas y atención por especialistas por accidente o enfermedad aguda e imprevista no preexistente; los especialistas requieren indicación y autorización.",
+      "limite": null,
+      "citas": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "C5",
+      "nombre": "Cancelación de viaje por COVID-19",
+      "que_cubre": "Permite cancelar anticipadamente el viaje por diagnóstico positivo de COVID-19 del beneficiario, acompañante o familiar en primer grado, si el voucher lo contempla.",
+      "limite": null,
+      "citas": [
+        8,
+        9
+      ]
+    }
+  ],
+  "exclusiones": [
+    {
+      "descripcion": "Robo de objetos personales o equipaje de un vehículo estacionado, salvo ciertas condiciones de resguardo o evidencia de violencia o fuerza.",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "Equipaje desatendido, salvo que esté en habitación de hotel en lugar seguro con evidencia de entrada forzada y violenta.",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "Enfermedades crónicas o preexistentes, sus agudizaciones y secuelas.",
+      "citas": [
+        12
+      ]
+    },
+    {
+      "descripcion": "Accidentes y enfermedades ocurridos en países en guerra civil o extranjera.",
+      "citas": [
+        11
+      ]
+    },
+    {
+      "descripcion": "Riesgos profesionales y lesiones por esfuerzos repetitivos o similares, si el viaje es para ejecutar trabajos con ese riesgo.",
+      "citas": [
+        10
+      ]
+    },
+    {
+      "descripcion": "Gastos o asistencia médica no consultados y autorizados previamente por la Central de Servicios de Asistencia.",
+      "citas": [
+        15
+      ]
+    },
+    {
+      "descripcion": "Riñas o peleas, huelgas, vandalismo o tumulto popular en que el beneficiario participó activamente, y actos ilegales o dolosos.",
+      "citas": [
+        14
+      ]
+    },
+    {
+      "descripcion": "Tratamientos derivados del consumo intencional de drogas, narcóticos o alcohol, o del uso de medicamentos sin orden médica.",
+      "citas": [
+        13
+      ]
+    },
+    {
+      "descripcion": "Transportes o desplazamientos pagados por el beneficiario hacia centros médicos, no autorizados por la Central de Servicios.",
+      "citas": [
+        16
+      ]
+    },
+    {
+      "descripcion": "Cancelaciones de viaje por cierre de fronteras por parte del gobierno de origen o destino.",
+      "citas": [
+        21
+      ]
+    },
+    {
+      "descripcion": "Eventos ocurridos antes de la emisión del Plan de Asistencia.",
+      "citas": [
+        7
+      ]
+    }
+  ],
+  "deducibles": [],
+  "carencias": [
+    {
+      "descripcion": "Plazo de carencia: no son efectivas las coberturas durante este intervalo, contado en días desde el inicio de vigencia del voucher, si el beneficiario ya está fuera de su lugar de residencia al contratar.",
+      "citas": [
+        17
+      ]
+    },
+    {
+      "descripcion": "Si el beneficiario ya está en el país destino al solicitar el plan, este tendrá 3 días de carencia.",
+      "citas": [
+        18
+      ]
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 33 de 34)",
+      "pagina": 28,
+      "paginas": [
+        28
+      ],
+      "texto_literal": "Se consideran exclusiones a esta cobertura: i. No se cubrirán objetos personales o equipajes que fueran robados de un vehículo estacionado a menos que los mismos se encontrasen en el baúl del coche fuera de la vista pública y bajo llave en el caso de caravanas o que haya evidencia de que el robo fue efectuado con violencia o utilizando la fuerza.",
+      "pasaje": "P1",
+      "trozo_id": "interseguro_viajes:0070",
+      "posicion": [
+        0,
+        348
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 33 de 34)",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "texto_literal": "Upgrade protección tecnología INTERSEGURO indemnizará al beneficiario de un plan de asistencia que así lo establezca, por la pérdida, robo o hurto de los siguientes elementos: cámaras de fotografía, filmadoras, teléfonos inteligentes, tabletas y computadores hasta el tope de cobertura del plan contratado.",
+      "pasaje": "P1",
+      "trozo_id": "interseguro_viajes:0070",
+      "posicion": [
+        946,
+        1252
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 5. Factura por reposición del objeto robado, por uno de la misma marca y referencia, con fecha (parte 1 de 6)",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "texto_literal": "Upgrade Deportes INTERSEGURO se hará cargo de los costos de atención resultantes de accidentes ocurridos de la práctica recreativa de alto riesgo, en competencias prácticas profesionales (hasta el tope de su cobertura médica contratada, sin exceder USD 100.000 - Cien mil dólares americanos) de los siguientes deportes:",
+      "pasaje": "P2",
+      "trozo_id": "interseguro_viajes:0072",
+      "posicion": [
+        201,
+        520
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 5. Factura por reposición del objeto robado, por uno de la misma marca y referencia, con fecha (parte 1 de 6)",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "texto_literal": "Upgrade de asistencia médica por enfermedad preexistente El upgrade por enfermedad preexistente sólo cubrirá el 30% de la cobertura médica, sin exceder USD 30,000.",
+      "pasaje": "P2",
+      "trozo_id": "interseguro_viajes:0072",
+      "posicion": [
+        943,
+        1106
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 3. INTERSEGURO se obliga a analizar cada solicitud de reembolso para determinar si es (parte 2 de 8)",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "Asistencia médica por accidente/enfermedad o condición médica no preexistente",
+      "pasaje": "P3",
+      "trozo_id": "interseguro_viajes:0031",
+      "posicion": [
+        948,
+        1025
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 6,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 3. INTERSEGURO se obliga a analizar cada solicitud de reembolso para determinar si es (parte 2 de 8)",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "Consultas Médicas: Se prestarán en caso de accidente y enfermedad o condición médica aguda e imprevista no preexistente.",
+      "pasaje": "P3",
+      "trozo_id": "interseguro_viajes:0031",
+      "posicion": [
+        1028,
+        1148
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 7,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 12 de 34)",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "Nota 2: Queda excluido de cobertura cualquier evento ocurrido con anterioridad a la emisión del Plan de Asistencia.",
+      "pasaje": "P5",
+      "trozo_id": "interseguro_viajes:0049",
+      "posicion": [
+        355,
+        470
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 8,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 15 de 34)",
+      "pagina": 21,
+      "paginas": [
+        21
+      ],
+      "texto_literal": "En todo caso, el Voucher deberá ser emitido con una antelación mínima de 14 días a la fecha de partida, o inicio de vigencia, lo que suceda primero.",
+      "pasaje": "P7",
+      "trozo_id": "interseguro_viajes:0052",
+      "posicion": [
+        942,
+        1090
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 9,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 15 de 34)",
+      "pagina": 21,
+      "paginas": [
+        21
+      ],
+      "texto_literal": "Cancelación de viaje por COVID-19 En caso de ser contemplado dentro del voucher, el Beneficiario podrá cancelar anticipadamente su viaje por los siguientes motivos:",
+      "pasaje": "P7",
+      "trozo_id": "interseguro_viajes:0052",
+      "posicion": [
+        645,
+        809
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 10,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 28. Riesgos profesionales: si el motivo del viaje del Beneficiario fuese la ejecución de trabajos",
+      "pagina": 33,
+      "paginas": [
+        33
+      ],
+      "texto_literal": "28. Riesgos profesionales: si el motivo del viaje del Beneficiario fuese la ejecución de trabajos o tareas que involucren un riesgo profesional",
+      "pasaje": "P4",
+      "trozo_id": "interseguro_viajes:0094",
+      "posicion": [
+        0,
+        143
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 11,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 30. Están excluidos los accidentes y enfermedades presentadas en países en guerra civil o",
+      "pagina": 33,
+      "paginas": [
+        33
+      ],
+      "texto_literal": "30. Están excluidos los accidentes y enfermedades presentadas en países en guerra civil o extranjera.",
+      "pasaje": "P8",
+      "trozo_id": "interseguro_viajes:0096",
+      "posicion": [
+        0,
+        101
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 12,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 5. Factura por reposición del objeto robado, por uno de la misma marca y referencia, con fecha (parte 6 de 6)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "texto_literal": "1. Enfermedades crónicas o preexistentes, definidas, o recurrentes, padecidas con anterioridad al inicio de la vigencia del plan y/o del viaje",
+      "pasaje": "P9",
+      "trozo_id": "interseguro_viajes:0077",
+      "posicion": [
+        0,
+        142
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 13,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 5. Factura por reposición del objeto robado, por uno de la misma marca y referencia, con fecha (parte 6 de 6)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "texto_literal": "5. Tratamiento de enfermedades o estados patológicos producidos por la ingesta o la administración intencional de tóxicos (drogas), narcóticos, alcohol, o por la utilización de medicamentos sin la respectiva orden médica",
+      "pasaje": "P9",
+      "trozo_id": "interseguro_viajes:0077",
+      "posicion": [
+        972,
+        1192
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 14,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 20. Afecciones, enfermedades o lesiones derivadas directa o indirectamente de riña o peleas",
+      "pagina": 33,
+      "paginas": [
+        33
+      ],
+      "texto_literal": "20. Afecciones, enfermedades o lesiones derivadas directa o indirectamente de riña o peleas (salvo que se tratase de un caso de legítima defensa comprobada con reporte policial), huelga, actos de vandalismo o tumulto popular en que el Beneficiario hubiese participado como elemento activo.",
+      "pasaje": "P10",
+      "trozo_id": "interseguro_viajes:0090",
+      "posicion": [
+        0,
+        289
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 15,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 22. Cualquier gasto o asistencia médica que no haya sido previamente consultado y autorizado",
+      "pagina": 33,
+      "paginas": [
+        33
+      ],
+      "texto_literal": "22. Cualquier gasto o asistencia médica que no haya sido previamente consultado y autorizado por la Central de Servicios de Asistencia INTERSEGURO.",
+      "pasaje": "P11",
+      "trozo_id": "interseguro_viajes:0092",
+      "posicion": [
+        0,
+        147
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 16,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 17. Gastos correspondientes a transportes públicos o privados o desplazamientos pagados por",
+      "pagina": 32,
+      "paginas": [
+        32,
+        33
+      ],
+      "texto_literal": "17. Gastos correspondientes a transportes públicos o privados o desplazamientos pagados por el Beneficiario desde su hotel o lugar donde esté hasta el centro hospitalario",
+      "pasaje": "P12",
+      "trozo_id": "interseguro_viajes:0087",
+      "posicion": [
+        0,
+        170
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 17,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "2. El uso o el intento de uso de cualquiera de los servicios contratados (parte 12 de 16)",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "texto_literal": "Plazo o Período de Carencia: Intervalo de tiempo durante el cual no son efectivas las coberturas incluidas dentro del Plan.",
+      "pasaje": "P14",
+      "trozo_id": "interseguro_viajes:0013",
+      "posicion": [
+        2,
+        125
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 18,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "3. Hasta que el médico firme el alta del Beneficiario en el transcurso de los ocho (8) días de (parte 1 de 5)",
+      "pagina": 8,
+      "paginas": [
+        8
+      ],
+      "texto_literal": "Nota1: en los casos que el Beneficiario ya se encuentre en el país destino y solicite la autorización para emitir un plan de asistencia en viajes, siempre y cuando la misma sea autorizada por la Central de Emergencia, dicho plan tendrá 3 días de carencia.",
+      "pasaje": "P15",
+      "trozo_id": "interseguro_viajes:0018",
+      "posicion": [
+        352,
+        607
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 19,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "2. El uso o el intento de uso de cualquiera de los servicios contratados (parte 16 de 16)",
+      "pagina": 8,
+      "paginas": [
+        8
+      ],
+      "texto_literal": "Hasta máximo ocho (8) días adicionales contados desde el día de finalización de vigencia del voucher.",
+      "pasaje": "P16",
+      "trozo_id": "interseguro_viajes:0017",
+      "posicion": [
+        399,
+        500
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 20,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "2. El uso o el intento de uso de cualquiera de los servicios contratados (parte 13 de 16)",
+      "pagina": 7,
+      "paginas": [
+        7
+      ],
+      "texto_literal": "Los planes en la categoría “Viajes Cortos”, tendrán una vigencia máxima de 90 días consecutivos de viaje, mientras que los planes “Larga Estadía”, tendrán una vigencia total de 365 días consecutivos de cobertura.",
+      "pasaje": "P17",
+      "trozo_id": "interseguro_viajes:0014",
+      "posicion": [
+        1144,
+        1356
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 21,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 16 de 34)",
+      "pagina": 21,
+      "paginas": [
+        21
+      ],
+      "texto_literal": "No tendrán cobertura solicitudes de Cancelación de viaje, si la misma se llegase a dar por un cierre de fronteras por parte del Gobierno de origen o destino.",
+      "pasaje": "P6",
+      "trozo_id": "interseguro_viajes:0053",
+      "posicion": [
+        56,
+        213
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 22,
+      "documento": "Interseguro · Seguro de Viaje Internacional",
+      "seccion": "Inicio del documento",
+      "articulo": "II. OBLIGACIONES ASUMIDAS POR INTERSEGURO › 4. Para poder acceder a esta cobertura el beneficiario deberá haber estado estable por más (parte 12 de 34)",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "Este beneficio no aplica para Beneficiarios mayores de 74 años.",
+      "pasaje": "P5",
+      "trozo_id": "interseguro_viajes:0049",
+      "posicion": [
+        291,
+        354
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "no_encontrado": {
+    "deducibles": "No encontré deducibles ni copagos en este documento."
+  },
+  "sin_limite": "Donde no aparece un monto es porque no está en este documento: suele estar en las Condiciones Particulares o en el certificado.",
+  "pasajes_revisados": 17,
+  "uso": {
+    "llamadas": 1,
+    "costo_usd": 0.002764,
+    "segundos": 12.05,
+    "tokens_entrada": 9915,
+    "tokens_salida": 3545
+  }
+}

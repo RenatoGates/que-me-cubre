@@ -1,0 +1,24 @@
+{
+  "nota": "Textos para medir el paso de triage (repregunta y varias preguntas). Lo esperado se escribió antes de correr nada. Las 10 preguntas de pruebas/preguntas.json se usan además como control: son claras y de una sola pregunta.",
+  "vagas": [
+    "Me lesioné, ¿qué puedo hacer?",
+    "Tuve un problema en el viaje, ¿me cubre?",
+    "¿Me cubre?",
+    "Me pasó algo ayer y no sé si el seguro responde.",
+    "Necesito usar mi seguro, ¿cómo hago?",
+    "Tuve un accidente."
+  ],
+  "claras": [
+    "Me caí de la moto en Cusco y me fracturé la muñeca, ¿me cubre la operación?",
+    "¿Qué exclusiones tiene mi póliza?",
+    "Me robaron el celular en el aeropuerto de Lima, ¿lo cubre?",
+    "¿A qué número llamo si necesito un médico durante el viaje?"
+  ],
+  "varias": [
+    {"texto": "Perdí mi maleta en el vuelo, ¿me pagan algo? Y además, ¿cuántos días tengo para avisar?", "preguntas": 2},
+    {"texto": "Me torcí el tobillo en Arequipa y fui a una clínica. ¿Me cubren la consulta? ¿Y las medicinas que compré? ¿Qué documentos tengo que presentar?", "preguntas": 3},
+    {"texto": "¿Me cubre si me cancelan el vuelo? ¿Y si me enfermo antes de viajar?", "preguntas": 2},
+    {"texto": "Quiero saber si cubre dentista y también cuánto tiempo dura la cobertura.", "preguntas": 2},
+    {"texto": "Se me rompió un diente comiendo, ¿me cubre el dentista? ¿Tenía que llamar antes a la central?", "preguntas": 2}
+  ]
+}

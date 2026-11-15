@@ -1,0 +1,700 @@
+{
+  "version": 1,
+  "documento": "Rimac Seguros · Seguro de Viaje",
+  "paginas": 20,
+  "secciones": [
+    "Condicionado General de la Póliza",
+    "Cláusula Adicional de Accidentes Personales",
+    "Cláusula Adicional de Asistencia Domiciliaria"
+  ],
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Especiales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Especiales",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Plan de Beneficios",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Plan de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Plan de Beneficios",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.17. Compensación de gastos por cancelación de viaje",
+      "pagina": 7,
+      "paginas": [
+        7
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Tabla de Beneficios",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Tabla de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Tabla de Beneficios",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.31. Envío de efectivo por emergencia",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "modo": "radiografia",
+  "aviso": null,
+  "coberturas": [
+    {
+      "id": "C1",
+      "nombre": "Muerte accidental",
+      "que_cubre": "Pago a los Beneficiarios si el asegurado fallece por un accidente durante un viaje al extranjero, cuando el accidente es la causa directa y única.",
+      "limite": "Hasta la suma asegurada indicada en la Tabla de Beneficios de la Póliza; si un accidente involucra a más de un asegurado, máximo US$ 500,000.00 para todas las pólizas afectadas.",
+      "citas": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "Invalidez permanente por accidente",
+      "que_cubre": "Pago según el grado de invalidez permanente total o parcial causada por un accidente durante un viaje al extranjero de hasta 180 días consecutivos.",
+      "limite": "Según el Anexo A - Tabla de Indemnizaciones por Invalidez Permanente, que no se incluye en los pasajes; si un accidente involucra a más de un asegurado, máximo US$ 250,000.00 para todas las pólizas afectadas.",
+      "citas": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "Envío de efectivo por emergencia",
+      "que_cubre": "En caso de necesidad imperiosa e imprevista durante el viaje, la compañía gestiona la entrega de dinero al asegurado en el país donde se encuentre, previo depósito en su oficina.",
+      "limite": "Hasta el límite especificado en la Tabla de Beneficios, que no se incluye en los pasajes; se aplica una sola vez por cada año de vigencia.",
+      "citas": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "C4",
+      "nombre": "Vidriería de emergencia (Asistencia Domiciliaria)",
+      "que_cubre": "Restablece la seguridad tras la rotura de vidrios de puertas, ventanas o mamparas del inmueble hacia la calle, mediante un técnico vidriero designado, incluyendo movilidad, mano de obra y materiales.",
+      "limite": null,
+      "citas": [
+        7
+      ]
+    }
+  ],
+  "exclusiones": [
+    {
+      "descripcion": "Enfermedades corporales o mentales, y consecuencias de tratamientos médicos o quirúrgicos que no sean motivados por accidentes cubiertos.",
+      "citas": [
+        8
+      ]
+    },
+    {
+      "descripcion": "Lesiones preexistentes al momento de contratar el seguro.",
+      "citas": [
+        9
+      ]
+    },
+    {
+      "descripcion": "Complicaciones médicas de embarazos o partos.",
+      "citas": [
+        10
+      ]
+    },
+    {
+      "descripcion": "Síndrome de Inmunodeficiencia Adquirida (SIDA).",
+      "citas": [
+        11
+      ]
+    },
+    {
+      "descripcion": "Accidentes bajo la influencia del alcohol (0.50 gramos o más por litro de sangre) o drogas, o en estado de sonambulismo.",
+      "citas": [
+        12
+      ]
+    },
+    {
+      "descripcion": "Accidentes de trabajo y práctica de profesiones u oficios riesgosos no declarados ni aceptados por la compañía.",
+      "citas": [
+        13
+      ]
+    },
+    {
+      "descripcion": "Accidentes dentro del país en que se emitió la póliza.",
+      "citas": [
+        14
+      ]
+    },
+    {
+      "descripcion": "Servicios o gastos contratados directamente por el asegurado sin autorización previa de la compañía (en asistencia domiciliaria).",
+      "citas": [
+        15
+      ]
+    },
+    {
+      "descripcion": "Humedad o filtraciones, y trabajos de albañilería salvo los originados directamente de la emergencia amparada, que tienen un tope de US$ 100 (en asistencia domiciliaria).",
+      "citas": [
+        16,
+        17
+      ]
+    }
+  ],
+  "deducibles": [],
+  "carencias": [
+    {
+      "descripcion": "La cobertura de la póliza inicia con la aceptación de la solicitud y el pago de la prima total o de la cuota inicial, según lo convenido; el uso de las coberturas puede iniciar al cruzar el control migratorio acreditando la salida del país.",
+      "citas": [
+        18,
+        19
+      ]
+    },
+    {
+      "descripcion": "Suspensión de la cobertura si la prima sigue impaga al vencer el plazo; la compañía no responde por siniestros ocurridos durante la suspensión.",
+      "citas": [
+        20
+      ]
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 1 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "A) Muerte accidental Si el ASEGURADO sufre un accidente durante el viaje al extranjero, que dé lugar a su fallecimiento siempre que su causa directa y única fuera un accidente amparado por la Póliza de Seguro, la COMPAÑÍA pagará a los Beneficiarios, hasta el límite de suma asegurada indicada en la Tabla de Beneficios de la Póliza.",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0107",
+      "posicion": [
+        13,
+        345
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 1 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "En caso de un accidente que involucre a más de un ASEGURADO, la responsabilidad máxima por todas las pólizas afectadas, no será mayor a US$ 500,000.00 (Quinientos Mil con 00/100 Dólares de los Estados Unidos de América).",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0107",
+      "posicion": [
+        646,
+        866
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 2 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "B) Invalidez permanente por accidente Si durante un viaje al extranjero, hasta un máximo de ciento ochenta (180) días consecutivos, el ASEGURADO sufre un accidente que dé lugar a su Invalidez Permanente Total o Invalidez Permanente Parcial",
+      "pasaje": "P5",
+      "trozo_id": "rimac_viajes:0108",
+      "posicion": [
+        0,
+        239
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 2 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "En caso de un accidente que involucre a más de un ASEGURADO, la responsabilidad máxima por todas las pólizas afectadas, no será mayor a US$ 250,000.00 (Doscientos Cincuenta Mil con 00/100 Dólares de los Estados Unidos de América).",
+      "pasaje": "P5",
+      "trozo_id": "rimac_viajes:0108",
+      "posicion": [
+        523,
+        753
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.31. Envío de efectivo por emergencia",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Durante el viaje, en caso de necesidad imperiosa e imprevista y contra previo depósito en la oficina de la COMPAÑÍA, éste gestionará la entrega al ASEGURADO en el país donde se encuentre, de las sumas dinerarias hasta el límite especificado en la Tabla de Beneficios.",
+      "pasaje": "P6",
+      "trozo_id": "rimac_viajes:0067",
+      "posicion": [
+        38,
+        305
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 6,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.31. Envío de efectivo por emergencia",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Esta cobertura será aplicada una sola vez por cada año de vigencia de la Póliza de Seguro.",
+      "pasaje": "P6",
+      "trozo_id": "rimac_viajes:0067",
+      "posicion": [
+        306,
+        396
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 7,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "1. COBERTURAS (parte 3 de 3)",
+      "pagina": 18,
+      "paginas": [
+        18
+      ],
+      "texto_literal": "Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza se produce la rotura de vidrios de las puertas o ventanas o mamparas que forman parte integran te del inmueble",
+      "pasaje": "P3",
+      "trozo_id": "rimac_viajes:0124",
+      "posicion": [
+        248,
+        442
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 8,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "m) Cualquier enfermedad corporal o mental, y a las consecuencias de tratamientos médicos o quirúrgicos que no sean motivados por accidentes amparados por la presente Póliza.",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        1187,
+        1360
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 9,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "o) Las lesiones preexistentes al momento de contratar este Seguro.",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        1413,
+        1479
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 10,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "p) Las complicaciones médicas de embarazos o partos.",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        1480,
+        1532
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 11,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "n) Síndrome de Inmuno Deficiencia Adquirida (SIDA).",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        1361,
+        1412
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 12,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "j) Bajo la influencia del alcohol (en grado igual o superior a 0.50 gramos de alcohol por litro de sangre al momento del accidente) y/o drogas o en estado de sonambulismo.",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        493,
+        664
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 13,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "4. EXCLUSIONES (parte 3 de 3)",
+      "pagina": 15,
+      "paginas": [
+        15
+      ],
+      "texto_literal": "i) Los provenientes de accidentes de trabajo; así como de la práctica o desempeño de profesión u oficio claramente riesgoso tales como: bomberos, mineros, pilotos o tripulantes de nave aérea o marítima",
+      "pasaje": "P9",
+      "trozo_id": "rimac_viajes:0113",
+      "posicion": [
+        0,
+        201
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 14,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS (parte 5 de 5)",
+      "pagina": 5,
+      "paginas": [
+        5
+      ],
+      "texto_literal": "x) Accidentes dentro del país en que es emitida la Póliza.",
+      "pasaje": "P10",
+      "trozo_id": "rimac_viajes:0033",
+      "posicion": [
+        783,
+        841
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 15,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "3. EXCLUSIONES (parte 1 de 2)",
+      "pagina": 18,
+      "paginas": [
+        18
+      ],
+      "texto_literal": "3.1.1. Los servicios o gastos contratados o incurridos directamente por el ASEGURADO, sin haber sido previamente autorizados por la COMPAÑÍA.",
+      "pasaje": "P7",
+      "trozo_id": "rimac_viajes:0126",
+      "posicion": [
+        60,
+        201
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 16,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "3. EXCLUSIONES (parte 2 de 2)",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "3.3.4. Reparación o remedio de humedad o filtraciones.",
+      "pasaje": "P8",
+      "trozo_id": "rimac_viajes:0127",
+      "posicion": [
+        142,
+        196
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 17,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "3. EXCLUSIONES (parte 2 de 2)",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "3.3.6. Los trabajos de albañilería, excepto los que se originen directamente de la emergencia amparada y, en ese caso, a hasta la suma de US$ 100 (cien dólares americanos).",
+      "pasaje": "P8",
+      "trozo_id": "rimac_viajes:0127",
+      "posicion": [
+        394,
+        566
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 18,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 13°.- VIGENCIA DEL RIESGO",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "El inicio de la vigencia de la presente cobertura de Asistencia Médica Salud Viajeros será una vez que la prima del Seguro sea debidamente pagada, y una vez que la Solicitud de Seguro haya sido aceptada por la COMPAÑÍA.",
+      "pasaje": "P13",
+      "trozo_id": "rimac_viajes:0075",
+      "posicion": [
+        35,
+        254
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 19,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 2°.- BASES DEL CONTRATO › numeral 2.4",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "La cobertura se inicia con la aceptación expresa de la",
+      "pasaje": "P15",
+      "trozo_id": "rimac_viajes:0005",
+      "posicion": [
+        4,
+        58
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 20,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 4°.- PAGO DE LA PRIMA › numeral 4.10",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "texto_literal": "La COMPAÑÍA no será responsable por los siniestros ocurridos durante el período en que la cobertura se mantuvo suspendida.",
+      "pasaje": "P14",
+      "trozo_id": "rimac_viajes:0019",
+      "posicion": [
+        412,
+        534
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 21,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 1°.- OBJETO DEL CONTRATO DE SEGURO",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "la COMPAÑÍA a indemnizar al ASEGURADO, hasta el límite máximo asegurado indicado en las Condiciones Particulares, correspondiente a los Gastos Médicos y/o beneficios adicionales",
+      "pasaje": "P4",
+      "trozo_id": "rimac_viajes:0001",
+      "posicion": [
+        159,
+        336
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 22,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS (parte 5 de 5)",
+      "pagina": 5,
+      "paginas": [
+        5
+      ],
+      "texto_literal": "w) Intoxicación, infección bacteriana o virulenta, aunque se haya contraído accidentalmente.",
+      "pasaje": "P10",
+      "trozo_id": "rimac_viajes:0033",
+      "posicion": [
+        544,
+        636
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "no_encontrado": {
+    "deducibles": "No encontré deducibles ni copagos en este documento."
+  },
+  "sin_limite": "Donde no aparece un monto es porque no está en este documento: suele estar en las Condiciones Particulares o en el certificado.",
+  "pasajes_revisados": 15,
+  "uso": {
+    "llamadas": 1,
+    "costo_usd": 0.002433,
+    "segundos": 10.52,
+    "tokens_entrada": 7744,
+    "tokens_salida": 3318
+  }
+}
