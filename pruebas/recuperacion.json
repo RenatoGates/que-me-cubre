@@ -9,9 +9,9 @@
     },
     {
       "metodo": "bm25_variantes",
-      "k3": 1,
-      "k5": 2,
-      "k8": 4,
+      "k3": 4,
+      "k5": 5,
+      "k8": 5,
       "n": 9
     },
     {
@@ -23,16 +23,16 @@
     },
     {
       "metodo": "emb_variantes",
-      "k3": 7,
-      "k5": 7,
-      "k8": 8,
+      "k3": 5,
+      "k5": 5,
+      "k8": 5,
       "n": 9
     },
     {
       "metodo": "hibrido_variantes",
       "k3": 5,
-      "k5": 6,
-      "k8": 7,
+      "k5": 5,
+      "k8": 5,
       "n": 9
     }
   ],
@@ -52,14 +52,14 @@
       },
       "bm25_variantes": {
         "k3": false,
-        "k5": false,
-        "k8": false,
+        "k5": true,
+        "k8": true,
         "top5": [
-          "Cláusula Adicional: Desmembramiento Accidental › Artículo 3° Cobertura",
+          "Cláusula Adicional: Desmembramiento Accidental › Artículo 4° Exclusiones",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 13° Indemnización de los Siniestros › numeral 13.7",
-          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura"
         ]
       },
       "emb_pregunta": {
@@ -80,22 +80,22 @@
         "k8": true,
         "top5": [
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
         ]
       },
       "hibrido_variantes": {
-        "k3": false,
+        "k3": true,
         "k5": true,
         "k8": true,
         "top5": [
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Desmembramiento Accidental › Artículo 4° Exclusiones",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura"
         ]
       }
     },
@@ -108,7 +108,7 @@
           "Resumen Informativo › INFORMACIÓN GENERAL › 1. Ubicación, teléfono y correo electrónico, o medio de contacto vía web de la COMPAÑÍA.",
           "Condiciones Generales › Artículo 1°: Definiciones",
           "Resumen Informativo › INFORMACIÓN GENERAL › 7. Instancias habilitadas para presentar reclamos o denuncias según corresponda.",
-          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 1° Definiciones",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones",
           "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 20° Mecanismos de Solución de Controversias"
         ]
       },
@@ -117,11 +117,11 @@
         "k5": false,
         "k8": false,
         "top5": [
-          "Resumen Informativo › INFORMACIÓN GENERAL › 1. Ubicación, teléfono y correo electrónico, o medio de contacto vía web de la COMPAÑÍA.",
-          "Condiciones Generales › Artículo 1°: Definiciones",
-          "Resumen Informativo › INFORMACIÓN GENERAL › 7. Instancias habilitadas para presentar reclamos o denuncias según corresponda.",
-          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 1° Definiciones",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 20° Mecanismos de Solución de Controversias"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones"
         ]
       },
       "emb_pregunta": {
@@ -141,11 +141,11 @@
         "k5": false,
         "k8": false,
         "top5": [
-          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 3° Cobertura",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 4° Condiciones de Cobertura"
         ]
       },
       "hibrido_variantes": {
@@ -153,11 +153,11 @@
         "k5": false,
         "k8": false,
         "top5": [
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones"
         ]
       }
     },
@@ -175,15 +175,15 @@
         ]
       },
       "bm25_variantes": {
-        "k3": false,
-        "k5": false,
-        "k8": false,
+        "k3": true,
+        "k5": true,
+        "k8": true,
         "top5": [
-          "Cláusula Adicional: Cancelación del Viaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 1° Definiciones",
-          "Condiciones Generales › Artículo 7°: Exclusiones",
-          "Resumen Informativo › INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales Exclusiones",
-          "Cláusula Adicional: Traslado de Restos Mortales (Repatriación Funeraria) › Artículo 2° Exclusiones"
+          "Cláusula Adicional: Pérdida de Equipaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Pérdida de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       },
       "emb_pregunta": {
@@ -205,9 +205,9 @@
         "top5": [
           "Cláusula Adicional: Pérdida de Equipaje › Artículo 3° Cobertura",
           "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Pérdida de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
           "Cláusula Adicional: Pérdida de Equipaje › Artículo 1° Descripción de la Cobertura",
-          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Pérdida de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       },
       "hibrido_variantes": {
@@ -215,11 +215,11 @@
         "k5": true,
         "k8": true,
         "top5": [
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 1° Definiciones",
           "Cláusula Adicional: Pérdida de Equipaje › Artículo 3° Cobertura",
-          "Condiciones Generales › Artículo 12°: Pago de Beneficios",
-          "Cláusula Adicional: Pérdida de Equipaje › Artículo 1° Descripción de la Cobertura",
-          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 1° Definiciones"
+          "Cláusula Adicional: Pérdida de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 5° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Pérdida de Equipaje › Artículo 1° Descripción de la Cobertura"
         ]
       }
     },
@@ -237,15 +237,15 @@
         ]
       },
       "bm25_variantes": {
-        "k3": false,
-        "k5": false,
-        "k8": false,
+        "k3": true,
+        "k5": true,
+        "k8": true,
         "top5": [
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 25° Atención de Consultas y Reclamos",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 23° Prescripción",
-          "Resumen Informativo › INFORMACIÓN GENERAL › 6. Medios habilitados por la COMPAÑÍA para presentar consultas y/o reclamos conforme lo dispone la",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Traslado de Restos Mortales (Repatriación Funeraria) › Artículo 2° Exclusiones"
+          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       },
       "emb_pregunta": {
@@ -261,27 +261,27 @@
         ]
       },
       "emb_variantes": {
-        "k3": false,
-        "k5": false,
+        "k3": true,
+        "k5": true,
         "k8": true,
         "top5": [
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       },
       "hibrido_variantes": {
-        "k3": false,
-        "k5": false,
-        "k8": false,
+        "k3": true,
+        "k5": true,
+        "k8": true,
         "top5": [
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
-          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias"
+          "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       }
     },
@@ -299,15 +299,15 @@
         ]
       },
       "bm25_variantes": {
-        "k3": false,
-        "k5": false,
-        "k8": false,
+        "k3": true,
+        "k5": true,
+        "k8": true,
         "top5": [
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 1° Definiciones",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 5° Prima y Pago › numeral 5.1",
-          "Cláusula Adicional: Cancelación del Viaje › Artículo 1° Definiciones"
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 5° Exclusiones"
         ]
       },
       "emb_pregunta": {
@@ -327,23 +327,23 @@
         "k5": true,
         "k8": true,
         "top5": [
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 4° Condiciones de Cobertura",
           "Cláusula Adicional: Cancelación del Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
-          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 1° Definiciones",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 5° Exclusiones"
         ]
       },
       "hibrido_variantes": {
-        "k3": false,
-        "k5": false,
+        "k3": true,
+        "k5": true,
         "k8": true,
         "top5": [
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 1° Definiciones",
-          "Cláusula Adicional: Cancelación del Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
-          "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias"
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Cancelación del Viaje › Artículo 5° Exclusiones"
         ]
       }
     },
@@ -361,15 +361,15 @@
         ]
       },
       "bm25_variantes": {
-        "k3": false,
-        "k5": false,
+        "k3": true,
+        "k5": true,
         "k8": true,
         "top5": [
-          "Resumen Informativo › INFORMACIÓN GENERAL › 1. Ubicación, teléfono y correo electrónico, o medio de contacto vía web de la COMPAÑÍA.",
-          "Resumen Informativo › INFORMACIÓN GENERAL › 5. Lugares autorizados por la empresa para solicitar la cobertura del seguro.",
-          "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
           "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección"
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
         ]
       },
       "emb_pregunta": {
@@ -391,9 +391,9 @@
         "top5": [
           "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
           "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 1° Definiciones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 4° Condiciones de Cobertura"
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 2° Vigencia Individual y Territorio",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones"
         ]
       },
       "hibrido_variantes": {
@@ -401,11 +401,11 @@
         "k5": true,
         "k8": true,
         "top5": [
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
           "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 3° Cobertura",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección"
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 2° Vigencia Individual y Territorio",
+          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones"
         ]
       }
     },
@@ -425,13 +425,13 @@
       "bm25_variantes": {
         "k3": false,
         "k5": false,
-        "k8": true,
+        "k8": false,
         "top5": [
-          "Resumen Informativo › INFORMACIÓN DE LA PÓLIZA DE SEGURO › 4. Derecho de arrepentimiento.",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 17° Derecho de Arrepentimiento",
-          "Condiciones Generales › Artículo 2°: Cobertura Principal – Muerte Accidental",
-          "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales › Artículo 23° Prescripción",
-          "Cláusula Adicional: Traslado de Restos Mortales (Repatriación Funeraria) › Artículo 2° Exclusiones"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
         ]
       },
       "emb_pregunta": {
@@ -447,27 +447,27 @@
         ]
       },
       "emb_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Cancelación del Viaje › Artículo 5° Exclusiones"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 2° Vigencia Individual y Territorio",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
         ]
       },
       "hibrido_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Artículo 5° Exclusiones",
-          "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje › Texto inicial de la sección",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
           "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
-          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura"
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura",
+          "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 2° Vigencia Individual y Territorio"
         ]
       }
     },
@@ -486,14 +486,14 @@
       },
       "bm25_variantes": {
         "k3": false,
-        "k5": true,
-        "k8": true,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "PARTE G. CONDICIONES LEGALES › 19. Subrogación",
-          "PARTE F. OBLIGACIONES DEL TITULAR › 1. AUTORIZACIÓN PREVIA",
-          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS",
+          "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 1. COBERTURA DE MUERTE ACCIDENTAL",
           "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-          "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones"
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+          "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS"
         ]
       },
       "emb_pregunta": {
@@ -509,27 +509,27 @@
         ]
       },
       "emb_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.3. VALIDEZ TERRITORIAL DE LA COBERTURA",
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
           "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-          "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
-          "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-          "PARTE G. CONDICIONES LEGALES › 6. Coberturas y Exclusiones"
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS",
+          "PARTE B. COBERTURAS › 1. CONDICIONES ASEGURABLES"
         ]
       },
       "hibrido_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
-          "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-          "PARTE E. DISPOSICIONES GENERALES › 11. Asistencias en curso",
-          "PARTE G. CONDICIONES LEGALES › 20. Información médica e historia clínica",
-          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS"
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.3. VALIDEZ TERRITORIAL DE LA COBERTURA",
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
+          "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS",
+          "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 1. COBERTURA DE MUERTE ACCIDENTAL",
+          "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES"
         ]
       }
     },
@@ -547,15 +547,15 @@
         ]
       },
       "bm25_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
-          "Condicionado General de la Póliza › ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
-          "Condicionado General de la Póliza › ARTÍCULO 27º.- DEFINICIONES",
-          "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.2. En caso de gastos médicos y hospitalarios, gastos"
+          "Cláusula Adicional de Accidentes Personales › 1. COBERTURA",
+          "Cláusula Adicional de Asistencia Domiciliaria › 1. COBERTURAS",
+          "Cláusula Adicional de Asistencia Domiciliaria › 6. REEMBOLSO",
+          "Cláusula Adicional de Asistencia Domiciliaria › 5. GARANTÍA SOBRE EL TRABAJO EJECUTADO",
+          "Cláusula Adicional de Asistencia Domiciliaria › 2. BENEFICIOS ADICIONALES"
         ]
       },
       "emb_pregunta": {
@@ -571,27 +571,27 @@
         ]
       },
       "emb_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.6. Traslados médicos de emergencia por recomenda",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante"
+          "Cláusula Adicional de Asistencia Domiciliaria › 6. REEMBOLSO",
+          "Cláusula Adicional de Accidentes Personales › 4. EXCLUSIONES",
+          "Cláusula Adicional de Asistencia Domiciliaria › 2. BENEFICIOS ADICIONALES",
+          "Cláusula Adicional de Asistencia Domiciliaria › 4. PROCEDIMIENTO EN CASO DE SINIESTROS",
+          "Cláusula Adicional de Accidentes Personales › 5. PROCEDIMIENTO PARA EL RECLAMO DE BENEFICIOS"
         ]
       },
       "hibrido_variantes": {
-        "k3": true,
-        "k5": true,
-        "k8": true,
+        "k3": false,
+        "k5": false,
+        "k8": false,
         "top5": [
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
-          "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.4. Reembolso:",
-          "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante",
-          "Condicionado General de la Póliza › ARTÍCULO 25°.- PROCEDIMIENTO EN CASO DE SINIESTRO › 25.2. En caso de gastos médicos y hospitalarios, gastos",
-          "Condicionado General de la Póliza › ARTÍCULO 8º.- ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS"
+          "Cláusula Adicional de Asistencia Domiciliaria › 6. REEMBOLSO",
+          "Cláusula Adicional de Accidentes Personales › 4. EXCLUSIONES",
+          "Cláusula Adicional de Accidentes Personales › 1. COBERTURA",
+          "Cláusula Adicional de Asistencia Domiciliaria › 2. BENEFICIOS ADICIONALES",
+          "Cláusula Adicional de Asistencia Domiciliaria › 1. COBERTURAS"
         ]
       }
     }

@@ -2,7 +2,7 @@
 
 Acierta = el artículo esperado (definido en preguntas.json antes de correr nada) está
 entre los k pasajes que recibe el modelo. Todos los métodos usan las mismas variantes de
-la normalización, leídas de pruebas/salidas/ (no se vuelve a llamar al LLM).
+la normalización, leídas de data/cache/normalizaciones.json (no se vuelve a llamar al LLM).
 
 Métodos:
 - bm25_pregunta:  BM25 con la pregunta tal como la escribió la persona.
@@ -25,9 +25,9 @@ from __future__ import annotations
 
 import json
 
-from comun import PRUEBAS, RAIZ, SALIDAS, acierta, guardar_json, poliza, preguntas, utf8
+from comun import PRUEBAS, RAIZ, acierta, guardar_json, poliza, preguntas, utf8
 
-from ai import embeddings
+from ai import cache_normalizacion, embeddings
 from ai.recuperacion import METODOS, top_k
 
 KS = (3, 5, 8)
@@ -50,15 +50,14 @@ def main() -> int:
     filas, detalle = [], {}
     evaluables = []
     for q in preguntas():
-        ruta = SALIDAS / f"{q['id']}.json"
-        if not ruta.exists():
-            print(f"falta {ruta.name}: corre antes pruebas/correr_pruebas.py")
-            return 1
         if q["modo"] == "ninguno":
             continue
-        evaluables.append(q)
-        norm = json.loads(ruta.read_text(encoding="utf-8"))["normalizacion"]
         pol = poliza(q["poliza"])
+        norm = cache_normalizacion.buscar(q["pregunta"], pol.sha256)
+        if norm is None:
+            print(f"falta la normalización de {q['id']} en la caché: corre antes python -m ai.preparar_demo")
+            return 1
+        evaluables.append(q)
         detalle[q["id"]] = {}
         for metodo in metodos:
             ranking = top_k(pol.indice, q["pregunta"], norm["variantes"], norm.get("terminos", []), metodo, max(KS),
@@ -72,7 +71,7 @@ def main() -> int:
     lineas = [
         "# Recuperación: BM25 con variantes frente a embeddings",
         "",
-        "Generado por `pruebas/evaluar_recuperacion.py` con las normalizaciones de `pruebas/salidas/` (Claude Haiku)."
+        "Generado por `pruebas/evaluar_recuperacion.py` con las variantes de la caché de normalizaciones (Claude Haiku)."
         + (f" Embeddings: `{embeddings.modelo()}`." if con_vectores else
            " **Sin medir los embeddings por API:** falta VOYAGE_API_KEY o los índices no tienen vectores de ese modelo."),
         "",

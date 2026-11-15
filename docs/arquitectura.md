@@ -1,5 +1,57 @@
 # Arquitectura
 
+## Fase 1: backend propio
+
+El pipeline de `ai/` es el mismo del prototipo; ahora corre detrás de una API (`backend/`) y
+el Streamlit y la app móvil son clientes. Lo que hace un modelo está en naranja; lo que sale
+hacia un tercero, con borde punteado.
+
+```mermaid
+flowchart TD
+    CLI["Clientes: Streamlit (app/app.py) y app móvil<br/>mandan X-Dispositivo"]
+    subgraph API["API: backend/main.py (FastAPI)"]
+        LIM["Topes (backend/limites.py)<br/>por dispositivo y por IP al día; global mensual en USD"]
+        ALM["Pólizas (backend/almacen.py)<br/>precargadas de data/ · subidas solo en memoria, con vencimiento"]
+        SUB["POST /polizas<br/>extracción → troceado → vectores → índice (ai/subida.py)"]
+        PRE["POST /preguntar → ai/respuesta.py"]
+        BUS["Búsqueda (ai/recuperacion.py)<br/>embeddings con la pregunta tal cual → 5 pasajes<br/>respaldo: normalización + BM25"]
+        RESP["Responder: JSON con esquema<br/>pasajes dentro de un delimitador al azar, marcados como datos<br/>alcance limitado: fuera de eso, fuera_de_alcance"]
+        VER["Validación por código<br/>cada cita literal en su pasaje y en su página del PDF<br/>bloque de lo mencionado pero ausente"]
+        RED["Red de seguridad<br/>cláusulas encontradas, «Sin veredicto»<br/>(falla del modelo o tope global alcanzado)"]
+        MAPA["GET /mapa/… (ai/renipress.py)"]
+    end
+    VOY["Voyage AI<br/>texto de la póliza al subirla; la pregunta al consultar"]
+    ANT["Anthropic: Claude Haiku 5.5<br/>la pregunta y los 5 pasajes"]
+    BD[("Contadores<br/>hash del dispositivo y de la IP")]
+
+    CLI --> LIM --> PRE --> BUS --> RESP --> VER --> CLI
+    CLI --> SUB --> ALM
+    ALM --> BUS
+    SUB -.-> VOY
+    BUS -.-> VOY
+    RESP -.-> ANT
+    RESP -. "falla" .-> RED --> CLI
+    LIM -. "tope global" .-> RED
+    LIM --- BD
+    CLI --> MAPA
+
+    classDef modelo fill:#ffe3c2,stroke:#d9822b,color:#3b2405
+    classDef fuera stroke-dasharray: 5 5
+    class RESP modelo
+    class VOY,ANT fuera
+```
+
+**Qué sale del servidor.** Hacia Voyage, el texto de la póliza al subirla y la pregunta al
+consultar. Hacia Anthropic, la pregunta y los pasajes recuperados. Nada más: la observabilidad
+(Langfuse) está programada y apagada. **Qué no depende del modelo:** la extracción, la
+búsqueda, la verificación de cada cita, el bloque de lo mencionado pero ausente, el veredicto
+que se muestra (campo estructurado), el texto de "fuera de alcance" y los topes.
+
+## Prototipo (rama `main`)
+
+Lo que sigue describe la app de Streamlit con Groq y BM25, tal como está desplegada hoy.
+
+
 Una consulta, de la pregunta a la pantalla, y la pestaña del mapa. Lo que hace el modelo
 está en naranja; todo lo demás es código, incluida la verificación de cada cita contra el
 PDF. La app corre en Streamlit Community Cloud ([queqbre.streamlit.app](https://queqbre.streamlit.app/)).
