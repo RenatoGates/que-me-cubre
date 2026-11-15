@@ -1,0 +1,17 @@
+{
+  "doc_id": "interseguro_viajes",
+  "documento": "Interseguro · Seguro de Viaje Internacional",
+  "archivo": "interseguro_viajes.pdf",
+  "sha256_pdf": "32e5e5118cc106723defee669f0a4e66cc6f5cc03e83c3e9a8e1a46b2c53b803",
+  "paginas": 36,
+  "paginas_sin_texto": [],
+  "paginas_dos_columnas": [],
+  "membretes_quitados": [],
+  "secciones": [
+    "Inicio del documento"
+  ],
+  "n_bloques": 33,
+  "version_indice": 1,
+  "modelo_embeddings": "voyage-4-large",
+  "n_trozos": 106
+}

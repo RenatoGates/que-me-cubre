@@ -34,5 +34,29 @@
     "origen": "Documento público en el CDN de imágenes de Rimac Seguros.",
     "fecha_obtencion": "2026-11-07",
     "sha256": "2acb4b63a331dbacfbcfbe88b1d0dc2b84b32ac85ecc8064c04ef3cf98bda0b0"
+  },
+  {
+    "id": "mapfre_viajes",
+    "archivo": "mapfre_viajes.pdf",
+    "aseguradora": "Mapfre Perú",
+    "producto": "Accidentes Personales con Asistencia en Viaje para Turismo",
+    "contenido": "Condiciones generales, forma CGSAPAVPT27022018 (42 páginas)",
+    "codigo_en_documento": "CGSAPAVPT27022018",
+    "url": "https://mapfre.com.pe/media/Condicionado-General-del-Seguro-de-Viaje-MP-1.pdf",
+    "origen": "Documento público en el sitio web de Mapfre Perú. La forma es de 2018: puede no ser la versión vigente.",
+    "fecha_obtencion": "2026-11-15",
+    "sha256": "4a2174c0b9856898ea7e36584b29a20db8e06cab4770ab08a108c1949d443df4"
+  },
+  {
+    "id": "interseguro_viajes",
+    "archivo": "interseguro_viajes.pdf",
+    "aseguradora": "Interseguro",
+    "producto": "Seguro de Viaje Internacional",
+    "contenido": "Condiciones generales de las asistencias, secciones I a XVI (36 páginas)",
+    "codigo_en_documento": null,
+    "url": "https://storage.googleapis.com/public-travel-repository/documents/CondicionesGeneralesInterseguro.pdf",
+    "origen": "Documento público enlazado desde interseguro.pe/viajes (Seguro de Viaje Internacional).",
+    "fecha_obtencion": "2026-11-15",
+    "sha256": "32e5e5118cc106723defee669f0a4e66cc6f5cc03e83c3e9a8e1a46b2c53b803"
   }
 ]

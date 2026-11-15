@@ -120,7 +120,16 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--solo", action="append", help="procesa solo este id (se puede repetir)")
     p.add_argument("--sin-embeddings", action="store_true", help="no calcula embeddings")
     p.add_argument("--ejemplos", type=int, default=0, help="muestra N trozos de ejemplo por documento")
+    p.add_argument("--paciente", action="store_true",
+                   help="embeddings en lotes chicos con pausas (cuenta de Voyage sin medio de pago: 3 peticiones por minuto)")
     args = p.parse_args(argv)
+    import os
+
+    from dotenv import load_dotenv
+
+    load_dotenv(RAIZ / ".env")
+    if args.paciente:
+        os.environ["QMC_VOYAGE_PACIENTE"] = "1"
 
     fuentes = json.loads(MANIFIESTO.read_text(encoding="utf-8"))
     if args.solo:
