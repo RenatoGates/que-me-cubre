@@ -4,18 +4,29 @@
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
   "cubre": "no",
-  "respuesta": "No, tu póliza no cubre una operación estética de la nariz durante el viaje. La cláusula excluye la cirugía plástica salvo que sea consecuencia de una lesión accidental y también excluye cualquier tratamiento médico que realices por decisión propia mientras estás en el extranjero.",
-  "condiciones": [],
-  "exclusiones_aplicables": [
+  "etiqueta_veredicto": "No cubre",
+  "respuesta": "No, tu póliza no cubre una operación de nariz planeada por estética durante el viaje. Los gastos médicos del viaje se limitan a tratamientos de urgencia por eventos súbitos e imprevisibles y no se prestan para procedimientos de larga duración. Si lo que buscas es un monto máximo, ese dato no está en los pasajes que revisé.",
+  "apertura_contradictoria": null,
+  "condiciones": [
     {
-      "descripcion": "Cirugía estética no está cubierta porque la cláusula excluye la cirugía plástica salvo que sea consecuencia de una lesión accidental",
+      "descripcion": "Los gastos médicos solo cubren tratamientos de urgencia de cuadros agudos por eventos súbitos e imprevisibles, no procedimientos de larga duración.",
       "citas": [
-        1
+        1,
+        2
       ]
     },
     {
-      "descripcion": "Los tratamientos médicos o quirúrgicos realizados por decisión propia del asegurado, como una operación estética de nariz durante el viaje, quedan expresamente excluidos",
+      "descripcion": "Aun en casos cubiertos, los gastos médicos tienen un monto máximo total, fijado en otro documento y no en estos pasajes.",
       "citas": [
+        3
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [
+    {
+      "descripcion": "Una operación planeada por estética no es un tratamiento de urgencia por un evento súbito e imprevisible, así que queda fuera de esta cobertura.",
+      "citas": [
+        1,
         2
       ]
     }
@@ -27,17 +38,17 @@
       "n": 1,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
-      "pagina": 18,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
+      "pagina": 17,
       "paginas": [
-        18
+        17
       ],
-      "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.",
+      "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles",
       "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0069",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
       "posicion": [
-        160,
-        241
+        1,
+        162
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -50,17 +61,40 @@
       "n": 2,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 3 de 5)",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
       "pagina": 17,
       "paginas": [
         17
       ],
-      "texto_literal": "l)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.",
-      "pasaje": "P5",
-      "trozo_id": "chubb_viajes_jetsmart:0067",
+      "texto_literal": "por la misma razón no se prestan para procedimientos de larga duración",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
       "posicion": [
-        73,
-        406
+        305,
+        375
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
+      "paginas": [
+        17
+      ],
+      "texto_literal": "no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "posicion": [
+        934,
+        1065
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -97,16 +131,16 @@
       "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Condiciones Particulares",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
-      "pagina": 16,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
       "paginas": [
-        16
+        17
       ],
-      "pasaje": "P4",
-      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
-        180,
-        204
+        760,
+        784
       ],
       "nivel": "remision"
     },
@@ -116,22 +150,21 @@
       "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Certificado de Seguro",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
-      "pagina": 16,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
       "paginas": [
-        16
+        17
       ],
-      "pasaje": "P4",
-      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
-        209,
-        230
+        789,
+        810
       ],
       "nivel": "remision"
     }
   ],
   "secciones_revisadas": [
-    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 5° Exclusiones",
     "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
     "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
     "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
@@ -140,21 +173,6 @@
     {
       "id": "P1",
       "rango": 1,
-      "trozo_id": "chubb_viajes_jetsmart:0069",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        5,
-        5
-      ],
-      "paginas": [
-        18
-      ],
-      "texto": "bb)Exámenes físicos de rutina u otros exámenes donde no haya indicaciones objetivas o deterioro en la salud normal o diagnóstico de laboratorio o radiografías.\ncc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.\ndd)Tratamientos rejuvenecedores, o estéticos.\nee)Gastos en compras de prótesis que no sean originados como consecuencia de un accidente cubierto por esta póliza.\nff)Anormalidades congénitas y condiciones que resulten de las mismas.\ngg)Gastos incurridos con relación a pie frágil, deformado o plano, callos o uñas del pie.\nhh)Diagnóstico y tratamiento de acné.\nii)Tabique desviado, incluyendo resección submucosa y/o cualquier corrección quirúrgica de los mismos.\njj)Cuidados de niños sanos, incluyendo exámenes e inmunizaciones (vacunas).\nkk)Anteojos, lentes de contacto, audífonos y exámenes para la prescripción o ajuste de los mismos, a menos que la lesión o la enfermedad haya causado el deterioro de la visión o la audición.\nll)Trastornos mentales, nerviosos o emocionales o curas de sueño.\nmm)Procedimientos electivos o adelantar tratamientos o procedimientos de larga duración."
-    },
-    {
-      "id": "P2",
-      "rango": 2,
       "trozo_id": "chubb_viajes_jetsmart:0064",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 4° Condiciones de Cobertura",
@@ -168,8 +186,8 @@
       "texto": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
     },
     {
-      "id": "P3",
-      "rango": 3,
+      "id": "P2",
+      "rango": 2,
       "trozo_id": "chubb_viajes_jetsmart:0055",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Texto inicial de la sección",
@@ -181,6 +199,22 @@
         15
       ],
       "texto": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje Cláusula Adicional\nLa presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        16,
+        17
+      ],
+      "texto": "Artículo 4° Condiciones de Cobertura\n•Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.\n•La COMPAÑÍA, a su cargo, tendrá el derecho a someter al ASEGURADO a exámenes médicos, con la frecuencia razonablemente necesaria, mientras la solicitud de cobertura correspondiente al pago de un beneficio se encuentre pendiente, siempre que se realice dentro de los primeros veinte (20) días de los treinta (30) días de los que dispone para aprobar o rechazar el siniestro.\n•De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
     },
     {
       "id": "P4",
@@ -200,124 +234,136 @@
     {
       "id": "P5",
       "rango": 5,
-      "trozo_id": "chubb_viajes_jetsmart:0067",
+      "trozo_id": "chubb_viajes_jetsmart:0062",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
+      "articulo": "Artículo 3° Cobertura",
       "parte": [
-        3,
-        5
+        2,
+        2
       ],
       "paginas": [
-        17,
-        18
+        16
       ],
-      "texto": "k)Hernias y sus consecuencias, sea cual fuere la causa de que provengan.\nl)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional.\nm)Exámenes médicos de rutina.\nn)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.\no)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.\np)Acto delictivo cometido, en calidad de autor o cómplice, por un beneficiario o quien pudiere reclamar el monto asegurado o la indemnización.\nq)La asistencia por servicios que el ASEGURADO haya contratado sin previa autorización de la Central de Asistencia, salvo se acredite a satisfacción de la COMPAÑÍA que por causa de fuerza mayor ha sido imposible requerir la previa autorización.\nr)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
-    },
-    {
-      "id": "P6",
-      "rango": 0,
-      "trozo_id": "chubb_viajes_jetsmart:0065",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones",
-      "parte": [
-        1,
-        5
-      ],
-      "paginas": [
-        17
-      ],
-      "texto": "Artículo 5° Exclusiones\nLa presente Cláusula Adicional no otorga ninguna de las coberturas o beneficios estipulados en ella, cuando se originen por, o sean una consecuencia o complicación de:\na)ENFERMEDADES, CONDICIONES O LESIONES PRE-EXISTENTES al VIAJE del ASEGURADO y cualquiera de sus consecuencias, incluyendo convalecencias y alteraciones durante tratamientos que no se encuentran todavía en una etapa consolidada, y las secuelas de enfermedades anteriores al VIAJE.\nb)Participación en cualquier equipo deportivo profesional o semiprofesional y cualquier deporte o actividad riesgosa que incluye: aviación privada, paracaidismo, ala delta, parapente, bungee jumping, alpinismo, escalada, motociclismo, artes marciales, boxeo, rodeo, rugby, equitación, polo, buceo.\nc)Suicidio, intento de suicidio o LESIÓN intencionalmente infringida por el ASEGURADO a sí mismo.\nd)Prestación de servicios en las fuerzas armadas o unidades auxiliares de las mismas en casos de Guerras civiles nacionales o extranjeras, motines, movimientos populares, represalias, restricciones a la libre circulación, huelgas, explosiones, misiones para la obtención o mantenimiento de la paz."
+      "texto": "f)Fisioterapia: En caso de necesidad de Fisioterapia como resultado de lesiones provenientes de accidentes ocurridos o enfermedades contraídas durante el viaje, el ASEGURADO recibirá atención fisioterapéutica, a condición de que ésta sea prescrita por el médico que atendió al ASEGURADO durante el viaje."
     }
   ],
   "normalizacion": {
     "variantes": [
-      "¿el seguro cubre la cirugía estética de la nariz durante el viaje según riesgos cubiertos?",
-      "¿existen exclusiones que impidan cubrir una operación estética de la nariz en el viaje?",
-      "¿la cobertura está vigente en el territorio del viaje y permite gastos médicos electivos?",
-      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar cobertura de una operación estética?",
-      "¿la póliza permite solicitar reembolso por cirugía estética programada durante el viaje?"
+      "Cobertura de gastos médicos por enfermedad durante el viaje, según los riesgos cubiertos de la póliza",
+      "Exclusiones aplicables a gastos médicos por enfermedad, cirugía y tratamientos no cubiertos durante el viaje",
+      "Vigencia individual y territorio de la cobertura de gastos médicos durante el viaje y sus límites",
+      "Aviso del siniestro y procedimiento para solicitar la cobertura de gastos médicos por enfermedad durante el viaje"
     ],
     "titulos": [
       "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "Vigencia Individual y Territorio"
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
     ],
     "clausulas": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales"
     ],
     "articulos": [
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "Vigencia Individual y Territorio"
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
     ],
     "hechos": [
-      "operación estética de la nariz",
-      "durante el viaje"
+      "La persona quiere aprovechar el viaje para operarse la nariz",
+      "La operación es por estética"
     ],
     "ajuste": null
   },
+  "busqueda": "bm25_variantes",
   "modelo_crudo": {
-    "cubre": "no",
     "citas": [
       {
         "n": 1,
         "pasaje": "P1",
-        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental."
+        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles"
       },
       {
         "n": 2,
-        "pasaje": "P5",
-        "texto_literal": "l)Tratamientos médicos o quirúrgicos distintos de los necesarios a consecuencia de lesiones o enfermedad cubiertas por esta póliza. Por tanto, si el ASEGURADO viaja al extranjero a someterse a algún tratamiento médico específico, estas prestaciones quedarán expresamente excluidas de las coberturas de la presente Cláusula Adicional."
+        "pasaje": "P1",
+        "texto_literal": "por la misma razón no se prestan para procedimientos de larga duración"
+      },
+      {
+        "n": 3,
+        "pasaje": "P3",
+        "texto_literal": "no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro"
       }
     ],
-    "condiciones": [],
-    "exclusiones_aplicables": [
+    "condiciones": [
       {
-        "descripcion": "Cirugía estética no está cubierta porque la cláusula excluye la cirugía plástica salvo que sea consecuencia de una lesión accidental",
+        "descripcion": "Los gastos médicos solo cubren tratamientos de urgencia de cuadros agudos por eventos súbitos e imprevisibles, no procedimientos de larga duración.",
         "citas": [
-          1
+          1,
+          2
         ]
       },
       {
-        "descripcion": "Los tratamientos médicos o quirúrgicos realizados por decisión propia del asegurado, como una operación estética de nariz durante el viaje, quedan expresamente excluidos",
+        "descripcion": "Aun en casos cubiertos, los gastos médicos tienen un monto máximo total, fijado en otro documento y no en estos pasajes.",
         "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [
+      {
+        "descripcion": "Una operación planeada por estética no es un tratamiento de urgencia por un evento súbito e imprevisible, así que queda fuera de esta cobertura.",
+        "citas": [
+          1,
           2
         ]
       }
     ],
     "podrian_aplicar": [],
-    "no_incluido_en_documento": [],
-    "respuesta": "No, tu póliza no cubre una operación estética de la nariz durante el viaje. La cláusula excluye la cirugía plástica salvo que sea consecuencia de una lesión accidental y también excluye cualquier tratamiento médico que realices por decisión propia mientras estás en el extranjero."
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Es donde se fija el monto máximo de los gastos médicos de la cobertura del viaje.",
+        "cita": 3
+      }
+    ],
+    "cubre": "no",
+    "respuesta": "No, tu póliza no cubre una operación de nariz planeada por estética durante el viaje. Los gastos médicos del viaje se limitan a tratamientos de urgencia por eventos súbitos e imprevisibles y no se prestan para procedimientos de larga duración. Si lo que buscas es un monto máximo, ese dato no está en los pasajes que revisé."
   },
-  "descartes": [],
+  "descartes": [
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Certificado de Seguro",
+      "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    }
+  ],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
     "normalizacion_desde_cache": true,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3652,
-        "tokens_salida": 1163,
-        "tokens_razonamiento": 866,
-        "segundos": 3.0,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6071,
+        "tokens_salida": 2712,
+        "tokens_razonamiento": 0,
+        "segundos": 15.71,
+        "costo_usd": 0.001963
       }
     ],
-    "tokens": 4815,
-    "costo_usd": 0.0,
-    "segundos": 3.0
+    "tokens": 8783,
+    "costo_usd": 0.001963,
+    "segundos": 15.71
   },
   "prueba": {
     "id": "P07",

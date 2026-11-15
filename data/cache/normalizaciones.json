@@ -1,68 +1,68 @@
 {
   "2acb4b63a331dbac|si durante el viaje el medico me pide una radiografia rimac la cubre": {
-    "version": 2,
+    "version": 3,
     "documento": "rimac_viajes",
     "sha256_pdf": "2acb4b63a331dbacfbcfbe88b1d0dc2b84b32ac85ecc8064c04ef3cf98bda0b0",
     "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
     "variantes": [
-      "Cobertura de radiografía solicitada por médico durante el viaje según la cláusula Accidentes Personales.",
-      "Exclusiones que podrían impedir el pago de la radiografía solicitada por médico en el viaje.",
-      "Vigencia, territorialidad y límites de la cobertura para radiografías durante el viaje.",
-      "Aviso y trámite para solicitar el reembolso de la radiografía solicitada por médico mientras se está de viaje.",
-      "Procedimiento para reclamar el beneficio de la radiografía bajo la cobertura de Accidentes Personales."
+      "Cobertura de exámenes de ayuda al diagnóstico y gastos médicos durante el viaje, según el monto máximo garantizado en la póliza.",
+      "Enfermedades, tratamientos y otros gastos no cubiertos que podrían aplicar a exámenes de ayuda al diagnóstico y asistencia médica.",
+      "Vigencia del riesgo y territorialidad de la póliza para exámenes de ayuda al diagnóstico realizados durante el viaje fuera del domicilio.",
+      "Procedimiento en caso de siniestro y aviso para solicitar el reembolso de gastos de exámenes de ayuda al diagnóstico durante el viaje.",
+      "Gastos cubiertos por asistencia médica y exámenes de ayuda al diagnóstico, con los límites del monto máximo garantizado."
     ],
     "titulos": [
+      "Asistencia Domiciliaria",
       "Accidentes Personales",
-      "Asistencia médica por accidente y por Enfermedad",
+      "GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO",
+      "Exámenes de ayuda al diagnóstico",
       "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
+      "VIGENCIA DEL RIESGO",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO"
     ],
     "clausulas": [
+      "Asistencia Domiciliaria",
       "Accidentes Personales"
     ],
     "articulos": [
-      "Asistencia médica por accidente y por Enfermedad",
+      "GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO",
+      "Exámenes de ayuda al diagnóstico",
       "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
+      "VIGENCIA DEL RIESGO",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO"
     ],
     "hechos": [
-      "Médico solicita radiografía.",
-      "Situación ocurre durante el viaje."
+      "Durante el viaje, el médico le pide una radiografía al asegurado."
     ],
     "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
     "tokens": {
-      "entrada": 1607,
-      "salida": 390,
-      "razonamiento": 140
+      "entrada": 3140,
+      "salida": 496,
+      "razonamiento": 0
     }
   },
   "61e8b4651899302e|me fracture la pierna esquiando en una pista autorizada en bariloche pacifico me cubre": {
-    "version": 2,
+    "version": 3,
     "documento": "pacifico_viajes",
     "sha256_pdf": "61e8b4651899302e69d0496c0c49ebd644cf47351ac37edd91a1b56c61e181f9",
     "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
     "variantes": [
-      "¿La cobertura de accidente incluye fractura de pierna al practicar esquí en pista autorizada?",
-      "¿Existen exclusiones que impidan la cobertura por una fractura de pierna al esquiar en Bariloche?",
-      "¿La vigencia y validez territorial del seguro cubren un accidente de esquí en Bariloche?",
-      "¿Cuál es el medio y plazo para avisar del siniestro de una fractura al esquiar y solicitar la cobertura?",
-      "¿Se aplica alguna condición adicional para la cobertura de accidente deportivo en pista autorizada?"
+      "cobertura por accidente que causa fractura de pierna durante la práctica de deportes de nieve, riesgos asegurados y coberturas básicas",
+      "exclusiones aplicables a accidentes en deportes de riesgo o actividades deportivas, principales exclusiones y exclusiones generales de la póliza",
+      "validez territorial de la cobertura en Argentina, vigencia del seguro y límites de suma asegurada para gastos médicos por accidente",
+      "medio y plazo para el aviso del siniestro y procedimiento para solicitar la cobertura en caso de accidente y fractura"
     ],
     "titulos": [
       "COBERTURAS",
       "EXCLUSIONES",
       "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
+      "RIESGOS ASEGURADOS",
       "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
       "Medio y plazo establecido para el aviso del siniestro"
     ],
     "clausulas": [
@@ -71,391 +71,519 @@
       "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO"
     ],
     "articulos": [
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
+      "RIESGOS ASEGURADOS",
       "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
       "Medio y plazo establecido para el aviso del siniestro"
     ],
     "hechos": [
-      "fracturó la pierna",
-      "esquiando en pista autorizada",
-      "Bariloche"
+      "Se fracturó la pierna",
+      "Ocurrió esquiando",
+      "La pista de esquí estaba autorizada",
+      "El lugar fue Bariloche"
     ],
     "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
     "tokens": {
-      "entrada": 1649,
-      "salida": 390,
-      "razonamiento": 101
+      "entrada": 3152,
+      "salida": 445,
+      "razonamiento": 0
     }
   },
   "668a7e8adda8c4b0|choque el auto que alquile durante el viaje el seguro paga la reparacion": {
-    "version": 2,
+    "version": 3,
     "documento": "chubb_viajes_jetsmart",
     "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
     "pregunta": "Choqué el auto que alquilé durante el viaje, ¿el seguro paga la reparación?",
     "variantes": [
-      "¿está cubierto el desmembramiento accidental del vehículo alquilado según riesgos cubiertos?",
-      "¿existen exclusiones que impidan pagar la reparación del auto por accidente?",
-      "¿la cobertura aplica dentro de la vigencia individual y territorio del seguro para el auto alquilado?",
-      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar el pago de la reparación?",
-      "¿las condiciones de acceso y límites de permanencia permiten la reparación del daño al vehículo?"
+      "Cobertura de daños materiales causados por accidente de vehículo alquilado durante el viaje, según riesgos cubiertos del contrato",
+      "Exclusiones aplicables a daños a vehículos, conducción, accidentes de tránsito y bienes de terceros en el seguro de accidentes personales",
+      "Vigencia individual, territorio y límites de la cobertura para el viaje y el vehículo alquilado durante la vigencia del seguro",
+      "Aviso del siniestro, plazos y procedimiento para solicitar la cobertura ante la compañía en caso de accidente durante el viaje",
+      "Condiciones generales y cargas del asegurado en un accidente de tránsito durante el viaje con vehículo alquilado"
     ],
     "titulos": [
       "Desmembramiento Accidental",
-      "Condiciones Generales",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de acceso y límites de permanencia",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "clausulas": [
-      "Desmembramiento Accidental",
-      "Condiciones Generales"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de acceso y límites de permanencia",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "hechos": [
-      "choqué el auto alquilado",
-      "durante el viaje"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1577,
-      "salida": 374,
-      "razonamiento": 132
-    }
-  },
-  "668a7e8adda8c4b0|la aerolinea perdio mi maleta en el vuelo que me pagan": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
-    "variantes": [
-      "¿Cuál es la cobertura para la pérdida de equipaje?",
-      "¿Qué exclusiones pueden aplicar a la pérdida de equipaje?",
-      "¿Cuál es la vigencia y territorio de la cobertura por pérdida de equipaje?",
-      "¿Cuál es el aviso y el procedimiento para solicitar la cobertura por pérdida de equipaje?",
-      "¿Qué condiciones de cobertura se requieren para el reembolso por pérdida de equipaje?"
-    ],
-    "titulos": [
-      "Pérdida de Equipaje",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "clausulas": [
-      "Pérdida de Equipaje"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
-    ],
-    "hechos": [
-      "La aerolínea perdió mi maleta",
-      "Ocurrió durante el vuelo"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1576,
-      "salida": 349,
-      "razonamiento": 133
-    }
-  },
-  "668a7e8adda8c4b0|me dijeron que me saque una radiografia al llegar a lima porque alla no tenian la especialidad eso tambien me cubre": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
-    "variantes": [
-      "¿La cobertura de gastos médicos por accidente y/o enfermedad durante el viaje incluye la radiografía solicitada al llegar a Lima?",
-      "¿Existen exclusiones que impidan cubrir la radiografía requerida en Lima por falta de especialidad local?",
-      "¿La vigencia individual y territorio del seguro permite la cobertura de radiografías realizadas en Lima durante el viaje?",
-      "¿Cuál es el aviso del siniestro y procedimiento para solicitar la cobertura de una radiografía al llegar a Lima?",
-      "¿La condición de cobertura contempla estudios diagnósticos como radiografías cuando la especialidad no está disponible en el destino?"
-    ],
-    "titulos": [
       "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "clausulas": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "hechos": [
-      "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1586,
-      "salida": 479,
-      "razonamiento": 209
-    }
-  },
-  "668a7e8adda8c4b0|me enferme dos dias antes de viajar y no pude subir al avion me devuelven lo que pague": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
-    "variantes": [
-      "cobertura por cancelación del viaje por enfermedad antes del inicio del viaje",
-      "exclusiones relacionadas con enfermedad preexistente que puedan impedir la cobertura",
-      "vigencia del seguro y territorio aplicable a la cancelación del viaje por enfermedad",
-      "aviso del siniestro y procedimiento para solicitar la devolución por cancelación del viaje",
-      "condiciones de cobertura y requisitos para recibir el reembolso por enfermedad antes del vuelo"
-    ],
-    "titulos": [
-      "Cancelación del Viaje",
-      "Condiciones Generales",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "clausulas": [
-      "Cancelación del Viaje",
-      "Condiciones Generales"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "hechos": [
-      "se enfermó dos días antes del viaje",
-      "no pudo subir al avión",
-      "desea que le devuelvan lo pagado"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1584,
-      "salida": 387,
-      "razonamiento": 146
-    }
-  },
-  "668a7e8adda8c4b0|me torci el dedo en tarapoto y fui a un centro medico me cubre los gastos": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
-    "variantes": [
-      "¿cubre gastos médicos por accidente el seguro según los riesgos cubiertos?",
-      "¿existen exclusiones que impidan la cobertura del gasto por torcedura de dedo?",
-      "¿es válida la cobertura en Tarapoto bajo la vigencia y territorio del seguro?",
-      "¿qué aviso del siniestro y procedimiento para solicitar la cobertura debo seguir?",
-      "¿se requiere cumplir alguna condición de cobertura para que el gasto sea reembolsado?"
-    ],
-    "titulos": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "clausulas": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Vigencia Individual y Territorio",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Condiciones de Cobertura"
-    ],
-    "hechos": [
-      "torció el dedo",
-      "ocurrió en Tarapoto",
-      "acudió a un centro médico"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1582,
-      "salida": 408,
-      "razonamiento": 159
-    }
-  },
-  "668a7e8adda8c4b0|quiero aprovechar el viaje para operarme la nariz por estetica lo cubre el seguro": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Quiero aprovechar el viaje para operarme la nariz por estética, ¿lo cubre el seguro?",
-    "variantes": [
-      "¿el seguro cubre la cirugía estética de la nariz durante el viaje según riesgos cubiertos?",
-      "¿existen exclusiones que impidan cubrir una operación estética de la nariz en el viaje?",
-      "¿la cobertura está vigente en el territorio del viaje y permite gastos médicos electivos?",
-      "¿qué aviso del siniestro y procedimiento debo seguir para solicitar cobertura de una operación estética?",
-      "¿la póliza permite solicitar reembolso por cirugía estética programada durante el viaje?"
-    ],
-    "titulos": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "Vigencia Individual y Territorio"
-    ],
-    "clausulas": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "Vigencia Individual y Territorio"
-    ],
-    "hechos": [
-      "operación estética de la nariz",
-      "durante el viaje"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1579,
-      "salida": 388,
-      "razonamiento": 154
-    }
-  },
-  "668a7e8adda8c4b0|se me rompio un diente comiendo durante el viaje me cubre el dentista": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
-    "variantes": [
-      "¿cubre el gasto odontológico de emergencia durante el viaje por una fractura dental?",
-      "¿existen exclusiones que impidan la cobertura del gasto odontológico de emergencia durante el viaje?",
-      "¿el gasto odontológico de emergencia durante el viaje está vigente en el territorio del seguro y dentro de los límites establecidos?",
-      "¿cuál es el aviso del siniestro y el procedimiento para solicitar la cobertura del gasto odontológico de emergencia durante el viaje?",
-      "¿se incluye la asistencia dental como parte de la cobertura de gastos odontológicos de emergencia durante el viaje?"
-    ],
-    "titulos": [
-      "Gastos Odontológicos de Emergencia durante el Viaje",
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio",
-      "Condiciones de Cobertura"
-    ],
-    "clausulas": [
-      "Gastos Odontológicos de Emergencia durante el Viaje",
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
-    ],
-    "articulos": [
-      "Riesgos Cubiertos",
-      "Principales Exclusiones",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio",
-      "Condiciones de Cobertura"
-    ],
-    "hechos": [
-      "Se rompió un diente",
-      "Ocurrió durante el viaje",
-      "Necesita atención del dentista"
-    ],
-    "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
-    "tokens": {
-      "entrada": 1580,
-      "salida": 515,
-      "razonamiento": 234
-    }
-  },
-  "668a7e8adda8c4b0|tengo diabetes desde hace anos si me descompenso durante el viaje me cubren la atencion": {
-    "version": 2,
-    "documento": "chubb_viajes_jetsmart",
-    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
-    "pregunta": "Tengo diabetes desde hace años; si me descompenso durante el viaje, ¿me cubren la atención?",
-    "variantes": [
-      "¿La cobertura incluye atención médica por enfermedad durante el viaje?",
-      "¿Existen exclusiones que impidan cubrir una descompensación de diabetes?",
-      "¿La cobertura está vigente en el territorio del viaje y tiene límites para enfermedad?",
-      "¿Cómo debe avisarse el siniestro y cuál es el procedimiento para solicitar la cobertura por enfermedad?",
-      "¿Qué requisitos de acceso y límites de permanencia aplican para la cobertura de enfermedad preexistente?"
-    ],
-    "titulos": [
-      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales",
       "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
     ],
     "clausulas": [
+      "Desmembramiento Accidental",
       "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales",
       "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
     ],
     "articulos": [
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "hechos": [
+      "El asegurado chocó el auto que alquiló durante el viaje"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2967,
+      "salida": 444,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|cuantos dias tengo para avisar al seguro despues del accidente": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "¿Cuántos días tengo para avisar al seguro después del accidente?",
+    "variantes": [
+      "Plazo y medio para el aviso del siniestro cuando ocurre un accidente durante el viaje, según el procedimiento para la solicitud de cobertura del seguro",
+      "Aviso del siniestro por accidente: medio y plazos establecidos para comunicar el siniestro a la compañía y solicitar la cobertura",
+      "Gastos médicos por accidente durante el viaje: riesgos cubiertos y exclusiones que podrían aplicar al accidente reportado",
+      "Procedimiento para solicitar la cobertura del seguro tras un accidente, con los plazos y medios de aviso del siniestro establecidos en la póliza"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Desmembramiento Accidental",
+      "Medio y plazos establecidos para el aviso del siniestro",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Riesgos Cubiertos"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Desmembramiento Accidental"
+    ],
+    "articulos": [
+      "Medio y plazos establecidos para el aviso del siniestro",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Riesgos Cubiertos"
+    ],
+    "hechos": [
+      "El asegurado sufrió un accidente.",
+      "El asegurado pregunta cuántos días tiene para avisar al seguro después del accidente."
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2963,
+      "salida": 429,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|la aerolinea perdio mi maleta en el vuelo que me pagan": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
+    "variantes": [
+      "Pérdida de equipaje durante el viaje: cobertura y monto indemnizable por pérdida de equipaje",
+      "Exclusiones aplicables a la pérdida de equipaje, reembolso de gastos por demora de equipaje y exclusiones del seguro",
+      "Vigencia y territorio del seguro de viaje, límites de la suma asegurada para equipaje, aviso del siniestro y plazos",
+      "Aviso del siniestro por pérdida de equipaje y procedimiento para solicitar la cobertura del seguro ante la compañía"
+    ],
+    "titulos": [
+      "Pérdida de Equipaje",
+      "Reembolso de Gastos por Demora de Equipaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio",
+      "Exclusiones"
+    ],
+    "clausulas": [
+      "Pérdida de Equipaje",
+      "Reembolso de Gastos por Demora de Equipaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio",
+      "Exclusiones"
+    ],
+    "hechos": [
+      "La aerolínea perdió la maleta del asegurado en el vuelo"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2961,
+      "salida": 349,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|me dijeron que me saque una radiografia al llegar a lima porque alla no tenian la especialidad eso tambien me cubre": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
+    "variantes": [
+      "Cobertura de gastos médicos por enfermedad durante el viaje, incluidos exámenes y diagnóstico, según los Riesgos Cubiertos del seguro",
+      "Exclusiones aplicables a gastos médicos por enfermedad durante el viaje, revisar las Principales Exclusiones y Exclusiones del seguro",
+      "Vigencia individual y territorio del viaje, y límites de la cobertura de gastos médicos por accidente y/o enfermedad durante el viaje",
+      "Aviso del siniestro y procedimiento para la solicitud de cobertura del seguro, presentando los gastos médicos ante la compañía en los plazos establecidos"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Gastos Farmacéuticos durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Gastos Farmacéuticos durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "hechos": [
+      "El asegurado está viajando.",
+      "Le indicaron hacerse una radiografía al llegar a Lima.",
+      "En su lugar de origen no había la especialidad médica requerida."
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2982,
+      "salida": 438,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|me enferme dos dias antes de viajar y no pude subir al avion me devuelven lo que pague": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
+    "variantes": [
+      "Cancelación del viaje por enfermedad antes de la fecha de salida, cobertura de los gastos pagados no reembolsables según riesgos cubiertos del seguro",
+      "Exclusiones aplicables a la cancelación del viaje por enfermedad preexistente, tratamiento o condición no declarada en las exclusiones del seguro",
+      "Vigencia individual y territorio de la cobertura de cancelación del viaje, límites y montos máximos de reembolso según la póliza",
+      "Aviso del siniestro y plazos para comunicar la cancelación del viaje por enfermedad y procedimiento para solicitar la cobertura del seguro",
+      "Reembolso de pagos no utilizados del viaje cancelado por enfermedad antes del embarque, documentos médicos requeridos para el reclamo"
+    ],
+    "titulos": [
+      "Cancelación del Viaje",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "clausulas": [
+      "Cancelación del Viaje",
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "hechos": [
+      "Se enfermó dos días antes de viajar",
+      "No pudo subir al avión",
+      "Pregunta si le devuelven lo que pagó"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2966,
+      "salida": 457,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|me torci el dedo en tarapoto y fui a un centro medico me cubre los gastos": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
+    "variantes": [
+      "Cobertura de gastos médicos por accidente durante el viaje, con los riesgos cubiertos previstos en la póliza para el accidente",
+      "Exclusiones aplicables a gastos médicos por accidente durante el viaje, según las principales exclusiones y las exclusiones de la póliza",
+      "Vigencia individual y territorio de la cobertura de gastos médicos por accidente durante el viaje en el lugar del viaje asegurado",
+      "Aviso del siniestro y procedimiento para la solicitud de cobertura del seguro en gastos médicos por accidente durante el viaje"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Desmembramiento Accidental",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Desmembramiento Accidental"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "hechos": [
+      "Se torció el dedo",
+      "Ocurrió en Tarapoto",
+      "Acudió a un centro médico",
+      "Pregunta si los gastos están cubiertos"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2984,
+      "salida": 396,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|que documentos tengo que presentar para pedir el reembolso": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "¿Qué documentos tengo que presentar para pedir el reembolso?",
+    "variantes": [
+      "Documentos que el asegurado debe presentar para solicitar el reembolso de gastos médicos y farmacéuticos durante el viaje",
+      "Cargas y obligaciones del asegurado para el aviso del siniestro y el procedimiento para solicitar la cobertura del seguro",
+      "Medio y plazos establecidos para el aviso del siniestro y presentación de documentos para la solicitud de cobertura",
+      "Gastos médicos por accidente o enfermedad durante el viaje, exclusiones aplicables y requisitos del trámite de reembolso"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Gastos Farmacéuticos durante el Viaje",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Cargas",
+      "Medio y plazos establecidos para el aviso del siniestro"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Gastos Farmacéuticos durante el Viaje"
+    ],
+    "articulos": [
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Cargas",
+      "Medio y plazos establecidos para el aviso del siniestro"
+    ],
+    "hechos": [
+      "La persona pide el reembolso de gastos.",
+      "La persona quiere saber qué documentos presentar para el reembolso."
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2963,
+      "salida": 395,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|quiero aprovechar el viaje para operarme la nariz por estetica lo cubre el seguro": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Quiero aprovechar el viaje para operarme la nariz por estética, ¿lo cubre el seguro?",
+    "variantes": [
+      "Cobertura de gastos médicos por enfermedad durante el viaje, según los riesgos cubiertos de la póliza",
+      "Exclusiones aplicables a gastos médicos por enfermedad, cirugía y tratamientos no cubiertos durante el viaje",
+      "Vigencia individual y territorio de la cobertura de gastos médicos durante el viaje y sus límites",
+      "Aviso del siniestro y procedimiento para solicitar la cobertura de gastos médicos por enfermedad durante el viaje"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Condiciones Generales"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura"
+    ],
+    "hechos": [
+      "La persona quiere aprovechar el viaje para operarse la nariz",
+      "La operación es por estética"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2976,
+      "salida": 347,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|se me rompio un diente comiendo durante el viaje me cubre el dentista": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
+    "variantes": [
+      "Gastos odontológicos de emergencia durante el viaje por accidente, cobertura y condiciones de la cobertura del seguro",
+      "Exclusiones aplicables a gastos odontológicos de emergencia durante el viaje, principales exclusiones y exclusiones de la póliza",
+      "Vigencia individual y territorio de la cobertura de gastos odontológicos de emergencia durante el viaje y sus límites",
+      "Aviso del siniestro y procedimiento para la solicitud de cobertura del seguro en gastos odontológicos de emergencia durante el viaje"
+    ],
+    "titulos": [
+      "Gastos Odontológicos de Emergencia durante el Viaje",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Vigencia Individual y Territorio"
+    ],
+    "clausulas": [
+      "Gastos Odontológicos de Emergencia durante el Viaje"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
       "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
       "Vigencia Individual y Territorio"
     ],
     "hechos": [
-      "tiene diabetes desde hace años",
-      "puede descompensarse durante el viaje"
+      "Se rompió un diente comiendo",
+      "La rotura ocurrió durante el viaje",
+      "La persona busca atención con dentista"
     ],
     "ajuste": null,
-    "proveedor": "groq",
-    "modelo": "openai/gpt-oss-120b",
-    "fecha": "2026-11-07",
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
     "tokens": {
-      "entrada": 1581,
-      "salida": 419,
-      "razonamiento": 151
+      "entrada": 2970,
+      "salida": 363,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|tengo diabetes desde hace anos si me descompenso durante el viaje me cubren la atencion": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "Tengo diabetes desde hace años; si me descompenso durante el viaje, ¿me cubren la atención?",
+    "variantes": [
+      "Cobertura de gastos médicos por enfermedad durante el viaje, atención por enfermedad preexistente y descompensación",
+      "Exclusiones aplicables por enfermedad preexistente, condiciones previas no declaradas y enfermedad que no sea consecuencia de un accidente",
+      "Vigencia del seguro durante el viaje, territorio cubierto y límites de gastos médicos por enfermedad",
+      "Aviso del siniestro y procedimiento para solicitar la cobertura de gastos médicos por enfermedad durante el viaje",
+      "Atención de emergencia por descompensación de enfermedad crónica durante el viaje y traslado médico"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Repatriación en Vida – Traslado Médico por Emergencia",
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Repatriación en Vida – Traslado Médico por Emergencia"
+    ],
+    "articulos": [
+      "Riesgos Cubiertos",
+      "Principales Exclusiones",
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
+    ],
+    "hechos": [
+      "Tiene diabetes desde hace años",
+      "Podría descompensarse durante el viaje",
+      "Consulta si se cubre la atención médica en ese caso"
+    ],
+    "ajuste": null,
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2980,
+      "salida": 428,
+      "razonamiento": 0
+    }
+  },
+  "668a7e8adda8c4b0|tenia que llamar a la central de asistencia antes de ir al centro medico": {
+    "version": 3,
+    "documento": "chubb_viajes_jetsmart",
+    "sha256_pdf": "668a7e8adda8c4b0141a44e109c517817360f3de3a02cb5c8fbecf4bc77fe1c0",
+    "pregunta": "¿Tenía que llamar a la central de asistencia antes de ir al centro médico?",
+    "variantes": [
+      "Aviso del siniestro y procedimiento para solicitar la cobertura de gastos médicos por enfermedad durante el viaje ante la compañía",
+      "Exclusiones aplicables a gastos médicos por accidente y enfermedad durante el viaje y asistencias",
+      "Plazos y medio establecidos para el aviso del siniestro, lugares autorizados para solicitar la cobertura de asistencias",
+      "Lugares autorizados por la empresa y medio establecido para el aviso del siniestro antes de recibir atención médica durante el viaje"
+    ],
+    "titulos": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Lugares autorizados por la empresa para solicitar la cobertura del seguro",
+      "Medio y plazos establecidos para el aviso del siniestro"
+    ],
+    "clausulas": [
+      "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje"
+    ],
+    "articulos": [
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
+      "Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
+      "Lugares autorizados por la empresa para solicitar la cobertura del seguro",
+      "Medio y plazos establecidos para el aviso del siniestro"
+    ],
+    "hechos": [
+      "Tenía que llamar a la central de asistencia antes de ir al centro médico"
+    ],
+    "ajuste": "se descartaron títulos que no están en el documento: ['Asistencias']",
+    "proveedor": "claude",
+    "modelo": "claude-haiku-5-5",
+    "fecha": "2026-11-15",
+    "tokens": {
+      "entrada": 2963,
+      "salida": 390,
+      "razonamiento": 0
     }
   }
 }

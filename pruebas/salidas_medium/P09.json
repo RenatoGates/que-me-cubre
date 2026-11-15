@@ -3,8 +3,10 @@
   "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
   "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
   "aviso": null,
-  "cubre": "con_limites",
-  "respuesta": "Revisa abajo las condiciones y las citas del documento.",
+  "cubre": "no_encontrado",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la cobertura por muerte causada por un accidente y de la pérdida de equipaje, además de algunas exclusiones generales. No mencionan la atención de lesiones como una fractura, así que no puedo decir si tu caso está cubierto.",
+  "apertura_contradictoria": null,
   "condiciones": [],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [],
@@ -14,17 +16,40 @@
       "n": 1,
       "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
       "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS",
-      "pagina": 10,
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
+      "pagina": 11,
       "paginas": [
-        10
+        11
       ],
-      "texto_literal": "El seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares.",
+      "texto_literal": "Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente.",
       "pasaje": "P5",
-      "trozo_id": "pacifico_viajes:0027",
+      "trozo_id": "pacifico_viajes:0029",
       "posicion": [
-        22,
-        240
+        409,
+        643
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
+      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza.",
+      "pasaje": "P4",
+      "trozo_id": "pacifico_viajes:0048",
+      "posicion": [
+        81,
+        274
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -37,40 +62,40 @@
   "veredicto_degradado": false,
   "mencionadas_ausentes": [
     {
-      "nombre": "Condiciones Particulares",
-      "tipo": "documento",
-      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
-      "mencion": "Condiciones Particulares",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
-      "pagina": 16,
-      "paginas": [
-        16
-      ],
-      "pasaje": "P3",
-      "trozo_id": "pacifico_viajes:0048",
-      "posicion": [
-        678,
-        702
-      ],
-      "nivel": "remision"
-    },
-    {
       "nombre": "Certificado de Seguro",
       "tipo": "documento",
       "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
       "mencion": "Certificado de Seguro",
-      "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE (parte 1 de 3)",
-      "pagina": 16,
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "pagina": 12,
       "paginas": [
-        16
+        12
       ],
       "pasaje": "P3",
-      "trozo_id": "pacifico_viajes:0048",
+      "trozo_id": "pacifico_viajes:0032",
       "posicion": [
-        707,
-        728
+        294,
+        315
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "pasaje": "P3",
+      "trozo_id": "pacifico_viajes:0032",
+      "posicion": [
+        545,
+        569
       ],
       "nivel": "remision"
     }
@@ -78,9 +103,9 @@
   "secciones_revisadas": [
     "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 1. COBERTURA DE MUERTE ACCIDENTAL",
     "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
-    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
     "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
-    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS"
+    "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO › 2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
+    "PARTE B. COBERTURAS › 2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS"
   ],
   "pasajes": [
     {
@@ -116,6 +141,21 @@
     {
       "id": "P3",
       "rango": 3,
+      "trozo_id": "pacifico_viajes:0032",
+      "seccion": "PARTE B. COBERTURAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        12
+      ],
+      "texto": "2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:\nLa suma asegurada es por Titular. No obstante, en caso de un accidente que involucre a más de un Titular, la responsabilidad máxima por todos los titulares afectados no será mayor al monto indicado en su Certificado de Seguro como máximo global por un mismo siniestro. En caso de que la suma de las indemnizaciones a abonar supere los montos antedichos, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida en las Condiciones Particulares y/ Certificado de Seguro."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
       "trozo_id": "pacifico_viajes:0048",
       "seccion": "PARTE D. AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
       "articulo": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE",
@@ -130,34 +170,20 @@
       "texto": "2. COBERTURA DE PÉRDIDA DE EQUIPAJE\n2.1. Indemnización por extravío del equipaje PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza. En caso de que el peso del equipaje no pueda ser determinado, éste se calculará tomando la suma indemnizada por la línea aérea sobre el monto indemnizatorio por kilogramo que ésta utilice.\n2.2. Disposiciones generales para la indemnización Consulte en su póliza el valor por kilogramo despachado aplicable al producto adquirido El Titular tendrá derecho a percibir hasta el monto máximo indicado en las Condiciones Particulares y/o Certificado de Seguro, sin importar la cantidad de eventos (demora o pérdida) que pudieran ocurrir durante la vigencia de su póliza, incluso si la misma fuera de validez anual.\nNo se tomará en consideración el contenido y/o valor real del equipaje extraviado."
     },
     {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "pacifico_viajes:0032",
-      "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        12
-      ],
-      "texto": "2.1.5. RESPONSABILIDAD MÁXIMA TOTAL EN CASO DE ACCIDENTE QUE INVOLUCRE MÁS DE UN TITULAR:\nLa suma asegurada es por Titular. No obstante, en caso de un accidente que involucre a más de un Titular, la responsabilidad máxima por todos los titulares afectados no será mayor al monto indicado en su Certificado de Seguro como máximo global por un mismo siniestro. En caso de que la suma de las indemnizaciones a abonar supere los montos antedichos, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida en las Condiciones Particulares y/ Certificado de Seguro."
-    },
-    {
       "id": "P5",
       "rango": 5,
-      "trozo_id": "pacifico_viajes:0027",
+      "trozo_id": "pacifico_viajes:0029",
       "seccion": "PARTE B. COBERTURAS",
-      "articulo": "2. COBERTURAS BÁSICAS",
+      "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.2. RIESGOS ASEGURADOS",
       "parte": [
         1,
         1
       ],
       "paginas": [
-        10
+        10,
+        11
       ],
-      "texto": "2. COBERTURAS BÁSICAS\nEl seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares.\nLas coberturas básicas son las siguientes:"
+      "texto": "2.1.2. RIESGOS ASEGURADOS\n• Muerte en transporte público: Muerte únicamente como consecuencia de un accidente mientras el Titular viaja como pasajero en un medio de transporte público, terrestre, marítimo, aéreo, o mientras viaja en taxi o limusina, siempre que el mismo esté regulado por un ente estatal y siempre que el tarjetahabiente no sea miembro de la tripulación, piloto o conductor del transporte.\n• Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente. IMPORTANTE: Cuando la póliza incluye dos alternativas de indemnización, según las circunstancias que hayan ocasionado la Muerte Accidental, una y solo una de ellas será indemnizable. Queda entendido y convenido entonces que la indemnización correspondiente a la Cobertura de Muerte Accidental 24 horas, excluye la indemnización correspondiente a Muerte Accidental en Transporte Público."
     },
     {
       "id": "P6",
@@ -177,20 +203,19 @@
   ],
   "normalizacion": {
     "variantes": [
-      "¿La cobertura de accidente incluye fractura de pierna al practicar esquí en pista autorizada?",
-      "¿Existen exclusiones que impidan la cobertura por una fractura de pierna al esquiar en Bariloche?",
-      "¿La vigencia y validez territorial del seguro cubren un accidente de esquí en Bariloche?",
-      "¿Cuál es el medio y plazo para avisar del siniestro de una fractura al esquiar y solicitar la cobertura?",
-      "¿Se aplica alguna condición adicional para la cobertura de accidente deportivo en pista autorizada?"
+      "cobertura por accidente que causa fractura de pierna durante la práctica de deportes de nieve, riesgos asegurados y coberturas básicas",
+      "exclusiones aplicables a accidentes en deportes de riesgo o actividades deportivas, principales exclusiones y exclusiones generales de la póliza",
+      "validez territorial de la cobertura en Argentina, vigencia del seguro y límites de suma asegurada para gastos médicos por accidente",
+      "medio y plazo para el aviso del siniestro y procedimiento para solicitar la cobertura en caso de accidente y fractura"
     ],
     "titulos": [
       "COBERTURAS",
       "EXCLUSIONES",
       "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO",
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
+      "RIESGOS ASEGURADOS",
       "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
       "Medio y plazo establecido para el aviso del siniestro"
     ],
     "clausulas": [
@@ -199,84 +224,65 @@
       "AVISO Y PROCEDIMIENTO PARA SOLICITAR LA COBERTURA EN CASO DE SINIESTRO"
     ],
     "articulos": [
-      "Coberturas Básicas",
-      "Principales exclusiones",
-      "Vigencia del Seguro",
+      "RIESGOS ASEGURADOS",
       "VALIDEZ TERRITORIAL DE LA COBERTURA",
+      "Principales exclusiones",
+      "En caso de siniestros y procedimiento para la solicitud de cobertura en caso de",
       "Medio y plazo establecido para el aviso del siniestro"
     ],
     "hechos": [
-      "fracturó la pierna",
-      "esquiando en pista autorizada",
-      "Bariloche"
+      "Se fracturó la pierna",
+      "Ocurrió esquiando",
+      "La pista de esquí estaba autorizada",
+      "El lugar fue Bariloche"
     ],
     "ajuste": null
   },
+  "busqueda": "bm25_variantes",
   "modelo_crudo": {
     "citas": [
       {
         "n": 1,
         "pasaje": "P5",
-        "texto_literal": "El seguro cubre los daños personales y materiales que pueda sufrir el ASEGURADO con ocasión del viaje en el lugar declarado, hasta el límite de la suma asegurada contratada especificada en las Condiciones Particulares."
-      }
-    ],
-    "condiciones": [
+        "texto_literal": "Muerte accidental 24 horas: Muerte únicamente como consecuencia de un accidente, incluyendo la muerte en transporte público descripta en el párrafo 1.2 precedente, siempre que el Titular tenga 74 o menos años al momento del accidente."
+      },
       {
-        "descripcion": "La cobertura está limitada al monto máximo de la suma asegurada que figura en tus Condiciones Particulares o en el Certificado de Seguro.",
-        "citas": [
-          1
-        ]
+        "n": 2,
+        "pasaje": "P4",
+        "texto_literal": "PACIFICO SEGUROS indemnizará al Titular por kilogramo despachado, detallado en el talón de despacho de equipaje (bag tag), y bulto completo perdido, hasta el monto máximo indicado en su póliza."
       }
     ],
+    "condiciones": [],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [],
     "no_incluido_en_documento": [],
-    "cubre": "con_limites",
-    "respuesta": "Sí, tu póliza cubre la fractura de pierna que sufriste mientras esquiabas en una pista autorizada en Bariloche, siempre que el accidente haya ocurrido dentro del lugar declarado en tu viaje. La cobertura está limitada al monto máximo de la suma asegurada que aparece en tus Condiciones Particulares o en el Certificado de Seguro."
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la cobertura por muerte causada por un accidente y de la pérdida de equipaje, además de algunas exclusiones generales. No mencionan la atención de lesiones como una fractura, así que no puedo decir si tu caso está cubierto."
   },
-  "descartes": [
-    {
-      "tipo": "texto",
-      "campo": "condicion",
-      "texto": "La cobertura está limitada al monto máximo de la suma asegurada que figura en tus Condiciones Particulares o en el Certificado de Seguro.",
-      "motivo": "nombra certificado de seguro, que no está en las citas verificadas"
-    },
-    {
-      "tipo": "texto",
-      "campo": "respuesta",
-      "texto": "La cobertura está limitada al monto máximo de la suma asegurada que aparece en tus Condiciones Particulares o en el Certificado de Seguro.",
-      "motivo": "nombra certificado de seguro, que no está en las citas verificadas"
-    },
-    {
-      "tipo": "texto",
-      "campo": "respuesta",
-      "texto": "Sí, tu póliza cubre la fractura de pierna que sufriste mientras esquiabas en una pista autorizada en Bariloche, siempre que el accidente haya ocurrido dentro del lugar declarado en tu viaje.",
-      "motivo": "abre con «Sí» y el veredicto es «con_limites»"
-    }
-  ],
+  "descartes": [],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
     "normalizacion_desde_cache": true,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3358,
-        "tokens_salida": 970,
-        "tokens_razonamiento": 748,
-        "segundos": 3.02,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6925,
+        "tokens_salida": 1442,
+        "tokens_razonamiento": 0,
+        "segundos": 6.59,
+        "costo_usd": 0.001414
       }
     ],
-    "tokens": 4328,
-    "costo_usd": 0.0,
-    "segundos": 3.02
+    "tokens": 8367,
+    "costo_usd": 0.001414,
+    "segundos": 6.59
   },
   "prueba": {
     "id": "P09",

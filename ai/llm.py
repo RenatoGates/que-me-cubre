@@ -187,11 +187,13 @@ class ProveedorClaude(Proveedor):
         "y lo borra dentro de los 30 días."
     )
     # El tope de salida incluye el razonamiento (adaptativo, siempre activo en Haiku 5.5).
-    _ESFUERZO = {"normalizacion": "low", "respuesta": "medium"}
+    # Respuesta con esfuerzo bajo: medido en las 10 preguntas, mismos veredictos aceptables que
+    # con medio y la mitad de espera (pruebas/resultados.md y resultados_medium.md).
     _MAX_TOKENS = {"normalizacion": 2000, "respuesta": 8000}
 
     def __init__(self) -> None:
         super().__init__()
+        self._ESFUERZO = {"normalizacion": "low", "respuesta": config("QMC_ESFUERZO_RESPUESTA", "low") or "low"}
         modelo = config("QMC_MODELO", "claude-haiku-5-5")
         self.modelos = {"normalizacion": config("QMC_MODELO_NORMALIZACION", modelo), "respuesta": modelo}
         self.precios = (float(config("QMC_PRECIO_ENTRADA_USD_MTOK", "0.10")),

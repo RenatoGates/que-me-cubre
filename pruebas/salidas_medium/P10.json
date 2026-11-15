@@ -4,12 +4,84 @@
   "documento": "Rimac Seguros · Seguro de Viaje",
   "aviso": null,
   "cubre": "no_encontrado",
-  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de coberturas por muerte accidental, invalidez y exclusiones de ciertos accidentes, pero no mencionan radiografías ni cobertura de estudios médicos durante el viaje.",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la muerte o la invalidez causadas por un accidente durante un viaje al extranjero, y de servicios de emergencia para la casa, como cerrajería. No hablan de exámenes médicos ni de radiografías pedidas por un médico durante el viaje.",
+  "apertura_contradictoria": null,
   "condiciones": [],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [],
   "no_incluido_en_documento": [],
-  "citas": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 1 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "Si el ASEGURADO sufre un accidente durante el viaje al extranjero, que dé lugar a su fallecimiento",
+      "pasaje": "P1",
+      "trozo_id": "rimac_viajes:0107",
+      "posicion": [
+        34,
+        132
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Accidentes Personales",
+      "articulo": "1. COBERTURA (parte 2 de 2)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "B) Invalidez permanente por accidente Si durante un viaje al extranjero, hasta un máximo de ciento ochenta (180) días consecutivos, el ASEGURADO sufre un accidente",
+      "pasaje": "P6",
+      "trozo_id": "rimac_viajes:0108",
+      "posicion": [
+        0,
+        163
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "1. COBERTURAS (parte 1 de 3)",
+      "pagina": 18,
+      "paginas": [
+        18
+      ],
+      "texto_literal": "1.1. Cerrajería Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza, la cerradura de algunas de las puertas del inmueble",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0122",
+      "posicion": [
+        252,
+        404
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
   "veredicto_degradado": false,
   "mencionadas_ausentes": [
     {
@@ -30,12 +102,33 @@
         331
       ],
       "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "1. COBERTURAS (parte 1 de 3)",
+      "pagina": 18,
+      "paginas": [
+        18
+      ],
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0122",
+      "posicion": [
+        200,
+        224
+      ],
+      "nivel": "remision"
     }
   ],
   "secciones_revisadas": [
     "Cláusula Adicional de Accidentes Personales › 1. COBERTURA",
-    "Cláusula Adicional de Accidentes Personales › 4. EXCLUSIONES",
-    "Cláusula Adicional de Accidentes Personales › 3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS"
+    "Cláusula Adicional de Asistencia Domiciliaria › 1. COBERTURAS",
+    "Cláusula Adicional de Asistencia Domiciliaria › 6. REEMBOLSO",
+    "Cláusula Adicional de Asistencia Domiciliaria › 5. GARANTÍA SOBRE EL TRABAJO EJECUTADO",
+    "Cláusula Adicional de Asistencia Domiciliaria › 2. BENEFICIOS ADICIONALES"
   ],
   "pasajes": [
     {
@@ -56,21 +149,66 @@
     {
       "id": "P2",
       "rango": 2,
-      "trozo_id": "rimac_viajes:0113",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "4. EXCLUSIONES",
+      "trozo_id": "rimac_viajes:0122",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "1. COBERTURAS",
       "parte": [
-        3,
+        1,
         3
       ],
       "paginas": [
-        15
+        18
       ],
-      "texto": "i) Los provenientes de accidentes de trabajo; así como de la práctica o desempeño de profesión u oficio claramente riesgoso tales como: bomberos, mineros, pilotos o tripulantes de nave aérea o marítima, miembros de las Fuerzas Armadas o Policiales, ingenieros químicos, periodistas corresponsales de guerra, obreros de construcción, manipuladores de explosivos, que no hayan sido declarados por el ASEGURADO y aceptados por la COMPAÑÍA al momento de contratar el seguro o durante su vigencia.\nj) Bajo la influencia del alcohol (en grado igual o superior a 0.50 gramos de alcohol por litro de sangre al momento del accidente) y/o drogas o en estado de sonambulismo. Para efectos de esta exclusión, se presumirá que el ASEGURADO se encuentra bajo la influencia de alcohol o droga, si éste se negara a que se le practique el examen de alcoholemia o toxicológico correspondiente.\nk) Inhalación de gases, intoxicación o envenenamiento sistemático de cualquier naturaleza.\nl) Los llamados ‘Accidentes Médicos’, tales como apoplejías, congestiones, síncopes, vértigos, edemas agudos, infartos al miocardio, trombosis y ataques epilépticos; así como los casos de negligencia o impericia médica.\nm) Cualquier enfermedad corporal o mental, y a las consecuencias de tratamientos médicos o quirúrgicos que no sean motivados por accidentes amparados por la presente Póliza.\nn) Síndrome de Inmuno Deficiencia Adquirida (SIDA).\no) Las lesiones preexistentes al momento de contratar este Seguro.\np) Las complicaciones médicas de embarazos o partos.\nq) Las hernias, enredamientos intestinales, así como de insolaciones."
+      "texto": "1. COBERTURAS\nSujeto a lo estipulado por todos los términos y condiciones que forman parte de la Póliza, durante toda su vigencia ésta se extiende a cubrir, hasta por los límites especificados en las Condiciones Particulares, los siguientes conceptos:\n1.1. Cerrajería Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza, la cerradura de algunas de las puertas del inmueble que constituye Lugar del Seguro queda inoperativa, incluso por pérdida de la llave, la COMPAÑÍA suministrará la cobertura de cerrajería de emergencia con la finalidad de restablecer el acceso y el cierre correcto de la cerradura de la puerta afectada.\nEsta cobertura de emergencia será ejecutada directamente por un técnico calificado designado por la COMPAÑÍA, y comprende la movilidad y honorarios por mano de obra del técnico, así como los materiales que se requieran."
     },
     {
       "id": "P3",
       "rango": 3,
+      "trozo_id": "rimac_viajes:0130",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "6. REEMBOLSO",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        19
+      ],
+      "texto": "6. REEMBOLSO\nSi el ASEGURADO solicitará alguna de las coberturas de Asistencia Domiciliaria amparadas bajo los alcances de lo estipulado por el numeral 1° de la presente cláusula, sea por la ubicación geográfica, o por carencia de infraestructura en la zona en donde está situado el Lugar del Seguro, o por circunstancias fuera de control de la COMPAÑÍA que le impidan a ésta otorgar la mencionada cobertura, la COMPAÑÍA reembolsará al ASEGURADO, los gastos previamente autorizados por la COMPAÑÍA."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "rimac_viajes:0129",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "5. GARANTÍA SOBRE EL TRABAJO EJECUTADO",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        19
+      ],
+      "texto": "5. GARANTÍA SOBRE EL TRABAJO EJECUTADO\nLos trabajos ejecutados bajo los alcances de la Cobertura descrita en el numeral 1° de la presente cláusula, tienen garantía durante dos (02) meses, siempre que la cobertura del siniestro haya sido brindada por la COMPAÑÍA."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "rimac_viajes:0125",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "2. BENEFICIOS ADICIONALES",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        18
+      ],
+      "texto": "2. BENEFICIOS ADICIONALES\nBajo los alcances de esta cláusula, la COMPAÑÍA otorga los siguientes beneficios adicionales:\n2.1. Datos y Coordinaciones Si durante la vigencia de la Póliza, el ASEGURADO requiere información sobre florerías y/o restaurantes y/o teatros y/o museos y/o cines y/o eventos y/o servicios de ambulancias y/o médicos y/o clínicas y/o centros hospitalarios y/o veterinarias y/o técnicos de artefactos electrodomésticos y/o agencias de Empleados del Hogar y/o agencia de niñeras temporales y/o números de servicios de emergencia, ubicados en todo el Perú, la COMPAÑÍA proporcionará esta información verbalmente por vía telefónica.\nAsimismo, a solicitud del ASEGURADO, coordinará la entrega del producto o servicio requerido, siendo de cargo del ASEGURADO, el costo de dicho producto o servicio requerido."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
       "trozo_id": "rimac_viajes:0108",
       "seccion": "Cláusula Adicional de Accidentes Personales",
       "articulo": "1. COBERTURA",
@@ -84,102 +222,104 @@
       "texto": "B) Invalidez permanente por accidente Si durante un viaje al extranjero, hasta un máximo de ciento ochenta (180) días consecutivos, el ASEGURADO sufre un accidente que dé lugar a su Invalidez Permanente Total o Invalidez Permanente Parcial, siempre que la causa directa y única de dicha invalidez fuera un accidente amparado por la póliza, la COMPAÑÍA pagará al ASEGURADO la suma correspondiente al grado de Invalidez Permanente, con base a lo establecido en el Anexo A - Tabla de Indemnizaciones por Invalidez Permanente.\nEn caso de un accidente que involucre a más de un ASEGURADO, la responsabilidad máxima por todas las pólizas afectadas, no será mayor a US$ 250,000.00 (Doscientos Cincuenta Mil con 00/100 Dólares de los Estados Unidos de América). En caso de que la suma de las indemnizaciones a abonar supere el importe antes señalado, cada indemnización individual será efectuada a prorrata de la responsabilidad máxima definida."
     },
     {
-      "id": "P4",
-      "rango": 4,
-      "trozo_id": "rimac_viajes:0112",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "4. EXCLUSIONES",
+      "id": "P7",
+      "rango": 0,
+      "trozo_id": "rimac_viajes:0123",
+      "seccion": "Cláusula Adicional de Asistencia Domiciliaria",
+      "articulo": "1. COBERTURAS",
       "parte": [
         2,
         3
       ],
       "paginas": [
-        14,
-        15
+        18
       ],
-      "texto": "e) Detonación nuclear, reacción, radiación nuclear o contaminación radiactiva; independientemente de la forma en que se haya ocasionado la detonación nuclear, reacción, radiación nuclear o contaminación radiactiva.\nf) Viajes aéreos y marítimos que haga el ASEGURADO en calidad de pasajero en vuelos de itinerarios no fijos ni regulares; así como operaciones o viajes submarinos.\ng) Participación como conductor, copiloto o acompañante, en carreras o entrenamiento para carreras de automóviles, bicicletas, motocicletas, motonetas, trimotos, cuatrimotos, motocicletas náuticas, lanchas a motor, avionetas y de caballos.\nh) Accidentes producidos a consecuencia de actividades o deportes notoriamente peligrosos tales como: uso de vehículos de carrera de cualquier tipo sea como conductor o pasajero, competencia en autos, motos terrestres o acuáticas, motocross, andinismo o alpinismo o escalamiento de montañas, cacería de fieras, pesca submarina, box, rodeo, puenting, ala delta, parapente, downhill, prácticas hípicas, artes marciales, paracaidismo, aeronaves ultraligeras, esquí acuático y sobre nieve, inmersión o caza submarina, salto desde puentes o puntos elevados al vacío, rodeo, surf, que no hayan sido declarados por el ASEGURADO y aceptados por la COMPAÑÍA al momento de contratar el seguro o durante su vigencia."
-    },
-    {
-      "id": "P5",
-      "rango": 5,
-      "trozo_id": "rimac_viajes:0110",
-      "seccion": "Cláusula Adicional de Accidentes Personales",
-      "articulo": "3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        14
-      ],
-      "texto": "3. PAGO DE BENEFICIOS EN CASO DE ACCIDENTES SUCESIVOS\nSi el ASEGURADO sufriera varios accidentes sucesivos durante la vigencia de la Póliza, el pago de las sumas correspondientes por Invalidez Parcial Permanente, de acuerdo a lo establecido en el Anexo A - Tabla de Indemnizaciones por Invalidez Permanente, no podrán exceder en conjunto del cien por ciento (100%) del beneficio previsto por este concepto en el Plan de Beneficio."
+      "texto": "1.2. Fontanería (Gasfitería) Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza, se produce la rotura o atoro o avería de las instalaciones sanitarias o las redes de agua o desagüe que forman parte integrante del inmueble que constituye el Lugar del Seguro, sea que provoque o no la fuga de agua corriente o aguas servidas, y si como consecuencia de esa rotura o atoro o avería, el suministro de agua corriente y/o la evacuación de aguas servidas resulta interrumpido, la COMPAÑÍA suministrará la cobertura de fontanería (gasfitería) de emergencia con la finalidad de restablecer el suministro de agua corriente y/o la evacuación de aguas servidas.\nEsta cobertura de emergencia será ejecutada directamente por un técnico calificado designado por la COMPAÑÍA, y comprende la movilidad y honorarios por mano de obra del técnico, así como los materiales que se requieran.\n1.3. Electricidad Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza en las instalaciones eléctricas del inmueble que constituyen el Lugar del Seguro, se produce la interrupción parcial o total del fluido eléctrico, la COMPAÑÍA suministrará la cobertura de emergencia con la finalidad de restablecer el suministro de corriente eléctrica."
     }
   ],
   "normalizacion": {
     "variantes": [
-      "Cobertura de radiografía solicitada por médico durante el viaje según la cláusula Accidentes Personales.",
-      "Exclusiones que podrían impedir el pago de la radiografía solicitada por médico en el viaje.",
-      "Vigencia, territorialidad y límites de la cobertura para radiografías durante el viaje.",
-      "Aviso y trámite para solicitar el reembolso de la radiografía solicitada por médico mientras se está de viaje.",
-      "Procedimiento para reclamar el beneficio de la radiografía bajo la cobertura de Accidentes Personales."
+      "Cobertura de exámenes de ayuda al diagnóstico y gastos médicos durante el viaje, según el monto máximo garantizado en la póliza.",
+      "Enfermedades, tratamientos y otros gastos no cubiertos que podrían aplicar a exámenes de ayuda al diagnóstico y asistencia médica.",
+      "Vigencia del riesgo y territorialidad de la póliza para exámenes de ayuda al diagnóstico realizados durante el viaje fuera del domicilio.",
+      "Procedimiento en caso de siniestro y aviso para solicitar el reembolso de gastos de exámenes de ayuda al diagnóstico durante el viaje.",
+      "Gastos cubiertos por asistencia médica y exámenes de ayuda al diagnóstico, con los límites del monto máximo garantizado."
     ],
     "titulos": [
+      "Asistencia Domiciliaria",
       "Accidentes Personales",
-      "Asistencia médica por accidente y por Enfermedad",
+      "GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO",
+      "Exámenes de ayuda al diagnóstico",
       "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
+      "VIGENCIA DEL RIESGO",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO"
     ],
     "clausulas": [
+      "Asistencia Domiciliaria",
       "Accidentes Personales"
     ],
     "articulos": [
-      "Asistencia médica por accidente y por Enfermedad",
+      "GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO",
+      "Exámenes de ayuda al diagnóstico",
       "ENFERMEDADES, TRATAMIENTOS Y OTROS GASTOS NO CUBIERTOS",
-      "EXCLUSIONES",
-      "PROCEDIMIENTO EN CASO DE SINIESTRO",
-      "COBERTURA"
+      "VIGENCIA DEL RIESGO",
+      "PROCEDIMIENTO EN CASO DE SINIESTRO"
     ],
     "hechos": [
-      "Médico solicita radiografía.",
-      "Situación ocurre durante el viaje."
+      "Durante el viaje, el médico le pide una radiografía al asegurado."
     ],
     "ajuste": null
   },
+  "busqueda": "bm25_variantes",
   "modelo_crudo": {
-    "citas": [],
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "Si el ASEGURADO sufre un accidente durante el viaje al extranjero, que dé lugar a su fallecimiento"
+      },
+      {
+        "n": 2,
+        "pasaje": "P6",
+        "texto_literal": "B) Invalidez permanente por accidente Si durante un viaje al extranjero, hasta un máximo de ciento ochenta (180) días consecutivos, el ASEGURADO sufre un accidente"
+      },
+      {
+        "n": 3,
+        "pasaje": "P2",
+        "texto_literal": "1.1. Cerrajería Si como consecuencia de un hecho fortuito ocurrido durante la vigencia de la Póliza, la cerradura de algunas de las puertas del inmueble"
+      }
+    ],
     "condiciones": [],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [],
     "no_incluido_en_documento": [],
     "cubre": "no_encontrado",
-    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados hablan de coberturas por muerte accidental, invalidez y exclusiones de ciertos accidentes, pero no mencionan radiografías ni cobertura de estudios médicos durante el viaje."
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de la muerte o la invalidez causadas por un accidente durante un viaje al extranjero, y de servicios de emergencia para la casa, como cerrajería. No hablan de exámenes médicos ni de radiografías pedidas por un médico durante el viaje."
   },
   "descartes": [],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
     "normalizacion_desde_cache": true,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3267,
-        "tokens_salida": 426,
-        "tokens_razonamiento": 323,
-        "segundos": 1.39,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6575,
+        "tokens_salida": 1856,
+        "tokens_razonamiento": 0,
+        "segundos": 8.92,
+        "costo_usd": 0.001586
       }
     ],
-    "tokens": 3693,
-    "costo_usd": 0.0,
-    "segundos": 1.39
+    "tokens": 8431,
+    "costo_usd": 0.001586,
+    "segundos": 8.92
   },
   "prueba": {
     "id": "P10",

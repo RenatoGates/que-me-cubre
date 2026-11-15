@@ -4,33 +4,36 @@
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
   "cubre": "con_limites",
-  "respuesta": "Tu póliza cubre la atención de emergencia y estabilización si te descompensas, pero solo para tratamiento de urgencia y hasta el límite máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que deberás solicitar a la aseguradora. Además, deberás presentar la documentación requerida para el reembolso.",
+  "etiqueta_veredicto": "Cubre con límites",
+  "respuesta": "Tu póliza cubre gastos médicos por enfermedad durante el viaje, pero solo para tratamientos de urgencia de cuadros agudos que impidan seguir el viaje, no para tratamientos de larga duración. Si tu diabetes se considera una condición preexistente, la cobertura se limitaría a emergencia y estabilización, y podrían aplicar exclusiones según tu caso, lo que depende de lo que se constate. El monto máximo no está en este documento: debes pedir a tu aseguradora tus Condiciones Particulares o tu Certificado de Seguro.",
+  "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "Solo se cubre el tratamiento de emergencia y estabilización, no el tratamiento normal de la condición preexistente",
+      "descripcion": "La atención por enfermedad durante el viaje se limita a tratamientos de urgencia de cuadros agudos que impidan continuar el viaje; no cubre procedimientos de larga duración.",
       "citas": [
-        1
+        1,
+        2
       ]
     },
     {
-      "descripcion": "El monto máximo está fijado en las Condiciones Particulares o el Certificado de Seguro",
+      "descripcion": "Límite principal: los gastos médicos tienen un tope total que está fijado en las Condiciones Particulares o en el Certificado de Seguro, no en este documento.",
       "citas": [
         4
-      ]
-    },
-    {
-      "descripcion": "Para solicitar el reembolso debes presentar la declaración escrita, certificado médico y comprobantes de gasto, sin plazo límite específico pero antes del plazo de prescripción",
-      "citas": [
-        3
       ]
     }
   ],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [
     {
-      "descripcion": "Si realizaste el viaje con motivo de tratar la diabetes, la compañía queda eximida de prestar el servicio",
+      "descripcion": "Si se constata que tienes una condición preexistente, la cobertura solo sería para tratamiento de emergencia y estabilización, y no para el tratamiento normal de tu diabetes.",
       "citas": [
         3
+      ]
+    },
+    {
+      "descripcion": "Si se constata que realizaste el viaje con motivo del tratamiento de tu enfermedad preexistente, la compañía queda eximida de prestar este servicio.",
+      "citas": [
+        5
       ]
     }
   ],
@@ -40,17 +43,17 @@
       "n": 1,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
-      "pagina": 16,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
+      "pagina": 17,
       "paginas": [
-        16
+        17
       ],
-      "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.",
-      "pasaje": "P4",
-      "trozo_id": "chubb_viajes_jetsmart:0063",
+      "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
       "posicion": [
-        38,
-        341
+        1,
+        102
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -68,12 +71,12 @@
       "paginas": [
         17
       ],
-      "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO.",
-      "pasaje": "P1",
+      "texto_literal": "por la misma razón no se prestan para procedimientos de larga duración",
+      "pasaje": "P2",
       "trozo_id": "chubb_viajes_jetsmart:0064",
       "posicion": [
-        1,
-        508
+        305,
+        375
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -86,18 +89,17 @@
       "n": 3,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 4)",
-      "pagina": 18,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 16,
       "paginas": [
-        18,
-        19
+        16
       ],
-      "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:",
+      "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente",
       "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0071",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
-        0,
-        536
+        38,
+        268
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -110,17 +112,40 @@
       "n": 4,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
-      "pagina": 16,
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 1 de 2)",
+      "pagina": 17,
       "paginas": [
-        16
+        17
       ],
-      "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura...",
-      "pasaje": "P5",
-      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "texto_literal": "no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
-        22,
-        419
+        934,
+        1065
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 4)",
+      "pagina": 19,
+      "paginas": [
+        19
+      ],
+      "texto_literal": "En caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional.",
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0071",
+      "posicion": [
+        962,
+        1164
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -133,25 +158,6 @@
   "veredicto_degradado": false,
   "mencionadas_ausentes": [
     {
-      "nombre": "B4 - Continuación de Tratamiento en País de Residencia",
-      "tipo": "cobertura",
-      "mensaje": "Tu póliza menciona «B4 - Continuación de Tratamiento en País de Residencia» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
-      "mencion": "B4 - Continuación de Tratamiento en País de Residencia",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
-      "pagina": 16,
-      "paginas": [
-        16
-      ],
-      "pasaje": "P5",
-      "trozo_id": "chubb_viajes_jetsmart:0061",
-      "posicion": [
-        595,
-        649
-      ],
-      "nivel": "clausula_ausente"
-    },
-    {
       "nombre": "Condiciones Particulares",
       "tipo": "documento",
       "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
@@ -162,7 +168,7 @@
       "paginas": [
         17
       ],
-      "pasaje": "P4",
+      "pasaje": "P3",
       "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
         760,
@@ -181,7 +187,7 @@
       "paginas": [
         17
       ],
-      "pasaje": "P4",
+      "pasaje": "P3",
       "trozo_id": "chubb_viajes_jetsmart:0063",
       "posicion": [
         789,
@@ -191,15 +197,30 @@
     }
   ],
   "secciones_revisadas": [
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 4° Condiciones de Cobertura",
     "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
-    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
     "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
   ],
   "pasajes": [
     {
       "id": "P1",
       "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0133",
+      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        36
+      ],
+      "texto": "Artículo 4° Condiciones de Cobertura\nEsta cobertura aplica únicamente como continuación a un evento provocado por un ACCIDENTE y amparado por las coberturas:\n•B1 - Gastos Médicos por Accidente y/o Enfermedad durante el Viaje.\n•B2 - Gastos Odontológicos durante el Viaje.\n•B3 - Gastos Farmacéuticos durante el Viaje."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
       "trozo_id": "chubb_viajes_jetsmart:0064",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 4° Condiciones de Cobertura",
@@ -213,39 +234,8 @@
       "texto": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
     },
     {
-      "id": "P2",
-      "rango": 2,
-      "trozo_id": "chubb_viajes_jetsmart:0055",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Texto inicial de la sección",
-      "parte": [
-        1,
-        1
-      ],
-      "paginas": [
-        15
-      ],
-      "texto": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje Cláusula Adicional\nLa presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
-    },
-    {
       "id": "P3",
       "rango": 3,
-      "trozo_id": "chubb_viajes_jetsmart:0071",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
-      "parte": [
-        2,
-        4
-      ],
-      "paginas": [
-        18,
-        19
-      ],
-      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
-    },
-    {
-      "id": "P4",
-      "rango": 4,
       "trozo_id": "chubb_viajes_jetsmart:0063",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 4° Condiciones de Cobertura",
@@ -260,118 +250,140 @@
       "texto": "Artículo 4° Condiciones de Cobertura\n•Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO.\n•La COMPAÑÍA, a su cargo, tendrá el derecho a someter al ASEGURADO a exámenes médicos, con la frecuencia razonablemente necesaria, mientras la solicitud de cobertura correspondiente al pago de un beneficio se encuentre pendiente, siempre que se realice dentro de los primeros veinte (20) días de los treinta (30) días de los que dispone para aprobar o rechazar el siniestro.\n•De no estar definido de otra forma en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
     },
     {
-      "id": "P5",
-      "rango": 5,
-      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0071",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura",
+      "articulo": "Artículo 6° Aviso del Siniestro y Procedimiento para Solicitar la Cobertura",
       "parte": [
-        1,
-        2
+        2,
+        4
       ],
       "paginas": [
-        16
+        18,
+        19
       ],
-      "texto": "Artículo 3° Cobertura\nEl reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:\n•B2 - Gastos Odontológicos durante el Viaje.\n•B3 - Gastos Farmacéuticos durante el Viaje.\n•B4 - Continuación de Tratamiento en País de Residencia.\nPara fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:\na)Servicios prestados por el Médico.\nb)Servicios médicos u hospitalarios para garantizar la recuperación inicial y las condiciones físicas necesarias que permitan la normal continuación del viaje.\nc)Hospitalización y uso del quirófano.\nd)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.\ne)Anestesias (incluyendo administración de la misma, exámenes o tratamientos radiológicos y análisis de laboratorio)."
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0140",
+      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        4
+      ],
+      "paginas": [
+        38
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió;\nb)Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables.\nc)Relación de gastos de curación incurridos por el ASEGURADO, debidamente fundamentados con los comprobantes de pago respectivos.\nEn caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional. La COMPAÑÍA, se reserva el derecho de investigar la conexión del hecho actual con la Enfermedad Preexistente."
     }
   ],
   "normalizacion": {
     "variantes": [
-      "¿La cobertura incluye atención médica por enfermedad durante el viaje?",
-      "¿Existen exclusiones que impidan cubrir una descompensación de diabetes?",
-      "¿La cobertura está vigente en el territorio del viaje y tiene límites para enfermedad?",
-      "¿Cómo debe avisarse el siniestro y cuál es el procedimiento para solicitar la cobertura por enfermedad?",
-      "¿Qué requisitos de acceso y límites de permanencia aplican para la cobertura de enfermedad preexistente?"
+      "Cobertura de gastos médicos por enfermedad durante el viaje, atención por enfermedad preexistente y descompensación",
+      "Exclusiones aplicables por enfermedad preexistente, condiciones previas no declaradas y enfermedad que no sea consecuencia de un accidente",
+      "Vigencia del seguro durante el viaje, territorio cubierto y límites de gastos médicos por enfermedad",
+      "Aviso del siniestro y procedimiento para solicitar la cobertura de gastos médicos por enfermedad durante el viaje",
+      "Atención de emergencia por descompensación de enfermedad crónica durante el viaje y traslado médico"
     ],
     "titulos": [
       "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales",
-      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "Repatriación en Vida – Traslado Médico por Emergencia",
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
     ],
     "clausulas": [
       "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "Condiciones Generales",
-      "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
+      "Repatriación en Vida – Traslado Médico por Emergencia"
     ],
     "articulos": [
       "Riesgos Cubiertos",
       "Principales Exclusiones",
-      "Condiciones de Cobertura",
-      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro",
-      "Vigencia Individual y Territorio"
+      "Exclusiones",
+      "Vigencia Individual y Territorio",
+      "Aviso del Siniestro y Procedimiento para la solicitud de cobertura del seguro"
     ],
     "hechos": [
-      "tiene diabetes desde hace años",
-      "puede descompensarse durante el viaje"
+      "Tiene diabetes desde hace años",
+      "Podría descompensarse durante el viaje",
+      "Consulta si se cubre la atención médica en ese caso"
     ],
     "ajuste": null
   },
+  "busqueda": "bm25_variantes",
   "modelo_crudo": {
     "citas": [
       {
         "n": 1,
-        "pasaje": "P4",
-        "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente, siendo estos últimos costos de responsabilidad exclusiva del ASEGURADO."
+        "pasaje": "P2",
+        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos"
       },
       {
         "n": 2,
-        "pasaje": "P1",
-        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
+        "pasaje": "P2",
+        "texto_literal": "por la misma razón no se prestan para procedimientos de larga duración"
       },
       {
         "n": 3,
         "pasaje": "P3",
-        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de gastos médicos, para lo cual, el ASEGURADO deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:"
+        "texto_literal": "Constatada la Condición Médica Pre-Existente, los beneficios de gastos médicos serán sólo para el tratamiento de emergencia y estabilización del ASEGURADO y por ningún motivo para el tratamiento normal de la condición preexistente"
       },
       {
         "n": 4,
-        "pasaje": "P5",
-        "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura..."
+        "pasaje": "P3",
+        "texto_literal": "no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro"
+      },
+      {
+        "n": 5,
+        "pasaje": "P4",
+        "texto_literal": "En caso se constate que el ASEGURADO realizó su viaje con motivo del tratamiento de una Enfermedad Pre-Existente, la COMPAÑÍA queda eximida de prestar sus servicios de acuerdo a esta cláusula adicional."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "Solo se cubre el tratamiento de emergencia y estabilización, no el tratamiento normal de la condición preexistente",
+        "descripcion": "La atención por enfermedad durante el viaje se limita a tratamientos de urgencia de cuadros agudos que impidan continuar el viaje; no cubre procedimientos de larga duración.",
         "citas": [
-          1
+          1,
+          2
         ]
       },
       {
-        "descripcion": "El monto máximo está fijado en las Condiciones Particulares o el Certificado de Seguro",
+        "descripcion": "Límite principal: los gastos médicos tienen un tope total que está fijado en las Condiciones Particulares o en el Certificado de Seguro, no en este documento.",
         "citas": [
           4
-        ]
-      },
-      {
-        "descripcion": "Para solicitar el reembolso debes presentar la declaración escrita, certificado médico y comprobantes de gasto, sin plazo límite específico pero antes del plazo de prescripción",
-        "citas": [
-          3
         ]
       }
     ],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [
       {
-        "descripcion": "Si realizaste el viaje con motivo de tratar la diabetes, la compañía queda eximida de prestar el servicio",
+        "descripcion": "Si se constata que tienes una condición preexistente, la cobertura solo sería para tratamiento de emergencia y estabilización, y no para el tratamiento normal de tu diabetes.",
         "citas": [
           3
+        ]
+      },
+      {
+        "descripcion": "Si se constata que realizaste el viaje con motivo del tratamiento de tu enfermedad preexistente, la compañía queda eximida de prestar este servicio.",
+        "citas": [
+          5
         ]
       }
     ],
     "no_incluido_en_documento": [
       {
-        "cita": 4,
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "fija el límite máximo de cobertura que se menciona en la póliza"
+        "por_que_importa": "Ahí se fija el monto máximo de los gastos médicos, que determina cuánto podría pagarse por la atención.",
+        "cita": 4
       }
     ],
     "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre la atención de emergencia y estabilización si te descompensas, pero solo para tratamiento de urgencia y hasta el límite máximo que aparece en las Condiciones Particulares o en el Certificado de Seguro, documentos que deberás solicitar a la aseguradora. Además, deberás presentar la documentación requerida para el reembolso."
+    "respuesta": "Tu póliza cubre gastos médicos por enfermedad durante el viaje, pero solo para tratamientos de urgencia de cuadros agudos que impidan seguir el viaje, no para tratamientos de larga duración. Si tu diabetes se considera una condición preexistente, la cobertura se limitaría a emergencia y estabilización, y podrían aplicar exclusiones según tu caso, lo que depende de lo que se constate. El monto máximo no está en este documento: debes pedir a tu aseguradora tus Condiciones Particulares o tu Certificado de Seguro."
   },
   "descartes": [
     {
@@ -381,28 +393,28 @@
     }
   ],
   "proveedor": {
-    "nombre": "groq",
-    "modelo": "openai/gpt-oss-120b",
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
     "reutiliza_datos": false,
-    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Groq para redactar la respuesta (modelo openai/gpt-oss-120b). La cuenta tiene activada la retención cero de datos: Groq no los guarda ni los reutiliza."
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
   },
   "uso": {
     "llamadas": 1,
     "normalizacion_desde_cache": true,
     "detalle": [
       {
-        "proveedor": "groq",
-        "modelo": "openai/gpt-oss-120b",
-        "tokens_entrada": 3330,
-        "tokens_salida": 2307,
-        "tokens_razonamiento": 1603,
-        "segundos": 5.3,
-        "costo_usd": 0.0
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6478,
+        "tokens_salida": 3661,
+        "tokens_razonamiento": 0,
+        "segundos": 14.95,
+        "costo_usd": 0.002478
       }
     ],
-    "tokens": 5637,
-    "costo_usd": 0.0,
-    "segundos": 5.3
+    "tokens": 10139,
+    "costo_usd": 0.002478,
+    "segundos": 14.95
   },
   "prueba": {
     "id": "P04",
