@@ -20,6 +20,7 @@ empezar en "Artículo 1°"), así que una cita siempre lleva sección + artícul
 
 from __future__ import annotations
 
+import gc
 import io
 import math
 import re
@@ -468,7 +469,12 @@ def lineas_por_pagina(pdf_bytes: bytes) -> tuple[list[list[str]], list[int], lis
             if columnas:
                 dos_columnas.append(n)
             paginas.append(lineas)
-            page.flush_cache()
+            # Sin esto pdfplumber retiene los objetos de cada página: una póliza de 62 páginas
+            # llegaba a 416 MB (pruebas/arranque.md), más que los 512 MB del servidor gratuito.
+            page.close()
+            if n % 4 == 0:
+                gc.collect()
+    gc.collect()
     return paginas, vacias, dos_columnas
 
 
