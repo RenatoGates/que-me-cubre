@@ -1,5 +1,6 @@
 """Prueba la interfaz sin navegador y sin gastar cuota (streamlit.testing.AppTest).
 
+Levanta la API en este mismo proceso y la app la consume por HTTP, como desplegada.
 Usa el proveedor "grabado" (ai/llm.py): la respuesta del modelo es la que ya dio para esa
 pregunta en pruebas/salidas/; la búsqueda, la verificación de citas y el bloque de
 ausentes corren de verdad. Comprueba el contrato del README ("Cómo se muestra una
@@ -17,9 +18,45 @@ import os
 
 from comun import RAIZ, partir_pdf, utf8
 
-os.environ["QMC_PROVEEDOR"] = "grabado"
+import socket  # noqa: E402
+import tempfile  # noqa: E402
+import threading  # noqa: E402
+import time  # noqa: E402
 
+_base = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+_base.close()
+with socket.socket() as _s:
+    _s.bind(("127.0.0.1", 0))
+    PUERTO = _s.getsockname()[1]
+os.environ.update({
+    "QMC_PROVEEDOR": "grabado",
+    "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
+    "QMC_LIMITE_DISPOSITIVO_DIA": "50",
+    "QMC_RECUPERACION": "bm25_variantes",
+    "LANGFUSE_PUBLIC_KEY": "",
+    "LANGFUSE_SECRET_KEY": "",
+    "VOYAGE_API_KEY": "",
+    "QMC_API_URL": f"http://127.0.0.1:{PUERTO}",
+})
+
+import httpx  # noqa: E402
+import uvicorn  # noqa: E402
 from streamlit.testing.v1 import AppTest  # noqa: E402
+
+from backend.main import app as api  # noqa: E402
+
+
+def levantar_api() -> None:
+    """La app es cliente de la API: se levanta la de verdad, en este proceso, con respuestas grabadas."""
+    servidor = uvicorn.Server(uvicorn.Config(api, host="127.0.0.1", port=PUERTO, log_level="warning"))
+    threading.Thread(target=servidor.run, daemon=True).start()
+    for _ in range(100):
+        try:
+            if httpx.get(f"http://127.0.0.1:{PUERTO}/salud", timeout=1).status_code == 200:
+                return
+        except httpx.HTTPError:
+            time.sleep(0.2)
+    raise RuntimeError("la API no levantó")
 
 FALLAS: list[str] = []
 
@@ -38,6 +75,7 @@ def textos(at: AppTest) -> str:
 
 def main() -> int:
     utf8()
+    levantar_api()
     at = AppTest.from_file(str(RAIZ / "app" / "app.py"), default_timeout=180).run()
     caso("la app carga sin errores", not at.exception, str(at.exception))
     t = textos(at)

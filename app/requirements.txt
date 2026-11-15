@@ -1,13 +1,6 @@
-# Dependencias de la app desplegada (Streamlit Community Cloud, Python 3.11).
-# Sin torch ni sentence-transformers: la app busca con BM25 (ver README, "Por qué BM25").
-# Streamlit Cloud no reinicia el proceso al subir código: vuelve a correr app/app.py pero deja
-# cargados los módulos de ai/ (están fuera de app/). Un cambio en este archivo fuerza la
-# reinstalación y un proceso nuevo; hacerlo cuando cambie ai/. Último: 2026-11-09, subida en varios PDF.
+# Solo el Streamlit (Streamlit Community Cloud, Python 3.11). La app es cliente de la API:
+# no corre el pipeline, así que no necesita pdfplumber, el modelo ni los índices.
+# Streamlit Cloud reinstala y arranca un proceso nuevo cuando cambia este archivo.
 streamlit==1.66.1
-pdfplumber==0.11.10
-pypdf==7.0.0
-rank-bm25==0.2.2
-snowballstemmer==3.1.1
-numpy==2.4.6
+httpx==0.28.1
 pandas==3.1.1
-groq==1.7.0
