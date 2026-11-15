@@ -3,8 +3,10 @@
 El resto del código solo usa `obtener_proveedor().json(tarea, sistema, usuario, esquema)`.
 El proveedor se elige con la variable QMC_PROVEEDOR (st.secrets o entorno):
 
-- "groq" (por defecto): openai/gpt-oss-120b en el plan gratuito de Groq, con Zero Data
-  Retention activado en la cuenta. Groq no retiene datos de inferencia por defecto.
+- "claude" (por defecto): claude-haiku-5-5 por la API de Anthropic, de pago por token.
+  Anthropic borra entradas y salidas de la API dentro de los 30 días; no es retención cero.
+- "groq": openai/gpt-oss-120b en el plan gratuito de Groq, con Zero Data Retention activado
+  en la cuenta. Era el proveedor del prototipo; su límite por minuto rompía las demos.
 - "gemini": gemini-3.8-flash en el plan gratuito de Google AI Studio. Alternativa manual:
   en ese plan Google puede usar lo enviado para mejorar sus productos y personas pueden
   revisarlo, así que la interfaz lo advierte.
@@ -29,6 +31,7 @@ import re
 import sys
 import time
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Literal
 
@@ -105,10 +108,11 @@ class Uso:
     tokens_salida: int  # incluye el razonamiento: el plan gratuito lo cuenta igual
     segundos: float
     tokens_razonamiento: int = 0
+    precios: tuple[float, float] = (0.0, 0.0)  # USD por millón de tokens (entrada, salida)
 
     @property
     def costo_usd(self) -> float:
-        return 0.0  # plan gratuito del proveedor: no hay cobro por token
+        return (self.tokens_entrada * self.precios[0] + self.tokens_salida * self.precios[1]) / 1e6
 
     def a_dict(self) -> dict:
         return {
@@ -118,11 +122,22 @@ class Uso:
             "tokens_salida": self.tokens_salida,
             "tokens_razonamiento": self.tokens_razonamiento,
             "segundos": round(self.segundos, 2),
-            "costo_usd": self.costo_usd,
+            "costo_usd": round(self.costo_usd, 6),
         }
 
 
+@contextmanager
+def _sin_observar(tarea: str, proveedor: str, modelo: str):
+    yield lambda **_datos: None
+
+
+# El backend lo reemplaza por el de Langfuse (backend/observabilidad.py). Recibe la tarea, el
+# modelo, el uso y el tipo de falla: nunca el texto de la póliza ni lo generado.
+observar = _sin_observar
+
+
 class Proveedor(ABC):
+    precios: tuple[float, float] = (0.0, 0.0)
     nombre: str
     variable_clave: str
     modelos: dict[str, str]  # tarea -> modelo
@@ -141,17 +156,101 @@ class Proveedor(ABC):
     def json(self, tarea: Tarea, sistema: str, usuario: str, esquema: dict) -> tuple[dict, Uso]:
         modelo = self.modelos[tarea]
         t0 = time.perf_counter()
-        texto, t_in, t_out, t_razon = self._llamar(tarea, modelo, sistema, usuario, esquema)
-        try:
-            datos = json.loads(texto)
-        except json.JSONDecodeError as e:
-            log.warning("%s %s: JSON ilegible | %d caracteres | %d+%d tokens", self.nombre, tarea, len(texto), t_in, t_out)
-            raise SalidaInvalida("El modelo devolvió un JSON inválido.") from e
-        return datos, Uso(self.nombre, modelo, t_in, t_out, time.perf_counter() - t0, t_razon)
+        with observar(tarea, self.nombre, modelo) as anotar:
+            try:
+                texto, t_in, t_out, t_razon = self._llamar(tarea, modelo, sistema, usuario, esquema)
+                try:
+                    datos = json.loads(texto)
+                except json.JSONDecodeError as e:
+                    log.warning("%s %s: JSON ilegible | %d caracteres | %d+%d tokens", self.nombre, tarea, len(texto), t_in, t_out)
+                    raise SalidaInvalida("El modelo devolvió un JSON inválido.") from e
+            except ErrorLLM as e:
+                anotar(error=type(e).__name__, detalle=str(e))
+                raise
+            uso = Uso(self.nombre, modelo, t_in, t_out, time.perf_counter() - t0, t_razon, self.precios)
+            anotar(uso=uso)
+        return datos, uso
 
 
 # ---------------------------------------------------------------------------
-# Groq (por defecto)
+# Claude (por defecto)
+# ---------------------------------------------------------------------------
+
+
+class ProveedorClaude(Proveedor):
+    nombre = "claude"
+    variable_clave = "ANTHROPIC_API_KEY"
+    reutiliza_datos = False
+    aviso = (
+        "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la "
+        "respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos "
+        "y lo borra dentro de los 30 días."
+    )
+    # El tope de salida incluye el razonamiento (adaptativo, siempre activo en Haiku 5.5).
+    _ESFUERZO = {"normalizacion": "low", "respuesta": "medium"}
+    _MAX_TOKENS = {"normalizacion": 2000, "respuesta": 8000}
+
+    def __init__(self) -> None:
+        super().__init__()
+        modelo = config("QMC_MODELO", "claude-haiku-5-5")
+        self.modelos = {"normalizacion": config("QMC_MODELO_NORMALIZACION", modelo), "respuesta": modelo}
+        self.precios = (float(config("QMC_PRECIO_ENTRADA_USD_MTOK", "0.10")),
+                        float(config("QMC_PRECIO_SALIDA_USD_MTOK", "0.50")))
+        import anthropic
+
+        self.cliente = anthropic.Anthropic(api_key=self.clave, max_retries=1, timeout=60.0)
+
+    def _llamar(self, tarea, modelo, sistema, usuario, esquema):
+        import anthropic
+
+        tope, esfuerzo = self._MAX_TOKENS[tarea], self._ESFUERZO[tarea]
+
+        def registrar(e: Exception) -> str:
+            mensaje = mensaje_seguro(getattr(e, "message", "") or "")
+            log.warning("claude %s: %s %s | tope %d | esfuerzo %s | %s", tarea, type(e).__name__,
+                        getattr(e, "status_code", "-"), tope, esfuerzo, mensaje or "(sin mensaje)")
+            return mensaje
+
+        try:
+            r = self.cliente.messages.create(
+                model=modelo,
+                max_tokens=tope,
+                system=sistema,
+                messages=[{"role": "user", "content": usuario}],
+                output_config={"effort": esfuerzo, "format": {"type": "json_schema", "schema": esquema}},
+            )
+        except anthropic.RateLimitError as e:
+            registrar(e)
+            raise LimiteAlcanzado("Claude: se alcanzó el límite de la cuenta.",
+                                  _segundos(e.response.headers.get("retry-after"))) from e
+        except (anthropic.AuthenticationError, anthropic.PermissionDeniedError) as e:
+            registrar(e)
+            raise ErrorLLM("La clave de Anthropic no es válida.") from e
+        except anthropic.APIStatusError as e:
+            mensaje = registrar(e)
+            if e.status_code >= 500:
+                raise ProveedorNoDisponible("Claude no responde en este momento.") from e
+            if "credit balance" in mensaje.lower():
+                raise LimiteAlcanzado("Claude: la cuenta se quedó sin saldo.") from e
+            raise ErrorLLM(f"Claude rechazó la solicitud ({e.status_code}).") from e
+        except anthropic.APIConnectionError as e:  # incluye el tiempo agotado
+            registrar(e)
+            raise ProveedorNoDisponible("Claude no responde en este momento.") from e
+
+        u = r.usage
+        entrada = (u.input_tokens + (getattr(u, "cache_read_input_tokens", 0) or 0)
+                   + (getattr(u, "cache_creation_input_tokens", 0) or 0))
+        if r.stop_reason in ("max_tokens", "refusal"):
+            log.warning("claude %s: stop_reason %s | %d+%d tokens | tope %d", tarea, r.stop_reason, entrada, u.output_tokens, tope)
+            if r.stop_reason == "max_tokens":
+                raise SalidaInvalida(f"Claude: la respuesta se cortó al llegar al tope de {tope} tokens.")
+            raise SalidaInvalida("Claude declinó responder esta consulta.")
+        texto = next((b.text for b in r.content if b.type == "text"), "")
+        return texto, entrada, u.output_tokens, 0
+
+
+# ---------------------------------------------------------------------------
+# Groq (proveedor del prototipo)
 # ---------------------------------------------------------------------------
 
 
@@ -342,11 +441,11 @@ class ProveedorGrabado(Proveedor):
         raise ProveedorNoDisponible("No hay una respuesta grabada para esta pregunta (proveedor de maqueta).")
 
 
-PROVEEDORES: dict[str, type[Proveedor]] = {"groq": ProveedorGroq, "gemini": ProveedorGemini, "grabado": ProveedorGrabado}
+PROVEEDORES: dict[str, type[Proveedor]] = {"claude": ProveedorClaude, "groq": ProveedorGroq, "gemini": ProveedorGemini, "grabado": ProveedorGrabado}
 
 
 def nombre_proveedor() -> str:
-    return (config("QMC_PROVEEDOR", "groq") or "groq").strip().lower()
+    return (config("QMC_PROVEEDOR", "claude") or "claude").strip().lower()
 
 
 def obtener_proveedor() -> Proveedor:

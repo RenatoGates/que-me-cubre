@@ -45,14 +45,15 @@ from dataclasses import dataclass, field
 
 from ai import cache_normalizacion
 from ai.indice import Indice, limpiar_titulo, tokens
-from ai.llm import LimiteAlcanzado, Proveedor, ProveedorNoDisponible, SalidaInvalida, Uso, obtener_proveedor
+from ai.llm import ErrorLLM, LimiteAlcanzado, Proveedor, SalidaInvalida, Uso, obtener_proveedor
 from ai.prompts import (
     ESQUEMA_NORMALIZACION,
     ESQUEMA_RESPUESTA,
-    SISTEMA_NORMALIZACION,
-    SISTEMA_RESPUESTA,
     mensaje_normalizacion,
     mensaje_respuesta,
+    nueva_marca,
+    sistema_normalizacion,
+    sistema_respuesta,
 )
 from ai.recuperacion import Pasaje, pasajes_xml, recuperar, recuperar_normalizada, resaltar
 from ai.referencias import MENSAJE
@@ -60,12 +61,16 @@ from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verif
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
 NO_ENCONTRADO = "No encontré esto en tu póliza."
+# Texto fijo: fuera de alcance no se muestra nada redactado por el modelo.
+FUERA_DE_ALCANCE = ("Solo puedo responder sobre lo que dice la póliza que cargaste. No recomiendo aseguradoras, "
+                    "productos ni aplicaciones, y no doy consejo legal ni médico.")
 # El veredicto que se muestra sale de aquí, del campo estructurado, nunca del texto del modelo.
 ETIQUETA_VEREDICTO = {
     "si": "Cubre",
     "con_limites": "Cubre con límites",
     "no": "No cubre",
     "no_encontrado": "No está en tu póliza",
+    "fuera_de_alcance": "Fuera de lo que puedo responder",
     None: "Sin veredicto",
 }
 
@@ -119,8 +124,9 @@ def normalizar(pregunta: str, proveedor: Proveedor, indice: Indice) -> tuple[dic
     pueden ser del índice del documento: el modelo elige de la lista y el código descarta
     lo que no esté en ella."""
     clausulas_doc, articulos_doc = indice.vocabulario()
-    usuario = mensaje_normalizacion(pregunta, clausulas_doc, articulos_doc)
-    datos, uso = proveedor.json("normalizacion", SISTEMA_NORMALIZACION, usuario, ESQUEMA_NORMALIZACION)
+    marca = nueva_marca()
+    usuario = mensaje_normalizacion(pregunta, clausulas_doc, articulos_doc, marca)
+    datos, uso = proveedor.json("normalizacion", sistema_normalizacion(marca), usuario, ESQUEMA_NORMALIZACION)
     clausulas, fuera_c = _del_documento(datos["clausulas"], clausulas_doc)
     articulos, fuera_a = _del_documento(datos["articulos"], articulos_doc)
     titulos = clausulas + articulos
@@ -300,7 +306,10 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
 
     cubre, respuesta = crudo["cubre"], crudo["respuesta"].strip()
     degradado, apertura = False, None
-    if cubre != "no_encontrado" and not citas:
+    if cubre == "fuera_de_alcance":
+        respuesta, citas = FUERA_DE_ALCANCE, []
+        condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
+    elif cubre != "no_encontrado" and not citas:
         cubre, degradado = "no_encontrado", True
         respuesta = f"{NO_ENCONTRADO} No pude respaldar ninguna afirmación con una cita literal del documento."
         condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
@@ -364,7 +373,7 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="bm25_pregunta")
     if isinstance(error, LimiteAlcanzado):
         espera = f" Vuelve a intentar en unos {round(error.espera_segundos)} segundos." if error.espera_segundos else ""
-        motivo = f"El proveedor del modelo alcanzó el límite de su plan gratuito.{espera}"
+        motivo = f"{getattr(error, 'motivo_publico', None) or 'Se alcanzó el límite de uso del modelo por ahora.'}{espera}"
     elif isinstance(error, SalidaInvalida):
         motivo = "El modelo no devolvió una respuesta con el formato esperado esta vez; puedes volver a preguntar."
     else:
@@ -415,7 +424,7 @@ def _uso(usos: list[Uso], desde_cache: bool) -> dict:
         "normalizacion_desde_cache": desde_cache,
         "detalle": [u.a_dict() for u in usos],
         "tokens": sum(u.tokens_entrada + u.tokens_salida for u in usos),
-        "costo_usd": 0.0,
+        "costo_usd": round(sum(u.costo_usd for u in usos), 6),
         "segundos": round(sum(u.segundos for u in usos), 2),
     }
 
@@ -434,17 +443,18 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
         try:
             norm, uso_n = normalizar(pregunta, proveedor, poliza.indice)
             usos.append(uso_n)
-        except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
+        except ErrorLLM as e:
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
     avisar("Buscando en tu póliza las cláusulas que aplican…")
     pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
-    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes))
+    marca = nueva_marca()
+    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes), marca)
     avisar("Redactando la respuesta: suele tardar entre 5 y 10 segundos…")
     try:
-        crudo, uso_r = proveedor.json("respuesta", SISTEMA_RESPUESTA, usuario, ESQUEMA_RESPUESTA)
+        crudo, uso_r = proveedor.json("respuesta", sistema_respuesta(marca), usuario, ESQUEMA_RESPUESTA)
         usos.append(uso_r)
-    except (LimiteAlcanzado, ProveedorNoDisponible, SalidaInvalida) as e:
+    except ErrorLLM as e:
         return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos, desde_cache)
 
     avisar("Verificando cada cita contra tu PDF…")
