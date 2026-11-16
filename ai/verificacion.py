@@ -211,3 +211,24 @@ def verificar_en_pdf(pdf_bytes: bytes, partes: list[tuple[int, str]], cache: dic
     except Exception:  # noqa: BLE001
         pass
     return resultado
+
+
+def leer_todas(pdf_bytes: bytes, cache: dict, paginas: int, con_pdfplumber: list[str] | None = None) -> dict:
+    """Deja en `cache` el texto de todas las páginas con los dos lectores. Con eso las citas se
+    verifican contra el texto extraído al subir el PDF y no hace falta conservar el archivo.
+    `con_pdfplumber` es el texto que la extracción ya leyó (no se vuelve a leer)."""
+    from pypdf import PdfReader
+
+    for n in range(1, paginas + 1):
+        if ("pdfplumber", n) not in cache:
+            cache["pdfplumber", n] = con_pdfplumber[n - 1] if con_pdfplumber else texto_de_paginas(pdf_bytes, [n])
+    faltan = [n for n in range(1, paginas + 1) if ("pypdf", n) not in cache]
+    if faltan:
+        lector = PdfReader(io.BytesIO(pdf_bytes))
+        for n in faltan:
+            try:
+                cache["pypdf", n] = lector.pages[n - 1].extract_text() or ""
+            except Exception:  # noqa: BLE001 - una página que pypdf no lee queda sin ese lector
+                cache["pypdf", n] = ""
+    cache.pop("lector", None)
+    return cache

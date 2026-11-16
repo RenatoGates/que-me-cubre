@@ -21,6 +21,7 @@ from ai.extraccion import extraer_varios
 from ai.indice import Indice
 from ai.respuesta import Poliza
 from ai.troceado import trocear
+from ai.verificacion import leer_todas
 
 
 def metodo_configurado() -> str:
@@ -101,9 +102,13 @@ def poliza_de_pdfs(archivos: list[tuple[str, bytes]]) -> Poliza:
         indice = Indice.construir(trozos, meta, con_embeddings=quiere_vectores)
     except embeddings.ErrorEmbeddings:  # la póliza se indexa igual; la búsqueda queda en BM25
         indice = Indice.construir(trozos, meta, con_embeddings=False)
-    return Poliza("subida", nombre, indice, unido, huella(pdfs),
-                  archivos=[(n, p) for (n, _), p in zip(archivos, doc.paginas_por_archivo)],
-                  revision=portero.revisar_trozos(trozos))
+    poliza = Poliza("subida", nombre, indice, unido, huella(pdfs),
+                    archivos=[(n, p) for (n, _), p in zip(archivos, doc.paginas_por_archivo)],
+                    revision=portero.revisar_trozos(trozos))
+    # El texto de cada página con los dos lectores queda leído desde ahora: las citas se
+    # verifican contra él, tanto en memoria como si la póliza se guarda (sin el PDF).
+    leer_todas(unido, poliza.paginas_leidas, doc.paginas_total, doc.paginas_crudas)
+    return poliza
 
 
 def ubicar_pagina(archivos: list[tuple[str, int]], pagina: int) -> tuple[str, int]:

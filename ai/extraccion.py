@@ -70,6 +70,9 @@ class DocumentoExtraido:
     lineas_quitadas: list[str]  # membretes y pies detectados (sin repetir)
     bloques: list[Bloque]
     paginas_por_archivo: list[int] = field(default_factory=list)  # varios PDF: páginas de cada uno, en orden
+    # Texto de cada página tal como lo lee pdfplumber (antes de quitar membretes): es el mismo
+    # que devuelve texto_de_paginas() y sirve para verificar las citas sin volver a abrir el PDF.
+    paginas_crudas: list[str] = field(default_factory=list)
 
     @property
     def es_escaneado(self) -> bool:
@@ -499,8 +502,10 @@ def extraer_varios(pdfs: list[bytes]) -> DocumentoExtraido:
     dos_columnas: list[int] = []
     quitadas: list[str] = []
     por_archivo: list[int] = []
+    textos_crudos: list[str] = []
     for pdf_bytes in pdfs:
         crudas, v, d = lineas_por_pagina(pdf_bytes)
+        textos_crudos += ["\n".join(lineas) for lineas in crudas]
         estas, q = _quitar_membretes(crudas)
         base = len(limpias)
         vacias += [base + n for n in v]
@@ -529,4 +534,5 @@ def extraer_varios(pdfs: list[bytes]) -> DocumentoExtraido:
         lineas_quitadas=quitadas,
         bloques=bloques,
         paginas_por_archivo=por_archivo,
+        paginas_crudas=textos_crudos,
     )
