@@ -31,7 +31,7 @@ from pydantic import BaseModel, Field  # noqa: E402
 from starlette.formparsers import MultiPartParser  # noqa: E402
 
 from ai import consulta as flujo  # noqa: E402
-from ai import embeddings, pasos, radiografia, renipress, subida  # noqa: E402
+from ai import clinicas, embeddings, pasos, radiografia, renipress, subida  # noqa: E402
 from ai.llm import ErrorLLM, LimiteAlcanzado, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
 from ai.recuperacion import metodo_efectivo  # noqa: E402
 from ai.respuesta import Poliza, responder  # noqa: E402
@@ -124,6 +124,8 @@ def resumen_poliza(poliza_id: str, poliza: Poliza) -> dict:
         "secciones": poliza.secciones,
         "archivos": [{"nombre": n, "paginas": p} for n, p in poliza.archivos],
         "busqueda": metodo_efectivo(poliza.indice),
+        # Si el documento no parece un condicionado de seguro: un aviso, sin bloquear (ai/portero.py)
+        "aviso_documento": (poliza.revision or {}).get("aviso"),
     }
 
 
@@ -332,6 +334,19 @@ def ver_radiografia(poliza_id: str, x_dispositivo: str | None = Header(default=N
     return radiografia_de(poliza_id)
 
 
+@app.get("/polizas/{poliza_id}/clinicas")
+def clinicas_nombradas(poliza_id: str) -> dict:
+    """Las clínicas que el condicionado nombra literalmente, cada una con su cita verificada.
+    Sin modelo. Si no nombra ninguna, la lista va vacía y el cliente no muestra la sección."""
+    poliza = buscar_poliza(poliza_id)
+    halladas = getattr(poliza, "clinicas", None)
+    if halladas is None:
+        halladas = clinicas.nombradas(poliza)
+        poliza.clinicas = halladas
+    return {"clinicas": halladas,
+            "aviso": "Tu póliza nombra estas clínicas. Que las nombre no dice para qué coberturas están en convenio: lee la cita."}
+
+
 class PedidoSuperposicion(BaseModel):
     poliza_ids: list[str] = Field(min_length=2, max_length=4)
 
@@ -371,6 +386,22 @@ def mapa_distritos(departamento: str) -> list[dict]:
              "nombre_provincia": renipress.nombre_propio(p)} for p, d in renipress.distritos(registro(), departamento)]
 
 
+@lru_cache(maxsize=1)
+def _con_internamiento() -> list:
+    df = registro()
+    con = df[df["tipo"].str.contains("CON INTERNAMIENTO")].dropna(subset=["lat", "lon"])
+    return [[f.nombre, renipress.nombre_propio(f.clasificacion.split(",")[0]), round(float(f.lat), 5), round(float(f.lon), 5)]
+            for f in con.itertuples()]
+
+
+@app.get("/mapa/con-internamiento")
+def mapa_con_internamiento() -> dict:
+    """Hospitales y clínicas con internamiento de todo el país con coordenadas: [nombre, tipo,
+    lat, lon]. El cliente calcula con esto lo más cercano sin enviar la ubicación a nadie."""
+    return {"aviso": "Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.",
+            "fuente": renipress.fuente(), "establecimientos": _con_internamiento()}
+
+
 @app.get("/mapa/establecimientos")
 def mapa_establecimientos(departamento: str, provincia: str, distrito: str, solo_internamiento: bool = False) -> dict:
     sel = renipress.establecimientos(registro(), departamento, provincia, distrito)
@@ -383,7 +414,13 @@ def mapa_establecimientos(departamento: str, provincia: str, distrito: str, solo
         for c in ("lat", "lon"):
             if isinstance(f[c], float) and math.isnan(f[c]):
                 f[c] = None
+    con_coordenadas = sel.dropna(subset=["lat", "lon"])
+    if len(con_coordenadas) == 0:  # distrito sin coordenadas en el registro: el centro del departamento
+        con_coordenadas = registro()[registro()["departamento"] == departamento].dropna(subset=["lat", "lon"])
+    centro = ({"lat": round(float(con_coordenadas["lat"].median()), 5), "lon": round(float(con_coordenadas["lon"].median()), 5)}
+              if len(con_coordenadas) else None)
     return {
+        "centro": centro,
         "total": len(filas),
         "sin_coordenadas": sum(1 for f in filas if f["lat"] is None or f["lon"] is None),
         "aviso": "Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.",

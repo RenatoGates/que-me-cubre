@@ -22,13 +22,16 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import html
+import json
 import os
 import re
 import uuid
+from pathlib import Path
 
 import httpx
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 POLIZA_TARAPOTO = "chubb_viajes_jetsmart"
 COLORES = {  # fondo, texto, borde
@@ -486,6 +489,8 @@ def pantalla_poliza() -> None:
                 st.caption(f"Listo: {poliza.get('paginas', '?')} páginas, {poliza['fragmentos']} "
                            "fragmentos. Vive solo en la memoria del servidor mientras la usas. Para probar con un "
                            "ejemplo, quita tus archivos.")
+                if poliza.get("aviso_documento"):
+                    st.warning(poliza["aviso_documento"], icon="📄")
             except ErrorAPI as e:
                 st.error(f"No pude leer tu póliza: {e}")
         else:
@@ -611,9 +616,36 @@ def pantalla_mapa() -> None:
             st.error(str(e))
 
 
+def clinicas_de_la_poliza() -> list[dict]:
+    """Las clínicas que la póliza en uso nombra literalmente, con su cita verificada (sin modelo)."""
+    subida_ = st.session_state.get("poliza_subida")
+    poliza_id = subida_["poliza_id"] if st.session_state.get("pdfs") and subida_ else st.session_state.get("fuente")
+    if not poliza_id:
+        return []
+    try:
+        return api("GET", f"/polizas/{poliza_id}/clinicas")["clinicas"]
+    except ErrorAPI:
+        return []
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def con_internamiento() -> list:
+    return api("GET", "/mapa/con-internamiento")["establecimientos"]
+
+
+def mapa_cercano(centro: dict, zona: str, respaldo: list, nombradas: list[dict]) -> None:
+    """El mapa corre entero en el navegador (app/mapa_cercano.html): la ubicación no pasa por aquí."""
+    # Respaldo si OpenStreetMap no responde: la lista nacional de hospitales y clínicas con
+    # internamiento del registro de SUSALUD. La cercanía se calcula en el navegador.
+    datos = {"centro": centro, "zona": zona, "nombradas": nombradas, "respaldo": respaldo}
+    plantilla = (Path(__file__).parent / "mapa_cercano.html").read_text(encoding="utf-8")
+    components.html(plantilla.replace("__DATOS__", json.dumps(datos, ensure_ascii=False).replace("</", "<\\/")),
+                    height=760, scrolling=True)
+
+
 def _mapa() -> None:
-    st.markdown("Elige la zona y te muestro los establecimientos de salud registrados en SUSALUD. "
-                "No uso tu ubicación.")
+    st.markdown("Te muestro clínicas y hospitales cercanos. Puedes usar tu ubicación (no se guarda ni se envía a esta "
+                "app) o elegir tu distrito.")
     nombres_dep = departamentos()
     lista = list(nombres_dep)
     c1, c2 = st.columns(2)
@@ -633,16 +665,15 @@ def _mapa() -> None:
     provincia, distrito = c2.selectbox("Distrito", opciones, index=defecto, format_func=etiqueta, key="mapa_distrito")
     internamiento = st.toggle("Solo hospitales y clínicas con internamiento", key="mapa_internamiento")
     r = establecimientos(departamento, provincia, distrito, internamiento)
-    columnas = ["nombre", "clasificacion", "categoria", "direccion", "telefono", "horario", "institucion", "lat", "lon"]
+    columnas = ["nombre", "clasificacion", "tipo", "categoria", "direccion", "telefono", "horario", "institucion", "lat", "lon"]
     sel = pd.DataFrame(r["establecimientos"], columns=columnas)
 
-    en_mapa = sel.dropna(subset=["lat", "lon"])
-    if len(en_mapa):
-        st.map(en_mapa, latitude="lat", longitude="lon", size=25, color="#4338CA")
+    if r.get("centro"):
+        mapa_cercano(r["centro"], etiqueta((provincia, distrito)), con_internamiento(), clinicas_de_la_poliza())
     st.warning(r["aviso"], icon="🏥")
+    st.markdown("**Registro de SUSALUD en este distrito**")
     st.caption(f"{r['total']} establecimientos activos en {etiqueta((provincia, distrito))}"
-               + (f"; {r['sin_coordenadas']} no tienen coordenadas en el registro: salen en la lista, no en el mapa."
-                  if r["sin_coordenadas"] else "."))
+               + (f"; {r['sin_coordenadas']} no tienen coordenadas en el registro." if r["sin_coordenadas"] else "."))
     st.dataframe(
         sel[["nombre", "clasificacion", "categoria", "direccion", "telefono", "horario", "institucion"]].rename(columns={
             "nombre": "Nombre", "clasificacion": "Tipo", "categoria": "Categoría", "direccion": "Dirección",

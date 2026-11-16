@@ -1,0 +1,164 @@
+<!-- Mapa de centros de salud cercanos. Todo corre en el navegador: la ubicación de la persona no
+     se guarda ni se envía al servidor de la app; solo va, como coordenadas de la zona, en la
+     consulta a OpenStreetMap (Overpass y las imágenes del mapa). app.py pone los datos en la constante DATOS. -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  body {margin: 0; font-family: "Source Sans Pro", system-ui, sans-serif; color: #161A2E; font-size: 15px;}
+  #etiqueta {background: #FFF3D1; color: #6B4500; border: 1px solid #A67C00; border-radius: 8px; padding: .55rem .8rem;
+             font-weight: 700; margin-bottom: .5rem;}
+  #barra {display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-bottom: .5rem;}
+  #ubicar {background: #4338CA; color: #fff; border: 0; border-radius: 8px; padding: .5rem .9rem; font-size: 15px; cursor: pointer;}
+  #ubicar:disabled {opacity: .6; cursor: wait;}
+  #estado {flex: 1; min-width: 12rem; font-size: 14px;}
+  #mapa {height: 380px; border-radius: 12px; border: 1px solid #d9dbe7;}
+  h4 {margin: .9rem 0 .3rem; font-size: 16px;}
+  ol, ul {margin: .2rem 0; padding-left: 1.3rem;}
+  li {margin: .25rem 0; line-height: 1.4;}
+  .cita {border-left: 4px solid #B7791F; padding-left: .6rem; margin: .2rem 0 .5rem; font-size: 14px;}
+  .dist {color: #555b70; font-size: 13px;}
+  .estrella {font-size: 22px; line-height: 22px; text-shadow: 0 0 3px #fff;}
+  .pie {color: #555b70; font-size: 12.5px; margin-top: .6rem;}
+</style>
+<div id="etiqueta">Estos son centros de salud cercanos. NO verificamos si están en la red de tu póliza.</div>
+<div id="barra"><button id="ubicar" type="button">Usar mi ubicación</button><span id="estado"></span></div>
+<div id="mapa"></div>
+<div id="nombradas"></div>
+<h4 id="titulo"></h4>
+<ol id="lista"></ol>
+<div class="pie">Mapa y centros de salud: © colaboradores de OpenStreetMap. Tu ubicación no se guarda ni se envía a esta app:
+  solo se usa en tu navegador para pedirle a OpenStreetMap lo que hay cerca.</div>
+<script>
+const DATOS = __DATOS__;
+const SERVIDORES = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+                    "https://overpass.kumi.systems/api/interpreter"];
+const TIPOS = /\b(clinicas?|hospital(es)?|policlinicos?|centros?|medicos?|odontologicos?|dentales?|sanatorios?|de|del|la|las|los|el|y|e)\b/g;
+const el = (id) => document.getElementById(id);
+const plano = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const fichas = (s) => plano(s).replace(TIPOS, " ").split(/[^a-z0-9ñ]+/).filter((x) => x.length > 1);
+
+const mapa = L.map("mapa").setView([DATOS.centro.lat, DATOS.centro.lon], 14);
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom: 19, attribution: "© OpenStreetMap"}).addTo(mapa);
+const capa = L.layerGroup().addTo(mapa);
+let aqui = null;
+
+function metros(a, b) {
+  const R = 6371000, rad = Math.PI / 180, dLat = (b.lat - a.lat) * rad, dLon = (b.lon - a.lon) * rad;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+function nombrada(nombre) {
+  const tiene = new Set(fichas(nombre));
+  return DATOS.nombradas.find((n) => { const f = fichas(n.nombre); return f.length > 0 && f.every((x) => tiene.has(x)); });
+}
+
+function texto(etiqueta, contenido) {
+  const nodo = document.createElement(etiqueta);
+  nodo.textContent = contenido;
+  return nodo;
+}
+
+function pintar(centro, puntos, origen) {
+  capa.clearLayers();
+  el("lista").replaceChildren();
+  if (aqui) L.circleMarker([centro.lat, centro.lon], {radius: 7, color: "#D0645A", fillOpacity: .9}).bindPopup("Tu ubicación").addTo(capa);
+  puntos.forEach((p) => { p.metros = metros(centro, p); p.cita = nombrada(p.nombre); });
+  puntos.sort((a, b) => a.metros - b.metros);
+  puntos.slice(0, 60).forEach((p) => {
+    const marca = p.cita
+      ? L.marker([p.lat, p.lon], {icon: L.divIcon({className: "estrella", html: "⭐", iconSize: [22, 22]})})
+      : L.circleMarker([p.lat, p.lon], {radius: 7, color: origen === "osm" ? "#4338CA" : "#6b7280", fillOpacity: .75});
+    const globo = document.createElement("div");
+    globo.append(texto("b", p.nombre));
+    if (p.cita) globo.append(texto("div", "Tu póliza la nombra (pág. " + p.cita.pagina + "): «" + p.cita.cita + "»"));
+    marca.bindPopup(globo).addTo(capa);
+    const fila = texto("li", (p.cita ? "⭐ " : "") + p.nombre + (p.tipo ? " · " + p.tipo : ""));
+    fila.append(texto("span", "  a " + (p.metros < 1000 ? Math.round(p.metros / 10) * 10 + " m" : (p.metros / 1000).toFixed(1) + " km")));
+    fila.lastChild.className = "dist";
+    el("lista").append(fila);
+  });
+  el("titulo").textContent = puntos.length
+    ? (origen === "osm" ? "Clínicas y hospitales cerca, según OpenStreetMap" : "Hospitales y clínicas con internamiento más cercanos, según SUSALUD")
+    : "";
+}
+
+async function overpass(centro, radio) {
+  const q = `[out:json][timeout:20];(nwr["amenity"~"^(hospital|clinic)$"](around:${radio},${centro.lat},${centro.lon});` +
+            `nwr["healthcare"~"^(hospital|clinic)$"](around:${radio},${centro.lat},${centro.lon}););out center tags 80;`;
+  for (const servidor of SERVIDORES) {
+    const corte = new AbortController(), reloj = setTimeout(() => corte.abort(), 9000);
+    try {
+      const r = await fetch(servidor, {method: "POST", body: new URLSearchParams({data: q}), signal: corte.signal});
+      if (!r.ok) continue;
+      const vistos = new Set();
+      return (await r.json()).elements.map((e) => ({
+        nombre: (e.tags && e.tags.name) || "", tipo: e.tags && (e.tags.amenity === "hospital" || e.tags.healthcare === "hospital") ? "hospital" : "clínica",
+        lat: e.lat ?? (e.center && e.center.lat), lon: e.lon ?? (e.center && e.center.lon),
+      })).filter((p) => p.nombre && p.lat && !vistos.has(plano(p.nombre)) && vistos.add(plano(p.nombre)));
+    } catch (e) { /* servidor ocupado o lento: se prueba el siguiente */ } finally { clearTimeout(reloj); }
+  }
+  return null;
+}
+
+// Hospitales y clínicas con internamiento del registro de SUSALUD, los más cercanos al centro.
+// Se calcula aquí, en el navegador, con la lista nacional que vino con la página: no sale nada.
+function registrados(centro) {
+  const todos = DATOS.respaldo.map((p) => ({nombre: p[0], tipo: p[1], lat: p[2], lon: p[3]}));
+  todos.forEach((p) => { p.metros = metros(centro, p); });
+  todos.sort((a, b) => a.metros - b.metros);
+  const cerca = todos.filter((p) => p.metros <= 15000).slice(0, 60);
+  return cerca.length ? cerca : todos.slice(0, 10);
+}
+
+let turno = 0;
+async function buscar(centro, donde) {
+  const mio = ++turno;  // si la persona pide otra búsqueda, la anterior ya no pinta
+  mapa.setView([centro.lat, centro.lon], 14);
+  const respaldo = registrados(centro);
+  pintar(centro, respaldo, "susalud");
+  el("estado").textContent = "Te muestro los registrados en SUSALUD mientras consulto OpenStreetMap…";
+  let puntos = await overpass(centro, 3000);
+  if (puntos && puntos.length === 0) puntos = await overpass(centro, 10000);
+  if (mio !== turno) return;
+  if (puntos && puntos.length) {
+    pintar(centro, puntos, "osm");
+    el("estado").textContent = puntos.length + " centros de salud " + donde + ", según OpenStreetMap.";
+  } else {
+    el("estado").textContent = (puntos ? "OpenStreetMap no tiene centros de salud ahí" : "OpenStreetMap no responde ahora") +
+      ": te muestro los hospitales y clínicas con internamiento registrados en SUSALUD más cercanos" +
+      (respaldo.length ? "." : " (no hay ninguno registrado).");
+  }
+}
+
+el("ubicar").addEventListener("click", () => {
+  const sinPermiso = () => {
+    el("ubicar").disabled = false;
+    el("estado").textContent = "No pude usar tu ubicación. No pasa nada: elige tu distrito arriba y sigo con eso.";
+  };
+  if (!navigator.geolocation) return sinPermiso();
+  el("ubicar").disabled = true;
+  el("estado").textContent = "Esperando tu permiso de ubicación…";
+  navigator.geolocation.getCurrentPosition((pos) => {
+    el("ubicar").disabled = false;
+    aqui = {lat: pos.coords.latitude, lon: pos.coords.longitude};
+    buscar(aqui, "cerca de ti");
+  }, sinPermiso, {enableHighAccuracy: false, timeout: 15000, maximumAge: 0});
+});
+
+if (DATOS.nombradas.length) {
+  const caja = el("nombradas");
+  caja.append(texto("h4", "⭐ Clínicas que tu póliza nombra"));
+  caja.append(texto("div", "Que las nombre no dice para qué coberturas están en convenio: lee la cita."));
+  const lista = document.createElement("ul");
+  DATOS.nombradas.forEach((n) => {
+    const fila = texto("li", n.nombre + " · " + n.articulo + " · pág. " + n.pagina);
+    const cita = texto("div", "«" + n.cita + "»");
+    cita.className = "cita";
+    fila.append(cita);
+    lista.append(fila);
+  });
+  caja.append(lista);
+}
+buscar(DATOS.centro, "en " + DATOS.zona);
+</script>
