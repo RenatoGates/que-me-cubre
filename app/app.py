@@ -84,6 +84,18 @@ st.markdown(
                                    box-shadow: 0 1px 2px rgba(22, 26, 46, .05), 0 4px 14px rgba(22, 26, 46, .06);}
 
     /* Ejemplos: chicos, tipo enlace */
+    /* Cuenta: tarjetas de póliza guardada y una zona de borrado que no se confunde con el resto */
+    div[class*="st-key-poliza_g_"] {background: #F7F7FD; border: 1px solid #DCDDF3; border-radius: 12px; padding: 1rem 1rem .6rem;}
+    div.st-key-zona_borrado {background: #FFF5F4; border: 1.5px solid #D0645A; border-radius: 12px; padding: 1rem 1rem .8rem;
+                             margin-top: 1.2rem;}
+    div[class*="st-key-borrar_"] button {border: 1.5px solid #B42318; color: #B42318; background: #FFFFFF;}
+    div[class*="st-key-borrar_"] button:hover {background: #B42318; color: #FFFFFF; border-color: #B42318;}
+    div[class*="st-key-borrar_"] button:hover p {color: #FFFFFF;}
+    div.st-key-borrar_cuenta button {background: #B42318; color: #FFFFFF;}
+    .qmc-plan {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #E0E7FF; color: #3730A3;
+               font-weight: 700; font-size: .85rem;}
+    .qmc-vence {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #FFF3D1; color: #6B4500;
+                font-weight: 700; font-size: .85rem;}
     div[class*="st-key-tarapoto_"] button {padding: 0; min-height: 0; justify-content: flex-start;}
     div[class*="st-key-tarapoto_"] button p {font-size: .92rem; color: #4338CA; text-align: left;
                                               text-decoration: underline; text-underline-offset: 2px;}
@@ -144,7 +156,10 @@ def dispositivo() -> str:
 def api(metodo: str, ruta: str, **kwargs):
     # El servidor gratuito se duerme sin tráfico y tarda en despertar: de ahí el tiempo de espera largo.
     try:
-        r = httpx.request(metodo, api_url() + ruta, headers={"X-Dispositivo": dispositivo()}, timeout=150.0, **kwargs)
+        cabeceras = {"X-Dispositivo": dispositivo()}
+        if st.session_state.get("token"):
+            cabeceras["Authorization"] = f"Bearer {st.session_state['token']}"
+        r = httpx.request(metodo, api_url() + ruta, headers=cabeceras, timeout=150.0, **kwargs)
     except httpx.HTTPError as e:
         raise ErrorAPI("No pude conectarme con el servidor. Si estaba dormido tarda cerca de un minuto en "
                        "despertar: vuelve a intentar.") from e
@@ -153,6 +168,9 @@ def api(metodo: str, ruta: str, **kwargs):
             detalle = r.json().get("detail")
         except ValueError:
             detalle = None
+        if isinstance(detalle, dict) and detalle.get("codigo") == "sesion_vencida":
+            st.session_state.pop("token", None)
+            st.session_state.pop("cuenta", None)
         if isinstance(detalle, dict):
             raise ErrorAPI(detalle.get("mensaje", "Error del servidor."), detalle.get("codigo", ""), r.status_code)
         raise ErrorAPI(f"El servidor respondió con un error ({r.status_code}).", status=r.status_code)
@@ -327,7 +345,7 @@ def citas(r: dict, archivos: Archivos | None = None) -> None:
             v = c["verificacion"]
             lectores = " y ".join(n for n in ("pdfplumber", "pypdf") if v.get(n))
             nota = (f"Verificada: el texto está literal en {donde} (leído con {lectores})." if varios(archivos)
-                    else f"Verificada: el texto está literal en la {donde} del PDF (leído con {lectores}).")
+                    else f"Verificada: el texto está literal en la {donde}, tal como se extrajo de tu PDF al subirlo (con {lectores}).")
             if v.get("puntuacion_final_ignorada"):
                 nota += f" Se quitó el signo final «{v['puntuacion_final_ignorada']}» que agregó el modelo."
             st.caption(nota)
@@ -452,6 +470,171 @@ def mostrar(r: dict, archivos: Archivos | None = None) -> None:
 # ---------------------------------------------------------------------------
 
 
+def texto_limites(limites: dict) -> str:
+    partes = []
+    if limites.get("limite_dia") is not None:
+        partes.append(f"{limites['restantes_hoy']} de {limites['limite_dia']} consultas por hoy")
+    if limites.get("limite_mes") is not None:
+        partes.append(f"{limites['restantes_mes']} de {limites['limite_mes']} este mes")
+    extra = " Con una cuenta gratuita tienes más (pestaña «Mi cuenta»)." if limites.get("plan") == "sin_cuenta" else ""
+    return "Te quedan " + " y ".join(partes) + "." + extra
+
+
+def refrescar_cuenta() -> None:
+    try:
+        st.session_state["cuenta"] = api("GET", "/cuenta")
+    except ErrorAPI:
+        st.session_state.pop("cuenta", None)
+
+
+def guardar_en_cuenta(poliza: dict) -> None:
+    """Debajo de una póliza recién subida: guardarla en la cuenta, diciendo antes cuándo se borra."""
+    cuenta = st.session_state.get("cuenta")
+    if not cuenta:
+        st.caption("¿Quieres no tener que subirla cada vez? Con una cuenta gratuita se guarda 7 días (pestaña «Mi cuenta»).")
+        return
+    dias = cuenta.get("dias_de_guardado")
+    cuando = ((dt.date.today() + dt.timedelta(days=dias)).strftime("%d/%m/%Y") if dias else None)
+    st.caption((f"Si la guardas, se borrará sola el {cuando} y tendrás que volver a subir el PDF." if cuando
+                else "Si la guardas, queda en tu cuenta hasta que la borres.") + " Se guarda su texto, no el archivo PDF.")
+    if st.button("Guardar esta póliza en mi cuenta", key="guardar_poliza"):
+        try:
+            hecho = api("POST", f"/polizas/{poliza['poliza_id']}/guardar")
+            refrescar_cuenta()
+            st.success(hecho["aviso"], icon="✅")
+        except ErrorAPI as e:
+            st.warning(str(e))
+
+
+def formulario_de_entrada() -> None:
+    avisos = api("GET", "/cuenta/avisos")
+    if not avisos["disponible"]:
+        st.info("Las cuentas todavía no están activadas en este servidor. Todo lo demás funciona igual sin cuenta.")
+        return
+    crear, entrar = st.tabs(["Crear cuenta", "Ya tengo cuenta"])
+    with crear:
+        st.info(avisos["guardado"], icon="🔒")
+        correo = st.text_input("Correo", key="registro_correo")
+        clave = st.text_input("Contraseña (8 caracteres o más)", type="password", key="registro_clave")
+        st.warning(avisos["clave"], icon="🔑")
+        acepto = st.checkbox(avisos["consentimiento"], value=False, key="registro_acepto")
+        st.caption("Política de privacidad: docs/privacidad.md en el repositorio del proyecto.")
+        if st.button("Crear mi cuenta", type="primary", key="registro_crear", disabled=not acepto):
+            try:
+                r = api("POST", "/cuenta/registro", json={"correo": correo, "clave": clave, "acepto_privacidad": acepto})
+                st.session_state["token"], st.session_state["cuenta"] = r["token"], r["cuenta"]
+                st.rerun()
+            except ErrorAPI as e:
+                st.error(str(e))
+    with entrar:
+        correo = st.text_input("Correo", key="entrar_correo")
+        clave = st.text_input("Contraseña", type="password", key="entrar_clave")
+        st.caption(avisos["clave"])
+        if st.button("Entrar", type="primary", key="entrar_boton"):
+            try:
+                r = api("POST", "/cuenta/sesion", json={"correo": correo, "clave": clave})
+                st.session_state["token"], st.session_state["cuenta"] = r["token"], r["cuenta"]
+                st.rerun()
+            except ErrorAPI as e:
+                st.error(str(e))
+
+
+def tarjeta_poliza_guardada(g: dict) -> None:
+    with st.container(key=f"poliza_{g['poliza_id']}"):
+        vence = (f'<span class="qmc-vence">Se borra sola el {g["borrado_automatico"]}</span>' if g.get("borrado_automatico")
+                 else '<span class="qmc-plan">No se borra sola</span>')
+        st.markdown(f"**{md(g['nombre'])}** · {g['paginas']} páginas &nbsp; {vence}", unsafe_allow_html=True)
+        if g.get("borrado_automatico"):
+            st.caption("Ese día se borra con su historial y tendrás que volver a subir el PDF.")
+        with st.expander("Últimas consultas de esta póliza"):
+            try:
+                historial = api("GET", f"/polizas/{g['poliza_id']}/consultas")["consultas"]
+            except ErrorAPI as e:
+                historial = []
+                st.caption(str(e))
+            if not historial:
+                st.caption("Todavía no hay consultas guardadas. Se guardan las últimas 20 que hagas sobre esta póliza.")
+            for c in historial:
+                izquierda, derecha = st.columns([5, 1])
+                with izquierda:
+                    st.markdown(f"**{md(c.get('pregunta', ''))}**")
+                    for sub in c.get("respuestas", [c]):
+                        st.markdown(f"*{sub.get('etiqueta_veredicto') or 'Sin veredicto'}.* {md(sub.get('respuesta') or sub.get('aviso') or '')}")
+                        for cita in sub.get("citas", [])[:3]:
+                            st.caption(f"Cita verificada · {cita['articulo']} · pág. {cita['pagina']}: «{cita['texto_literal'][:220]}»")
+                with derecha:
+                    if st.button("Borrar", key=f"borrar_c_{c['consulta_id']}", help="Borra solo esta consulta"):
+                        api("DELETE", f"/consultas/{c['consulta_id']}")
+                        st.rerun()
+        pendiente = st.session_state.get("confirmar_borrado") == g["poliza_id"]
+        if not pendiente:
+            if st.button("Borrar esta póliza", key=f"borrar_p_{g['poliza_id']}"):
+                st.session_state["confirmar_borrado"] = g["poliza_id"]
+                st.rerun()
+        else:
+            st.warning("Se borrará esta póliza y todas sus consultas guardadas. No se puede deshacer.", icon="⚠️")
+            si, no = st.columns(2)
+            if si.button("Sí, borrarla", key=f"borrar_si_{g['poliza_id']}"):
+                api("DELETE", f"/polizas/{g['poliza_id']}")
+                st.session_state.pop("confirmar_borrado", None)
+                refrescar_cuenta()
+                st.rerun()
+            if no.button("No, conservarla", key=f"conservar_{g['poliza_id']}"):
+                st.session_state.pop("confirmar_borrado", None)
+                st.rerun()
+
+
+def pantalla_cuenta() -> None:
+    with st.container(key="tarjeta_cuenta"):
+        if st.session_state.pop("cuenta_borrada", False):
+            st.success("Tu cuenta y todo lo guardado se borraron.", icon="✅")
+        cuenta = st.session_state.get("cuenta")
+        if not cuenta:
+            st.markdown("#### Tu cuenta")
+            st.markdown("Sin cuenta todo funciona igual y nada se guarda. Con una cuenta gratuita tienes más consultas y puedes "
+                        "guardar tu póliza 7 días para no subirla cada vez.")
+            formulario_de_entrada()
+            return
+        limites = cuenta["limites"]
+        plan = "Plan de pago único" if cuenta["plan"] == "pagado" else "Plan gratuito"
+        st.markdown(f"#### {md(cuenta['correo'])} &nbsp; <span class='qmc-plan'>{plan}</span>", unsafe_allow_html=True)
+        st.caption(texto_limites(limites) + f" Pólizas guardadas: {len(cuenta['polizas'])} de {cuenta['polizas_permitidas']}.")
+        if cuenta["plan"] != "pagado":
+            st.info("**Plan de pago único (S/ 3,99):** hasta 4 pólizas guardadas sin borrado automático y 10 consultas al día. "
+                    "El pago todavía no está disponible en la app.", icon="⭐")
+
+        st.markdown("##### Tus pólizas guardadas")
+        if not cuenta["polizas"]:
+            st.caption("No tienes ninguna. Sube tu PDF en «Pregunta a tu póliza» y toca «Guardar esta póliza en mi cuenta».")
+        for g in cuenta["polizas"]:
+            tarjeta_poliza_guardada(g)
+
+        if st.button("Cerrar sesión", key="cerrar_sesion"):
+            try:
+                api("DELETE", "/cuenta/sesion")
+            except ErrorAPI:
+                pass
+            for clave in ("token", "cuenta", "guardada"):
+                st.session_state.pop(clave, None)
+            st.rerun()
+
+        with st.container(key="zona_borrado"):
+            st.markdown("##### Borrar mi cuenta y todo")
+            st.markdown("Borra tu cuenta, tus pólizas guardadas, todo tu historial y tus contadores. Es inmediato y **no se puede "
+                        "deshacer**. Después puedes seguir usando la app sin cuenta.")
+            clave = st.text_input("Escribe tu contraseña para confirmar", type="password", key="borrar_clave")
+            seguro = st.checkbox("Entiendo que se borra todo y no se puede recuperar", value=False, key="borrar_seguro")
+            if st.button("Borrar mi cuenta y todo", key="borrar_cuenta", disabled=not (seguro and clave)):
+                try:
+                    api("DELETE", "/cuenta", json={"clave": clave})
+                    for k in ("token", "cuenta", "guardada"):
+                        st.session_state.pop(k, None)
+                    st.session_state["cuenta_borrada"] = True
+                    st.rerun()
+                except ErrorAPI as e:
+                    st.error(str(e))
+
+
 def elegir_tarapoto(pregunta: str) -> None:
     """Ejemplo (solo visible con la póliza de Chubb): pone el texto exacto y pide responder."""
     st.session_state["fuente"] = POLIZA_TARAPOTO
@@ -480,7 +663,18 @@ def pantalla_poliza() -> None:
                    "Necesita texto seleccionable (no escaneado).")
         poliza: dict | None = None
         fuente: str | None = None
-        if archivos:
+        guardadas = {g["poliza_id"]: g for g in (st.session_state.get("cuenta") or {}).get("polizas", [])}
+        elegida = None
+        if guardadas and not archivos:
+            elegida = st.selectbox("O usa una póliza guardada en tu cuenta", [None, *guardadas], key="guardada",
+                                   format_func=lambda i: "No usar una guardada" if i is None else
+                                   f"{guardadas[i]['nombre']} · {guardadas[i]['paginas']} páginas")
+        if elegida:
+            g = guardadas[elegida]
+            poliza = {"poliza_id": elegida, "huella": elegida, "archivos": g.get("archivos", [])}
+            st.caption(f"Guardada en tu cuenta. Se borra sola el {g['borrado_automatico']}: desde ese día tendrás que volver a "
+                       "subir el PDF." if g.get("borrado_automatico") else "Guardada en tu cuenta. No se borra sola.")
+        elif archivos:
             try:
                 n = len(archivos)
                 with st.spinner(f"Leyendo tu póliza ({n} archivo{'s' if n > 1 else ''}). Un documento largo "
@@ -491,6 +685,7 @@ def pantalla_poliza() -> None:
                            "ejemplo, quita tus archivos.")
                 if poliza.get("aviso_documento"):
                     st.warning(poliza["aviso_documento"], icon="📄")
+                guardar_en_cuenta(poliza)
             except ErrorAPI as e:
                 st.error(f"No pude leer tu póliza: {e}")
         else:
@@ -584,7 +779,7 @@ def pantalla_poliza() -> None:
                         mostrar_pasos(st.session_state["pasos"], de_archivos)
             limites = resultado.get("limites") or {}
             if limites:
-                st.caption(f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas por hoy.")
+                st.caption(texto_limites(limites))
 
 
 # ---------------------------------------------------------------------------
@@ -707,7 +902,9 @@ st.markdown(
 
 def aviso_privacidad() -> str:
     i = info()
-    partes = ["**Tu PDF se procesa en memoria y no se guarda** (ni en disco ni en registros).", i["aviso_proveedor"]]
+    partes = ["**Tu PDF se procesa en memoria y no se guarda** (ni en disco ni en registros)."
+              + (" Si guardas la póliza en tu cuenta, se guarda su texto cifrado, no el archivo." if st.session_state.get("token") else ""),
+              i["aviso_proveedor"]]
     if i.get("embeddings"):
         partes.append("Para buscar en ella, el texto de la póliza se envía también a Voyage AI, que calcula sus vectores.")
     if i.get("registra_preguntas"):
@@ -719,11 +916,15 @@ def aviso_privacidad() -> str:
 
 try:
     st.info(aviso_privacidad(), icon="🔒")
-    tab_poliza, tab_mapa = st.tabs(["Pregunta a tu póliza", "Dónde atenderte"])
+    if st.session_state.get("token") and "cuenta" not in st.session_state:
+        refrescar_cuenta()
+    tab_poliza, tab_mapa, tab_cuenta = st.tabs(["Pregunta a tu póliza", "Dónde atenderte", "Mi cuenta"])
     with tab_poliza:
         pantalla_poliza()
     with tab_mapa:
         pantalla_mapa()
+    with tab_cuenta:
+        pantalla_cuenta()
 except ErrorAPI as e:
     st.error(str(e))
     st.button("Volver a intentar", on_click=st.cache_data.clear)

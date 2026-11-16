@@ -43,7 +43,11 @@ import httpx  # noqa: E402
 import uvicorn  # noqa: E402
 from streamlit.testing.v1 import AppTest  # noqa: E402
 
+from backend import guardado  # noqa: E402
+from backend import main as main_api  # noqa: E402
 from backend.main import app as api  # noqa: E402
+
+os.environ["QMC_CLAVE_DATOS"] = guardado.nueva_llave()  # llave de prueba, solo de este proceso
 
 
 def levantar_api() -> None:
@@ -191,6 +195,48 @@ def main() -> int:
     b4 = [w.body for w in at.warning if "B4" in w.body]
     caso("dos PDF: B4 con su archivo y su página en ese archivo",
          bool(b4) and "clausulas_adicionales.pdf, pág. 6" in b4[0], str(b4)[:300])
+
+    # Mi cuenta: crear cuenta, guardar la póliza subida (con su fecha de borrado) y borrar todo
+    t = textos(at)
+    caso("cuenta: antes de crearla dice qué se guarda, que el dueño podría leerlo y que la contraseña no se recupera",
+         "No guardamos el archivo PDF" in t and "podría leerlo" in t and "no podemos recuperarla" in t)
+    caso("cuenta: la casilla de privacidad no viene marcada y sin ella no se puede crear",
+         at.checkbox(key="registro_acepto").value is False and at.button(key="registro_crear").disabled)
+    at.text_input(key="registro_correo").set_value("prueba@ejemplo.pe")
+    at.text_input(key="registro_clave").set_value("clave-de-la-prueba")
+    at.checkbox(key="registro_acepto").check().run()
+    at.button(key="registro_crear").click().run()
+    t = "\n".join([textos(at)] + [m.value for m in at.markdown])
+    caso("cuenta: creada, plan gratuito, con sus límites del mes", not at.exception and "prueba@ejemplo.pe" in t and "Plan gratuito" in t
+         and "de 30 este mes" in t and "Pólizas guardadas: 0 de 1" in t, str(at.exception) or t[-400:])
+    import datetime as dt
+
+    en_7 = (dt.date.today() + dt.timedelta(days=7)).strftime("%d/%m/%Y")
+    caso("guardar: antes de guardar ya dice el día en que se borrará y que habrá que volver a subir el PDF",
+         f"se borrará sola el {en_7} y tendrás que volver a subir el PDF" in textos(at) and "no el archivo PDF" in textos(at))
+    at.button(key="guardar_poliza").click().run()
+    t = "\n".join([textos(at)] + [m.value for m in at.markdown] + [x.value for x in at.success])
+    caso("guardar: confirmada con la fecha exacta, y aparece como tarjeta en la cuenta",
+         not at.exception and f"Se borrará sola el {en_7}" in t and f"Se borra sola el {en_7}" in t and "Pólizas guardadas: 1 de 1" in t,
+         str(at.exception) or t[-400:])
+    caso("borrar: un botón por póliza y la zona de «borrar mi cuenta y todo», que pide contraseña y confirmación",
+         any((b.key or "").startswith("borrar_p_g_") for b in at.button) and at.button(key="borrar_cuenta").disabled
+         and "no se puede" in t)
+    boton = next(b for b in at.button if (b.key or "").startswith("borrar_p_g_"))
+    boton.click().run()
+    caso("borrar una póliza pide confirmación antes de hacerlo",
+         any("Se borrará esta póliza y todas sus consultas guardadas" in w.body for w in at.warning)
+         and guardado.filas(main_api.limites().motor)["polizas"] == 1)
+    next(b for b in at.button if (b.key or "").startswith("borrar_si_g_")).click().run()
+    caso("borrar una póliza: confirmada, ya no está", guardado.filas(main_api.limites().motor)["polizas"] == 0
+         and "Pólizas guardadas: 0 de 1" in textos(at), guardado.filas(main_api.limites().motor))
+    at.text_input(key="borrar_clave").set_value("clave-de-la-prueba")
+    at.checkbox(key="borrar_seguro").check().run()
+    at.button(key="borrar_cuenta").click().run()
+    caso("borrar mi cuenta y todo: no queda ninguna fila y la pantalla vuelve a ofrecer crear una cuenta",
+         not at.exception and all(v == 0 for v in guardado.filas(main_api.limites().motor).values())
+         and any("se borraron" in x.value for x in at.success) and "registro_correo" in [x.key for x in at.text_input],
+         (str(at.exception), guardado.filas(main_api.limites().motor)))
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0
