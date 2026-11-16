@@ -30,7 +30,8 @@ Devuelve:
 - preguntas: las preguntas distintas que contiene el texto. Dos preguntas son distintas si \
 piden cosas diferentes (por ejemplo "¿me cubre la consulta?" y "¿cuántos días tengo para \
 avisar?"). Una pregunta con varios detalles, o la misma pregunta dicha dos veces, es una \
-sola. Reescribe cada una para que se entienda sola, repitiendo en cada una el hecho que la \
+sola; preguntar lo mismo sobre dos cosas ("¿cuánto pago por una consulta o por una \
+endodoncia?") también es una sola. Reescribe cada una para que se entienda sola, repitiendo en cada una el hecho que la \
 persona contó, con sus palabras y sin agregar nada que no dijo. Máximo 3.
 - falta_informacion: true solo si la persona pregunta por algo que le pasó pero no dice qué \
 pasó con el detalle mínimo para buscarlo en una póliza (por ejemplo "me lesioné, ¿qué puedo \

@@ -5,9 +5,9 @@ Generado por `pruebas/medir_fase2.py` con `claude-haiku-5-5`. Una corrida por ca
 ## Repregunta y varias preguntas (triage)
 
 - Preguntas vagas en las que repregunta en vez de responder: **6 de 6**.
-- Preguntas claras que deja pasar sin repreguntar ni partir: **14 de 14**.
+- Preguntas claras que deja pasar sin repreguntar ni partir: **15 de 15**.
 - Textos con varias preguntas separados en el número esperado: **5 de 5**.
-- Costo del paso: USD 0.00013 en promedio; tiempo: 1.5 s en promedio, 2.5 s el más largo.
+- Costo del paso: USD 0.00014 en promedio; tiempo: 1.9 s en promedio, 2.4 s el más largo.
 
 | Grupo | Texto | ¿Repregunta? | Preguntas | ¿Como se esperaba? |
 |---|---|---|---:|---|
@@ -21,6 +21,7 @@ Generado por `pruebas/medir_fase2.py` con `claude-haiku-5-5`. Una corrida por ca
 | clara | ¿Qué exclusiones tiene mi póliza? | no | 1 | sí |
 | clara | Me robaron el celular en el aeropuerto de Lima, ¿lo cubre? | no | 1 | sí |
 | clara | ¿A qué número llamo si necesito un médico durante el viaje? | no | 1 | sí |
+| clara | ¿Cuánto tengo que pagar yo por una consulta o por una endodoncia? | no | 1 | sí |
 | clara | Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos? | no | 1 | sí |
 | clara | Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre? | no | 1 | sí |
 | clara | La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan? | no | 1 | sí |
@@ -43,11 +44,11 @@ Situación: «Tuve un accidente durante el viaje», con fecha del hecho 2026-11-
 
 | Póliza | Plazos aceptados | Fecha límite del primero | A quién avisar | Documentos | Pasos | Citas | Descartes | USD | Segundos |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| chubb_viajes_jetsmart | 30 dias (avisar del siniestro a la COMPAÑÍA), pág. 18 | 2026-12-10 | 2 | 3 | 8 | 10 | 0 | 0.0034 | 19.4 |
-| pacifico_viajes | 7 dias (avisar del siniestro), pág. 1 | 2026-11-17 | 2 | 6 | 5 | 10 | 0 | 0.0027 | 17.4 |
-| rimac_viajes | 48 horas (dar aviso a la COMPAÑÍA cuando se recurre a una clínica o médico que no está en la red de proveedores), pág. 12; 24 horas (comunicar el evento a la Central de Asistencia cuando la emergencia de salud impidió llamar antes), pág. 12 | 2026-11-12 | 3 | 5 | 5 | 7 | 0 | 0.0025 | 13.9 |
-| mapfre_viajes | 7 dias (avisar del siniestro o comunicar la emergencia y la asistencia recibida), pág. 14; 7 dias (comunicarse con LA COMPAÑÍA por asistencia médica por accidente), pág. 13 | 2026-11-17 | 2 | 2 | 7 | 10 | 0 | 0.0019 | 8.3 |
-| interseguro_viajes | 24 horas (avisar a la central de asistencia del evento médico o emergencia), pág. 9 | 2026-11-11 | 1 | 2 | 4 | 8 | 1 | 0.0015 | 6.4 |
+| chubb_viajes_jetsmart | 30 dias (avisar del siniestro a la COMPAÑÍA), pág. 18 | 2026-12-10 | 2 | 4 | 8 | 10 | 0 | 0.0033 | 18.2 |
+| pacifico_viajes | 7 dias (avisar del siniestro), pág. 1 | 2026-11-17 | 2 | 3 | 4 | 7 | 0 | 0.0022 | 13.1 |
+| rimac_viajes | 24 horas (avisar a la central de asistencia de un problema de salud), pág. 12; 48 horas (presentar los documentos del reembolso de gastos médicos y hospitalarios), pág. 12; 30 dias (presentar los documentos del siniestro de pérdida de equipaje), pág. 13 | 2026-11-11 | 4 | 4 | 6 | 14 | 0 | 0.0020 | 9.3 |
+| mapfre_viajes | 7 dias (avisar del siniestro a LA COMPAÑÍA (asistencia médica por accidente)), pág. 13; 7 dias (comunicar la emergencia y la asistencia recibida (reembolsos)), pág. 14 | 2026-11-17 | 1 | 1 | 6 | 8 | 2 | 0.0017 | 7.9 |
+| interseguro_viajes | 24 horas (avisar de la emergencia a la Central de Asistencias), pág. 9 | 2026-11-11 | 1 | 1 | 3 | 5 | 0 | 0.0020 | 10.6 |
 
 ## Radiografía de cada condicionado
 
@@ -63,15 +64,13 @@ Las versionadas en `data/cache/radiografias/` (`python -m ai.radiografia`). Cada
 
 ## ¿Estás pagando doble?
 
-Comparando las radiografías de Chubb, Pacífico y Rimac (los tres son seguros de viaje): **8 posibles superposiciones**, USD 0.0004, 3.4 s. Cada lado es una cobertura de la radiografía, con sus citas verificadas; el porqué lo redacta el modelo y no está verificado.
+Comparando las radiografías de Chubb, Pacífico y Rimac (los tres son seguros de viaje): **6 posibles superposiciones**, USD 0.0004, 3.2 s. Cada lado es una cobertura de la radiografía, con sus citas verificadas; el porqué lo redacta el modelo y no está verificado.
 
 | Póliza A | Cobertura | Póliza B | Cobertura | Por qué (modelo) |
 |---|---|---|---|---|
-| Chubb Seguros Perú | Muerte Accidental | Pacífico Seguros | Muerte Accidental | Ambas cubren el pago de beneficios por muerte accidental del asegurado durante el viaje o la vigencia. |
-| Chubb Seguros Perú | Muerte Accidental | Rimac Seguros | Muerte accidental | Ambas pagan beneficios a los beneficiarios si el asegurado fallece por un accidente durante el viaje. |
-| Chubb Seguros Perú | Muerte accidental al salvar vidas humanas | Rimac Seguros | Muerte accidental | Ambas cubren la muerte del asegurado causada por un accidente ocurrido durante el viaje. |
+| Chubb Seguros Perú | Muerte Accidental | Pacífico Seguros | Muerte Accidental | Ambas pagan beneficios por muerte accidental del asegurado durante el viaje o la vigencia. |
+| Chubb Seguros Perú | Muerte Accidental | Rimac Seguros | Muerte accidental | Ambas pagan beneficios a los beneficiarios si el asegurado muere por un accidente durante un viaje. |
+| Pacífico Seguros | Muerte Accidental | Rimac Seguros | Muerte accidental | Ambas cubren el fallecimiento accidental del asegurado como riesgo de muerte por accidente en viaje. |
+| Chubb Seguros Perú | Desmembramiento Accidental | Rimac Seguros | Invalidez permanente por accidente | Ambas indemnizan pérdidas o disminuciones físicas permanentes causadas por accidente, según un porcentaje o grado asignado. |
+| Chubb Seguros Perú | Cancelación de viaje | Pacífico Seguros | Cancelación de viaje | Ambas reembolsan servicios de viaje no utilizados o cargos cuando el viaje se cancela por causas amparadas. |
 | Chubb Seguros Perú | Gastos Médicos por Accidente y/o Enfermedad durante el Viaje | Pacífico Seguros | Gastos y asistencias médicos por accidente y/o enfermedad no preexistente | Ambas cubren gastos médicos por accidente o enfermedad durante el viaje. |
-| Chubb Seguros Perú | Cancelación de viaje | Pacífico Seguros | Cancelación de viaje | Ambas reembolsan servicios de viaje no utilizados o cargos por cancelación del viaje. |
-| Chubb Seguros Perú | Gastos Farmacéuticos durante el Viaje | Pacífico Seguros | Gastos y asistencias médicos por accidente y/o enfermedad no preexistente | Ambas cubren gastos farmacéuticos o médicos derivados de accidente o enfermedad durante el viaje. |
-| Chubb Seguros Perú | Repatriación en Vida – Traslado Médico por Emergencia | Pacífico Seguros | Repatriación o traslados funerarios | Ambas cubren el traslado o repatriación del asegurado tras un evento médico o de emergencia. |
-| Chubb Seguros Perú | Desmembramiento Accidental | Rimac Seguros | Invalidez permanente por accidente | Ambas pagan indemnizaciones por lesiones permanentes o invalidez causadas por un accidente. |
