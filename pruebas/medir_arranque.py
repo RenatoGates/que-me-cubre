@@ -34,13 +34,25 @@ def esperar(url: str, tope: float = 300.0) -> float:
     raise RuntimeError("la API no respondió")
 
 
-def remoto(url: str) -> int:
+def remoto(url: str, minutos_quieto: float) -> int:
     """Primera respuesta de un servidor que estaba dormido y, enseguida, una segunda ya despierto."""
+    import datetime as dt
+
     frio = esperar(url)
     t0 = time.perf_counter()
     httpx.get(url + "/salud", timeout=60)
-    print(f"primera respuesta: {frio:.1f} s · segunda: {time.perf_counter() - t0:.2f} s")
-    print("Vale como arranque en frío solo si el servidor llevaba más de 15 minutos sin tráfico.")
+    tibio = time.perf_counter() - t0
+    lineas = [
+        "# Arranque en frío del backend desplegado",
+        "",
+        f"Generado por `pruebas/medir_arranque.py --url {url}` el {dt.datetime.now():%Y-%m-%d %H:%M}, después de "
+        f"{minutos_quieto:.0f} minutos sin enviarle ninguna petición (Render duerme el plan gratuito a los 15).",
+        "",
+        f"- Primera respuesta de `/salud` (servidor dormido): **{frio:.1f} s**.",
+        f"- Segunda respuesta, ya despierto: {tibio:.2f} s.",
+    ]
+    (PRUEBAS / "arranque_render.md").write_text("\n".join(lineas) + "\n", encoding="utf-8", newline="\n")
+    print("\n".join(lineas[4:]))
     return 0
 
 
@@ -48,9 +60,11 @@ def main() -> int:
     utf8()
     p = argparse.ArgumentParser()
     p.add_argument("--url")
+    p.add_argument("--esperar-minutos", type=float, default=0, help="minutos sin tocar el servidor antes de medir")
     args = p.parse_args()
     if args.url:
-        return remoto(args.url.rstrip("/"))
+        time.sleep(args.esperar_minutos * 60)
+        return remoto(args.url.rstrip("/"), args.esperar_minutos)
 
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))

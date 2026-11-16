@@ -19,6 +19,7 @@ Privacidad: el PDF subido viaja a la API, que lo tiene solo en memoria; aquí no
 
 from __future__ import annotations
 
+import datetime as dt
 import hashlib
 import html
 import os
@@ -192,15 +193,25 @@ def poliza_subida(archivos) -> dict:
     return poliza
 
 
-def preguntar(poliza: dict, pregunta: str, archivos) -> dict:
+def con_poliza(metodo: str, ruta: str, poliza: dict, archivos, cuerpo: dict | None = None):
+    """Llama a la API con la póliza; si venció en la memoria del servidor (o este se reinició),
+    la sube de nuevo y repite."""
+    def llamar(poliza_id: str):
+        if cuerpo is None:
+            return api(metodo, ruta.format(poliza_id=poliza_id))
+        return api(metodo, ruta, json=cuerpo | {"poliza_id": poliza_id})
+
     try:
-        return api("POST", "/preguntar", json={"poliza_id": poliza["poliza_id"], "pregunta": pregunta})
+        return llamar(poliza["poliza_id"])
     except ErrorAPI as e:
         if e.codigo != "poliza_no_encontrada" or not archivos:
             raise
-    # La póliza venció en la memoria del servidor (o este se reinició): se sube de nuevo
     st.session_state.pop("poliza_subida", None)
-    return api("POST", "/preguntar", json={"poliza_id": poliza_subida(archivos)["poliza_id"], "pregunta": pregunta})
+    return llamar(poliza_subida(archivos)["poliza_id"])
+
+
+def preguntar(poliza: dict, pregunta: str, archivos, aclaraciones: list[dict] | None = None) -> dict:
+    return con_poliza("POST", "/preguntar", poliza, archivos, {"pregunta": pregunta, "aclaraciones": aclaraciones or []})
 
 
 def ubicar_pagina(archivos: list[tuple[str, int]], pagina: int) -> tuple[str, int]:
@@ -346,7 +357,70 @@ def pasajes(r: dict, abiertos: bool, archivos: Archivos | None = None) -> None:
             st.markdown(pasaje_resaltado(p), unsafe_allow_html=True)
 
 
+def fecha_larga(iso: str) -> str:
+    return dt.date.fromisoformat(iso).strftime("%d/%m/%Y")
+
+
+def mostrar_pasos(r: dict, archivos: Archivos | None = None) -> None:
+    """Qué hacer ahora: primero la fecha límite, después a quién avisar, documentos y pasos."""
+    if r["modo"] != "pasos":
+        st.warning(r["aviso"], icon="⚠️")
+        pasajes(r, abiertos=False, archivos=archivos)
+        return
+    for p in r["plazos"]:
+        plazo = f"{p['cantidad']} {'horas' if p['unidad'] == 'horas' else 'días'}"
+        c = p["calculo"]
+        if c is None:
+            st.warning(f"**Plazo para {md(p['para'])}: {plazo}**, {md(p['desde'])}{refs([p['cita']])}. "
+                       "Indica cuándo ocurrió y calculo la fecha límite.", icon="⏳")
+            continue
+        cuanto = ("ya venció" if c["vencido"] else "vence hoy" if c["dias_restantes"] == 0
+                  else f"quedan {c['dias_restantes']} día{'s' if c['dias_restantes'] != 1 else ''}")
+        texto = (f"**Fecha límite para {md(p['para'])}: {fecha_larga(c['fecha_limite'])}** ({cuanto}). "
+                 f"Son {plazo} {md(p['desde'])}{refs([p['cita']])}, contados desde el {fecha_larga(c['fecha_hecho'])}."
+                 + "".join(f"\n\n{md(n)}" for n in c["notas"]))
+        (st.error if c["vencido"] or c["dias_restantes"] <= 2 else st.warning)(texto, icon="⏳")
+    if r["sin_plazo"]:
+        st.info(r["sin_plazo"], icon="ℹ️")
+    for titulo, campo, numerar in (("A quién avisar", "a_quien_avisar", False), ("Documentos que tienes que presentar", "documentos", False),
+                                   ("Pasos", "pasos", True)):
+        if r[campo]:
+            st.markdown(f"**{titulo}**")
+            st.markdown("\n".join(f"{f'{i}.' if numerar else '-'} {md(x['descripcion'])}{refs(x['citas'])}"
+                                  for i, x in enumerate(r[campo], start=1)))
+    mencionadas_ausentes(r | {"no_incluido_en_documento": []}, archivos)
+    citas(r, archivos)
+
+
+def mostrar_radiografia(r: dict) -> None:
+    if r["modo"] != "radiografia":
+        st.warning(r["aviso"], icon="⚠️")
+    if r["coberturas"]:
+        st.markdown("**Qué cubre y hasta cuánto**")
+        st.markdown("\n".join(f"- **{md(c['nombre'])}:** {md(c['que_cubre'])} "
+                              f"{'Hasta: ' + md(c['limite']) + '.' if c['limite'] else 'Monto: no está en este documento.'}{refs(c['citas'])}"
+                              for c in r["coberturas"]))
+    for titulo, campo in (("Exclusiones principales", "exclusiones"), ("Deducibles y copagos", "deducibles"),
+                          ("Carencias y períodos de espera", "carencias")):
+        st.markdown(f"**{titulo}**")
+        if r[campo]:
+            st.markdown("\n".join(f"- {md(x['descripcion'])}{refs(x['citas'])}" for x in r[campo]))
+        else:
+            st.caption(r.get("no_encontrado", {}).get(campo, "Sin datos."))
+    mencionadas_ausentes(r | {"no_incluido_en_documento": []})
+    citas(r)
+    st.caption("Es un resumen de los pasajes más relevantes de tu póliza, no la póliza entera.")
+
+
 def mostrar(r: dict, archivos: Archivos | None = None) -> None:
+    if r.get("modo") == "varias":
+        st.info(r["aviso"], icon="🧩")
+        for i, sub in enumerate(r["respuestas"], start=1):
+            st.markdown(f"##### Pregunta {i}: {md(sub['pregunta'])}")
+            mostrar(sub, archivos)
+        for q in r.get("sin_responder", []):
+            st.warning(f"No respondí «{q}»: llegaste al límite de consultas de hoy.")
+        return
     veredicto(r)
     if r.get("cubre") == "fuera_de_alcance":
         st.markdown(md(r["respuesta"]))
@@ -386,6 +460,10 @@ def pedir_respuesta() -> None:
     st.session_state["consultar"] = True
 
 
+def pedir(clave: str) -> None:
+    st.session_state[clave] = True
+
+
 def ejemplos_tarapoto() -> list[str]:
     return [q for q in fuentes().get(POLIZA_TARAPOTO, {}).get("ejemplos", []) if "Tarapoto" in q or "al llegar a Lima" in q]
 
@@ -417,10 +495,24 @@ def pantalla_poliza() -> None:
                               format_func=etiqueta_fuente, label_visibility="collapsed")
             poliza = {"poliza_id": fuente, "huella": fuente, "archivos": []}
 
+        if poliza is not None:
+            with st.expander("Radiografía de tu póliza: qué cubre, exclusiones, deducibles y carencias"):
+                st.button("Ver la radiografía", key="ver_radiografia", on_click=pedir, args=("pedir_radiografia",))
+                if st.session_state.pop("pedir_radiografia", False):
+                    try:
+                        with st.spinner("Leyendo tu póliza: tarda unos 15 segundos la primera vez…"):
+                            st.session_state["radiografia"] = (poliza["huella"], con_poliza(
+                                "GET", "/polizas/{poliza_id}/radiografia", poliza, archivos))
+                    except ErrorAPI as e:
+                        st.error(str(e))
+                hecha = st.session_state.get("radiografia")
+                if hecha and hecha[0] == poliza["huella"]:
+                    mostrar_radiografia(hecha[1])
+
         st.text_area("Tu pregunta", key="pregunta", height=90,
                      placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
-        st.caption("Una pregunta a la vez.")
-        st.button("Preguntar", type="primary", on_click=pedir_respuesta, disabled=poliza is None)
+        st.caption("Puedes hacer hasta 3 preguntas en el mismo texto: cada una cuenta como una consulta.")
+        st.button("Preguntar", type="primary", key="preguntar", on_click=pedir_respuesta, disabled=poliza is None)
         # Los ejemplos son de la póliza de Chubb: solo tienen sentido con ella elegida. Con el texto
         # exacto usan la normalización de la caché (una llamada al modelo en vez de dos).
         if fuente == POLIZA_TARAPOTO:
@@ -440,15 +532,51 @@ def pantalla_poliza() -> None:
                                     "5 y 15 segundos…"):
                         st.session_state["resultado"] = preguntar(poliza, pregunta, archivos)
                     st.session_state["resultado_de"] = poliza["huella"]
+                    st.session_state.pop("pasos", None)
                 except ErrorAPI as e:
                     st.session_state.pop("resultado", None)
+                    (st.warning if e.status == 429 else st.error)(str(e))
+
+        # Respuestas a las repreguntas: se vuelve a preguntar con lo que la persona agregó
+        anterior = st.session_state.get("resultado")
+        if st.session_state.pop("aclarar", False) and poliza is not None and anterior and anterior["modo"] == "aclaracion":
+            aclaraciones = [{"pregunta": q, "respuesta": (st.session_state.get(f"aclara_{i}") or "").strip()}
+                            for i, q in enumerate(anterior["repreguntas"])]
+            if not any(a["respuesta"] for a in aclaraciones):
+                st.warning("Responde al menos una de las preguntas.")
+            else:
+                try:
+                    with st.spinner("Buscando en tu póliza con lo que me contaste…"):
+                        st.session_state["resultado"] = preguntar(poliza, anterior["pregunta"], archivos, aclaraciones)
+                except ErrorAPI as e:
                     (st.warning if e.status == 429 else st.error)(str(e))
 
     resultado = st.session_state.get("resultado")
     if resultado is not None and poliza is not None and st.session_state.get("resultado_de") == poliza["huella"]:
         with st.container(key="tarjeta_resultado"):
+            de_archivos = [(a["nombre"], a["paginas"]) for a in poliza.get("archivos", [])]
             st.caption(f"Pregunta: {resultado['pregunta']}")
-            mostrar(resultado, [(a["nombre"], a["paginas"]) for a in poliza.get("archivos", [])])
+            if resultado["modo"] == "aclaracion":
+                st.info(f"**{resultado['aviso']}** Todavía no busqué nada: esto no gasta una consulta.", icon="💬")
+                for i, q in enumerate(resultado["repreguntas"]):
+                    st.text_input(q, key=f"aclara_{i}")
+                st.button("Responder", type="primary", key="responder_aclaracion", on_click=pedir, args=("aclarar",))
+            else:
+                mostrar(resultado, de_archivos)
+                with st.expander("Qué hacer ahora: pasos para reclamar y fecha límite"):
+                    sugerida = (resultado.get("fecha_hecho") or {}).get("fecha")
+                    fecha = st.date_input("¿Cuándo ocurrió?", value=dt.date.fromisoformat(sugerida) if sugerida else None,
+                                          max_value=dt.date.today(), format="DD/MM/YYYY", key="fecha_hecho")
+                    st.button("Ver los pasos", key="ver_pasos", on_click=pedir, args=("pedir_pasos",))
+                    if st.session_state.pop("pedir_pasos", False):
+                        try:
+                            with st.spinner("Buscando en tu póliza cómo se reclama: tarda entre 10 y 20 segundos…"):
+                                st.session_state["pasos"] = con_poliza("POST", "/pasos", poliza, archivos, {
+                                    "situacion": resultado["pregunta"], "fecha_hecho": fecha.isoformat() if fecha else None})
+                        except ErrorAPI as e:
+                            (st.warning if e.status == 429 else st.error)(str(e))
+                    if st.session_state.get("pasos"):
+                        mostrar_pasos(st.session_state["pasos"], de_archivos)
             limites = resultado.get("limites") or {}
             if limites:
                 st.caption(f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas por hoy.")

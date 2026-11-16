@@ -1,0 +1,745 @@
+{
+  "version": 1,
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "paginas": 62,
+  "secciones": [
+    "Resumen Informativo",
+    "Condiciones Generales",
+    "Cláusula Adicional: Desmembramiento Accidental",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+    "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
+    "Cláusula Adicional: Gastos Farmacéuticos durante el Viaje",
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+    "Cláusula Adicional: Traslado de Restos Mortales (Repatriación Funeraria)",
+    "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+    "Cláusula Adicional: Cancelación del Viaje",
+    "Cláusula Adicional: Pérdida de Equipaje",
+    "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
+    "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales"
+  ],
+  "mencionadas_ausentes": [
+    {
+      "nombre": "B4 - Continuación de Tratamiento en País de Residencia",
+      "tipo": "cobertura",
+      "mensaje": "Tu póliza menciona «B4 - Continuación de Tratamiento en País de Residencia» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "B4 - Continuación de Tratamiento en País de Residencia",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "nivel": "clausula_ausente"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN GENERAL › 6. Medios habilitados por la COMPAÑÍA para presentar consultas y/o reclamos conforme lo dispone la",
+      "pagina": 1,
+      "paginas": [
+        1
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 3. Condiciones de acceso y límites de permanencia",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Especiales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Especiales",
+      "seccion": "Condiciones Generales",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Tabla de Beneficios",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Tabla de Beneficios» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Tabla de Beneficios",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "modo": "radiografia",
+  "aviso": null,
+  "coberturas": [
+    {
+      "id": "C1",
+      "nombre": "Muerte Accidental",
+      "que_cubre": "Pago de beneficios si el asegurado fallece por un accidente durante la vigencia, en territorio nacional o internacional, con muerte dentro de un año del accidente.",
+      "limite": null,
+      "citas": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "C2",
+      "nombre": "Muerte accidental al salvar vidas humanas",
+      "que_cubre": "Cubre la muerte por accidentes sufridos al tratar de salvar vidas humanas.",
+      "limite": null,
+      "citas": [
+        4
+      ]
+    },
+    {
+      "id": "C3",
+      "nombre": "Desmembramiento Accidental",
+      "que_cubre": "Pago por pérdidas totales de partes del cuerpo, como vista, dedos o miembros, según un porcentaje asignado a cada una.",
+      "limite": null,
+      "citas": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "C4",
+      "nombre": "Cancelación de viaje",
+      "que_cubre": "Reembolso de servicios de viaje no devueltos, hospedaje y cargos por cancelación si el asegurado no puede iniciar el viaje por enfermedad súbita, accidente o fallecimiento.",
+      "limite": null,
+      "citas": [
+        8
+      ]
+    },
+    {
+      "id": "C5",
+      "nombre": "Repatriación en Vida – Traslado Médico por Emergencia",
+      "que_cubre": "Cobertura que aplica solo como continuación de un evento por accidente amparado por gastos médicos, odontológicos o farmacéuticos durante el viaje.",
+      "limite": null,
+      "citas": [
+        9
+      ]
+    },
+    {
+      "id": "C6",
+      "nombre": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "que_cubre": "Cláusula adicional que cubre gastos médicos por accidente o enfermedad durante el viaje.",
+      "limite": null,
+      "citas": [
+        5
+      ]
+    },
+    {
+      "id": "C7",
+      "nombre": "Gastos Odontológicos de Emergencia durante el Viaje",
+      "que_cubre": "Cláusula adicional que cubre gastos odontológicos de emergencia durante el viaje.",
+      "limite": null,
+      "citas": [
+        5
+      ]
+    },
+    {
+      "id": "C8",
+      "nombre": "Gastos Farmacéuticos durante el Viaje",
+      "que_cubre": "Cláusula adicional que cubre gastos farmacéuticos durante el viaje.",
+      "limite": null,
+      "citas": [
+        5
+      ]
+    }
+  ],
+  "exclusiones": [
+    {
+      "descripcion": "Viajes aéreos como pasajero en vuelos de itinerarios no fijos ni regulares.",
+      "citas": [
+        12
+      ]
+    },
+    {
+      "descripcion": "Lesiones preexistentes al momento de contratar el seguro.",
+      "citas": [
+        13
+      ]
+    },
+    {
+      "descripcion": "Participación remunerada en competencias o actividades que sean la ocupación principal del asegurado.",
+      "citas": [
+        10
+      ]
+    },
+    {
+      "descripcion": "Desempeño de profesiones u oficios riesgosos, como minero, bombero, vigilante o miembro de fuerzas armadas o policiales.",
+      "citas": [
+        14
+      ]
+    },
+    {
+      "descripcion": "Estado de ebriedad o bajo efectos de narcóticos, salvo que sea por prescripción médica.",
+      "citas": [
+        11
+      ]
+    },
+    {
+      "descripcion": "Gastos de asistencia médica fuera del territorio de cobertura indicado en las condiciones particulares.",
+      "citas": [
+        15
+      ]
+    },
+    {
+      "descripcion": "Enfermedades epidémicas y sus consecuencias provenientes de pandemia.",
+      "citas": [
+        16
+      ]
+    }
+  ],
+  "deducibles": [
+    {
+      "descripcion": "Deducible: importe de gastos cubiertos que queda por cuenta del asegurado; su monto se especifica en las Condiciones Particulares o en la Tabla de Beneficios, que no se incluyen en los pasajes. No hay monto escrito en los pasajes.",
+      "citas": [
+        17
+      ]
+    }
+  ],
+  "carencias": [
+    {
+      "descripcion": "Período de carencia: tiempo que debe transcurrir desde el inicio de vigencia hasta que entra en vigor la cobertura. La duración no está escrita en los pasajes.",
+      "citas": [
+        18
+      ]
+    }
+  ],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "Accidentes Personales Muerte Accidental:",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0008",
+      "posicion": [
+        55,
+        95
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Condiciones Generales",
+      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "texto_literal": "En caso que el ASEGURADO fallezca a consecuencia de un accidente ocurrido durante la vigencia de esta Póliza, ya sea que el accidente haya ocurrido en territorio nacional o internacional, LA COMPAÑÍA pagará los beneficios señalados en las Condiciones Particulares y/o en el Certificado de Seguro, en los plazos y términos que se señalan en los mismos, siempre que las causas del accidente no se encuentren comprendidas dentro de las exclusiones de este seguro.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "posicion": [
+        53,
+        513
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Condiciones Generales",
+      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
+      "pagina": 7,
+      "paginas": [
+        7
+      ],
+      "texto_literal": "Este seguro cubre la muerte accidental del ASEGURADO hasta por un (1) año luego de producido el accidente.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "posicion": [
+        514,
+        620
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Condiciones Generales",
+      "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
+      "pagina": 7,
+      "paginas": [
+        7
+      ],
+      "texto_literal": "El seguro cubre también la muerte del ASEGURADO como consecuencia de accidentes sobrevenidos al tratar de salvar vidas humanas.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0023",
+      "posicion": [
+        798,
+        925
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 5,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Texto inicial de la sección",
+      "pagina": 11,
+      "paginas": [
+        11
+      ],
+      "texto_literal": "La presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes.",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0040",
+      "posicion": [
+        46,
+        351
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 6,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 3° Cobertura (parte 2 de 2)",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "Ceguera total de un ojo. 35% Pérdida total de un pulgar. 20%",
+      "pasaje": "P16",
+      "trozo_id": "chubb_viajes_jetsmart:0045",
+      "posicion": [
+        0,
+        60
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 7,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 3° Cobertura (parte 2 de 2)",
+      "pagina": 12,
+      "paginas": [
+        12
+      ],
+      "texto_literal": "En el caso de ocurrir más de un siniestro durante la vigencia del seguro, los porcentajes a indemnizar se calcularán en base al monto asegurado y no al saldo de éste, después de haber efectuado otros pagos.",
+      "pasaje": "P16",
+      "trozo_id": "chubb_viajes_jetsmart:0045",
+      "posicion": [
+        582,
+        788
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 8,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
+      "paginas": [
+        41
+      ],
+      "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO",
+      "pasaje": "P10",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "posicion": [
+        22,
+        404
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 9,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "pagina": 36,
+      "paginas": [
+        36
+      ],
+      "texto_literal": "Esta cobertura aplica únicamente como continuación a un evento provocado por un ACCIDENTE y amparado por las coberturas:",
+      "pasaje": "P9",
+      "trozo_id": "chubb_viajes_jetsmart:0133",
+      "posicion": [
+        37,
+        157
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 10,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 4° Exclusiones (parte 3 de 4)",
+      "pagina": 13,
+      "paginas": [
+        13
+      ],
+      "texto_literal": "l)Participación en carreras, apuestas, competencias y desafíos que sean remunerados o sean la ocupación principal del asegurado.",
+      "pasaje": "P17",
+      "trozo_id": "chubb_viajes_jetsmart:0048",
+      "posicion": [
+        456,
+        584
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 11,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 4° Exclusiones (parte 2 de 4)",
+      "pagina": 13,
+      "paginas": [
+        13
+      ],
+      "texto_literal": "h)Encontrarse el ASEGURADO en estado de ebriedad, o bajo los efectos de cualquier narcótico, a menos que hubiese sido administrado por prescripción médica.",
+      "pasaje": "P18",
+      "trozo_id": "chubb_viajes_jetsmart:0047",
+      "posicion": [
+        879,
+        1034
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 12,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales Exclusiones (parte 2 de 3)",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "texto_literal": "f)Viajes aeronáuticos que haga el ASEGURADO en calidad de pasajero en vuelos de itinerarios no fijos ni regulares.",
+      "pasaje": "P19",
+      "trozo_id": "chubb_viajes_jetsmart:0010",
+      "posicion": [
+        349,
+        463
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 13,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales Exclusiones (parte 2 de 3)",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "texto_literal": "h)Lesiones pre-existentes al momento de contratar este seguro, en los términos señalados en el artículo de definiciones de las Condiciones Generales.",
+      "pasaje": "P19",
+      "trozo_id": "chubb_viajes_jetsmart:0010",
+      "posicion": [
+        634,
+        783
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 14,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales Exclusiones (parte 2 de 3)",
+      "pagina": 3,
+      "paginas": [
+        3
+      ],
+      "texto_literal": "j)El desempeño de alguna profesión u oficio riesgoso, entendiéndose por ellos aquellos que ponen en peligro la vida o el estado de salud del ASEGURADO.",
+      "pasaje": "P19",
+      "trozo_id": "chubb_viajes_jetsmart:0010",
+      "posicion": [
+        997,
+        1148
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 15,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 4° Exclusiones (parte 3 de 4)",
+      "pagina": 13,
+      "paginas": [
+        13
+      ],
+      "texto_literal": "o)Los gastos de asistencia médica, hospitalaria o sanitaria en que se haya incurrido fuera del territorio de cobertura según lo determinado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
+      "pasaje": "P17",
+      "trozo_id": "chubb_viajes_jetsmart:0048",
+      "posicion": [
+        973,
+        1190
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 16,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+      "articulo": "Artículo 4° Exclusiones (parte 2 de 4)",
+      "pagina": 13,
+      "paginas": [
+        13
+      ],
+      "texto_literal": "e)Las enfermedades epidémicas y sus consecuencias, que provengan directa o indirectamente de pandemia",
+      "pasaje": "P18",
+      "trozo_id": "chubb_viajes_jetsmart:0047",
+      "posicion": [
+        0,
+        101
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 17,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección (parte 4 de 7)",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "texto_literal": "Deducible: Se refiere al importe de gastos cubiertos que será por cuenta del Asegurado y cuyo monto y forma de aplicación se especifica en las Condiciones Particulares o en la Tabla de Beneficios de esta póliza.",
+      "pasaje": "P21",
+      "trozo_id": "chubb_viajes_jetsmart:0184",
+      "posicion": [
+        0,
+        211
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 18,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Texto inicial de la sección (parte 5 de 7)",
+      "pagina": 52,
+      "paginas": [
+        52
+      ],
+      "texto_literal": "Período de Carencia: Período de tiempo que se estipula debe transcurrir entre la fecha de inicio de vigencia de la póliza y aquella en que efectivamente entra en vigor la cobertura.",
+      "pasaje": "P25",
+      "trozo_id": "chubb_viajes_jetsmart:0185",
+      "posicion": [
+        254,
+        435
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 19,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Condiciones Generales",
+      "articulo": "Artículo 11°: Aviso del Siniestro y Procedimiento para Solicitar la Cobertura (parte 3 de 3)",
+      "pagina": 9,
+      "paginas": [
+        9
+      ],
+      "texto_literal": "Si la solicitud de cobertura fuese aprobada por La COMPAÑÍA o hubiese transcurrido el plazo de treinta (30) días sin pronunciamiento por parte de la COMPAÑÍA",
+      "pasaje": "P28",
+      "trozo_id": "chubb_viajes_jetsmart:0038",
+      "posicion": [
+        200,
+        357
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 20,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 2° Vigencia Individual y Territorio (parte 1 de 2)",
+      "pagina": 30,
+      "paginas": [
+        30
+      ],
+      "texto_literal": "El ámbito territorial de las coberturas se extiende a todo el mundo, exceptuando los siguientes países:",
+      "pasaje": "P7",
+      "trozo_id": "chubb_viajes_jetsmart:0110",
+      "posicion": [
+        1198,
+        1301
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 21,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 2° Objeto del Contrato de Seguro",
+      "pagina": 53,
+      "paginas": [
+        53
+      ],
+      "texto_literal": "hasta el límite de la Suma Asegurada y/o Beneficio Máximo Anual que figura en las Condiciones Particulares de la póliza",
+      "pasaje": "P13",
+      "trozo_id": "chubb_viajes_jetsmart:0188",
+      "posicion": [
+        234,
+        353
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 22,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusulas Generales de Contratación Comunes a los Seguros de Accidentes Personales",
+      "articulo": "Artículo 16° Reducción de la Suma Asegurada y/o Beneficio Máximo Anual",
+      "pagina": 60,
+      "paginas": [
+        60
+      ],
+      "texto_literal": "Toda indemnización que la COMPAÑIA pague, reducirá automáticamente en igual monto la Suma Asegurada y/o Beneficio Máximo Anual",
+      "pasaje": "P24",
+      "trozo_id": "chubb_viajes_jetsmart:0233",
+      "posicion": [
+        71,
+        197
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "no_encontrado": {},
+  "sin_limite": "Donde no aparece un monto es porque no está en este documento: suele estar en las Condiciones Particulares o en el certificado.",
+  "pasajes_revisados": 28,
+  "uso": {
+    "llamadas": 1,
+    "costo_usd": 0.003004,
+    "segundos": 11.82,
+    "tokens_entrada": 12626,
+    "tokens_salida": 3482
+  }
+}

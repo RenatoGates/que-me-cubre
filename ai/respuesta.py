@@ -90,6 +90,8 @@ class Poliza:
     # Si se subió en varios PDF: [(nombre del archivo, páginas)] en el orden de las páginas de
     # pdf_bytes (el PDF unido). Para mostrar de qué archivo sale cada cita (ai/subida.py).
     archivos: list[tuple[str, int]] = field(default_factory=list)
+    # Texto de las páginas ya releídas al verificar citas (ai/verificacion.py): solo en memoria.
+    paginas_leidas: dict = field(default_factory=dict, repr=False)
 
     @property
     def secciones(self) -> list[str]:
@@ -219,13 +221,14 @@ def _misma_referencia(nombre: str, ausente: dict) -> bool:
     return bool(clave) and clave <= set(tokens(nombre))
 
 
-def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[dict] | None = None) -> tuple[dict, list[dict]]:
+def citas_verificadas(crudas: list[dict], pasajes: list[Pasaje], poliza: Poliza) -> tuple[list[dict], dict, list[dict]]:
+    """Las citas que propuso el modelo, verificadas: (citas válidas renumeradas, {n del modelo: n
+    nuevo}, descartes). La usan la respuesta y las funciones de la Fase 2 (pasos, radiografía)."""
     por_id = {p.id: p for p in pasajes}
     descartes: list[dict] = []
-
     # Citas: literal en un pasaje -> página calculada -> presente en esa página del PDF
     citas, renumerar = [], {}
-    for c in crudo["citas"]:
+    for c in crudas:
         # Primero el pasaje que el modelo indicó; si la cita no está ahí, los de su misma
         # sección (el texto repetido entre cláusulas no debe cambiar de cláusula), y al final el resto.
         indicado = por_id.get(c["pasaje"])
@@ -243,7 +246,7 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
         for pag, ini, fin in t.segmentos:
             if ini < b and fin > a:
                 tramos_por_pagina[pag] = f"{tramos_por_pagina.get(pag, '')} {t.texto[max(a, ini) : min(b, fin)]}".strip()
-        en_pdf = verificar_en_pdf(poliza.pdf_bytes, list(tramos_por_pagina.items()))
+        en_pdf = verificar_en_pdf(poliza.pdf_bytes, list(tramos_por_pagina.items()), poliza.paginas_leidas)
         if not any(en_pdf.values()):
             descartes.append({"tipo": "cita", "n": c["n"], "texto": c["texto_literal"], "motivo": f"no está en la página {paginas} del PDF"})
             continue
@@ -264,6 +267,11 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
                 "verificacion": {"en_pasaje": True, "puntuacion_final_ignorada": signo_ignorado, **en_pdf},
             }
         )
+    return citas, renumerar, descartes
+
+
+def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[dict] | None = None) -> tuple[dict, list[dict]]:
+    citas, renumerar, descartes = citas_verificadas(crudo["citas"], pasajes, poliza)
 
     # Texto libre: no puede nombrar artículos, cláusulas ni documentos ausentes de las citas
     clausulas_doc = poliza.indice.vocabulario()[0]

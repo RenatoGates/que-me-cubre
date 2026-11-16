@@ -47,6 +47,39 @@ consultar. Hacia Anthropic, la pregunta y los pasajes recuperados. Nada más: la
 búsqueda, la verificación de cada cita, el bloque de lo mencionado pero ausente, el veredicto
 que se muestra (campo estructurado), el texto de "fuera de alcance" y los topes.
 
+## Fase 2: antes y después de la respuesta
+
+```mermaid
+flowchart TD
+    TXT["Texto de la persona"]
+    TRI["Triage (ai/consulta.py)<br/>¿falta información? ¿cuántas preguntas?"]
+    ACL["modo «aclaracion»<br/>repreguntas: qué pasó, dónde, cuándo<br/>no busca ni gasta consulta"]
+    VAR["modo «varias»<br/>una búsqueda y una respuesta por pregunta (hasta 3)"]
+    RESP["Respuesta de la Fase 1<br/>veredicto, citas verificadas, ausentes"]
+    FEC["Fecha del hecho (ai/fechas.py)<br/>«ayer», «hace 3 días», «el 12 de noviembre»"]
+    PAS["POST /pasos (ai/pasos.py)<br/>plazo, a quién avisar, documentos, pasos"]
+    VAL["Código: cada cita en su página del PDF<br/>plazo aceptado solo si su número está en su cita<br/>fecha límite = fecha del hecho + plazo"]
+    RAD["GET /polizas/{id}/radiografia (ai/radiografia.py)<br/>un pasaje por sección + cinco temas → resumen con citas"]
+    SUP["POST /superposiciones<br/>pares de coberturas de pólizas distintas"]
+
+    TXT --> TRI
+    TRI -- "falta información" --> ACL -- "la persona responde" --> TRI
+    TRI -- "varias" --> VAR --> RESP
+    TRI -- "una, clara" --> RESP
+    TXT --> FEC --> VAL
+    RESP --> PAS --> VAL
+    RAD --> VAL
+    RAD --> SUP
+
+    classDef modelo fill:#ffe3c2,stroke:#d9822b,color:#3b2405
+    class TRI,RESP,PAS,RAD,SUP modelo
+```
+
+Si el triage falla, la consulta sigue como una sola pregunta. Las radiografías de los
+condicionados públicos están versionadas en `data/cache/radiografias/`; la de una póliza
+subida se genera una vez y vive en memoria con ella. La red de clínicas del anexo no está
+construida: ninguna de las pólizas precargadas trae ese anexo.
+
 ## Prototipo (rama `main`)
 
 Lo que sigue describe la app de Streamlit con Groq y BM25, tal como está desplegada hoy.
