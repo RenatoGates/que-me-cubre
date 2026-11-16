@@ -48,7 +48,7 @@ la búsqueda anterior, BM25, daba 9 de 10 ([`pruebas/resultados_bm25.md`](prueba
 Son 10 preguntas y una corrida por configuración: alcanza para ver la dirección, no para
 afirmar una tasa.
 
-Pendiente de la Fase 1: desplegar en Render (y medir el arranque en frío) y activar Langfuse.
+Backend desplegado en Render (plan gratuito): <https://que-me-cubre-api.onrender.com>. Arranque en frío medido: 41,6 s ([`pruebas/arranque_render.md`](pruebas/arranque_render.md)); flujo completo contra esa URL en [`pruebas/desplegado.md`](pruebas/desplegado.md). Langfuse sigue apagado.
 Las dos cosas están programadas y sin desplegar; ver "Desplegar".
 
 ## Instalación

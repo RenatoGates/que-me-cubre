@@ -94,7 +94,7 @@ def main() -> int:
                                                  "Mapfre Perú · Accidentes Personales con Asistencia en Viaje para Turismo",
                                                  "Interseguro · Seguro de Viaje Internacional"]
          and at.radio(key="fuente").value == "chubb_viajes_jetsmart", str(at.radio(key="fuente").options))
-    caso("ayuda bajo la pregunta: 'Una pregunta a la vez.'", "Una pregunta a la vez." in t)
+    caso("ayuda bajo la pregunta: hasta 3 preguntas en el mismo texto", "hasta 3 preguntas en el mismo texto" in t)
     def ejemplos(at: AppTest) -> list[str]:
         return [b.label for b in at.button if b.key and b.key.startswith("tarapoto_")]
 
@@ -131,9 +131,22 @@ def main() -> int:
     caso("P01: veredicto, B4 y citas", "Cubre con límites" in html and any("B4" in w.body for w in at.warning)
          and "Citas de tu póliza" in t)
 
+    # Qué hacer ahora: sin modelo (maqueta) muestra las cláusulas del aviso del siniestro, sin inventar pasos
+    at.button(key="ver_pasos").click().run()
+    t = textos(at)
+    caso("pasos: sin modelo, el aviso y las cláusulas sobre el aviso del siniestro",
+         not at.exception and "No pude redactar los pasos ahora" in t and any("Aviso" in e.label for e in at.expander), str(at.exception))
+
+    # Radiografía del condicionado de ejemplo: la versionada, con sus citas
+    at.button(key="ver_radiografia").click().run()
+    t = textos(at)
+    caso("radiografía: qué cubre, exclusiones, deducibles y carencias, con el aviso de que es un resumen",
+         not at.exception and all(x in t for x in ("Qué cubre y hasta cuánto", "Exclusiones principales", "Deducibles y copagos",
+                                                    "Carencias y períodos de espera", "no la póliza entera")), str(at.exception))
+
     # Red de seguridad: una pregunta sin grabación (el proveedor de maqueta no responde)
     at.text_area(key="pregunta").set_value("¿Me cubren si pierdo el pasaporte en Cusco?").run()
-    at.button[0].click().run()
+    at.button(key="preguntar").click().run()
     t = textos(at)
     html = "\n".join(m.value for m in at.markdown)
     caso("red de seguridad: sin errores", not at.exception, str(at.exception))
@@ -169,7 +182,7 @@ def main() -> int:
     # Sin normalización en la caché para estos archivos, el proveedor de maqueta cae en la red
     # de seguridad: muestra los pasajes encontrados con el archivo de cada uno
     at.text_area(key="pregunta").set_value("¿Me cubren la continuación de tratamiento en mi país de residencia?").run()
-    at.button[0].click().run()
+    at.button(key="preguntar").click().run()
     caso("dos PDF: responde sin errores", not at.exception, str(at.exception))
     etiquetas = [e.label for e in at.expander]
     caso("dos PDF: cada pasaje dice de qué archivo sale y su página",
