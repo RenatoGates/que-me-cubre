@@ -26,7 +26,9 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: QMC_LIMITE_DISPOSITIVO_DIA
-        value: "10"
+        value: "3"
+      - key: QMC_CLAVE_DATOS
+        sync: false
       - key: QMC_LIMITE_IP_DIA
         value: "60"
       - key: QMC_TOPE_GLOBAL_USD

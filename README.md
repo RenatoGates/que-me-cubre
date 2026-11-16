@@ -9,17 +9,16 @@ Datos con Python. Enunciado: [d2cml-ai/Data-Science-Python#204](https://github.c
 > **Aviso.** Esta herramienta es informativa. La decisión final sobre la cobertura la
 > toma la aseguradora.
 >
-> **Privacidad.** El PDF que subes viaja al servidor de la app, que lo procesa en memoria: no
-> se guarda en disco ni en registros, y se borra de la memoria al vencer (60 minutos sin uso),
-> al pedirlo o al reiniciarse el servidor. Salen hacia terceros dos cosas: el texto de la
-> póliza va a Voyage AI, que calcula los vectores para buscar en ella; y tu pregunta con los
-> fragmentos encontrados (no el PDF entero) va a Anthropic, que redacta la respuesta. Anthropic
-> borra entradas y salidas de su API dentro de los 30 días
-> ([retención](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data));
-> no es retención cero, como sí lo era Groq en el prototipo. Las preguntas no se registran: el
-> registro de uso (Langfuse) está programado pero apagado, y si se activa guarda el texto de la
-> pregunta, nunca la póliza ni la respuesta. Para los topes de uso se guarda un hash del
-> identificador del dispositivo y de la IP, no los valores.
+> **Privacidad.** Sin cuenta, nada se guarda: el PDF que subes se procesa en la memoria del
+> servidor y se borra de ahí a los 60 minutos sin uso, al pedirlo o al reiniciarse el servidor.
+> Con cuenta, y solo si eliges guardar la póliza, se guardan cifrados su texto, sus vectores
+> y tus últimas 20 consultas; el archivo PDF no se guarda. La llave del cifrado está en el
+> servidor de quien administra la app, que por lo tanto podría leer ese contenido. Salen hacia
+> terceros el texto de la póliza (a Voyage AI, que calcula los vectores) y tu pregunta con los
+> fragmentos encontrados (a Anthropic, que redacta la respuesta y borra lo recibido dentro de
+> los 30 días). El detalle está en [`docs/privacidad.md`](docs/privacidad.md).
+>
+> **Regla de las citas.** Toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta.
 
 ---
 
@@ -67,7 +66,7 @@ En la rama `fase-2-funciones`. Medido con el modelo real en [`pruebas/fase2.md`]
 
 **Qué decide el modelo y qué decide el código.** El modelo clasifica el texto (¿falta
 información?, ¿cuántas preguntas?), y redacta pasos y resúmenes citando. El código verifica
-cada cita contra su página del PDF, descarta lo que no tenga cita válida, acepta un plazo solo
+cada cita contra el texto de su página, descarta lo que no tenga cita válida, acepta un plazo solo
 si su número está escrito en su cita (en cifras o en palabras), lee la fecha del hecho del
 texto ("ayer", "hace 3 días", "el 12 de noviembre") y calcula la fecha límite. Cuando el
 plazo es en días hábiles no cuenta feriados, y lo dice; cuando la póliza no dice el tipo de
@@ -105,6 +104,45 @@ prueba salieron con todas las citas verificadas por los dos lectores.
 **Costo del paso nuevo.** El triage que detecta preguntas vagas o múltiples es una llamada
 corta antes de cada consulta: USD 0,00014 y 1,9 s en promedio (2,4 s la más larga).
 
+
+## Fase 3: cuentas, pólizas guardadas e historial
+
+En la rama `fase-3-cuentas`. Probado sin red en [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)
+(46 casos) y, la pantalla, en [`pruebas/probar_app.py`](pruebas/probar_app.py).
+
+| Función | Resultado | Archivo |
+|---|---|---|
+| Guardar la póliza sin el PDF | Una póliza cargada de la base no tiene PDF y responde con las mismas citas y páginas que con él, todas verificadas por los dos extractores | [`backend/guardado.py`](backend/guardado.py), [`ai/verificacion.py`](ai/verificacion.py) |
+| Cifrado | AES-256-GCM aplicado por la app; en la base no aparece texto de la póliza, de la pregunta ni la contraseña; un contenido no se descifra para otra cuenta | [`backend/guardado.py`](backend/guardado.py) |
+| Cuenta | Correo y contraseña (hash scrypt). Sin recuperación de contraseña: no existe ese endpoint y el registro lo avisa | [`backend/cuentas.py`](backend/cuentas.py) |
+| Consentimiento | La casilla no viene marcada; sin aceptarla el registro se rechaza | [`backend/cuentas.py`](backend/cuentas.py), [`docs/privacidad.md`](docs/privacidad.md) |
+| Póliza temporal (plan gratis) | Fecha exacta de borrado, a 7 días, al guardarla y al abrirla. Adelantando el reloj: a los 6 días y 23 horas sigue; a los 7 días no queda ninguna fila suya | [`backend/guardado.py`](backend/guardado.py) (`purgar`) |
+| Historial | Últimas 20 consultas por póliza, con su respuesta y sus citas verificadas; se borran una por una | [`backend/guardado.py`](backend/guardado.py) |
+| Límites ordenados | Sin cuenta: 3 al día y 15 al mes. Cuenta gratis: 30 al mes y 1 póliza. Cuenta pagada: 10 al día y 4 pólizas | [`backend/main.py`](backend/main.py) (`cupo`), [`backend/limites.py`](backend/limites.py) |
+| Borrar la cuenta y todo | Pide la contraseña; después no queda ninguna fila en ninguna tabla, ni sus contadores, y la sesión deja de servir | [`backend/guardado.py`](backend/guardado.py) (`borrar_todo`) |
+| Plan pagado | Se activa a mano (`python -m backend.cuentas --plan pagado correo`); el punto donde entrará la pasarela está marcado | [`backend/cuentas.py`](backend/cuentas.py) (`cambiar_plan`) |
+
+**Un solo módulo guarda contenido.** Todo lo que se guarda de una póliza o de una consulta
+pasa por [`backend/guardado.py`](backend/guardado.py): si más adelante se guardan archivos,
+se toca ese archivo. Las tablas (`usuarios`, `sesiones`, `polizas`, `consultas`) viven en la
+misma base que los contadores (`DATABASE_URL`, Neon). La llave del cifrado es
+`QMC_CLAVE_DATOS`; sin ella no se crean cuentas y lo demás funciona igual.
+
+**Cómo se verifica sin el PDF.** Al subir una póliza, el texto de cada página se extrae con
+pdfplumber y con pypdf y queda guardado junto al índice. Las citas se comparan contra ese
+texto. Es lo mismo que antes se hacía reabriendo el PDF, hecho una sola vez.
+
+**El borrado automático no depende de un reloj externo.** El servidor gratuito se duerme, así
+que no hay tarea programada: la limpieza corre al arrancar y, como mucho una vez por hora,
+al atender. Una póliza vencida no se entrega aunque la limpieza todavía no haya pasado.
+
+**¿Es rentable el pago único de S/ 3,99?** Una consulta cuesta USD 0,0016 más USD 0,00014 del
+triage ([`pruebas/resultados.md`](pruebas/resultados.md), [`pruebas/fase2.md`](pruebas/fase2.md)).
+Guardar no cuesta: Neon y los embeddings están dentro de sus planes gratuitos. Un perfil
+pagado con 4 pólizas y 2 preguntas por póliza al mes hace 8 consultas: 8 × 0,00174 ≈
+USD 0,014 al mes. El peor caso, usar las 10 consultas todos los días, son 300 al mes:
+≈ USD 0,52 al mes. El tope global de USD 2,00 al mes corta antes de que varios perfiles así
+se sumen.
 
 ## Instalación
 
@@ -145,6 +183,7 @@ python probar_subida.py
 python probar_api.py
 python probar_fase2.py
 python probar_mapa_portero.py
+python probar_cuentas.py
 python probar_app.py
 ```
 
@@ -173,7 +212,12 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 | `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
 | `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella |
 | `POST /superposiciones` | Coberturas que podrían superponerse entre 2 a 4 pólizas |
-| `GET /uso` | Consultas usadas y restantes hoy para el dispositivo |
+| `GET /uso` | Consultas que le quedan hoy y este mes a quien pregunta (dispositivo o cuenta) |
+| `POST /cuenta/registro`, `POST /cuenta/sesion`, `DELETE /cuenta/sesion` | Crear cuenta (con la casilla de privacidad aceptada), entrar y salir. La sesión va en `Authorization: Bearer …` |
+| `GET /cuenta`, `GET /cuenta/avisos` | La cuenta con sus pólizas guardadas y su fecha de borrado; los textos que hay que mostrar antes de registrarse |
+| `POST /polizas/{id}/guardar` | Guarda en la cuenta la póliza recién subida (su texto, no el PDF) y devuelve la fecha de borrado |
+| `GET /polizas/{id}/consultas`, `DELETE /consultas/{id}` | Historial de una póliza guardada; borrar una consulta |
+| `DELETE /cuenta` | Borra la cuenta y todo, pidiendo la contraseña |
 | `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona, con el centro del distrito para centrar el mapa |
 | `GET /mapa/con-internamiento` | Hospitales y clínicas con internamiento de todo el país, para calcular lo más cercano en el cliente |
 | `GET /polizas/{id}/clinicas` | Clínicas que el condicionado nombra literalmente, cada una con su cita verificada (sin modelo) |
@@ -182,8 +226,8 @@ El cliente manda un identificador propio en `X-Dispositivo`. Al cliente va solo 
 verificado: la salida cruda del modelo y los descartes no salen de la API.
 
 **Topes de gasto** ([`backend/limites.py`](backend/limites.py), probados en
-[`pruebas/probar_api.py`](pruebas/probar_api.py)): 10 consultas al día por dispositivo
-(`QMC_LIMITE_DISPOSITIVO_DIA`), 60 por IP como respaldo, y un tope global mensual en dólares
+[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): sin cuenta, 3 consultas al día y 15 al mes por dispositivo; con
+cuenta gratis, 30 al mes; con cuenta pagada, 10 al día; 60 por IP como respaldo, y un tope global mensual en dólares
 (`QMC_TOPE_GLOBAL_USD`, 2,00). Al llegar al global la API no se cae: responde las cláusulas
 encontradas, sin veredicto, que es la red de seguridad que ya existía.
 
@@ -256,7 +300,7 @@ lenguaje con salidas estructuradas permiten convertir una pregunta coloquial al 
 técnico de una póliza; hay proveedores con plan gratuito que lo hacen viable sin
 presupuesto; y un agente de programación permite que una persona construya y despliegue el
 flujo completo en días. Nada de esto reemplaza lo importante, que es que el producto no
-invente: eso se resolvió con código, verificando cada cita contra su página del PDF.
+invente: eso se resolvió con código, verificando cada cita contra el texto de su página.
 
 ## 6. Demo
 
@@ -293,7 +337,7 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
 |---|---|---|
 | Extraer texto, página y artículo | pdfplumber (sin modelo) | Los condicionados tienen capa de texto; no hace falta OCR |
 | Buscar los pasajes | Embeddings de `voyage-4-large` por API, con la pregunta tal como se escribió | "Me torcí el dedo" no está en ninguna póliza; "Gastos Médicos por Accidente" sí. Los vectores acercan las dos cosas sin pasar por el modelo. Medido abajo |
-| Redactar la respuesta JSON con citas | Claude Haiku 5.5, salida con esquema JSON | Las citas se verifican después contra el PDF y el texto libre se recorta si nombra algo que no está citado. El veredicto es el campo estructurado `cubre`, no el texto |
+| Redactar la respuesta JSON con citas | Claude Haiku 5.5, salida con esquema JSON | Las citas se verifican después contra el texto de su página, extraído del PDF al subirlo, y el texto libre se recorta si nombra algo que no está citado. El veredicto es el campo estructurado `cubre`, no el texto |
 | Avisar lo que la póliza menciona pero no trae | Código ([`ai/referencias.py`](ai/referencias.py)), sin modelo | Igual que en el prototipo: B4 y las remisiones salen siempre, con su mención literal y su página |
 | Respaldo de la búsqueda | BM25 con 3-5 variantes que escribe el modelo | Si no hay clave de Voyage, la póliza no tiene vectores o Voyage falla, la búsqueda no se cae: vuelve al método del prototipo, que sí necesita la llamada de normalización |
 
@@ -426,7 +470,7 @@ de P02, no reintentar en la app y revertir la regla del "Sí"/"No".
 Lo que hizo el agente:
 
 - Extracción con página y artículo, troceado, índice BM25, normalización anclada al
-  documento, verificación de citas contra el PDF con dos lectores, bloque de lo mencionado
+  documento, verificación de citas contra el texto de cada página con dos lectores, bloque de lo mencionado
   pero ausente, red de seguridad, la app de Streamlit y la pestaña del mapa.
 - Pruebas sin red ni cuota:
   [`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py) (42 casos),
@@ -436,8 +480,10 @@ Lo que hizo el agente:
   modelo), [`pruebas/probar_fase2.py`](pruebas/probar_fase2.py) (35: fechas y plazos,
   repregunta, varias preguntas, pasos, radiografías y superposiciones),
   [`pruebas/probar_mapa_portero.py`](pruebas/probar_mapa_portero.py) (21: portero, reparación
-  de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación) y
-  [`pruebas/probar_app.py`](pruebas/probar_app.py) (36: el Streamlit contra la API, con
+  de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación),
+  [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py) (46: cuentas, guardado sin PDF, cifrado,
+  límites por plan, borrado automático y borrado total) y
+  [`pruebas/probar_app.py`](pruebas/probar_app.py) (45: el Streamlit contra la API, incluida la cuenta, con
   respuestas grabadas).
 - Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
   citas, la cuota por minuto y por día, y las opciones de recorte (todo en `pruebas/`).
@@ -495,6 +541,12 @@ que-me-cubre/
 - **Mapfre e Interseguro no tienen preguntas de prueba.** Se comprobó a mano que responden
   con citas verificadas, pero ninguna de las 10 preguntas medidas es sobre ellos (8 son de
   Chubb).
+- **Cuentas:** el correo no se verifica (no hay proveedor de correo), así que alguien puede
+  registrarse con un correo ajeno, y quien olvida su contraseña pierde el acceso a lo guardado.
+  El cifrado no protege del administrador: la llave está en su servidor. Si esa llave se
+  pierde, lo guardado no se puede descifrar. El proveedor de la base puede conservar copias
+  de respaldo por un tiempo después de un borrado. El cobro del plan pagado no existe: se
+  activa a mano.
 - **El tope por dispositivo se puede saltar.** Sin cuentas, el "dispositivo" es un
   identificador que genera el cliente: reinstalar la app o recargar el Streamlit da uno nuevo.
   El tope por IP y el global mensual son los que de verdad acotan el gasto.
@@ -563,7 +615,7 @@ que-me-cubre/
   preguntas, así que ellas no permiten elegir entre ellos. Nueve preguntas no alcanzan para
   calibrar nada; haría falta un conjunto de preguntas bastante más grande, escrito sin mirar
   los resultados ([`pruebas/normalizacion.md`](pruebas/normalizacion.md)).
-- **Verificación de citas:** la cita tiene que estar en el pasaje y en su página del PDF,
+- **Verificación de citas:** toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta. La cita tiene que estar en el pasaje y en el texto de su página,
   carácter por carácter. Se ignoran los espacios, los saltos de línea y los guiones de fin de
   línea (el PDF corta las palabras), las comillas tipográficas y un único signo de puntuación
   al final de la cita (. : ; ,), porque el modelo suele cerrar con punto una cita que en el

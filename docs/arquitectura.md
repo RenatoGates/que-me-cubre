@@ -16,7 +16,7 @@ flowchart TD
         PRE["POST /preguntar → ai/respuesta.py"]
         BUS["Búsqueda (ai/recuperacion.py)<br/>embeddings con la pregunta tal cual → 5 pasajes<br/>respaldo: normalización + BM25"]
         RESP["Responder: JSON con esquema<br/>pasajes dentro de un delimitador al azar, marcados como datos<br/>alcance limitado: fuera de eso, fuera_de_alcance"]
-        VER["Validación por código<br/>cada cita literal en su pasaje y en su página del PDF<br/>bloque de lo mencionado pero ausente"]
+        VER["Validación por código<br/>cada cita literal en su pasaje y en el texto de su página<br/>(extraído del PDF al subirlo, con dos extractores)<br/>bloque de lo mencionado pero ausente"]
         RED["Red de seguridad<br/>cláusulas encontradas, «Sin veredicto»<br/>(falla del modelo o tope global alcanzado)"]
         MAPA["GET /mapa/… (ai/renipress.py)"]
     end
@@ -58,7 +58,7 @@ flowchart TD
     RESP["Respuesta de la Fase 1<br/>veredicto, citas verificadas, ausentes"]
     FEC["Fecha del hecho (ai/fechas.py)<br/>«ayer», «hace 3 días», «el 12 de noviembre»"]
     PAS["POST /pasos (ai/pasos.py)<br/>plazo, a quién avisar, documentos, pasos"]
-    VAL["Código: cada cita en su página del PDF<br/>plazo aceptado solo si su número está en su cita<br/>fecha límite = fecha del hecho + plazo"]
+    VAL["Código: cada cita en el texto de su página<br/>plazo aceptado solo si su número está en su cita<br/>fecha límite = fecha del hecho + plazo"]
     RAD["GET /polizas/{id}/radiografia (ai/radiografia.py)<br/>un pasaje por sección + cinco temas → resumen con citas"]
     SUP["POST /superposiciones<br/>pares de coberturas de pólizas distintas"]
 
@@ -79,6 +79,17 @@ Si el triage falla, la consulta sigue como una sola pregunta. Las radiografías 
 condicionados públicos están versionadas en `data/cache/radiografias/`; la de una póliza
 subida se genera una vez y vive en memoria con ella. La red de clínicas del anexo no está
 construida: ninguna de las pólizas precargadas trae ese anexo.
+
+## Fase 3: qué se guarda
+
+**Regla de las citas.** Toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta.
+
+Sin cuenta nada cambia: la póliza vive en memoria. Con cuenta, `backend/guardado.py` es el
+único módulo que guarda contenido: el índice de la póliza (fragmentos, vectores y el texto de
+cada página con los dos extractores) y las últimas 20 consultas, cifrados con AES-256-GCM
+antes de llegar a Neon. El PDF no se guarda. Una póliza cargada de la base se verifica contra
+el texto de páginas guardado. `backend/cuentas.py` lleva el correo, el hash de la contraseña,
+las sesiones y el plan. La política completa está en [`privacidad.md`](privacidad.md).
 
 ## Prototipo (rama `main`)
 

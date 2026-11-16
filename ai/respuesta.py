@@ -474,7 +474,7 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
     except ErrorLLM as e:
         return _solo_clausulas(pregunta, poliza, proveedor, norm, e, k, usos, desde_cache)
 
-    avisar("Verificando cada cita contra tu PDF…")
+    avisar("Verificando cada cita contra el texto de tu póliza…")
     ausentes = mencionadas_ausentes(pasajes, poliza)
     final, descartes = _validar(crudo, pasajes, poliza, ausentes)
     return {
