@@ -32,6 +32,7 @@ os.environ.update({
     "QMC_PROVEEDOR": "grabado",
     "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
     "QMC_LIMITE_DISPOSITIVO_DIA": "50",
+    "QMC_LIMITE_DISPOSITIVO_MES": "200",
     "LANGFUSE_PUBLIC_KEY": "",
     "LANGFUSE_SECRET_KEY": "",
     "VOYAGE_API_KEY": "",

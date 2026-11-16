@@ -17,6 +17,8 @@ from __future__ import annotations
 import datetime as dt
 import math
 import threading
+import time
+from dataclasses import dataclass
 from contextlib import asynccontextmanager
 from functools import lru_cache
 from pathlib import Path
@@ -35,10 +37,10 @@ from ai import clinicas, embeddings, pasos, radiografia, renipress, subida  # no
 from ai.llm import ErrorLLM, LimiteAlcanzado, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
 from ai.recuperacion import metodo_efectivo  # noqa: E402
 from ai.respuesta import Poliza, responder  # noqa: E402
-from backend import almacen, observabilidad  # noqa: E402
-from backend.limites import Limites, clave_dispositivo, clave_ip  # noqa: E402
+from backend import almacen, cuentas, guardado, observabilidad  # noqa: E402
+from backend.limites import LIMA, Limites, clave_dispositivo, clave_ip  # noqa: E402
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 MAX_ARCHIVOS = 6
 MAX_BYTES = 20 * 1024 * 1024  # por archivo
 MultiPartParser.spool_max_size = MAX_BYTES + 1
@@ -48,7 +50,21 @@ subidas = almacen.Subidas()
 
 @lru_cache(maxsize=1)
 def limites() -> Limites:
-    return Limites()
+    lim = Limites()
+    guardado.crear_tablas(lim.motor)  # cuentas, pólizas guardadas e historial: misma base que los contadores
+    return lim
+
+
+_ultima_limpieza = 0.0
+
+
+def limpiar_vencido() -> None:
+    """Borra pólizas vencidas, sesiones vencidas y cuentas inactivas; como mucho una vez por hora.
+    El servidor gratuito se duerme, así que no hay tarea programada: se hace al atender."""
+    global _ultima_limpieza
+    if time.monotonic() - _ultima_limpieza > 3600 or _ultima_limpieza == 0.0:
+        _ultima_limpieza = time.monotonic()
+        guardado.purgar(limites().motor)
 
 
 class SinModelo:
@@ -84,6 +100,7 @@ def proveedor_por_tope() -> SinModelo:
 async def ciclo(_app: FastAPI):
     observabilidad.activar()
     limites()
+    limpiar_vencido()
     yield
     observabilidad.cerrar()
 
@@ -106,9 +123,65 @@ def dispositivo_valido(dispositivo: str | None) -> str:
     return dispositivo
 
 
-def buscar_poliza(poliza_id: str) -> Poliza:
+@dataclass
+class Quien:
+    """Quién hace la petición: una cuenta (con sesión) o un dispositivo sin cuenta."""
+
+    cuenta: dict | None
+    dispositivo: str | None  # hash del identificador que manda el cliente
+
+    @property
+    def plan(self) -> str:
+        return self.cuenta["plan"] if self.cuenta else "sin_cuenta"
+
+    @property
+    def clave(self) -> str:
+        return "u:" + self.cuenta["usuario_id"] if self.cuenta else self.dispositivo
+
+
+def token_de(authorization: str | None) -> str | None:
+    return authorization[7:].strip() if authorization and authorization.lower().startswith("bearer ") else None
+
+
+def quien_es(x_dispositivo: str | None, authorization: str | None, exigir_cuenta: bool = False) -> Quien:
+    token = token_de(authorization)
+    cuenta = cuentas.de_sesion(limites().motor, token) if token else None
+    if token and cuenta is None:
+        raise error(401, "sesion_vencida", "Tu sesión venció. Vuelve a entrar.")
+    if cuenta is None and exigir_cuenta:
+        raise error(401, "sin_sesion", "Para esto necesitas entrar a tu cuenta.")
+    return Quien(cuenta, None if cuenta else clave_dispositivo(dispositivo_valido(x_dispositivo)))
+
+
+def fecha_lima(momento) -> str | None:
+    return momento.astimezone(LIMA).strftime("%d/%m/%Y") if momento else None
+
+
+# Pólizas guardadas ya descifradas, por un rato: {id: (usuario, póliza, hasta cuándo sirve)}
+_guardadas: dict[str, tuple[str, Poliza, float]] = {}
+
+
+def poliza_guardada(poliza_id: str, cuenta: dict | None) -> Poliza:
+    if cuenta is None:
+        raise error(401, "sin_sesion", "Esa póliza está guardada en una cuenta: entra para usarla.")
+    en_memoria = _guardadas.get(poliza_id)
+    if en_memoria and en_memoria[0] == cuenta["usuario_id"] and en_memoria[2] > time.monotonic():
+        return en_memoria[1]
+    poliza = guardado.cargar_poliza(limites().motor, cuenta["usuario_id"], poliza_id)
+    if poliza is None:
+        _guardadas.pop(poliza_id, None)
+        raise error(404, "poliza_no_encontrada", "Esa póliza guardada ya no existe: se borró o venció. Vuelve a subir tu PDF.")
+    while len(_guardadas) >= 10:
+        _guardadas.pop(next(iter(_guardadas)))
+    _guardadas[poliza_id] = (cuenta["usuario_id"], poliza, time.monotonic() + 600)
+    return poliza
+
+
+def buscar_poliza(poliza_id: str, cuenta: dict | None = None) -> Poliza:
     if poliza_id in almacen.fuentes():
         return almacen.precargada(poliza_id)
+    if poliza_id.startswith("g_"):
+        return poliza_guardada(poliza_id, cuenta)
     poliza = subidas.obtener(poliza_id)
     if poliza is None:
         raise error(404, "poliza_no_encontrada", "Esa póliza ya no está en memoria. Vuelve a subir tu PDF.")
@@ -151,16 +224,19 @@ def info() -> dict:
         "embeddings": embeddings.modelo() if embeddings.disponible() else None,
         "registra_preguntas": observabilidad.activo(),
         "limite_consultas_dia": lim.limite_dispositivo,
+        "limites": {"sin_cuenta": {"dia": lim.limite_dispositivo, "mes": lim.limite_dispositivo_mes, "polizas_guardadas": 0},
+                    "gratis": {"mes": lim.limite_gratis_mes, "polizas_guardadas": cuentas.polizas_permitidas("gratis"),
+                               "dias_de_guardado": cuentas.dias_de_guardado("gratis")},
+                    "pagado": {"dia": lim.limite_pagado_dia, "polizas_guardadas": cuentas.polizas_permitidas("pagado")}},
+        "cuentas_disponibles": guardado.hay_llave(),
         "sin_modelo_por_tope": lim.tope_global_alcanzado(),
     }
 
 
 @app.get("/uso")
-def uso(x_dispositivo: str | None = Header(default=None)) -> dict:
+def uso(x_dispositivo: str | None = Header(default=None), authorization: str | None = Header(default=None)) -> dict:
     lim = limites()
-    usadas = lim.usadas(clave_dispositivo(dispositivo_valido(x_dispositivo)))
-    return {"limite_dia": lim.limite_dispositivo, "usadas_hoy": usadas,
-            "restantes_hoy": max(0, lim.limite_dispositivo - usadas), "sin_modelo_por_tope": lim.tope_global_alcanzado()}
+    return estado_limites(lim, quien_es(x_dispositivo, authorization), lim.tope_global_alcanzado())
 
 
 # ---------------------------------------------------------------------------
@@ -178,8 +254,8 @@ def polizas_de_ejemplo() -> list[dict]:
 
 
 @app.get("/polizas/{poliza_id}")
-def ver_poliza(poliza_id: str) -> dict:
-    return resumen_poliza(poliza_id, buscar_poliza(poliza_id))
+def ver_poliza(poliza_id: str, authorization: str | None = Header(default=None)) -> dict:
+    return resumen_poliza(poliza_id, buscar_poliza(poliza_id, cuentas.de_sesion(limites().motor, token_de(authorization))))
 
 
 @app.post("/polizas", status_code=201)
@@ -209,9 +285,13 @@ async def subir_poliza(request: Request, archivos: list[UploadFile] = File(...),
 
 
 @app.delete("/polizas/{poliza_id}")
-def borrar_poliza(poliza_id: str) -> dict:
+def borrar_poliza(poliza_id: str, x_dispositivo: str | None = Header(default=None), authorization: str | None = Header(default=None)) -> dict:
     if poliza_id in almacen.fuentes():
         raise error(400, "es_de_ejemplo", "Los condicionados de ejemplo no se borran.")
+    if poliza_id.startswith("g_"):  # una póliza guardada: se borra de la base con todo su historial
+        q = quien_es(x_dispositivo, authorization, exigir_cuenta=True)
+        _guardadas.pop(poliza_id, None)
+        return {"borrada": guardado.borrar_poliza(limites().motor, q.cuenta["usuario_id"], poliza_id)}
     return {"borrada": subidas.borrar(poliza_id)}
 
 
@@ -241,45 +321,86 @@ def limpiar(r: dict) -> dict:
     return r
 
 
-def cupo(request: Request, x_dispositivo: str | None) -> tuple[Limites, str]:
-    """Cuenta una consulta para el dispositivo y para la IP, o responde 429."""
-    dispositivo = clave_dispositivo(dispositivo_valido(x_dispositivo))
+def cupo(request: Request, q: Quien) -> Limites:
+    """Cuenta una consulta según quién pregunta, o responde 429.
+    Sin cuenta: por día y por mes, y además por IP. Cuenta gratis: por mes. Cuenta pagada: por día."""
     lim = limites()
-    if not lim.tomar(dispositivo, lim.limite_dispositivo):
-        raise error(429, "limite_dispositivo",
-                    f"Llegaste al límite de {lim.limite_dispositivo} consultas por hoy. Mañana se renueva.",
-                    limite_dia=lim.limite_dispositivo)
-    if not lim.tomar(clave_ip(ip_de(request)), lim.limite_ip):
-        lim.devolver(dispositivo)
-        raise error(429, "limite_red", "Desde esta red ya se hicieron demasiadas consultas hoy. Mañana se renueva.")
-    return lim, dispositivo
+    if q.plan == "pagado":
+        if not lim.tomar(q.clave, lim.limite_pagado_dia):
+            raise error(429, "limite_cuenta", f"Llegaste al límite de {lim.limite_pagado_dia} consultas por hoy. Mañana se renueva.")
+    elif q.plan == "gratis":
+        if not lim.tomar(q.clave, lim.limite_gratis_mes, lim.mes()):
+            raise error(429, "limite_cuenta", f"Llegaste al límite de {lim.limite_gratis_mes} consultas de este mes de tu cuenta gratuita.")
+    else:
+        if not lim.tomar(q.clave, lim.limite_dispositivo):
+            raise error(429, "limite_dispositivo", f"Sin cuenta puedes hacer {lim.limite_dispositivo} consultas al día. Mañana se "
+                        f"renueva; con una cuenta gratuita tienes {lim.limite_gratis_mes} al mes.", limite_dia=lim.limite_dispositivo)
+        if not lim.tomar(q.clave, lim.limite_dispositivo_mes, lim.mes()):
+            lim.devolver(q.clave)
+            raise error(429, "limite_dispositivo", f"Sin cuenta puedes hacer {lim.limite_dispositivo_mes} consultas al mes. Con una "
+                        f"cuenta gratuita tienes {lim.limite_gratis_mes}.", limite_mes=lim.limite_dispositivo_mes)
+        if not lim.tomar(clave_ip(ip_de(request)), lim.limite_ip):
+            devolver_cupo(lim, q)
+            raise error(429, "limite_red", "Desde esta red ya se hicieron demasiadas consultas hoy. Mañana se renueva.")
+    return lim
 
 
-def estado_limites(lim: Limites, dispositivo: str, por_tope: bool) -> dict:
-    return {"limite_dia": lim.limite_dispositivo, "restantes_hoy": max(0, lim.limite_dispositivo - lim.usadas(dispositivo)),
+def otra_consulta(lim: Limites, q: Quien) -> bool:
+    """Una consulta más del mismo texto (varias preguntas): ¿queda cupo?"""
+    if q.plan == "pagado":
+        return lim.tomar(q.clave, lim.limite_pagado_dia)
+    if q.plan == "gratis":
+        return lim.tomar(q.clave, lim.limite_gratis_mes, lim.mes())
+    if not lim.tomar(q.clave, lim.limite_dispositivo):
+        return False
+    if not lim.tomar(q.clave, lim.limite_dispositivo_mes, lim.mes()):
+        lim.devolver(q.clave)
+        return False
+    return True
+
+
+def devolver_cupo(lim: Limites, q: Quien) -> None:
+    if q.plan != "gratis":
+        lim.devolver(q.clave)
+    if q.plan != "pagado":
+        lim.devolver(q.clave, lim.mes())
+
+
+def estado_limites(lim: Limites, q: Quien, por_tope: bool) -> dict:
+    """Cuánto le queda a quien pregunta. Los campos que no aplican a su plan van en None."""
+    dia = {"pagado": lim.limite_pagado_dia, "sin_cuenta": lim.limite_dispositivo}.get(q.plan)
+    mes = {"gratis": lim.limite_gratis_mes, "sin_cuenta": lim.limite_dispositivo_mes}.get(q.plan)
+    return {"plan": q.plan,
+            "limite_dia": dia, "restantes_hoy": None if dia is None else max(0, dia - lim.usadas(q.clave)),
+            "limite_mes": mes, "restantes_mes": None if mes is None else max(0, mes - lim.usadas(q.clave, lim.mes())),
             "sin_modelo_por_tope": por_tope}
 
 
 @app.post("/preguntar")
-def preguntar(consulta: Consulta, request: Request, x_dispositivo: str | None = Header(default=None)) -> dict:
+def preguntar(consulta: Consulta, request: Request, x_dispositivo: str | None = Header(default=None),
+              authorization: str | None = Header(default=None)) -> dict:
     pregunta = consulta.pregunta.strip()
-    poliza = buscar_poliza(consulta.poliza_id)
-    lim, dispositivo = cupo(request, x_dispositivo)
+    q = quien_es(x_dispositivo, authorization)
+    poliza = buscar_poliza(consulta.poliza_id, q.cuenta)
+    lim = cupo(request, q)
     por_tope = lim.tope_global_alcanzado()
     quien = proveedor_por_tope() if por_tope else proveedor()
-    tipo = "ejemplo" if consulta.poliza_id in almacen.fuentes() else "subida"
-    with observabilidad.consulta(pregunta, poliza=consulta.poliza_id if tipo == "ejemplo" else "subida") as anotar:
+    tipo = "ejemplo" if consulta.poliza_id in almacen.fuentes() else "guardada" if consulta.poliza_id.startswith("g_") else "subida"
+    with observabilidad.consulta(pregunta, poliza=consulta.poliza_id if tipo == "ejemplo" else tipo) as anotar:
         r = flujo.atender(pregunta, poliza, quien, [a.model_dump() for a in consulta.aclaraciones],
-                          permitir_otra=lambda: lim.tomar(dispositivo, lim.limite_dispositivo))
+                          permitir_otra=lambda: otra_consulta(lim, q))
         costo = r["uso"]["costo_usd"]
         if r["modo"] == "aclaracion":  # todavía no se respondió nada: no gasta una consulta del día
-            lim.devolver(dispositivo)
+            devolver_cupo(lim, q)
         respondidas = r.get("respuestas", [r])
         lim.registrar_gasto(costo, sin_modelo=any(x["modo"] == "solo_clausulas" for x in respondidas))
         anotar(modo=r["modo"], veredicto=[x.get("cubre") for x in respondidas], citas=sum(len(x.get("citas", [])) for x in respondidas),
                busqueda=metodo_efectivo(poliza.indice), costo_usd=costo, segundos=r["uso"]["segundos"],
                error=next((x.get("error") for x in respondidas if x.get("error")), None), por_tope=por_tope)
-    return limpiar(r) | {"limites": estado_limites(lim, dispositivo, por_tope)}
+    limpiar(r)
+    if tipo == "guardada" and r["modo"] != "aclaracion":  # historial: solo de pólizas guardadas en una cuenta
+        r["consulta_id"] = guardado.guardar_consulta(lim.motor, q.cuenta["usuario_id"], consulta.poliza_id, r)
+    return r | {"limites": estado_limites(lim, q, por_tope)}
 
 
 # ---------------------------------------------------------------------------
@@ -294,24 +415,27 @@ class PedidoPasos(BaseModel):
 
 
 @app.post("/pasos")
-def pasos_para_reclamar(pedido: PedidoPasos, request: Request, x_dispositivo: str | None = Header(default=None)) -> dict:
+def pasos_para_reclamar(pedido: PedidoPasos, request: Request, x_dispositivo: str | None = Header(default=None),
+                        authorization: str | None = Header(default=None)) -> dict:
     if pedido.fecha_hecho and pedido.fecha_hecho > dt.date.today() + dt.timedelta(days=1):
         raise error(400, "fecha_futura", "La fecha del hecho no puede ser futura.")
-    poliza = buscar_poliza(pedido.poliza_id)
-    lim, dispositivo = cupo(request, x_dispositivo)
+    q = quien_es(x_dispositivo, authorization)
+    poliza = buscar_poliza(pedido.poliza_id, q.cuenta)
+    lim = cupo(request, q)
     por_tope = lim.tope_global_alcanzado()
     r = pasos.que_hacer(poliza, pedido.situacion.strip(), pedido.fecha_hecho, proveedor_por_tope() if por_tope else proveedor())
     lim.registrar_gasto(r["uso"]["costo_usd"], sin_modelo=r["modo"] != "pasos")
-    return limpiar(r) | {"limites": estado_limites(lim, dispositivo, por_tope)}
+    return limpiar(r) | {"limites": estado_limites(lim, q, por_tope)}
 
 
 _candado_radiografia = threading.Lock()
 
 
-def radiografia_de(poliza_id: str) -> dict:
+def radiografia_de(poliza_id: str, cuenta: dict | None = None) -> dict:
     """La radiografía de la póliza: la versionada si es un condicionado de ejemplo; si es una
-    póliza subida, se genera una vez y queda en memoria junto con ella."""
-    poliza = buscar_poliza(poliza_id)
+    póliza subida, se genera una vez y queda en memoria junto con ella (y, si la póliza está
+    guardada en una cuenta, cifrada con ella)."""
+    poliza = buscar_poliza(poliza_id, cuenta)
     if poliza_id in almacen.fuentes():
         guardada = radiografia.guardada(poliza_id)
         if guardada is not None:
@@ -325,20 +449,22 @@ def radiografia_de(poliza_id: str) -> dict:
             hecha.pop("descartes", None)
             if hecha["modo"] == "radiografia":  # si el modelo falló, se reintenta la próxima vez
                 poliza.radiografia = hecha
+                if poliza_id.startswith("g_") and cuenta:
+                    guardado.actualizar_radiografia(lim.motor, cuenta["usuario_id"], poliza_id, hecha)
     return hecha
 
 
 @app.get("/polizas/{poliza_id}/radiografia")
-def ver_radiografia(poliza_id: str, x_dispositivo: str | None = Header(default=None)) -> dict:
-    dispositivo_valido(x_dispositivo)
-    return radiografia_de(poliza_id)
+def ver_radiografia(poliza_id: str, x_dispositivo: str | None = Header(default=None),
+                    authorization: str | None = Header(default=None)) -> dict:
+    return radiografia_de(poliza_id, quien_es(x_dispositivo, authorization).cuenta)
 
 
 @app.get("/polizas/{poliza_id}/clinicas")
-def clinicas_nombradas(poliza_id: str) -> dict:
+def clinicas_nombradas(poliza_id: str, authorization: str | None = Header(default=None)) -> dict:
     """Las clínicas que el condicionado nombra literalmente, cada una con su cita verificada.
     Sin modelo. Si no nombra ninguna, la lista va vacía y el cliente no muestra la sección."""
-    poliza = buscar_poliza(poliza_id)
+    poliza = buscar_poliza(poliza_id, cuentas.de_sesion(limites().motor, token_de(authorization)))
     halladas = getattr(poliza, "clinicas", None)
     if halladas is None:
         halladas = clinicas.nombradas(poliza)
@@ -352,17 +478,157 @@ class PedidoSuperposicion(BaseModel):
 
 
 @app.post("/superposiciones")
-def coberturas_superpuestas(pedido: PedidoSuperposicion, request: Request, x_dispositivo: str | None = Header(default=None)) -> dict:
+def coberturas_superpuestas(pedido: PedidoSuperposicion, request: Request, x_dispositivo: str | None = Header(default=None),
+                            authorization: str | None = Header(default=None)) -> dict:
     if len(set(pedido.poliza_ids)) != len(pedido.poliza_ids):
         raise error(400, "polizas_repetidas", "Elige pólizas distintas para comparar.")
+    q = quien_es(x_dispositivo, authorization)
     for poliza_id in pedido.poliza_ids:
-        buscar_poliza(poliza_id)
-    lim, dispositivo = cupo(request, x_dispositivo)
+        buscar_poliza(poliza_id, q.cuenta)
+    lim = cupo(request, q)
     por_tope = lim.tope_global_alcanzado()
-    pares = [(buscar_poliza(i).nombre, radiografia_de(i)) for i in pedido.poliza_ids]
+    pares = [(buscar_poliza(i, q.cuenta).nombre, radiografia_de(i, q.cuenta)) for i in pedido.poliza_ids]
     r = radiografia.superposiciones(pares, proveedor_por_tope() if por_tope else proveedor())
     lim.registrar_gasto(r.get("uso", {}).get("costo_usd", 0.0), sin_modelo=r["modo"] != "superposicion")
-    return r | {"limites": estado_limites(lim, dispositivo, por_tope)}
+    return r | {"limites": estado_limites(lim, q, por_tope)}
+
+
+# ---------------------------------------------------------------------------
+# Cuentas, pólizas guardadas e historial
+# ---------------------------------------------------------------------------
+
+AVISO_GUARDADO = ("Si creas una cuenta, guardamos el texto de tu póliza y tus últimas consultas para que no tengas que subirla "
+                  "de nuevo. No guardamos el archivo PDF. Todo se guarda cifrado, pero la llave está en nuestro servidor: quien "
+                  "administra la app podría leerlo. Puedes borrarlo cuando quieras. Sin cuenta, nada se guarda.")
+
+
+class Registro(BaseModel):
+    correo: str = Field(max_length=254)
+    clave: str = Field(max_length=200)
+    acepto_privacidad: bool = False  # la casilla no viene marcada: hay que aceptarla
+
+
+class Credenciales(BaseModel):
+    correo: str = Field(max_length=254)
+    clave: str = Field(max_length=200)
+
+
+class Confirmacion(BaseModel):
+    clave: str = Field(max_length=200)
+
+
+def _intento(request: Request) -> None:
+    lim = limites()
+    if not lim.tomar("a" + clave_ip(ip_de(request)), 30):
+        raise error(429, "demasiados_intentos", "Demasiados intentos desde esta red por hoy.")
+
+
+def datos_de_cuenta(cuenta: dict) -> dict:
+    lim = limites()
+    guardadas = guardado.listar_polizas(lim.motor, cuenta["usuario_id"])
+    for g in guardadas:
+        g["borrado_automatico"] = fecha_lima(g["borrar_el"])
+    return {"correo": cuenta["correo"], "plan": cuenta["plan"],
+            "polizas_permitidas": cuentas.polizas_permitidas(cuenta["plan"]), "dias_de_guardado": cuentas.dias_de_guardado(cuenta["plan"]),
+            "polizas": guardadas, "limites": estado_limites(lim, Quien(cuenta, None), lim.tope_global_alcanzado())}
+
+
+@app.get("/cuenta/avisos")
+def avisos_de_cuenta() -> dict:
+    """Los textos que el cliente tiene que mostrar antes de crear una cuenta."""
+    return {"guardado": AVISO_GUARDADO, "clave": cuentas.AVISO_CLAVE,
+            "consentimiento": "Acepto la política de privacidad y que se guarde el texto de mi póliza y mis consultas, que pueden "
+                              "incluir datos de salud.",
+            "disponible": guardado.hay_llave()}
+
+
+@app.post("/cuenta/registro", status_code=201)
+def registrar_cuenta(datos: Registro, request: Request) -> dict:
+    _intento(request)
+    if not guardado.hay_llave():
+        raise error(503, "cuentas_no_disponibles", "Las cuentas todavía no están activadas en este servidor.")
+    try:
+        token, cuenta = cuentas.registrar(limites().motor, datos.correo, datos.clave, datos.acepto_privacidad)
+    except cuentas.ErrorCuenta as e:
+        raise error(409 if e.codigo == "correo_en_uso" else 400, e.codigo, str(e)) from e
+    return {"token": token, "aviso_clave": cuentas.AVISO_CLAVE, "cuenta": datos_de_cuenta(cuenta)}
+
+
+@app.post("/cuenta/sesion")
+def entrar_a_la_cuenta(datos: Credenciales, request: Request) -> dict:
+    _intento(request)
+    limpiar_vencido()
+    try:
+        token, cuenta = cuentas.entrar(limites().motor, datos.correo, datos.clave)
+    except cuentas.ErrorCuenta as e:
+        raise error(401, e.codigo, str(e)) from e
+    return {"token": token, "cuenta": datos_de_cuenta(cuenta)}
+
+
+@app.delete("/cuenta/sesion")
+def salir_de_la_cuenta(authorization: str | None = Header(default=None)) -> dict:
+    if token_de(authorization):
+        cuentas.salir(limites().motor, token_de(authorization))
+    return {"sesion_cerrada": True}
+
+
+@app.get("/cuenta")
+def ver_cuenta(authorization: str | None = Header(default=None)) -> dict:
+    limpiar_vencido()
+    return datos_de_cuenta(quien_es(None, authorization, exigir_cuenta=True).cuenta)
+
+
+@app.delete("/cuenta")
+def borrar_cuenta(confirmacion: Confirmacion, authorization: str | None = Header(default=None)) -> dict:
+    """Borra la cuenta y todo: pólizas guardadas, historial, sesiones y contadores. Pide la contraseña."""
+    cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
+    lim = limites()
+    try:
+        cuentas.entrar(lim.motor, cuenta["correo"], confirmacion.clave)
+    except cuentas.ErrorCuenta as e:
+        raise error(401, "clave_incorrecta", "La contraseña no coincide: no borré nada.") from e
+    for poliza_id in [k for k, v in _guardadas.items() if v[0] == cuenta["usuario_id"]]:
+        _guardadas.pop(poliza_id, None)
+    borrado = guardado.borrar_todo(lim.motor, cuenta["usuario_id"])
+    lim.olvidar("u:" + cuenta["usuario_id"])
+    return {"cuenta_borrada": True, "filas_borradas": borrado}
+
+
+@app.post("/polizas/{poliza_id}/guardar", status_code=201)
+def guardar_poliza(poliza_id: str, authorization: str | None = Header(default=None)) -> dict:
+    """Guarda en la cuenta la póliza que se acaba de subir: su texto, sus vectores y el texto de
+    cada página. El PDF no se guarda."""
+    cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
+    if poliza_id in almacen.fuentes() or poliza_id.startswith("g_"):
+        raise error(400, "no_se_guarda", "Solo se guarda una póliza que acabas de subir.")
+    poliza = buscar_poliza(poliza_id)
+    lim = limites()
+    permitidas = cuentas.polizas_permitidas(cuenta["plan"])
+    if guardado.contar_polizas(lim.motor, cuenta["usuario_id"]) >= permitidas:
+        raise error(409, "limite_polizas", f"Tu plan guarda {permitidas} póliza{'s' if permitidas != 1 else ''}. Borra una para guardar otra."
+                    + ("" if cuenta["plan"] == "pagado" else f" El plan de pago único guarda {cuentas.polizas_permitidas('pagado')}, sin borrado automático."))
+    try:
+        g = guardado.guardar_poliza(lim.motor, cuenta["usuario_id"], poliza, cuentas.dias_de_guardado(cuenta["plan"]),
+                                    getattr(poliza, "radiografia", None))
+    except guardado.SinLlave as e:
+        raise error(503, "cuentas_no_disponibles", "El guardado todavía no está activado en este servidor.") from e
+    dia = fecha_lima(g["borrar_el"])
+    return g | {"borrado_automatico": dia,
+                "aviso": (f"Guardada. Se borrará sola el {dia}: desde ese día tendrás que volver a subir el PDF."
+                          if dia else "Guardada. No se borra sola: queda hasta que tú la borres.")}
+
+
+@app.get("/polizas/{poliza_id}/consultas")
+def historial(poliza_id: str, authorization: str | None = Header(default=None)) -> dict:
+    cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
+    poliza_guardada(poliza_id, cuenta)
+    return {"consultas": guardado.listar_consultas(limites().motor, cuenta["usuario_id"], poliza_id)}
+
+
+@app.delete("/consultas/{consulta_id}")
+def borrar_consulta(consulta_id: str, authorization: str | None = Header(default=None)) -> dict:
+    cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
+    return {"borrada": guardado.borrar_consulta(limites().motor, cuenta["usuario_id"], consulta_id)}
 
 
 # ---------------------------------------------------------------------------

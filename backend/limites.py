@@ -75,11 +75,25 @@ class Limites:
         _meta.create_all(self.motor)
         with self.motor.begin() as c:  # los contadores de días pasados no se necesitan
             ayer = (datetime.now(LIMA) - timedelta(days=1)).strftime("%Y-%m-%d")
-            c.execute(sa.delete(uso_diario).where(uso_diario.c.dia < ayer))
+            c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 10, uso_diario.c.dia < ayer))
+            c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 7, uso_diario.c.dia < self.mes()))
 
+    # Sin cuenta: 3 al día y 15 al mes. Cuenta gratis: 30 al mes. Cuenta pagada: 10 al día.
     @property
     def limite_dispositivo(self) -> int:
-        return _entero("QMC_LIMITE_DISPOSITIVO_DIA", 10)
+        return _entero("QMC_LIMITE_DISPOSITIVO_DIA", 3)
+
+    @property
+    def limite_dispositivo_mes(self) -> int:
+        return _entero("QMC_LIMITE_DISPOSITIVO_MES", 15)
+
+    @property
+    def limite_gratis_mes(self) -> int:
+        return _entero("QMC_LIMITE_GRATIS_MES", 30)
+
+    @property
+    def limite_pagado_dia(self) -> int:
+        return _entero("QMC_LIMITE_PAGADO_DIA", 10)
 
     @property
     def limite_ip(self) -> int:
@@ -93,15 +107,16 @@ class Limites:
     def tope_global_usd(self) -> float:
         return float(config("QMC_TOPE_GLOBAL_USD", "2.00") or 2.0)
 
-    def usadas(self, clave: str) -> int:
+    def usadas(self, clave: str, periodo: str | None = None) -> int:
         with self.motor.connect() as c:
-            fila = c.execute(sa.select(uso_diario.c.cuenta).where(uso_diario.c.clave == clave, uso_diario.c.dia == hoy()))
+            fila = c.execute(sa.select(uso_diario.c.cuenta).where(uso_diario.c.clave == clave, uso_diario.c.dia == (periodo or hoy())))
             return fila.scalar() or 0
 
-    def tomar(self, clave: str, limite: int) -> bool:
+    def tomar(self, clave: str, limite: int, periodo: str | None = None) -> bool:
         """Cuenta una más si no pasó el límite. La comparación y la suma van en una sola
-        sentencia: dos consultas simultáneas no pueden pasar las dos por el último cupo."""
-        t, dia = uso_diario, hoy()
+        sentencia: dos consultas simultáneas no pueden pasar las dos por el último cupo.
+        `periodo` es el día (por defecto, hoy) o el mes ("2026-11") al que se carga."""
+        t, dia = uso_diario, periodo or hoy()
         for _ in range(2):
             with self.motor.begin() as c:
                 suma = c.execute(sa.update(t).where(t.c.clave == clave, t.c.dia == dia, t.c.cuenta < limite)
@@ -120,10 +135,15 @@ class Limites:
                     pass
         return False
 
-    def devolver(self, clave: str) -> None:
+    def devolver(self, clave: str, periodo: str | None = None) -> None:
         t = uso_diario
         with self.motor.begin() as c:
-            c.execute(sa.update(t).where(t.c.clave == clave, t.c.dia == hoy(), t.c.cuenta > 0).values(cuenta=t.c.cuenta - 1))
+            c.execute(sa.update(t).where(t.c.clave == clave, t.c.dia == (periodo or hoy()), t.c.cuenta > 0).values(cuenta=t.c.cuenta - 1))
+
+    def olvidar(self, clave: str) -> None:
+        """Borra todos los contadores de una clave (al borrar una cuenta)."""
+        with self.motor.begin() as c:
+            c.execute(sa.delete(uso_diario).where(uso_diario.c.clave == clave))
 
     # --- global mensual ---
 
