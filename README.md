@@ -49,7 +49,33 @@ Son 10 preguntas y una corrida por configuración: alcanza para ver la direcció
 afirmar una tasa.
 
 Backend desplegado en Render (plan gratuito): <https://que-me-cubre-api.onrender.com>. Arranque en frío medido: 41,6 s ([`pruebas/arranque_render.md`](pruebas/arranque_render.md)); flujo completo contra esa URL en [`pruebas/desplegado.md`](pruebas/desplegado.md). Langfuse sigue apagado.
-Las dos cosas están programadas y sin desplegar; ver "Desplegar".
+
+## Fase 2: las funciones que cambian el producto
+
+En la rama `fase-2-funciones`. Medido con el modelo real en [`pruebas/fase2.md`](pruebas/fase2.md)
+(una corrida por caso) y probado sin red en [`pruebas/probar_fase2.py`](pruebas/probar_fase2.py).
+
+| Función | Qué hace | Medido |
+|---|---|---|
+| Repregunta | Si alguien escribe "me lesioné, ¿qué puedo hacer?", la app no busca ni adivina: pregunta qué pasó, dónde y cuándo. No gasta una consulta del día | Repregunta en 6 de 6 preguntas vagas y deja pasar 14 de 14 claras |
+| Varias preguntas | Las separa y responde cada una con su propia búsqueda y sus propias citas (hasta 3; cada una cuenta como una consulta) | 5 de 5 textos separados en el número esperado |
+| Qué hacer ahora | Plazo de aviso, a quién avisar, documentos y pasos, cada uno con su cita verificada | En los 5 condicionados encontró un plazo con su cita; entre 6,4 y 19,4 s y entre USD 0,0015 y 0,0034 |
+| Alerta de plazo | La fecha límite, calculada por código desde la fecha del hecho | Chubb: 30 días; Pacífico y Mapfre: 7 días; Rimac: 48 y 24 horas; Interseguro: 24 horas |
+| Radiografía | Qué cubre, hasta cuánto, exclusiones, deducibles y carencias, con citas | Entre 3 y 8 coberturas por condicionado, 13 a 30 citas verificadas, USD 0,0024 a 0,0033 |
+| ¿Pagas doble? | Con dos o más pólizas, coberturas que podrían superponerse | 8 posibles superposiciones entre Chubb, Pacífico y Rimac |
+| Red de clínicas del anexo | **No construida:** ninguno de los cinco condicionados trae un anexo de clínicas (solo mencionan "la red de proveedores") | Sin datos reales con qué hacerla ni probarla |
+
+**Qué decide el modelo y qué decide el código.** El modelo clasifica el texto (¿falta
+información?, ¿cuántas preguntas?), y redacta pasos y resúmenes citando. El código verifica
+cada cita contra su página del PDF, descarta lo que no tenga cita válida, acepta un plazo solo
+si su número está escrito en su cita (en cifras o en palabras), lee la fecha del hecho del
+texto ("ayer", "hace 3 días", "el 12 de noviembre") y calcula la fecha límite. Cuando el
+plazo es en días hábiles no cuenta feriados, y lo dice; cuando la póliza no dice el tipo de
+día, cuenta días calendario, que da la fecha más temprana, y lo dice.
+
+**Costo del paso nuevo.** El triage que detecta preguntas vagas o múltiples es una llamada
+corta antes de cada consulta: USD 0,00013 y 1,5 s en promedio (2,5 s la más larga).
+
 
 ## Instalación
 
@@ -88,11 +114,13 @@ python probar_verificacion.py
 python probar_llm.py
 python probar_subida.py
 python probar_api.py
+python probar_fase2.py
 python probar_app.py
 ```
 
 Las que llaman al modelo o a Voyage (centavos): `correr_pruebas.py`, `probar_inyeccion.py`,
-`probar_alcance.py`, `evaluar_recuperacion.py` y `medir_subida.py`.
+`probar_alcance.py`, `evaluar_recuperacion.py`, `medir_subida.py`, `medir_fase2.py` y, contra el
+backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url …`.
 
 ### Desplegar
 
@@ -111,7 +139,10 @@ Las que llaman al modelo o a Voyage (centavos): `correr_pruebas.py`, `probar_iny
 | `GET /polizas` | Condicionados de ejemplo, con preguntas de ejemplo |
 | `POST /polizas` | Sube uno o varios PDF (un solo documento); devuelve un identificador que solo conoce quien subió |
 | `DELETE /polizas/{id}` | Borra de la memoria la póliza subida |
-| `POST /preguntar` | Pregunta sobre una póliza: veredicto, explicación, citas verificadas y cláusulas ausentes |
+| `POST /preguntar` | Pregunta sobre una póliza: veredicto, explicación, citas verificadas y cláusulas ausentes. Si falta información devuelve `modo: "aclaracion"` con repreguntas (se reenvía con `aclaraciones`); si hay varias preguntas, `modo: "varias"` con una respuesta por cada una |
+| `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
+| `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella |
+| `POST /superposiciones` | Coberturas que podrían superponerse entre 2 a 4 pólizas |
 | `GET /uso` | Consultas usadas y restantes hoy para el dispositivo |
 | `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona |
 
@@ -370,8 +401,10 @@ Lo que hizo el agente:
   [`pruebas/probar_llm.py`](pruebas/probar_llm.py) (36),
   [`pruebas/probar_subida.py`](pruebas/probar_subida.py) (13),
   [`pruebas/probar_api.py`](pruebas/probar_api.py) (22: la API, los topes y el modo sin
-  modelo) y [`pruebas/probar_app.py`](pruebas/probar_app.py) (34: el Streamlit contra la API,
-  con respuestas grabadas).
+  modelo), [`pruebas/probar_fase2.py`](pruebas/probar_fase2.py) (35: fechas y plazos,
+  repregunta, varias preguntas, pasos, radiografías y superposiciones) y
+  [`pruebas/probar_app.py`](pruebas/probar_app.py) (36: el Streamlit contra la API, con
+  respuestas grabadas).
 - Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
   citas, la cuota por minuto y por día, y las opciones de recorte (todo en `pruebas/`).
 - El despliegue verificado en la nube con un navegador sin interfaz (Playwright), sin llamar
@@ -433,10 +466,34 @@ que-me-cubre/
   El tope por IP y el global mensual son los que de verdad acotan el gasto.
 - **El Streamlit ya no muestra el avance paso a paso** (buscar, redactar, verificar): ahora
   espera la respuesta entera de la API con un solo aviso.
-- **Sin desplegar todavía.** El arranque en frío en Render no está medido; en esta máquina
-  la API arranca en 4,2 s y, con una póliza de 62 páginas subida, ocupa 214 MB de los 512 MB
-  del plan gratuito ([`pruebas/arranque.md`](pruebas/arranque.md)). Al reiniciarse el
-  servidor, las pólizas subidas se pierden y hay que subirlas de nuevo.
+- **El plan gratuito de Render es lento, no solo dormilón.** Tras 17 minutos sin tráfico la
+  primera respuesta tardó 41,6 s ([`pruebas/arranque_render.md`](pruebas/arranque_render.md)).
+  Ya despierto, subir e indexar la póliza de 62 páginas tardó 110,4 s (17,4 s en una laptop) y
+  cada respuesta entre 20,9 y 25,8 s ([`pruebas/desplegado.md`](pruebas/desplegado.md)): el
+  plan gratuito da una fracción de CPU y la extracción del PDF es puro cálculo. Al dormirse
+  o reiniciarse el servidor, las pólizas subidas se pierden y hay que subirlas de nuevo. En
+  esa prueba las citas salieron verificadas y con su página.
+- **Repregunta:** el paso que decide si falta información es del modelo. En las 20 preguntas
+  medidas no repreguntó de más ni de menos, pero una pregunta clara puede recibir una
+  repregunta; con las respuestas de la persona ya no vuelve a repreguntar.
+- **Varias preguntas:** se responden hasta 3; cada una gasta una consulta del día. Con más
+  de una, el modelo las reescribe para que se entiendan solas, y esa reescritura no está
+  verificada (con una sola pregunta se usa el texto original).
+- **Qué hacer ahora:** el plazo que se muestra es el que está escrito en la cita, pero a qué
+  aplica ("avisar del siniestro", "avisar a la central") lo redacta el modelo. La fecha límite
+  se cuenta desde la fecha del hecho que dio la persona, aunque la póliza cuente "desde que
+  tuvo conocimiento": la condición literal se muestra al lado. No se cuentan feriados. Si la
+  póliza fija plazos distintos por cobertura, pueden salir varios y no se elige uno.
+- **Radiografía:** resume los pasajes más relevantes (uno por sección y los de cinco temas),
+  no la póliza entera: puede faltar una cobertura, y dos corridas pueden no listar las mismas
+  (Mapfre dio 10 coberturas en una corrida y 3 en la siguiente, con el prompt apenas cambiado). Los montos casi nunca están en el
+  condicionado: 10 de las 27 coberturas resumidas traen un monto escrito.
+- **¿Pagas doble?:** cada lado del par son coberturas con citas verificadas, pero que se
+  superpongan es un juicio del modelo, no verificado: entre los 8 pares medidos está
+  "Repatriación en Vida" con "Repatriación o traslados funerarios", que no son lo mismo. Por
+  eso se presenta como posible coincidencia para revisar, no como recomendación.
+- **Red de clínicas del anexo:** no está construida. Hace falta una póliza real que traiga el
+  anexo dentro del PDF; las cinco precargadas no lo traen.
 - **Si el modelo falla:** sin saldo, sin conexión o con una salida que no cumple el formato,
   la app no reintenta y muestra las cláusulas encontradas, resaltadas y sin veredicto. En las
   corridas medidas con Haiku ninguna de las 10 respuestas salió sin texto. Cada falla deja en
@@ -465,11 +522,6 @@ que-me-cubre/
   PDF termina en dos puntos. En ese caso se muestra la cita sin el signo. Nada más se relaja:
   una tilde, una palabra o una coma interna distinta la invalidan
   ([`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py)).
-- **Una pregunta a la vez:** si el texto trae dos preguntas, la app responde solo la
-  primera; la búsqueda y la respuesta están armadas para una sola consulta. Se vio en las
-  pruebas de usuario del 9 de noviembre
-  ([`docs/research/pruebas_de_usuario.md`](docs/research/pruebas_de_usuario.md)), y debajo
-  de la caja de pregunta la app lo avisa: "Una pregunta a la vez."
 - **Texto libre de la respuesta:** no puede nombrar artículos, numerales, códigos de
   cobertura (B4), documentos (Condiciones Particulares, Certificado de Seguro, endosos…) ni
   títulos de cláusula que no estén en las citas verificadas; la oración que lo hace se
@@ -528,13 +580,10 @@ que-me-cubre/
 
 ## Próximos pasos
 
-- **Cerrar la Fase 1:** desplegar la API en Render, medir el arranque en frío y activar
-  Langfuse.
+- **Desplegar la Fase 2** (Render despliega `main`) y activar Langfuse cuando haya testers.
+- **Red de clínicas del anexo**, cuando haya una póliza real que lo traiga.
 - **Arreglar la estructura de Interseguro** (secciones con números romanos) para que la
   etiqueta de artículo sea la correcta.
-- **Fase 2:** repregunta cuando falta información, varias preguntas en un mismo texto, pasos
-  para reclamar con la fecha límite, radiografía de la póliza, coberturas superpuestas y la
-  red de clínicas del anexo en el mapa.
 - **Fases 3 a 5:** cuentas e historial, app Android con Flutter y publicación.
 
 ## Licencia
