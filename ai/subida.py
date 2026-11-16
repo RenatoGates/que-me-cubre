@@ -16,7 +16,7 @@ import io
 
 from pypdf import PdfReader, PdfWriter
 
-from ai import embeddings
+from ai import embeddings, portero
 from ai.extraccion import extraer_varios
 from ai.indice import Indice
 from ai.respuesta import Poliza
@@ -51,9 +51,33 @@ def unir_pdfs(pdfs: list[bytes]) -> bytes:
     return salida.getvalue()
 
 
+def reparar(pdf: bytes) -> bytes:
+    """El mismo PDF si pdfplumber lo abre; si no, reescrito en memoria con pypdf. Hay PDF
+    reales (una póliza dental, en las pruebas) con un detalle de formato que pdfminer rechaza
+    y pypdf lee: reescrito, lo leen los dos y las páginas siguen siendo las mismas."""
+    import pdfplumber
+
+    try:
+        with pdfplumber.open(io.BytesIO(pdf)) as abierto:
+            len(abierto.pages)
+        return pdf
+    except Exception:  # noqa: BLE001 - cualquier falla de lectura: se intenta la reescritura
+        pass
+    try:
+        escritor = PdfWriter()
+        escritor.append(PdfReader(io.BytesIO(pdf)))
+        salida = io.BytesIO()
+        escritor.write(salida)
+        with pdfplumber.open(io.BytesIO(salida.getvalue())) as abierto:
+            len(abierto.pages)
+        return salida.getvalue()
+    except Exception as e:  # noqa: BLE001
+        raise PolizaIlegible("No pude leer ese PDF: puede estar dañado o protegido con contraseña.") from e
+
+
 def poliza_de_pdfs(archivos: list[tuple[str, bytes]]) -> Poliza:
     """[(nombre del archivo, bytes)] → la póliza indexada como un solo documento."""
-    pdfs = [datos for _, datos in archivos]
+    pdfs = [reparar(datos) for _, datos in archivos]
     doc = extraer_varios(pdfs)
     escaneados = [archivos[i][0] for i in doc.archivos_escaneados()]
     if escaneados:
@@ -78,7 +102,8 @@ def poliza_de_pdfs(archivos: list[tuple[str, bytes]]) -> Poliza:
     except embeddings.ErrorEmbeddings:  # la póliza se indexa igual; la búsqueda queda en BM25
         indice = Indice.construir(trozos, meta, con_embeddings=False)
     return Poliza("subida", nombre, indice, unido, huella(pdfs),
-                  archivos=[(n, p) for (n, _), p in zip(archivos, doc.paginas_por_archivo)])
+                  archivos=[(n, p) for (n, _), p in zip(archivos, doc.paginas_por_archivo)],
+                  revision=portero.revisar_trozos(trozos))
 
 
 def ubicar_pagina(archivos: list[tuple[str, int]], pagina: int) -> tuple[str, int]:

@@ -57,13 +57,13 @@ En la rama `fase-2-funciones`. Medido con el modelo real en [`pruebas/fase2.md`]
 
 | Función | Qué hace | Medido |
 |---|---|---|
-| Repregunta | Si alguien escribe "me lesioné, ¿qué puedo hacer?", la app no busca ni adivina: pregunta qué pasó, dónde y cuándo. No gasta una consulta del día | Repregunta en 6 de 6 preguntas vagas y deja pasar 14 de 14 claras |
+| Repregunta | Si alguien escribe "me lesioné, ¿qué puedo hacer?", la app no busca ni adivina: pregunta qué pasó, dónde y cuándo. No gasta una consulta del día | Repregunta en 6 de 6 preguntas vagas y deja pasar 15 de 15 claras |
 | Varias preguntas | Las separa y responde cada una con su propia búsqueda y sus propias citas (hasta 3; cada una cuenta como una consulta) | 5 de 5 textos separados en el número esperado |
-| Qué hacer ahora | Plazo de aviso, a quién avisar, documentos y pasos, cada uno con su cita verificada | En los 5 condicionados encontró un plazo con su cita; entre 6,4 y 19,4 s y entre USD 0,0015 y 0,0034 |
-| Alerta de plazo | La fecha límite, calculada por código desde la fecha del hecho | Chubb: 30 días; Pacífico y Mapfre: 7 días; Rimac: 48 y 24 horas; Interseguro: 24 horas |
+| Qué hacer ahora | Plazo de aviso, a quién avisar, documentos y pasos, cada uno con su cita verificada | En los 5 condicionados encontró un plazo con su cita; entre 7,9 y 18,2 s y entre USD 0,0017 y 0,0033 |
+| Alerta de plazo | La fecha límite, calculada por código desde la fecha del hecho | Chubb: 30 días; Pacífico y Mapfre: 7 días; Rimac: 24 y 48 horas, y 30 días para equipaje; Interseguro: 24 horas |
 | Radiografía | Qué cubre, hasta cuánto, exclusiones, deducibles y carencias, con citas | Entre 3 y 8 coberturas por condicionado, 13 a 30 citas verificadas, USD 0,0024 a 0,0033 |
-| ¿Pagas doble? | Con dos o más pólizas, coberturas que podrían superponerse | 8 posibles superposiciones entre Chubb, Pacífico y Rimac |
-| Red de clínicas del anexo | **No construida:** ninguno de los cinco condicionados trae un anexo de clínicas (solo mencionan "la red de proveedores") | Sin datos reales con qué hacerla ni probarla |
+| ¿Pagas doble? | Con dos o más pólizas, coberturas que podrían superponerse | 6 posibles superposiciones entre Chubb, Pacífico y Rimac |
+| Mapa con ubicación | Reemplaza a la red de clínicas del anexo, que se eliminó del alcance: centros de salud cercanos, con la ubicación de la persona o con su distrito | Ver "Mapa con ubicación", abajo |
 
 **Qué decide el modelo y qué decide el código.** El modelo clasifica el texto (¿falta
 información?, ¿cuántas preguntas?), y redacta pasos y resúmenes citando. El código verifica
@@ -73,8 +73,37 @@ texto ("ayer", "hace 3 días", "el 12 de noviembre") y calcula la fecha límite.
 plazo es en días hábiles no cuenta feriados, y lo dice; cuando la póliza no dice el tipo de
 día, cuenta días calendario, que da la fecha más temprana, y lo dice.
 
+**Mapa con ubicación** ([`app/mapa_cercano.html`](app/mapa_cercano.html)). Todo corre en el
+navegador. El mapa pide la ubicación solo si la persona toca "Usar mi ubicación"; si la
+niega, sigue con el distrito elegido. Muestra de inmediato los hospitales y clínicas con
+internamiento más cercanos del registro de SUSALUD (1054 con coordenadas en todo el país;
+la cercanía se calcula en el navegador con esa lista) y, si OpenStreetMap responde, los
+reemplaza por las clínicas y hospitales de OpenStreetMap vía Overpass. Arriba, siempre
+visible: "Estos son centros de salud cercanos. NO verificamos si están en la red de tu
+póliza." La ubicación no se guarda, no pasa por el servidor de la app ni queda en registros:
+solo viaja, como coordenadas, en la consulta a OpenStreetMap (Overpass y las imágenes del
+mapa). Si el condicionado nombra clínicas literalmente ([`ai/clinicas.py`](ai/clinicas.py),
+sin modelo), se marcan con una estrella y se muestra la cita verificada de donde sale el
+nombre; si no nombra ninguna, esa sección no aparece. Probado en
+[`pruebas/probar_mapa_portero.py`](pruebas/probar_mapa_portero.py).
+
+**Portero de documento** ([`ai/portero.py`](ai/portero.py)). Al indexar, cuenta 16
+marcadores de vocabulario de póliza en el texto, sin modelo. Si hay menos de 16 por cada mil
+palabras, la app avisa "Esto no parece un condicionado de seguro. Puedo intentarlo igual,
+pero las respuestas pueden no tener sentido." y deja continuar. Calibrado en
+[`pruebas/portero.md`](pruebas/portero.md): clasificó bien 6 de 6 condicionados (entre 24,1
+y 51,0 marcadores por mil palabras) y 3 de 3 documentos que no lo son (un boletín de SUSALUD
+sobre las EPS, un contrato de tarjeta de crédito y la Constitución: entre 0,9 y 9,2).
+
+**Un condicionado de otro ramo.** Además de los cinco de viaje, el pipeline se probó en
+local con una póliza dental real de 18 páginas, que no está en el repositorio. Sirvió para
+encontrar una falla: su PDF tiene un detalle de formato que el lector principal rechazaba,
+así que la app respondía "no pude leer ese PDF". Ahora ese caso se repara reescribiendo el
+PDF en memoria (`reparar` en [`ai/subida.py`](ai/subida.py)), y con eso sus preguntas de
+prueba salieron con todas las citas verificadas por los dos lectores.
+
 **Costo del paso nuevo.** El triage que detecta preguntas vagas o múltiples es una llamada
-corta antes de cada consulta: USD 0,00013 y 1,5 s en promedio (2,5 s la más larga).
+corta antes de cada consulta: USD 0,00014 y 1,9 s en promedio (2,4 s la más larga).
 
 
 ## Instalación
@@ -115,6 +144,7 @@ python probar_llm.py
 python probar_subida.py
 python probar_api.py
 python probar_fase2.py
+python probar_mapa_portero.py
 python probar_app.py
 ```
 
@@ -137,14 +167,16 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 |---|---|
 | `GET /salud`, `GET /info` | Estado, modelo en uso, límite diario y si el servicio está sin modelo por el tope |
 | `GET /polizas` | Condicionados de ejemplo, con preguntas de ejemplo |
-| `POST /polizas` | Sube uno o varios PDF (un solo documento); devuelve un identificador que solo conoce quien subió |
+| `POST /polizas` | Sube uno o varios PDF (un solo documento); devuelve un identificador que solo conoce quien subió y, si el documento no parece un condicionado, `aviso_documento` |
 | `DELETE /polizas/{id}` | Borra de la memoria la póliza subida |
 | `POST /preguntar` | Pregunta sobre una póliza: veredicto, explicación, citas verificadas y cláusulas ausentes. Si falta información devuelve `modo: "aclaracion"` con repreguntas (se reenvía con `aclaraciones`); si hay varias preguntas, `modo: "varias"` con una respuesta por cada una |
 | `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
 | `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella |
 | `POST /superposiciones` | Coberturas que podrían superponerse entre 2 a 4 pólizas |
 | `GET /uso` | Consultas usadas y restantes hoy para el dispositivo |
-| `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona |
+| `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona, con el centro del distrito para centrar el mapa |
+| `GET /mapa/con-internamiento` | Hospitales y clínicas con internamiento de todo el país, para calcular lo más cercano en el cliente |
+| `GET /polizas/{id}/clinicas` | Clínicas que el condicionado nombra literalmente, cada una con su cita verificada (sin modelo) |
 
 El cliente manda un identificador propio en `X-Dispositivo`. Al cliente va solo lo
 verificado: la salida cruda del modelo y los descartes no salen de la API.
@@ -402,7 +434,9 @@ Lo que hizo el agente:
   [`pruebas/probar_subida.py`](pruebas/probar_subida.py) (13),
   [`pruebas/probar_api.py`](pruebas/probar_api.py) (22: la API, los topes y el modo sin
   modelo), [`pruebas/probar_fase2.py`](pruebas/probar_fase2.py) (35: fechas y plazos,
-  repregunta, varias preguntas, pasos, radiografías y superposiciones) y
+  repregunta, varias preguntas, pasos, radiografías y superposiciones),
+  [`pruebas/probar_mapa_portero.py`](pruebas/probar_mapa_portero.py) (21: portero, reparación
+  de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación) y
   [`pruebas/probar_app.py`](pruebas/probar_app.py) (36: el Streamlit contra la API, con
   respuestas grabadas).
 - Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
@@ -473,12 +507,14 @@ que-me-cubre/
   plan gratuito da una fracción de CPU y la extracción del PDF es puro cálculo. Al dormirse
   o reiniciarse el servidor, las pólizas subidas se pierden y hay que subirlas de nuevo. En
   esa prueba las citas salieron verificadas y con su página.
-- **Repregunta:** el paso que decide si falta información es del modelo. En las 20 preguntas
+- **Repregunta:** el paso que decide si falta información es del modelo. En las 21 preguntas
   medidas no repreguntó de más ni de menos, pero una pregunta clara puede recibir una
   repregunta; con las respuestas de la persona ya no vuelve a repreguntar.
 - **Varias preguntas:** se responden hasta 3; cada una gasta una consulta del día. Con más
   de una, el modelo las reescribe para que se entiendan solas, y esa reescritura no está
-  verificada (con una sola pregunta se usa el texto original).
+  verificada (con una sola pregunta se usa el texto original). Puede partir de más: "¿cuánto
+  pago por una consulta o por una endodoncia?" salió como dos preguntas hasta que se ajustó
+  el prompt por ese caso.
 - **Qué hacer ahora:** el plazo que se muestra es el que está escrito en la cita, pero a qué
   aplica ("avisar del siniestro", "avisar a la central") lo redacta el modelo. La fecha límite
   se cuenta desde la fecha del hecho que dio la persona, aunque la póliza cuente "desde que
@@ -489,11 +525,23 @@ que-me-cubre/
   (Mapfre dio 10 coberturas en una corrida y 3 en la siguiente, con el prompt apenas cambiado). Los montos casi nunca están en el
   condicionado: 10 de las 27 coberturas resumidas traen un monto escrito.
 - **¿Pagas doble?:** cada lado del par son coberturas con citas verificadas, pero que se
-  superpongan es un juicio del modelo, no verificado: entre los 8 pares medidos está
-  "Repatriación en Vida" con "Repatriación o traslados funerarios", que no son lo mismo. Por
-  eso se presenta como posible coincidencia para revisar, no como recomendación.
-- **Red de clínicas del anexo:** no está construida. Hace falta una póliza real que traiga el
-  anexo dentro del PDF; las cinco precargadas no lo traen.
+  superpongan es un juicio del modelo, no verificado. En una corrida anterior emparejó
+  "Repatriación en Vida" con "Repatriación o traslados funerarios", que no son lo mismo; en
+  la actual salieron 6 pares sin ese. Por eso se presenta como posible coincidencia para
+  revisar, no como recomendación.
+- **Mapa:** los servidores públicos y gratuitos de Overpass no siempre responden. Mientras
+  se construía esto, de cinco servidores probados cuatro daban error o no contestaban, y el
+  único que respondió no acepta consultas desde un navegador; por eso el mapa muestra primero
+  el registro de SUSALUD y solo reemplaza si OpenStreetMap contesta. El camino con
+  OpenStreetMap está programado pero no se pudo ver funcionando en el navegador. El permiso
+  de ubicación tampoco se pudo probar de forma automática: se comprobó que el marco del mapa
+  lo tiene habilitado y, simulando unas coordenadas, que la cercanía se calcula bien.
+- **Clínicas nombradas:** ninguno de los seis condicionados reales nombra una clínica, así
+  que esa parte solo está probada con un PDF de prueba. La detección es por patrón (un tipo
+  de establecimiento seguido de un nombre propio) y prefiere no encontrar antes que inventar:
+  una clínica escrita toda en mayúsculas o de forma poco usual puede no detectarse.
+- **Portero:** son 9 documentos y el umbral se fijó mirándolos. Un folleto comercial de un
+  seguro, que usa el mismo vocabulario, probablemente pase como póliza. No bloquea nunca.
 - **Si el modelo falla:** sin saldo, sin conexión o con una salida que no cumple el formato,
   la app no reintenta y muestra las cláusulas encontradas, resaltadas y sin veredicto. En las
   corridas medidas con Haiku ninguna de las 10 respuestas salió sin texto. Cada falla deja en
@@ -567,7 +615,8 @@ que-me-cubre/
   red de ninguna aseguradora, y la app lo dice debajo del mapa. Corte del 30-10-2026, solo
   los 27 017 establecimientos en estado activo; 6977 de ellos (26 %) no tienen coordenadas
   válidas en el registro y salen en la lista pero no en el mapa (en Tarapoto, 26 de 148).
-  No se usa la ubicación de la persona: elige departamento y distrito. Para actualizarlo,
+  La ubicación de la persona se usa solo en su navegador y si la concede (ver "Mapa con
+  ubicación"); el servidor solo recibe el departamento y el distrito elegidos. Para actualizarlo,
   bajar el CSV del mes y correr `python -m ai.renipress --csv ... --corte ... --url ...`
   (la procedencia queda en [`data/renipress/fuente.json`](data/renipress/fuente.json)).
 - **Cachés de preguntas públicas:** las normalizaciones y los vectores de las preguntas de
@@ -581,7 +630,6 @@ que-me-cubre/
 ## Próximos pasos
 
 - **Desplegar la Fase 2** (Render despliega `main`) y activar Langfuse cuando haya testers.
-- **Red de clínicas del anexo**, cuando haya una póliza real que lo traiga.
 - **Arreglar la estructura de Interseguro** (secciones con números romanos) para que la
   etiqueta de artículo sea la correcta.
 - **Fases 3 a 5:** cuentas e historial, app Android con Flutter y publicación.

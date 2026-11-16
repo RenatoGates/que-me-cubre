@@ -90,6 +90,8 @@ class Poliza:
     # Si se subió en varios PDF: [(nombre del archivo, páginas)] en el orden de las páginas de
     # pdf_bytes (el PDF unido). Para mostrar de qué archivo sale cada cita (ai/subida.py).
     archivos: list[tuple[str, int]] = field(default_factory=list)
+    # ¿Parece un condicionado de seguro? (ai/portero.py). Solo en las pólizas subidas.
+    revision: dict | None = None
     # Texto de las páginas ya releídas al verificar citas (ai/verificacion.py): solo en memoria.
     paginas_leidas: dict = field(default_factory=dict, repr=False)
 

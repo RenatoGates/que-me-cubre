@@ -8,8 +8,7 @@
       "ok": true,
       "repreguntas": [
         "¿Qué tipo de lesión sufriste y cómo ocurrió?",
-        "¿Dónde ocurrió?",
-        "¿Cuándo ocurrió?"
+        "¿Dónde ocurrió y cuándo?"
       ]
     },
     {
@@ -19,9 +18,9 @@
       "preguntas": 1,
       "ok": true,
       "repreguntas": [
-        "¿Qué problema tuviste exactamente durante el viaje?",
+        "¿Qué problema tuviste durante el viaje?",
         "¿Dónde ocurrió el problema?",
-        "¿Cuándo ocurrió?"
+        "¿Cuándo ocurrió el problema?"
       ]
     },
     {
@@ -54,7 +53,7 @@
       "preguntas": 1,
       "ok": true,
       "repreguntas": [
-        "¿Qué pasó exactamente?",
+        "¿Qué pasó exactamente por lo que necesitas usar el seguro?",
         "¿Dónde ocurrió?",
         "¿Cuándo ocurrió?"
       ]
@@ -98,6 +97,14 @@
     {
       "grupo": "clara",
       "texto": "¿A qué número llamo si necesito un médico durante el viaje?",
+      "falta": false,
+      "preguntas": 1,
+      "ok": true,
+      "repreguntas": []
+    },
+    {
+      "grupo": "clara",
+      "texto": "¿Cuánto tengo que pagar yo por una consulta o por una endodoncia?",
       "falta": false,
       "preguntas": 1,
       "ok": true,
@@ -233,12 +240,12 @@
           "cantidad": 30,
           "unidad": "dias",
           "tipo_dias": "calendario",
-          "desde": "de ocurrido el suceso, o de haber tomado conocimiento del beneficio",
-          "cita": 2,
+          "desde": "luego de ocurrido el suceso, o de haber tomado conocimiento del beneficio",
+          "cita": 1,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-12-10",
-            "dias_restantes": 25,
+            "dias_restantes": 24,
             "vencido": false,
             "notas": []
           }
@@ -246,59 +253,65 @@
       ],
       "a_quien_avisar": [
         {
-          "descripcion": "Central de asistencia, por teléfono, indicando datos personales, número de la PÓLIZA, lugar donde se encuentra y clase de servicio que necesita",
+          "descripcion": "Central de asistencia, por teléfono, indicando sus datos personales, el número de la PÓLIZA, el lugar donde se encuentra y la clase de servicio que precisa",
           "citas": [
-            1
+            2
           ]
         },
         {
           "descripcion": "La COMPAÑÍA, por cualquiera de los medios de comunicación pactados",
           "citas": [
-            2
+            1
           ]
         }
       ],
       "documentos": [
         {
-          "descripcion": "Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que ocurrió",
+          "descripcion": "Declaración escrita, con fecha y hora del accidente, el lugar y las circunstancias en que este ocurrió",
           "citas": [
             4
           ]
         },
         {
-          "descripcion": "Certificado del Médico que prestó los primeros auxilios, con el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables",
+          "descripcion": "Certificado del Médico que prestó los primeros auxilios a la víctima, expresando el estado del accidentado, las dolencias o daños identificados y las consecuencias conocidas o probables",
           "citas": [
             5
           ]
         },
         {
-          "descripcion": "Relación de gastos de curación, con los comprobantes de pago respectivos",
+          "descripcion": "Relación de gastos de curación incurridos, con los comprobantes de pago respectivos",
           "citas": [
             6
+          ]
+        },
+        {
+          "descripcion": "Los documentos deben presentarse en original o certificación de reproducción notarial, antes copia legalizada, en las oficinas de la COMPAÑÍA",
+          "citas": [
+            3
           ]
         }
       ],
       "pasos": [
         {
-          "descripcion": "Llamar por teléfono a la central de asistencia indicando sus datos, el número de la PÓLIZA, dónde se encuentra y el servicio que necesita",
-          "citas": [
-            1
-          ]
-        },
-        {
-          "descripcion": "Dar aviso a la COMPAÑÍA de la ocurrencia del accidente dentro de treinta días calendario desde que ocurrió o desde que tuvo conocimiento del beneficio",
+          "descripcion": "Si el accidente lo permite, llamar por teléfono a la central de asistencia e indicar sus datos, el número de la póliza, dónde está y qué servicio necesita",
           "citas": [
             2
           ]
         },
         {
-          "descripcion": "Si la gravedad del accidente le impide llamar a la central de asistencia, puede pedir el reembolso de gastos médicos presentando los documentos en las oficinas de la COMPAÑÍA, en original o copia con certificación notarial",
+          "descripcion": "Dar aviso a la COMPAÑÍA del accidente dentro de 30 días calendario, por cualquiera de los medios pactados",
+          "citas": [
+            1
+          ]
+        },
+        {
+          "descripcion": "Si la gravedad del accidente le impide llamar a la central de asistencia, puede pedir el reembolso de gastos médicos presentando los documentos en las oficinas de la COMPAÑÍA",
           "citas": [
             3
           ]
         },
         {
-          "descripcion": "Presentar la declaración escrita, el certificado médico y la relación de gastos con sus comprobantes de pago",
+          "descripcion": "Presentar la declaración escrita, el certificado médico y la relación de gastos con comprobantes de pago",
           "citas": [
             4,
             5,
@@ -306,44 +319,44 @@
           ]
         },
         {
-          "descripcion": "Puede presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción de la normatividad vigente",
+          "descripcion": "Los documentos pueden presentarse en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente",
+          "citas": [
+            10
+          ]
+        },
+        {
+          "descripcion": "La COMPAÑÍA tiene un plazo máximo de 30 días desde la recepción completa de los documentos para aprobar o rechazar la solicitud, salvo que pida una prórroga",
           "citas": [
             7
           ]
         },
         {
-          "descripcion": "La COMPAÑÍA tiene treinta días desde que recibe los documentos completos para aprobar o rechazar la solicitud, salvo que pida una prórroga para investigar",
+          "descripcion": "Si la solicitud es aprobada, o si pasan los 30 días sin pronunciamiento, el beneficio se paga dentro de los 30 días calendario siguientes",
           "citas": [
             8
           ]
         },
         {
-          "descripcion": "Si la solicitud es aprobada, o pasan treinta días sin pronunciamiento o con la prórroga correspondiente, el beneficio se paga dentro de los treinta días calendario siguientes",
+          "descripcion": "Si se constata que el viaje se realizó con motivo del tratamiento de una enfermedad preexistente, la COMPAÑÍA queda eximida de prestar el servicio según esta cláusula",
           "citas": [
             9
-          ]
-        },
-        {
-          "descripcion": "Si se constata que el viaje se realizó con motivo del tratamiento de una enfermedad preexistente, la COMPAÑÍA queda eximida de prestar sus servicios según esta cláusula",
-          "citas": [
-            10
           ]
         }
       ],
       "descartes": [],
       "uso": {
         "llamadas": 1,
-        "costo_usd": 0.003354,
-        "segundos": 19.4,
+        "costo_usd": 0.003301,
+        "segundos": 18.17,
         "detalle": [
           {
             "proveedor": "claude",
             "modelo": "claude-haiku-5-5",
             "tokens_entrada": 7512,
-            "tokens_salida": 5206,
+            "tokens_salida": 5100,
             "tokens_razonamiento": 0,
-            "segundos": 19.4,
-            "costo_usd": 0.003354
+            "segundos": 18.17,
+            "costo_usd": 0.003301
           }
         ]
       }
@@ -356,12 +369,12 @@
           "cantidad": 7,
           "unidad": "dias",
           "tipo_dias": "no_dice",
-          "desde": "a partir de la fecha en que se tenga conocimiento de la ocurrencia del siniestro o del beneficio, según corresponda",
+          "desde": "fecha en que se tenga conocimiento de la ocurrencia del siniestro o del beneficio, según corresponda",
           "cita": 1,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-11-17",
-            "dias_restantes": 2,
+            "dias_restantes": 1,
             "vencido": false,
             "notas": [
               "La póliza no dice si son días hábiles o calendario: conté días calendario, que da la fecha más temprana."
@@ -371,7 +384,7 @@
       ],
       "a_quien_avisar": [
         {
-          "descripcion": "A PACIFICO SEGUROS, llamando al número de teléfono de la Central de Emergencia que se indica en las condiciones particulares y/o certificado de seguro",
+          "descripcion": "A PACIFICO SEGUROS, por teléfono, llamando al número de la Central de Emergencia que se indica en las condiciones particulares y/o certificado de seguro",
           "citas": [
             1
           ]
@@ -385,94 +398,65 @@
       ],
       "documentos": [
         {
-          "descripcion": "Para la cobertura de muerte accidental (si aplica): una declaración escrita con la fecha y hora del accidente, el nombre, apellidos, edad y domicilio de la persona que murió, y el lugar y circunstancias en que ocurrió",
+          "descripcion": "Una declaración escrita con la fecha y hora del accidente, el nombre, apellidos, edad y domicilio de la persona afectada, y el lugar y circunstancias en que ocurrió",
           "citas": [
-            3,
             4
           ]
         },
         {
-          "descripcion": "Para la cobertura de muerte accidental (si aplica): Certificado Médico de Defunción",
+          "descripcion": "En caso de accidente o enfermedad, certificado médico e historia clínica completa",
           "citas": [
-            3,
             5
           ]
         },
         {
-          "descripcion": "Para la cobertura de muerte accidental (si aplica): Partida de Defunción",
+          "descripcion": "Si se trata de accidente, denuncia policial, de corresponder",
           "citas": [
-            3,
-            6
-          ]
-        },
-        {
-          "descripcion": "Para la cobertura de muerte accidental (si aplica): Protocolo de Necropsia completo, con los resultados del Dosaje Etílico y Examen Toxicológico, en caso corresponda",
-          "citas": [
-            3,
-            7
-          ]
-        },
-        {
-          "descripcion": "Para la cobertura de muerte accidental (si aplica): Declaratoria de Herederos Legales, Acta Notarial de Declaratoria de Herederos o Testamento, debidamente inscritos en los Registros Públicos, a falta de designación de Beneficiarios en la Póliza",
-          "citas": [
-            3,
-            8
-          ]
-        },
-        {
-          "descripcion": "En caso de accidente: certificado médico e historia clínica completa; si se trata de accidente, la denuncia policial de corresponder",
-          "citas": [
-            9
+            5
           ]
         }
       ],
       "pasos": [
         {
-          "descripcion": "Avisar del siniestro a PACIFICO SEGUROS dentro de los 7 días siguientes a la fecha en que se tuvo conocimiento de la ocurrencia del siniestro",
+          "descripcion": "Avisar a PACIFICO SEGUROS del accidente dentro de los siete (7) días siguientes a la fecha en que se tuvo conocimiento de la ocurrencia, por teléfono a la Central de Emergencia o por el mismo medio que usó para contratar el seguro",
           "citas": [
             1,
             2
           ]
         },
         {
-          "descripcion": "Llamar al número de teléfono de la Central de Emergencia indicado en sus condiciones particulares o certificado de seguro",
+          "descripcion": "Seguir el procedimiento de la Parte D de la póliza para solicitar la cobertura",
           "citas": [
-            1
+            7
           ]
         },
         {
-          "descripcion": "Reunir los documentos de la lista y presentarlos en cualquiera de las oficinas de PACIFICO SEGUROS a nivel nacional, en original o copia certificada notarialmente, en cualquier momento",
+          "descripcion": "Reunir los documentos indicados y presentarlos en cualquiera de las oficinas de PACIFICO SEGUROS a nivel nacional, en original o copia certificada notarialmente",
           "citas": [
             3
           ]
         },
         {
-          "descripcion": "Si hubo accidente, reunir el certificado médico, la historia clínica completa y, si corresponde, la denuncia policial",
+          "descripcion": "Si falta alguno de los requisitos, la póliza indica que no habrá indemnización bajo esa cobertura",
           "citas": [
-            9
-          ]
-        },
-        {
-          "descripcion": "Tener en cuenta que si no se cumple con alguno de los requisitos, no habrá indemnización bajo esa cobertura",
-          "citas": [
-            10
+            6
           ]
         }
       ],
       "descartes": [],
       "uso": {
         "llamadas": 1,
-        "costo_usd": 0.002743,
-        "segundos": 17.44,
+        "costo_usd": 0.00222,
+        "segundos": 13.06,
         "detalle": [
           {
             "proveedor": "claude",
             "modelo": "claude-haiku-5-5",
-            "tokens_entrada": 5167,
-            "tokens_salida": 4452,
+            "tokens_entrada": 5171,
+            "tokens_salida": 3405,
             "tokens_razonamiento": 0,
-            "segundos": 17.44,
-            "costo_usd": 0.002743
+            "segundos": 13.06,
+            "costo_usd": 0.00222
           }
         ]
       }
@@ -481,16 +465,33 @@
       "modo": "pasos",
       "plazos": [
         {
-          "para": "dar aviso a la COMPAÑÍA cuando se recurre a una clínica o médico que no está en la red de proveedores",
+          "para": "avisar a la central de asistencia de un problema de salud",
+          "cantidad": 24,
+          "unidad": "horas",
+          "tipo_dias": "no_dice",
+          "desde": "no especifica desde cuándo corre el plazo en el pasaje; se indica que es cuando la emergencia impide la comunicación previa a la central",
+          "cita": 2,
+          "calculo": {
+            "fecha_hecho": "2026-11-10",
+            "fecha_limite": "2026-11-11",
+            "dias_restantes": -5,
+            "vencido": true,
+            "notas": [
+              "El plazo es de 24 horas y no sé a qué hora ocurrió: cuento 1 día completo."
+            ]
+          }
+        },
+        {
+          "para": "presentar los documentos del reembolso de gastos médicos y hospitalarios",
           "cantidad": 48,
           "unidad": "horas",
           "tipo_dias": "no_dice",
-          "desde": "de iniciado el tratamiento",
-          "cita": 1,
+          "desde": "iniciado el tratamiento",
+          "cita": 7,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-11-12",
-            "dias_restantes": -3,
+            "dias_restantes": -4,
             "vencido": true,
             "notas": [
               "El plazo es de 48 horas y no sé a qué hora ocurrió: cuento 2 días completos."
@@ -498,38 +499,47 @@
           }
         },
         {
-          "para": "comunicar el evento a la Central de Asistencia cuando la emergencia de salud impidió llamar antes",
-          "cantidad": 24,
-          "unidad": "horas",
+          "para": "presentar los documentos del siniestro de pérdida de equipaje",
+          "cantidad": 30,
+          "unidad": "dias",
           "tipo_dias": "no_dice",
-          "desde": "no se indica en el pasaje",
-          "cita": 3,
+          "desde": "después de ocurrido el accidente",
+          "cita": 10,
           "calculo": {
             "fecha_hecho": "2026-11-10",
-            "fecha_limite": "2026-11-11",
-            "dias_restantes": -4,
-            "vencido": true,
+            "fecha_limite": "2026-12-10",
+            "dias_restantes": 24,
+            "vencido": false,
             "notas": [
-              "El plazo es de 24 horas y no sé a qué hora ocurrió: cuento 1 día completo."
+              "La póliza no dice si son días hábiles o calendario: conté días calendario, que da la fecha más temprana."
             ]
           }
         }
       ],
       "a_quien_avisar": [
         {
-          "descripcion": "Central de Asistencia de la COMPAÑÍA, por teléfono al número que indica la póliza",
-          "citas": [
-            2
-          ]
-        },
-        {
-          "descripcion": "La COMPAÑÍA, si acudió a una clínica o médico fuera de la red de proveedores",
+          "descripcion": "Central de Asistencia de la COMPAÑÍA, por teléfono al número indicado en la Póliza",
           "citas": [
             1
           ]
         },
         {
-          "descripcion": "Para consultas o reclamos: correo reclamos@rimac.com.pe, teléfono 411-3000, Central de Asistencia, página web www.rimac.com u Oficina Principal en Av. Las Begonias 475 piso 2, San Isidro, Lima",
+          "descripcion": "En la llamada a la central: nombre y número de póliza, lugar y teléfono donde se encuentra, y el problema",
+          "citas": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "descripcion": "Para consultas o reclamos: correo reclamos@rimac.com.pe, teléfono 411-3000, Central de Asistencia, página web www.rimac.com u oficina principal en Av. Las Begonias 475 piso 2, San Isidro, Lima",
+          "citas": [
+            11
+          ]
+        },
+        {
+          "descripcion": "Clínica o médico fuera de la red: aviso a la COMPAÑÍA dentro de las 48 horas de iniciado el tratamiento",
           "citas": [
             7
           ]
@@ -537,83 +547,89 @@
       ],
       "documentos": [
         {
-          "descripcion": "Facturas, indicaciones y recetas",
+          "descripcion": "Facturas, indicaciones y recetas (en original los comprobantes de pago)",
           "citas": [
-            5
+            8,
+            9
           ]
         },
         {
           "descripcion": "Solicitud de reclamo debidamente completada con los datos del paciente",
           "citas": [
-            5
+            8
           ]
         },
         {
-          "descripcion": "Informe del médico",
+          "descripcion": "Informe del médico y resultados de análisis, radiografías o pruebas especiales",
           "citas": [
-            5
+            8
           ]
         },
         {
-          "descripcion": "Todos los resultados de análisis, radiografías o pruebas especiales relacionadas con el tratamiento recibido",
+          "descripcion": "Si el documento es de procedencia extranjera: visado del Consulado Peruano y legalización en Perú; traducción oficial si no está en español",
           "citas": [
-            5
-          ]
-        },
-        {
-          "descripcion": "Comprobantes de pago en original",
-          "citas": [
-            6
+            13,
+            14
           ]
         }
       ],
       "pasos": [
         {
-          "descripcion": "Llamar a la Central de Asistencia de la COMPAÑÍA al número de teléfono que indica la póliza",
+          "descripcion": "Llame a la Central de Asistencia de la COMPAÑÍA al número indicado en la Póliza e informe su nombre y número de póliza, dónde está y su teléfono, y el problema",
+          "citas": [
+            1,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "descripcion": "Si el problema de salud le impidió llamar antes, comunique el evento dentro de las 24 horas e informe las razones de la demora",
           "citas": [
             2
           ]
         },
         {
-          "descripcion": "Informar su nombre y el número de la póliza, el lugar y el teléfono donde se encuentra, y el problema y el tipo de ayuda necesaria",
+          "descripcion": "Si acude a una clínica o médico fuera de la red de la COMPAÑÍA, dé aviso a la COMPAÑÍA dentro de las 48 horas de iniciado el tratamiento",
           "citas": [
-            4
+            7
           ]
         },
         {
-          "descripcion": "Si la emergencia de salud le impidió llamar antes, comunicar el evento dentro de las 24 horas e informar las razones por las que no pudo avisar a tiempo",
+          "descripcion": "Para pedir reembolso, presente las facturas, indicaciones, recetas, la solicitud de reclamo completada y el informe del médico con los resultados de pruebas",
           "citas": [
-            3
+            8,
+            9
           ]
         },
         {
-          "descripcion": "Si acudió a una clínica o médico que no está en la red de la COMPAÑÍA, dar aviso a la COMPAÑÍA dentro de las 48 horas de iniciado el tratamiento",
+          "descripcion": "Si la pérdida es de equipaje, presente los documentos en un plazo máximo de 30 días después del accidente",
           "citas": [
-            1
+            10
           ]
         },
         {
-          "descripcion": "Para el reembolso, reunir los documentos indicados y presentarlos a la COMPAÑÍA",
+          "descripcion": "Cumpla todas las obligaciones y formalidades; su falta puede hacer perder el derecho a la indemnización",
           "citas": [
-            5,
-            6
+            12
           ]
         }
       ],
       "descartes": [],
       "uso": {
         "llamadas": 1,
-        "costo_usd": 0.002521,
-        "segundos": 13.92,
+        "costo_usd": 0.00203,
+        "segundos": 9.31,
         "detalle": [
           {
             "proveedor": "claude",
             "modelo": "claude-haiku-5-5",
             "tokens_entrada": 7370,
-            "tokens_salida": 3569,
+            "tokens_salida": 2585,
             "tokens_razonamiento": 0,
-            "segundos": 13.92,
-            "costo_usd": 0.002521
+            "segundos": 9.31,
+            "costo_usd": 0.00203
           }
         ]
       }
@@ -622,16 +638,16 @@
       "modo": "pasos",
       "plazos": [
         {
-          "para": "avisar del siniestro o comunicar la emergencia y la asistencia recibida",
+          "para": "avisar del siniestro a LA COMPAÑÍA (asistencia médica por accidente)",
           "cantidad": 7,
           "unidad": "dias",
           "tipo_dias": "no_dice",
-          "desde": "fecha en que se tenga conocimiento de la ocurrencia o del beneficio",
-          "cita": 1,
+          "desde": "a la fecha en que se tenga conocimiento de la ocurrencia del siniestro o conocido el beneficio",
+          "cita": 2,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-11-17",
-            "dias_restantes": 2,
+            "dias_restantes": 1,
             "vencido": false,
             "notas": [
               "La póliza no dice si son días hábiles o calendario: conté días calendario, que da la fecha más temprana."
@@ -639,16 +655,16 @@
           }
         },
         {
-          "para": "comunicarse con LA COMPAÑÍA por asistencia médica por accidente",
+          "para": "comunicar la emergencia y la asistencia recibida (reembolsos)",
           "cantidad": 7,
           "unidad": "dias",
           "tipo_dias": "no_dice",
-          "desde": "fecha en que se tenga conocimiento de la ocurrencia del siniestro o conocido el beneficio",
-          "cita": 2,
+          "desde": "a la fecha en que se tenga conocimiento de la ocurrencia o del beneficio",
+          "cita": 5,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-11-17",
-            "dias_restantes": 2,
+            "dias_restantes": 1,
             "vencido": false,
             "notas": [
               "La póliza no dice si son días hábiles o calendario: conté días calendario, que da la fecha más temprana."
@@ -658,93 +674,86 @@
       ],
       "a_quien_avisar": [
         {
-          "descripcion": "LA COMPAÑÍA, comunicándose directamente a la Central de Asistencia, sin costo (cobro revertido) o desde cualquier parte del mundo, al Teléfono 56(22) 340 7000 (opción 2), las 24 horas los 365 días del año",
+          "descripcion": "Central de Asistencia de LA COMPAÑÍA, por cobro revertido o desde cualquier parte del mundo, al Teléfono 56 (22) 340 7000 (opción 2), las 24 horas del día, los 365 días del año",
           "citas": [
             3
-          ]
-        },
-        {
-          "descripcion": "LA COMPAÑÍA, para comunicar la emergencia y la asistencia recibida desde el lugar de ocurrencia",
-          "citas": [
-            1
           ]
         }
       ],
       "documentos": [
         {
-          "descripcion": "Constancias y comprobantes originales que justifiquen la emergencia",
+          "descripcion": "Comprobantes originales de los gastos médicos y constancias que justifiquen la emergencia (para reembolso)",
           "citas": [
-            1
-          ]
-        },
-        {
-          "descripcion": "Comprobantes de pago originales de los gastos médicos",
-          "citas": [
-            4,
-            10
+            5,
+            7
           ]
         }
       ],
       "pasos": [
         {
-          "descripcion": "Comunicarse con la Central de Asistencia de LA COMPAÑÍA al teléfono indicado, lo antes posible y dentro de los 7 días siguientes a enterarse del accidente.",
+          "descripcion": "Comunicarse con la Central de Asistencia de LA COMPAÑÍA al Teléfono 56 (22) 340 7000 (opción 2) dentro de los siete días siguientes a conocer el siniestro.",
           "citas": [
-            1,
             2,
             3
           ]
         },
         {
-          "descripcion": "Si en la zona no hay proveedores de LA COMPAÑÍA, la Central de Asistencias autoriza la opción de reembolso para buscar atención de emergencia.",
-          "citas": [
-            6
-          ]
-        },
-        {
-          "descripcion": "Si hay centros con convenio en la zona, se le indicará acudir a ellos, y la atención queda cubierta al 100% por LA COMPAÑÍA.",
-          "citas": [
-            8
-          ]
-        },
-        {
-          "descripcion": "Los gastos médicos deben haber sido previamente autorizados por el Departamento Médico de LA COMPAÑÍA para ser reembolsados.",
+          "descripcion": "Si hay hospitales o centros médicos en Convenio en la zona del evento, acudir a ellos; esas atenciones están cubiertas al 100% por LA COMPAÑÍA.",
           "citas": [
             4
           ]
         },
         {
-          "descripcion": "Para nuevas atenciones originadas en el mismo evento, debe comunicarse antes con LA COMPAÑÍA para obtener autorización.",
-          "citas": [
-            9
-          ]
-        },
-        {
-          "descripcion": "Presentar los comprobantes para el reembolso, hasta el límite indicado en la póliza según el plan adquirido.",
+          "descripcion": "Si en la zona no hay proveedores, la Central de Asistencias autorizará la opción de reembolso para buscar atención de emergencia.",
           "citas": [
             4
           ]
         },
         {
-          "descripcion": "Si no cumple con el procedimiento de aviso de siniestro, LA COMPAÑÍA no otorgará cobertura.",
+          "descripcion": "Comunicar a LA COMPAÑÍA la emergencia y la asistencia recibida desde el lugar del evento, lo antes posible y dentro de los siete días.",
           "citas": [
             5
           ]
+        },
+        {
+          "descripcion": "Si el accidente causa muerte o invalidez, el aviso debe darse dentro de los siete días siguientes a conocer la ocurrencia, y los trámites de muerte o invalidez se presentan en las oficinas de LA COMPAÑÍA o ante el comercializador.",
+          "citas": [
+            1
+          ]
+        },
+        {
+          "descripcion": "Contactar la Central de Asistencia cada vez que se requiera una nueva atención originada en la misma causa, antes de recibirla.",
+          "citas": [
+            1
+          ]
         }
       ],
-      "descartes": [],
+      "descartes": [
+        {
+          "tipo": "cita",
+          "n": 6,
+          "texto": "LA COMPAÑÍA efectuará el reembolso de gastos médicos realizados en dicha situación de emergencia, siempre y cuando hayan sido previamente autorizados por el Departamento Médico de LA COMPAÑÍA.",
+          "motivo": "no está literal en ningún pasaje"
+        },
+        {
+          "tipo": "paso",
+          "texto": "Para gastos con reembolso, obtener la autorización previa del Departamento Médico de LA COMPAÑÍA.",
+          "motivo": "sin cita válida"
+        }
+      ],
       "uso": {
         "llamadas": 1,
-        "costo_usd": 0.001872,
-        "segundos": 8.27,
+        "costo_usd": 0.001742,
+        "segundos": 7.93,
         "detalle": [
           {
             "proveedor": "claude",
             "modelo": "claude-haiku-5-5",
             "tokens_entrada": 7216,
-            "tokens_salida": 2301,
+            "tokens_salida": 2041,
             "tokens_razonamiento": 0,
-            "segundos": 8.27,
-            "costo_usd": 0.001872
+            "segundos": 7.93,
+            "costo_usd": 0.001742
           }
         ]
       }
@@ -753,16 +762,16 @@
       "modo": "pasos",
       "plazos": [
         {
-          "para": "avisar a la central de asistencia del evento médico o emergencia",
+          "para": "avisar de la emergencia a la Central de Asistencias",
           "cantidad": 24,
           "unidad": "horas",
           "tipo_dias": "no_dice",
-          "desde": "haber sucedido la emergencia",
+          "desde": "de haber sucedido la emergencia",
           "cita": 2,
           "calculo": {
             "fecha_hecho": "2026-11-10",
             "fecha_limite": "2026-11-11",
-            "dias_restantes": -4,
+            "dias_restantes": -5,
             "vencido": true,
             "notas": [
               "El plazo es de 24 horas y no sé a qué hora ocurrió: cuento 1 día completo."
@@ -772,7 +781,7 @@
       ],
       "a_quien_avisar": [
         {
-          "descripcion": "Central de Asistencias (Central de Servicios de Asistencia) de INTERSEGURO, llamando por teléfono. Puede hacerlo el Beneficiario o cualquier acompañante, amigo o familiar si el Beneficiario no puede.",
+          "descripcion": "Central de Asistencias (llamada telefónica del Beneficiario o de un acompañante, amigo o familiar si el Beneficiario no puede hacerlo)",
           "citas": [
             1,
             2
@@ -781,67 +790,48 @@
       ],
       "documentos": [
         {
-          "descripcion": "Comprobantes originales de compra de medicamentos, si los gastos son de medicamentos recetados (solo si se trata de esos gastos).",
+          "descripcion": "Comprobantes originales de compra de medicamentos, copia original del dictamen o informe médico con el diagnóstico y la fórmula o receta médica (solo para medicamentos previamente autorizados por la Central de Servicios de Asistencia)",
           "citas": [
-            7
-          ]
-        },
-        {
-          "descripcion": "Copia original del dictamen o informe médico con el diagnóstico recibido, y la fórmula o receta médica.",
-          "citas": [
-            6,
-            7
+            5
           ]
         }
       ],
       "pasos": [
         {
-          "descripcion": "Llamar y reportar la emergencia a la Central de Servicios de Asistencias de INTERSEGURO dentro de las 24 horas de ocurrido el accidente.",
+          "descripcion": "Llamar y reportar la emergencia a la Central de Asistencias dentro de las 24 horas de ocurrido el accidente. Si no puede hacerlo usted, puede hacerlo un acompañante, amigo o familiar. Si no se cumple este plazo, se pierde el derecho de reclamo.",
           "citas": [
             1,
-            2
+            2,
+            3
           ]
         },
         {
-          "descripcion": "Si se necesita traslado sanitario, solicitarlo y obtener autorización de la central de INTERSEGURO antes de realizarlo, incluso en casos de urgencia o emergencia.",
+          "descripcion": "Si necesita traslado, debe ser solicitado y autorizado previamente por la central de INTERSEGURO, incluso en casos de urgencia o emergencia.",
           "citas": [
             4
           ]
         },
         {
-          "descripcion": "No organizar por cuenta propia una repatriación ni un traslado sin la autorización escrita de INTERSEGURO.",
+          "descripcion": "Para reintegro de medicamentos, compre solo los medicamentos previamente autorizados por la Central de Servicios de Asistencia, y guarde los comprobantes y documentos médicos indicados.",
           "citas": [
             5
           ]
-        },
-        {
-          "descripcion": "Para gastos de medicamentos, obtener autorización previa de la Central y conservar los comprobantes y el informe médico para presentarlos al regresar al país de origen.",
-          "citas": [
-            6,
-            7
-          ]
         }
       ],
-      "descartes": [
-        {
-          "tipo": "a_quien_avisar",
-          "texto": "Si está en altamar y no puede comunicarse con la Central de Asistencias, informar el hecho médico hasta 24 horas después de desembarcado en el primer puerto al que arribe.",
-          "motivo": "sin cita válida"
-        }
-      ],
+      "descartes": [],
       "uso": {
         "llamadas": 1,
-        "costo_usd": 0.001525,
-        "segundos": 6.41,
+        "costo_usd": 0.001964,
+        "segundos": 10.64,
         "detalle": [
           {
             "proveedor": "claude",
             "modelo": "claude-haiku-5-5",
-            "tokens_entrada": 7243,
-            "tokens_salida": 1601,
+            "tokens_entrada": 7247,
+            "tokens_salida": 2479,
             "tokens_razonamiento": 0,
-            "segundos": 6.41,
-            "costo_usd": 0.001525
+            "segundos": 10.64,
+            "costo_usd": 0.001964
           }
         ]
       }
@@ -1011,7 +1001,7 @@
             }
           ]
         },
-        "por_que": "Ambas cubren el pago de beneficios por muerte accidental del asegurado durante el viaje o la vigencia."
+        "por_que": "Ambas pagan beneficios por muerte accidental del asegurado durante el viaje o la vigencia."
       },
       {
         "a": {
@@ -1145,30 +1135,76 @@
             }
           ]
         },
-        "por_que": "Ambas pagan beneficios a los beneficiarios si el asegurado fallece por un accidente durante el viaje."
+        "por_que": "Ambas pagan beneficios a los beneficiarios si el asegurado muere por un accidente durante un viaje."
       },
       {
         "a": {
-          "poliza": "Chubb Seguros Perú",
-          "cobertura": "Muerte accidental al salvar vidas humanas",
-          "que_cubre": "Cubre la muerte por accidentes sufridos al tratar de salvar vidas humanas.",
-          "limite": null,
+          "poliza": "Pacífico Seguros",
+          "cobertura": "Muerte Accidental",
+          "que_cubre": "Cobertura básica por fallecimiento accidental del asegurado, con sumas que varían según la edad del titular.",
+          "limite": "Titulares de 18 años o menores: la suma de las Condiciones Particulares o Certificado, o USD 60.000 si es menor; titulares de 19 a 74 años: la suma indicada en Condiciones Particulares y/o Certificado de Seguro.",
           "citas": [
             {
-              "n": 4,
-              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-              "seccion": "Condiciones Generales",
-              "articulo": "Artículo 2°: Cobertura Principal – Muerte Accidental",
-              "pagina": 7,
+              "n": 2,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "RESUMEN DE LA PÓLIZA",
+              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+              "pagina": 2,
               "paginas": [
-                7
+                2
               ],
-              "texto_literal": "El seguro cubre también la muerte del ASEGURADO como consecuencia de accidentes sobrevenidos al tratar de salvar vidas humanas.",
-              "pasaje": "P2",
-              "trozo_id": "chubb_viajes_jetsmart:0023",
+              "texto_literal": "• Muerte Accidental.",
+              "pasaje": "P1",
+              "trozo_id": "pacifico_viajes:0009",
               "posicion": [
-                798,
-                925
+                76,
+                96
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            },
+            {
+              "n": 10,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "PARTE B. COBERTURAS",
+              "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.4. SUMAS ASEGURADAS SEGÚN LA EDAD DEL BENEFICIARIO",
+              "pagina": 11,
+              "paginas": [
+                11
+              ],
+              "texto_literal": "Titulares de 18 años o menores: Estarán asegurados por la suma indicada en las condiciones particulares de su Certificado de Seguro o por la suma máxima de USD 60.000 (sesenta mil dólares estadounidenses), la que sea menor.",
+              "pasaje": "P11",
+              "trozo_id": "pacifico_viajes:0031",
+              "posicion": [
+                88,
+                311
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            },
+            {
+              "n": 11,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "PARTE B. COBERTURAS",
+              "articulo": "2. COBERTURAS BÁSICAS › 2.1. MUERTE ACCIDENTAL › 2.1.4. SUMAS ASEGURADAS SEGÚN LA EDAD DEL BENEFICIARIO",
+              "pagina": 11,
+              "paginas": [
+                11
+              ],
+              "texto_literal": "Titulares entre 19 a 74 años: Estarán asegurados por la suma indicada en las Condiciones Particulares y/ Certificado de Seguro.",
+              "pasaje": "P11",
+              "trozo_id": "pacifico_viajes:0031",
+              "posicion": [
+                314,
+                441
               ],
               "verificacion": {
                 "en_pasaje": true,
@@ -1233,313 +1269,7 @@
             }
           ]
         },
-        "por_que": "Ambas cubren la muerte del asegurado causada por un accidente ocurrido durante el viaje."
-      },
-      {
-        "a": {
-          "poliza": "Chubb Seguros Perú",
-          "cobertura": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-          "que_cubre": "Cláusula adicional que cubre gastos médicos por accidente o enfermedad durante el viaje.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-              "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-              "articulo": "Texto inicial de la sección",
-              "pagina": 11,
-              "paginas": [
-                11
-              ],
-              "texto_literal": "La presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes.",
-              "pasaje": "P3",
-              "trozo_id": "chubb_viajes_jetsmart:0040",
-              "posicion": [
-                46,
-                351
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "b": {
-          "poliza": "Pacífico Seguros",
-          "cobertura": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente",
-          "que_cubre": "Gastos y asistencia médica por accidente o enfermedad no preexistente, si se contrata como beneficio adicional.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 2,
-              "paginas": [
-                2
-              ],
-              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                237,
-                294
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "por_que": "Ambas cubren gastos médicos por accidente o enfermedad durante el viaje."
-      },
-      {
-        "a": {
-          "poliza": "Chubb Seguros Perú",
-          "cobertura": "Cancelación de viaje",
-          "que_cubre": "Reembolso de servicios de viaje no devueltos, hospedaje y cargos por cancelación si el asegurado no puede iniciar el viaje por enfermedad súbita, accidente o fallecimiento.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 8,
-              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-              "seccion": "Cláusula Adicional: Cancelación del Viaje",
-              "articulo": "Artículo 3° Cobertura",
-              "pagina": 41,
-              "paginas": [
-                41
-              ],
-              "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO",
-              "pasaje": "P10",
-              "trozo_id": "chubb_viajes_jetsmart:0149",
-              "posicion": [
-                22,
-                404
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "b": {
-          "poliza": "Pacífico Seguros",
-          "cobertura": "Cancelación de viaje",
-          "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 2,
-              "paginas": [
-                2
-              ],
-              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                237,
-                294
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            },
-            {
-              "n": 6,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 2,
-              "paginas": [
-                2
-              ],
-              "texto_literal": "• Cancelación de viaje",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                740,
-                762
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "por_que": "Ambas reembolsan servicios de viaje no utilizados o cargos por cancelación del viaje."
-      },
-      {
-        "a": {
-          "poliza": "Chubb Seguros Perú",
-          "cobertura": "Gastos Farmacéuticos durante el Viaje",
-          "que_cubre": "Cláusula adicional que cubre gastos farmacéuticos durante el viaje.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-              "seccion": "Cláusula Adicional: Desmembramiento Accidental",
-              "articulo": "Texto inicial de la sección",
-              "pagina": 11,
-              "paginas": [
-                11
-              ],
-              "texto_literal": "La presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes.",
-              "pasaje": "P3",
-              "trozo_id": "chubb_viajes_jetsmart:0040",
-              "posicion": [
-                46,
-                351
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "b": {
-          "poliza": "Pacífico Seguros",
-          "cobertura": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente",
-          "que_cubre": "Gastos y asistencia médica por accidente o enfermedad no preexistente, si se contrata como beneficio adicional.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 2,
-              "paginas": [
-                2
-              ],
-              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                237,
-                294
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "por_que": "Ambas cubren gastos farmacéuticos o médicos derivados de accidente o enfermedad durante el viaje."
-      },
-      {
-        "a": {
-          "poliza": "Chubb Seguros Perú",
-          "cobertura": "Repatriación en Vida – Traslado Médico por Emergencia",
-          "que_cubre": "Cobertura que aplica solo como continuación de un evento por accidente amparado por gastos médicos, odontológicos o farmacéuticos durante el viaje.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 9,
-              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-              "seccion": "Cláusula Adicional: Repatriación en Vida – Traslado Médico por Emergencia",
-              "articulo": "Artículo 4° Condiciones de Cobertura",
-              "pagina": 36,
-              "paginas": [
-                36
-              ],
-              "texto_literal": "Esta cobertura aplica únicamente como continuación a un evento provocado por un ACCIDENTE y amparado por las coberturas:",
-              "pasaje": "P9",
-              "trozo_id": "chubb_viajes_jetsmart:0133",
-              "posicion": [
-                37,
-                157
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "b": {
-          "poliza": "Pacífico Seguros",
-          "cobertura": "Repatriación o traslados funerarios",
-          "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
-          "limite": null,
-          "citas": [
-            {
-              "n": 5,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 2,
-              "paginas": [
-                2
-              ],
-              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                237,
-                294
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            },
-            {
-              "n": 9,
-              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-              "seccion": "RESUMEN DE LA PÓLIZA",
-              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
-              "pagina": 3,
-              "paginas": [
-                3
-              ],
-              "texto_literal": "• Repatriación o traslados funerarios",
-              "pasaje": "P1",
-              "trozo_id": "pacifico_viajes:0009",
-              "posicion": [
-                1081,
-                1118
-              ],
-              "verificacion": {
-                "en_pasaje": true,
-                "puntuacion_final_ignorada": null,
-                "pdfplumber": true,
-                "pypdf": true
-              }
-            }
-          ]
-        },
-        "por_que": "Ambas cubren el traslado o repatriación del asegurado tras un evento médico o de emergencia."
+        "por_que": "Ambas cubren el fallecimiento accidental del asegurado como riesgo de muerte por accidente en viaje."
       },
       {
         "a": {
@@ -1673,13 +1403,166 @@
             }
           ]
         },
-        "por_que": "Ambas pagan indemnizaciones por lesiones permanentes o invalidez causadas por un accidente."
+        "por_que": "Ambas indemnizan pérdidas o disminuciones físicas permanentes causadas por accidente, según un porcentaje o grado asignado."
+      },
+      {
+        "a": {
+          "poliza": "Chubb Seguros Perú",
+          "cobertura": "Cancelación de viaje",
+          "que_cubre": "Reembolso de servicios de viaje no devueltos, hospedaje y cargos por cancelación si el asegurado no puede iniciar el viaje por enfermedad súbita, accidente o fallecimiento.",
+          "limite": null,
+          "citas": [
+            {
+              "n": 8,
+              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+              "seccion": "Cláusula Adicional: Cancelación del Viaje",
+              "articulo": "Artículo 3° Cobertura",
+              "pagina": 41,
+              "paginas": [
+                41
+              ],
+              "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO",
+              "pasaje": "P10",
+              "trozo_id": "chubb_viajes_jetsmart:0149",
+              "posicion": [
+                22,
+                404
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            }
+          ]
+        },
+        "b": {
+          "poliza": "Pacífico Seguros",
+          "cobertura": "Cancelación de viaje",
+          "que_cubre": "Beneficio adicional listado en la póliza, si se contrata.",
+          "limite": null,
+          "citas": [
+            {
+              "n": 5,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "RESUMEN DE LA PÓLIZA",
+              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+              "pagina": 2,
+              "paginas": [
+                2
+              ],
+              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
+              "pasaje": "P1",
+              "trozo_id": "pacifico_viajes:0009",
+              "posicion": [
+                237,
+                294
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            },
+            {
+              "n": 6,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "RESUMEN DE LA PÓLIZA",
+              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+              "pagina": 2,
+              "paginas": [
+                2
+              ],
+              "texto_literal": "• Cancelación de viaje",
+              "pasaje": "P1",
+              "trozo_id": "pacifico_viajes:0009",
+              "posicion": [
+                740,
+                762
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            }
+          ]
+        },
+        "por_que": "Ambas reembolsan servicios de viaje no utilizados o cargos cuando el viaje se cancela por causas amparadas."
+      },
+      {
+        "a": {
+          "poliza": "Chubb Seguros Perú",
+          "cobertura": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+          "que_cubre": "Cláusula adicional que cubre gastos médicos por accidente o enfermedad durante el viaje.",
+          "limite": null,
+          "citas": [
+            {
+              "n": 5,
+              "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+              "seccion": "Cláusula Adicional: Desmembramiento Accidental",
+              "articulo": "Texto inicial de la sección",
+              "pagina": 11,
+              "paginas": [
+                11
+              ],
+              "texto_literal": "La presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes.",
+              "pasaje": "P3",
+              "trozo_id": "chubb_viajes_jetsmart:0040",
+              "posicion": [
+                46,
+                351
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            }
+          ]
+        },
+        "b": {
+          "poliza": "Pacífico Seguros",
+          "cobertura": "Gastos y asistencias médicos por accidente y/o enfermedad no preexistente",
+          "que_cubre": "Gastos y asistencia médica por accidente o enfermedad no preexistente, si se contrata como beneficio adicional.",
+          "limite": null,
+          "citas": [
+            {
+              "n": 5,
+              "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+              "seccion": "RESUMEN DE LA PÓLIZA",
+              "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Coberturas Básicas",
+              "pagina": 2,
+              "paginas": [
+                2
+              ],
+              "texto_literal": "Coberturas y/o beneficios adicionales (según se contrate)",
+              "pasaje": "P1",
+              "trozo_id": "pacifico_viajes:0009",
+              "posicion": [
+                237,
+                294
+              ],
+              "verificacion": {
+                "en_pasaje": true,
+                "puntuacion_final_ignorada": null,
+                "pdfplumber": true,
+                "pypdf": true
+              }
+            }
+          ]
+        },
+        "por_que": "Ambas cubren gastos médicos por accidente o enfermedad durante el viaje."
       }
     ],
     "uso": {
       "llamadas": 1,
-      "costo_usd": 0.000421,
-      "segundos": 3.39
+      "costo_usd": 0.000373,
+      "segundos": 3.16
     }
   }
 }
