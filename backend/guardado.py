@@ -39,12 +39,16 @@ usuarios = sa.Table(
     "usuarios", _meta,
     sa.Column("id", sa.String(40), primary_key=True),
     sa.Column("correo", sa.String(254), nullable=False, unique=True),
-    sa.Column("clave_hash", sa.String(200), nullable=False),
+    sa.Column("clave_hash", sa.String(200), nullable=False),  # "" si la cuenta entra solo con Google
     sa.Column("plan", sa.String(10), nullable=False),  # "gratis" o "pagado"
     sa.Column("creado", sa.DateTime(timezone=True), nullable=False),
     sa.Column("ultimo_acceso", sa.DateTime(timezone=True), nullable=False),
     sa.Column("acepto_privacidad", sa.DateTime(timezone=True), nullable=False),  # consentimiento explícito (Ley 29733)
+    sa.Column("google_sub", sa.String(64), nullable=True),  # identificador de la cuenta de Google, si entra con Google
+    sa.Column("radiografia_gratis", sa.String(80), nullable=True),  # la póliza de su única radiografía gratis
+    sa.Column("compra", sa.String(64), nullable=True),  # hash del comprobante del pago único (backend/pagos.py)
 )
+_COLUMNAS_NUEVAS = ("google_sub", "radiografia_gratis", "compra")
 sesiones = sa.Table(
     "sesiones", _meta,
     sa.Column("token_hash", sa.String(64), primary_key=True),
@@ -56,7 +60,7 @@ polizas = sa.Table(
     sa.Column("id", sa.String(40), primary_key=True),
     sa.Column("usuario_id", sa.String(40), nullable=False, index=True),
     sa.Column("creado", sa.DateTime(timezone=True), nullable=False),
-    sa.Column("borrar_el", sa.DateTime(timezone=True), nullable=True),  # plan gratis: a los 7 días; pagado: nunca
+    sa.Column("borrar_el", sa.DateTime(timezone=True), nullable=True),  # plan gratis: a los 14 días; pagado: nunca
     sa.Column("contenido", sa.LargeBinary, nullable=False),  # cifrado: nombre, fragmentos, vectores y texto de las páginas
 )
 consultas = sa.Table(
@@ -119,6 +123,11 @@ def descifrar(cifrado: bytes, atado_a: str) -> dict:
 
 def crear_tablas(motor: sa.Engine) -> None:
     _meta.create_all(motor)
+    existentes = {c["name"] for c in sa.inspect(motor).get_columns("usuarios")}
+    with motor.begin() as c:  # una base creada antes de estas columnas
+        for nombre in _COLUMNAS_NUEVAS:
+            if nombre not in existentes:
+                c.execute(sa.text(f"ALTER TABLE usuarios ADD COLUMN {nombre} VARCHAR(80)"))
 
 
 # ---------------------------------------------------------------------------
@@ -204,7 +213,7 @@ def listar_polizas(motor: sa.Engine, usuario_id: str) -> list[dict]:
     salida = []
     for f in filas:
         datos = descifrar(f.contenido, f"{f.id}|{usuario_id}")
-        salida.append({"poliza_id": f.id, "nombre": datos["nombre"], "paginas": datos["meta"].get("paginas"),
+        salida.append({"poliza_id": f.id, "nombre": datos["nombre"], "paginas": datos["meta"].get("paginas"), "sha256": datos["sha256"],
                        "archivos": [{"nombre": n, "paginas": p} for n, p in datos["archivos"]],
                        "creado": _utc(f.creado), "borrar_el": _utc(f.borrar_el)})
     return salida

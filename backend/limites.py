@@ -1,6 +1,8 @@
-"""Los tres topes de gasto.
+"""Los topes de gasto.
 
-1. Por dispositivo: QMC_LIMITE_DISPOSITIVO_DIA consultas al día (día de Lima).
+1. Consultas al día (día de Lima), según quién pregunta: sin cuenta, QMC_LIMITE_DISPOSITIVO_DIA
+   por dispositivo; cuenta gratis, QMC_LIMITE_GRATIS_DIA; cuenta pagada, QMC_LIMITE_PAGADO_DIA.
+   No hay topes mensuales por persona.
 2. Por IP, de respaldo: el identificador de dispositivo lo genera el cliente y se puede
    cambiar reinstalando; la IP pone un techo aunque eso pase.
 3. Global mensual: QMC_TOPE_GLOBAL_USD. Al llegar, el servicio sigue y responde sin modelo
@@ -78,22 +80,21 @@ class Limites:
             c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 10, uso_diario.c.dia < ayer))
             c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 7, uso_diario.c.dia < self.mes()))
 
-    # Sin cuenta: 3 al día y 15 al mes. Cuenta gratis: 30 al mes. Cuenta pagada: 10 al día.
+    # Consultas al día, con reinicio diario: sin cuenta 3, cuenta gratis 3, cuenta pagada 20.
     @property
     def limite_dispositivo(self) -> int:
         return _entero("QMC_LIMITE_DISPOSITIVO_DIA", 3)
 
     @property
-    def limite_dispositivo_mes(self) -> int:
-        return _entero("QMC_LIMITE_DISPOSITIVO_MES", 15)
-
-    @property
-    def limite_gratis_mes(self) -> int:
-        return _entero("QMC_LIMITE_GRATIS_MES", 30)
+    def limite_gratis_dia(self) -> int:
+        return _entero("QMC_LIMITE_GRATIS_DIA", 3)
 
     @property
     def limite_pagado_dia(self) -> int:
-        return _entero("QMC_LIMITE_PAGADO_DIA", 10)
+        return _entero("QMC_LIMITE_PAGADO_DIA", 20)
+
+    def limite_de(self, plan: str) -> int:
+        return {"pagado": self.limite_pagado_dia, "gratis": self.limite_gratis_dia}.get(plan, self.limite_dispositivo)
 
     @property
     def limite_ip(self) -> int:

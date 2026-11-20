@@ -1,4 +1,4 @@
-"""API de ¿Qué me cubre?: el mismo pipeline de ai/ detrás de HTTP.
+"""API de ¿Qué Cubre?: el mismo pipeline de ai/ detrás de HTTP.
 
     uvicorn backend.main:app --reload
 
@@ -34,13 +34,14 @@ from starlette.formparsers import MultiPartParser  # noqa: E402
 
 from ai import consulta as flujo  # noqa: E402
 from ai import clinicas, embeddings, pasos, radiografia, renipress, subida  # noqa: E402
-from ai.llm import ErrorLLM, LimiteAlcanzado, ProveedorNoDisponible, obtener_proveedor  # noqa: E402
+from ai.llm import ErrorLLM, LimiteAlcanzado, ProveedorNoDisponible, config, obtener_proveedor  # noqa: E402
 from ai.recuperacion import metodo_efectivo  # noqa: E402
 from ai.respuesta import Poliza, responder  # noqa: E402
-from backend import almacen, cuentas, guardado, observabilidad  # noqa: E402
+from backend import acceso_google, almacen, cuentas, guardado, observabilidad, pagos  # noqa: E402
 from backend.limites import LIMA, Limites, clave_dispositivo, clave_ip  # noqa: E402
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
+POLITICA = config("QMC_POLITICA_URL") or "https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md"
 MAX_ARCHIVOS = 6
 MAX_BYTES = 20 * 1024 * 1024  # por archivo
 MultiPartParser.spool_max_size = MAX_BYTES + 1
@@ -105,7 +106,7 @@ async def ciclo(_app: FastAPI):
     observabilidad.cerrar()
 
 
-app = FastAPI(title="¿Qué me cubre?", version=VERSION, lifespan=ciclo)
+app = FastAPI(title="¿Qué Cubre?", version=VERSION, lifespan=ciclo)
 
 
 def error(status: int, codigo: str, mensaje: str, **extra) -> HTTPException:
@@ -197,6 +198,7 @@ def resumen_poliza(poliza_id: str, poliza: Poliza) -> dict:
         "secciones": poliza.secciones,
         "archivos": [{"nombre": n, "paginas": p} for n, p in poliza.archivos],
         "busqueda": metodo_efectivo(poliza.indice),
+        "documento_sha256": poliza.sha256,  # identifica el documento (p. ej., para saber de cuál fue la radiografía gratis)
         # Si el documento no parece un condicionado de seguro: un aviso, sin bloquear (ai/portero.py)
         "aviso_documento": (poliza.revision or {}).get("aviso"),
     }
@@ -224,11 +226,13 @@ def info() -> dict:
         "embeddings": embeddings.modelo() if embeddings.disponible() else None,
         "registra_preguntas": observabilidad.activo(),
         "limite_consultas_dia": lim.limite_dispositivo,
-        "limites": {"sin_cuenta": {"dia": lim.limite_dispositivo, "mes": lim.limite_dispositivo_mes, "polizas_guardadas": 0},
-                    "gratis": {"mes": lim.limite_gratis_mes, "polizas_guardadas": cuentas.polizas_permitidas("gratis"),
-                               "dias_de_guardado": cuentas.dias_de_guardado("gratis")},
-                    "pagado": {"dia": lim.limite_pagado_dia, "polizas_guardadas": cuentas.polizas_permitidas("pagado")}},
+        "limites": {plan: {"dia": lim.limite_de(plan), "polizas_guardadas": 0 if plan == "sin_cuenta" else pagos.polizas_permitidas(plan),
+                           "dias_de_guardado": None if plan == "sin_cuenta" else pagos.dias_de_guardado(plan)}
+                    for plan in ("sin_cuenta", "gratis", "pagado")},
+        "plan_pagado": {"producto": pagos.PRODUCTO, "precio": pagos.PRECIO},
         "cuentas_disponibles": guardado.hay_llave(),
+        "google_disponible": acceso_google.disponible(),
+        "politica_privacidad": POLITICA,
         "sin_modelo_por_tope": lim.tope_global_alcanzado(),
     }
 
@@ -322,58 +326,32 @@ def limpiar(r: dict) -> dict:
 
 
 def cupo(request: Request, q: Quien) -> Limites:
-    """Cuenta una consulta según quién pregunta, o responde 429.
-    Sin cuenta: por día y por mes, y además por IP. Cuenta gratis: por mes. Cuenta pagada: por día."""
+    """Cuenta una consulta del día según el plan de quien pregunta, o responde 429. Sin cuenta,
+    además, un techo por IP (el identificador de dispositivo lo genera el cliente)."""
     lim = limites()
-    if q.plan == "pagado":
-        if not lim.tomar(q.clave, lim.limite_pagado_dia):
-            raise error(429, "limite_cuenta", f"Llegaste al límite de {lim.limite_pagado_dia} consultas por hoy. Mañana se renueva.")
-    elif q.plan == "gratis":
-        if not lim.tomar(q.clave, lim.limite_gratis_mes, lim.mes()):
-            raise error(429, "limite_cuenta", f"Llegaste al límite de {lim.limite_gratis_mes} consultas de este mes de tu cuenta gratuita.")
-    else:
-        if not lim.tomar(q.clave, lim.limite_dispositivo):
-            raise error(429, "limite_dispositivo", f"Sin cuenta puedes hacer {lim.limite_dispositivo} consultas al día. Mañana se "
-                        f"renueva; con una cuenta gratuita tienes {lim.limite_gratis_mes} al mes.", limite_dia=lim.limite_dispositivo)
-        if not lim.tomar(q.clave, lim.limite_dispositivo_mes, lim.mes()):
-            lim.devolver(q.clave)
-            raise error(429, "limite_dispositivo", f"Sin cuenta puedes hacer {lim.limite_dispositivo_mes} consultas al mes. Con una "
-                        f"cuenta gratuita tienes {lim.limite_gratis_mes}.", limite_mes=lim.limite_dispositivo_mes)
-        if not lim.tomar(clave_ip(ip_de(request)), lim.limite_ip):
-            devolver_cupo(lim, q)
-            raise error(429, "limite_red", "Desde esta red ya se hicieron demasiadas consultas hoy. Mañana se renueva.")
+    limite = lim.limite_de(q.plan)
+    if not lim.tomar(q.clave, limite):
+        raise error(429, "limite_cuenta" if q.cuenta else "limite_dispositivo",
+                    f"Llegaste a tus {limite} consultas de hoy. Mañana se renuevan.", limite_dia=limite)
+    if q.cuenta is None and not lim.tomar(clave_ip(ip_de(request)), lim.limite_ip):
+        devolver_cupo(lim, q)
+        raise error(429, "limite_red", "Desde esta red ya se hicieron demasiadas consultas hoy. Mañana se renueva.")
     return lim
 
 
 def otra_consulta(lim: Limites, q: Quien) -> bool:
     """Una consulta más del mismo texto (varias preguntas): ¿queda cupo?"""
-    if q.plan == "pagado":
-        return lim.tomar(q.clave, lim.limite_pagado_dia)
-    if q.plan == "gratis":
-        return lim.tomar(q.clave, lim.limite_gratis_mes, lim.mes())
-    if not lim.tomar(q.clave, lim.limite_dispositivo):
-        return False
-    if not lim.tomar(q.clave, lim.limite_dispositivo_mes, lim.mes()):
-        lim.devolver(q.clave)
-        return False
-    return True
+    return lim.tomar(q.clave, lim.limite_de(q.plan))
 
 
 def devolver_cupo(lim: Limites, q: Quien) -> None:
-    if q.plan != "gratis":
-        lim.devolver(q.clave)
-    if q.plan != "pagado":
-        lim.devolver(q.clave, lim.mes())
+    lim.devolver(q.clave)
 
 
 def estado_limites(lim: Limites, q: Quien, por_tope: bool) -> dict:
-    """Cuánto le queda a quien pregunta. Los campos que no aplican a su plan van en None."""
-    dia = {"pagado": lim.limite_pagado_dia, "sin_cuenta": lim.limite_dispositivo}.get(q.plan)
-    mes = {"gratis": lim.limite_gratis_mes, "sin_cuenta": lim.limite_dispositivo_mes}.get(q.plan)
-    return {"plan": q.plan,
-            "limite_dia": dia, "restantes_hoy": None if dia is None else max(0, dia - lim.usadas(q.clave)),
-            "limite_mes": mes, "restantes_mes": None if mes is None else max(0, mes - lim.usadas(q.clave, lim.mes())),
-            "sin_modelo_por_tope": por_tope}
+    """Cuánto le queda hoy a quien pregunta."""
+    dia = lim.limite_de(q.plan)
+    return {"plan": q.plan, "limite_dia": dia, "restantes_hoy": max(0, dia - lim.usadas(q.clave)), "sin_modelo_por_tope": por_tope}
 
 
 @app.post("/preguntar")
@@ -454,10 +432,28 @@ def radiografia_de(poliza_id: str, cuenta: dict | None = None) -> dict:
     return hecha
 
 
+def clave_radiografia(poliza_id: str, poliza: Poliza) -> str:
+    """Qué póliza es, para la radiografía gratis: el id si es de ejemplo; si no, la huella del
+    documento (la misma al subirla y después de guardarla)."""
+    return poliza_id if poliza_id in almacen.fuentes() else poliza.sha256
+
+
 @app.get("/polizas/{poliza_id}/radiografia")
 def ver_radiografia(poliza_id: str, x_dispositivo: str | None = Header(default=None),
                     authorization: str | None = Header(default=None)) -> dict:
-    return radiografia_de(poliza_id, quien_es(x_dispositivo, authorization).cuenta)
+    """Del plan pagado; cada cuenta gratis tiene una completa de muestra (backend/pagos.py)."""
+    q = quien_es(x_dispositivo, authorization)
+    poliza = buscar_poliza(poliza_id, q.cuenta)
+    clave = clave_radiografia(poliza_id, poliza)
+    acceso = pagos.acceso_radiografia(q.cuenta, clave)
+    if acceso == "sin_cuenta":
+        raise error(403, "radiografia_sin_cuenta", "Crea una cuenta gratis para ver una radiografía.", funcion="radiografia")
+    if acceso == "bloqueada" or (acceso == "muestra" and not pagos.tomar_muestra(limites().motor, q.cuenta["usuario_id"], clave)):
+        raise error(403, "plan_pagado", "Ya usaste tu radiografía gratis. Las demás son del plan pagado.", funcion="radiografia")
+    r = radiografia_de(poliza_id, q.cuenta)
+    if acceso == "muestra" and r["modo"] != "radiografia":  # no salió: la muestra gratis no se pierde
+        pagos.soltar_muestra(limites().motor, q.cuenta["usuario_id"], clave)
+    return r | {"acceso": "pagado" if acceso == "pagado" else "muestra"}
 
 
 @app.get("/polizas/{poliza_id}/clinicas")
@@ -483,6 +479,8 @@ def coberturas_superpuestas(pedido: PedidoSuperposicion, request: Request, x_dis
     if len(set(pedido.poliza_ids)) != len(pedido.poliza_ids):
         raise error(400, "polizas_repetidas", "Elige pólizas distintas para comparar.")
     q = quien_es(x_dispositivo, authorization)
+    if not pagos.puede_comparar(q.plan):
+        raise error(403, "plan_pagado", "¿Pagas doble? es del plan pagado.", funcion="superposiciones")
     for poliza_id in pedido.poliza_ids:
         buscar_poliza(poliza_id, q.cuenta)
     lim = cupo(request, q)
@@ -497,9 +495,8 @@ def coberturas_superpuestas(pedido: PedidoSuperposicion, request: Request, x_dis
 # Cuentas, pólizas guardadas e historial
 # ---------------------------------------------------------------------------
 
-AVISO_GUARDADO = ("Si creas una cuenta, guardamos el texto de tu póliza y tus últimas consultas para que no tengas que subirla "
-                  "de nuevo. No guardamos el archivo PDF. Todo se guarda cifrado, pero la llave está en nuestro servidor: quien "
-                  "administra la app podría leerlo. Puedes borrarlo cuando quieras. Sin cuenta, nada se guarda.")
+CONSENTIMIENTO = ("Acepto la política de privacidad y que se guarde el texto de mi póliza y mis consultas, que pueden incluir "
+                  "datos de salud.")
 
 
 class Registro(BaseModel):
@@ -513,8 +510,18 @@ class Credenciales(BaseModel):
     clave: str = Field(max_length=200)
 
 
+class AccesoGoogle(BaseModel):
+    id_token: str = Field(min_length=20, max_length=4096)
+    acepto_privacidad: bool = False  # solo cuenta si la cuenta es nueva
+
+
 class Confirmacion(BaseModel):
-    clave: str = Field(max_length=200)
+    clave: str = Field(default="", max_length=200)  # una cuenta que entra solo con Google no tiene contraseña
+
+
+class Compra(BaseModel):
+    token_compra: str = Field(min_length=1, max_length=4096)
+    producto: str = Field(default=pagos.PRODUCTO, max_length=100)
 
 
 def _intento(request: Request) -> None:
@@ -523,35 +530,54 @@ def _intento(request: Request) -> None:
         raise error(429, "demasiados_intentos", "Demasiados intentos desde esta red por hoy.")
 
 
+def _cuentas_activas() -> None:
+    if not guardado.hay_llave():
+        raise error(503, "cuentas_no_disponibles", "Las cuentas todavía no están activadas en este servidor.")
+
+
 def datos_de_cuenta(cuenta: dict) -> dict:
     lim = limites()
     guardadas = guardado.listar_polizas(lim.motor, cuenta["usuario_id"])
     for g in guardadas:
         g["borrado_automatico"] = fecha_lima(g["borrar_el"])
-    return {"correo": cuenta["correo"], "plan": cuenta["plan"],
-            "polizas_permitidas": cuentas.polizas_permitidas(cuenta["plan"]), "dias_de_guardado": cuentas.dias_de_guardado(cuenta["plan"]),
+    plan = cuenta["plan"]
+    radiografia_ = "pagado" if plan == "pagado" else "muestra_usada" if cuenta["radiografia_gratis"] else "muestra_disponible"
+    return {"correo": cuenta["correo"], "plan": plan, "acceso": "google" if cuenta["con_google"] else "clave",
+            "polizas_permitidas": pagos.polizas_permitidas(plan), "dias_de_guardado": pagos.dias_de_guardado(plan),
+            "funciones": {"superposiciones": pagos.puede_comparar(plan), "radiografia": radiografia_,
+                          "radiografia_gratis_de": cuenta["radiografia_gratis"]},
             "polizas": guardadas, "limites": estado_limites(lim, Quien(cuenta, None), lim.tope_global_alcanzado())}
 
 
 @app.get("/cuenta/avisos")
 def avisos_de_cuenta() -> dict:
-    """Los textos que el cliente tiene que mostrar antes de crear una cuenta."""
-    return {"guardado": AVISO_GUARDADO, "clave": cuentas.AVISO_CLAVE,
-            "consentimiento": "Acepto la política de privacidad y que se guarde el texto de mi póliza y mis consultas, que pueden "
-                              "incluir datos de salud.",
-            "disponible": guardado.hay_llave()}
+    """Lo que el cliente muestra al crear una cuenta: la casilla (sin marcar) y el enlace a la política."""
+    return {"consentimiento": CONSENTIMIENTO, "politica_privacidad": POLITICA, "disponible": guardado.hay_llave(),
+            "google_disponible": acceso_google.disponible()}
+
+
+@app.post("/cuenta/google")
+def entrar_con_google(datos: AccesoGoogle, request: Request) -> dict:
+    """Entra (o crea la cuenta, si aceptó la política) con el ID token de Google."""
+    _intento(request)
+    _cuentas_activas()
+    limpiar_vencido()
+    try:
+        token, cuenta, nueva = cuentas.entrar_con_google(limites().motor, datos.id_token, datos.acepto_privacidad)
+    except cuentas.ErrorCuenta as e:
+        raise error(400 if e.codigo == "falta_consentimiento" else 401, e.codigo, str(e)) from e
+    return {"token": token, "cuenta_nueva": nueva, "cuenta": datos_de_cuenta(cuenta)}
 
 
 @app.post("/cuenta/registro", status_code=201)
 def registrar_cuenta(datos: Registro, request: Request) -> dict:
     _intento(request)
-    if not guardado.hay_llave():
-        raise error(503, "cuentas_no_disponibles", "Las cuentas todavía no están activadas en este servidor.")
+    _cuentas_activas()
     try:
         token, cuenta = cuentas.registrar(limites().motor, datos.correo, datos.clave, datos.acepto_privacidad)
     except cuentas.ErrorCuenta as e:
         raise error(409 if e.codigo == "correo_en_uso" else 400, e.codigo, str(e)) from e
-    return {"token": token, "aviso_clave": cuentas.AVISO_CLAVE, "cuenta": datos_de_cuenta(cuenta)}
+    return {"token": token, "cuenta": datos_de_cuenta(cuenta)}
 
 
 @app.post("/cuenta/sesion")
@@ -578,15 +604,31 @@ def ver_cuenta(authorization: str | None = Header(default=None)) -> dict:
     return datos_de_cuenta(quien_es(None, authorization, exigir_cuenta=True).cuenta)
 
 
+@app.post("/cuenta/compra")
+def comprar_plan(compra: Compra, authorization: str | None = Header(default=None)) -> dict:
+    """El pago único, comprado con Google Play Billing desde la app de Android. Hoy responde 501."""
+    cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
+    if compra.producto != pagos.PRODUCTO:
+        raise error(400, "producto_desconocido", "Ese producto no existe.")
+    try:
+        comprobante = pagos.verificar_compra(compra.token_compra, compra.producto)
+    except pagos.CobroNoDisponible as e:
+        raise error(501, "cobro_no_disponible", str(e)) from e
+    except pagos.CompraInvalida as e:
+        raise error(402, "compra_invalida", "Google Play no confirmó esa compra.") from e
+    if not pagos.activar(limites().motor, cuenta["usuario_id"], comprobante):
+        raise error(409, "compra_usada", "Esa compra ya activó otra cuenta.")
+    return datos_de_cuenta(cuentas.de_sesion(limites().motor, token_de(authorization)))
+
+
 @app.delete("/cuenta")
 def borrar_cuenta(confirmacion: Confirmacion, authorization: str | None = Header(default=None)) -> dict:
-    """Borra la cuenta y todo: pólizas guardadas, historial, sesiones y contadores. Pide la contraseña."""
+    """Borra la cuenta y todo: pólizas guardadas, historial, sesiones y contadores. Una cuenta con
+    contraseña la pide; una que entra solo con Google se confirma con su sesión."""
     cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
     lim = limites()
-    try:
-        cuentas.entrar(lim.motor, cuenta["correo"], confirmacion.clave)
-    except cuentas.ErrorCuenta as e:
-        raise error(401, "clave_incorrecta", "La contraseña no coincide: no borré nada.") from e
+    if cuenta["con_clave"] and not cuentas.clave_de(lim.motor, cuenta["usuario_id"], confirmacion.clave):
+        raise error(401, "clave_incorrecta", "La contraseña no coincide: no borré nada.")
     for poliza_id in [k for k, v in _guardadas.items() if v[0] == cuenta["usuario_id"]]:
         _guardadas.pop(poliza_id, None)
     borrado = guardado.borrar_todo(lim.motor, cuenta["usuario_id"])
@@ -603,19 +645,17 @@ def guardar_poliza(poliza_id: str, authorization: str | None = Header(default=No
         raise error(400, "no_se_guarda", "Solo se guarda una póliza que acabas de subir.")
     poliza = buscar_poliza(poliza_id)
     lim = limites()
-    permitidas = cuentas.polizas_permitidas(cuenta["plan"])
+    permitidas = pagos.polizas_permitidas(cuenta["plan"])
     if guardado.contar_polizas(lim.motor, cuenta["usuario_id"]) >= permitidas:
-        raise error(409, "limite_polizas", f"Tu plan guarda {permitidas} póliza{'s' if permitidas != 1 else ''}. Borra una para guardar otra."
-                    + ("" if cuenta["plan"] == "pagado" else f" El plan de pago único guarda {cuentas.polizas_permitidas('pagado')}, sin borrado automático."))
+        plural = "s" if permitidas != 1 else ""
+        raise error(409, "limite_polizas", f"Tu plan guarda {permitidas} póliza{plural}. Borra una para guardar otra.")
     try:
-        g = guardado.guardar_poliza(lim.motor, cuenta["usuario_id"], poliza, cuentas.dias_de_guardado(cuenta["plan"]),
+        g = guardado.guardar_poliza(lim.motor, cuenta["usuario_id"], poliza, pagos.dias_de_guardado(cuenta["plan"]),
                                     getattr(poliza, "radiografia", None))
     except guardado.SinLlave as e:
         raise error(503, "cuentas_no_disponibles", "El guardado todavía no está activado en este servidor.") from e
     dia = fecha_lima(g["borrar_el"])
-    return g | {"borrado_automatico": dia,
-                "aviso": (f"Guardada. Se borrará sola el {dia}: desde ese día tendrás que volver a subir el PDF."
-                          if dia else "Guardada. No se borra sola: queda hasta que tú la borres.")}
+    return g | {"borrado_automatico": dia, "aviso": f"Guardada · se borra el {dia}" if dia else "Guardada"}
 
 
 @app.get("/polizas/{poliza_id}/consultas")

@@ -27,7 +27,15 @@ services:
         sync: false
       - key: QMC_LIMITE_DISPOSITIVO_DIA
         value: "3"
+      - key: QMC_LIMITE_GRATIS_DIA
+        value: "3"
+      - key: QMC_LIMITE_PAGADO_DIA
+        value: "20"
+      - key: QMC_DIAS_POLIZA_GRATIS
+        value: "14"
       - key: QMC_CLAVE_DATOS
+        sync: false
+      - key: QMC_GOOGLE_CLIENT_IDS
         sync: false
       - key: QMC_LIMITE_IP_DIA
         value: "60"

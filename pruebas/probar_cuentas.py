@@ -1,13 +1,17 @@
-"""Prueba, sin red y sin gasto, la Fase 3: cuentas, pólizas guardadas, historial y borrados.
+"""Prueba, sin red y sin gasto, la Fase 3: cuentas, pólizas guardadas, historial, plan pagado y borrados.
 
-- Registro: exige aceptar la política (la casilla no viene marcada), avisa que la contraseña
-  no se puede recuperar y no existe ningún endpoint para recuperarla.
+- Registro con correo: exige aceptar la política (la casilla no viene marcada); no existe ningún
+  endpoint para recuperar la contraseña ni ningún texto que hable de eso.
+- Google: el backend verifica el ID token (firma, emisor, cliente, vencimiento, correo
+  verificado). Se prueba con una llave y un certificado creados aquí, en lugar de los de Google.
 - Lo guardado va cifrado: ni la base ni la fila traen texto de la póliza ni de la pregunta.
 - No se guarda el PDF: una póliza cargada de la base responde con citas verificadas por los
   dos lectores contra el texto de las páginas extraído al subirla.
-- Límites ordenados: sin cuenta < cuenta gratis < cuenta pagada.
-- Plan gratis: la póliza guardada tiene fecha de borrado a 7 días; adelantando el reloj, la
+- Límites por día, sin topes mensuales: sin cuenta 3, gratis 3, pagada 20.
+- Plan gratis: la póliza guardada tiene fecha de borrado a 14 días; adelantando el reloj, la
   limpieza no deja ninguna fila de ella.
+- Plan pagado: un solo punto de activación (backend/pagos.py); hoy el cobro responde 501.
+  ¿Pagas doble? es del plan pagado; la radiografía también, con una gratis por cuenta.
 - Borrar una consulta, una póliza y "mi cuenta y todo": no queda ninguna fila en ninguna tabla.
 
     python pruebas/probar_cuentas.py      # termina con código 1 si algo falla
@@ -15,8 +19,10 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import os
 import tempfile
+import time
 from datetime import timedelta
 from pathlib import Path
 
@@ -24,21 +30,30 @@ from comun import RAIZ, utf8
 
 _base = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
 _base.close()
+CLIENTE = "cliente-de-prueba.apps.googleusercontent.com"
 os.environ.update({"QMC_PROVEEDOR": "grabado", "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
                    "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "", "VOYAGE_API_KEY": "", "QMC_LIMITE_SUBIDAS_DIA": "50",
-                   "QMC_LIMITE_IP_DIA": "500"})
+                   "QMC_LIMITE_IP_DIA": "500", "QMC_GOOGLE_CLIENT_IDS": CLIENTE})
 
+from cryptography import x509  # noqa: E402
+from cryptography.hazmat.primitives import hashes, serialization  # noqa: E402
+from cryptography.hazmat.primitives.asymmetric import rsa  # noqa: E402
+from cryptography.x509.oid import NameOID  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
+from google.auth import crypt as google_crypt  # noqa: E402
+from google.auth import jwt as google_jwt  # noqa: E402
 
-from backend import almacen, cuentas, guardado, main  # noqa: E402
+from backend import acceso_google, almacen, cuentas, guardado, main, pagos  # noqa: E402
+from backend.limites import uso_diario  # noqa: E402
 
 os.environ["QMC_CLAVE_DATOS"] = guardado.nueva_llave()  # llave de prueba, solo de este proceso
 
+from ai import radiografia  # noqa: E402
 from ai.llm import ProveedorGrabado  # noqa: E402
 from ai.respuesta import responder  # noqa: E402
 
 FALLAS: list[str] = []
-CHUBB = "chubb_viajes_jetsmart"
+CHUBB, PACIFICO = "chubb_viajes_jetsmart", "pacifico_viajes"
 P01 = "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?"
 CLAVE = "una-clave-de-prueba"
 
@@ -49,47 +64,109 @@ def caso(nombre: str, ok: bool, detalle: object = "") -> None:
         FALLAS.append(nombre)
 
 
+def llave_y_certificado() -> tuple[str, str]:
+    """Una llave RSA y su certificado, como los que publica Google para firmar sus ID tokens."""
+    llave = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    nombre = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "prueba")])
+    ahora = dt.datetime.now(dt.timezone.utc)
+    cert = (x509.CertificateBuilder().subject_name(nombre).issuer_name(nombre).public_key(llave.public_key())
+            .serial_number(1).not_valid_before(ahora - timedelta(days=1)).not_valid_after(ahora + timedelta(days=1))
+            .sign(llave, hashes.SHA256()))
+    privada = llave.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())
+    return privada.decode(), cert.public_bytes(serialization.Encoding.PEM).decode()
+
+
+PRIVADA, CERTIFICADO = llave_y_certificado()
+OTRA_PRIVADA, _ = llave_y_certificado()
+
+
+def token_google(correo: str, sub: str, privada: str = PRIVADA, **cambios) -> str:
+    ahora = int(time.time())
+    datos = {"iss": "https://accounts.google.com", "aud": CLIENTE, "sub": sub, "email": correo, "email_verified": True,
+             "iat": ahora, "exp": ahora + 3600} | cambios
+    return google_jwt.encode(google_crypt.RSASigner.from_string(privada, key_id="k1"), datos).decode()
+
+
 def main_() -> int:
     utf8()
     pdf = (RAIZ / "data" / "polizas" / f"{CHUBB}.pdf").read_bytes()
+    # Los certificados de Google, reemplazados por el de la prueba (sin red)
+    acceso_google._cache.update(certificados={"k1": CERTIFICADO}, hasta=time.time() + 3600)
     with TestClient(main.app) as api:
         motor = main.limites().motor
+        lim = main.limites()
         anonimo = {"X-Dispositivo": "cuentas-prueba-0001"}
 
-        # --- Registro y sesión ---
+        # --- Registro con correo y sesión ---
         avisos = api.get("/cuenta/avisos").json()
-        caso("avisos: la contraseña no se recupera y la llave está en el servidor (el dueño podría leer)",
-             avisos["clave"] == "Si olvidas tu contraseña no podemos recuperarla. Tendrías que registrarte de nuevo y volver a subir tu póliza."
-             and "podría leerlo" in avisos["guardado"] and "No guardamos el archivo PDF" in avisos["guardado"])
+        caso("avisos: solo la casilla de consentimiento, con el enlace a la política; nada sobre recuperar la contraseña",
+             avisos["consentimiento"] == "Acepto la política de privacidad y que se guarde el texto de mi póliza y mis consultas, "
+                                        "que pueden incluir datos de salud."
+             and avisos["politica_privacidad"].endswith("docs/privacidad.md") and set(avisos) == {
+                 "consentimiento", "politica_privacidad", "disponible", "google_disponible"}, avisos)
         r = api.post("/cuenta/registro", json={"correo": "ana@ejemplo.pe", "clave": CLAVE})
         caso("registro sin marcar la casilla de privacidad: se rechaza", r.status_code == 400 and r.json()["detail"]["codigo"] == "falta_consentimiento", r.text[:150])
         r = api.post("/cuenta/registro", json={"correo": "ana@ejemplo.pe", "clave": "corta", "acepto_privacidad": True})
         caso("registro con contraseña corta: se rechaza", r.status_code == 400 and r.json()["detail"]["codigo"] == "clave_corta")
         r = api.post("/cuenta/registro", json={"correo": " Ana@Ejemplo.pe ", "clave": CLAVE, "acepto_privacidad": True})
         ana = {"Authorization": f"Bearer {r.json().get('token')}"}
-        caso("registro: crea la cuenta gratis, abre sesión y repite el aviso de la contraseña",
+        caso("registro: crea la cuenta gratis y abre sesión, sin avisos sobre la contraseña",
              r.status_code == 201 and r.json()["cuenta"]["plan"] == "gratis" and r.json()["cuenta"]["correo"] == "ana@ejemplo.pe"
-             and "no podemos recuperarla" in r.json()["aviso_clave"], r.text[:200])
+             and "recuper" not in r.text, r.text[:200])
         caso("registro con un correo ya usado: 409", api.post("/cuenta/registro", json={"correo": "ana@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).status_code == 409)
         caso("entrar con otra contraseña: 401", api.post("/cuenta/sesion", json={"correo": "ana@ejemplo.pe", "clave": "otra-clave-mala"}).status_code == 401)
         caso("la contraseña no está en la base, solo su hash", CLAVE.encode() not in Path(_base.name).read_bytes())
         rutas = [x.path for x in main.app.routes]
         caso("no hay ningún endpoint para recuperar la contraseña", not any("recuper" in x or "restablec" in x or "reset" in x for x in rutas), rutas)
+        fuentes = "".join((RAIZ / "backend" / n).read_text(encoding="utf-8") for n in ("main.py", "cuentas.py"))
+        caso("ningún texto del backend explica que la contraseña no se recupera", "no podemos recuperarla" not in fuentes)
         caso("un token inventado no entra", api.get("/cuenta", headers={"Authorization": "Bearer inventado"}).status_code == 401)
 
-        # --- Guardar: sin PDF, cifrado, con fecha de borrado ---
+        # --- Google ---
+        caso("Google: el servidor lo ofrece cuando tiene el ID de cliente", api.get("/info").json()["google_disponible"] is True)
+        antes = guardado.filas(motor)["usuarios"]
+        r = api.post("/cuenta/google", json={"id_token": token_google("bea@gmail.com", "sub-bea")})
+        caso("Google, cuenta nueva sin marcar la casilla: no se crea (400 falta_consentimiento)",
+             r.status_code == 400 and r.json()["detail"]["codigo"] == "falta_consentimiento" and guardado.filas(motor)["usuarios"] == antes, r.text[:200])
+        r = api.post("/cuenta/google", json={"id_token": token_google("Bea@Gmail.com", "sub-bea"), "acepto_privacidad": True})
+        bea = {"Authorization": f"Bearer {r.json().get('token')}"}
+        caso("Google, con la casilla: crea la cuenta gratis con el correo verificado por Google",
+             r.status_code == 200 and r.json()["cuenta_nueva"] and r.json()["cuenta"]["correo"] == "bea@gmail.com"
+             and r.json()["cuenta"]["acceso"] == "google" and r.json()["cuenta"]["plan"] == "gratis", r.text[:200])
+        r = api.post("/cuenta/google", json={"id_token": token_google("bea@gmail.com", "sub-bea")})
+        caso("Google, la segunda vez: entra a la misma cuenta sin pedir la casilla",
+             r.status_code == 200 and not r.json()["cuenta_nueva"] and guardado.filas(motor)["usuarios"] == antes + 1, r.text[:200])
+        malos = {"otro cliente": token_google("bea@gmail.com", "sub-bea", aud="otro.apps.googleusercontent.com"),
+                 "vencido": token_google("bea@gmail.com", "sub-bea", iat=int(time.time()) - 7200, exp=int(time.time()) - 3600),
+                 "otro emisor": token_google("bea@gmail.com", "sub-bea", iss="https://falso.example"),
+                 "correo sin verificar": token_google("bea@gmail.com", "sub-bea", email_verified=False),
+                 "firmado con otra llave": token_google("bea@gmail.com", "sub-bea", privada=OTRA_PRIVADA)}
+        codigos = {k: api.post("/cuenta/google", json={"id_token": v, "acepto_privacidad": True}).status_code for k, v in malos.items()}
+        caso("Google: rechaza el token de otro cliente, vencido, de otro emisor, sin correo verificado o con firma falsa",
+             set(codigos.values()) == {401}, codigos)
+        r = api.post("/cuenta/sesion", json={"correo": "bea@gmail.com", "clave": "cualquier-cosa"})
+        caso("una cuenta de Google no entra con contraseña", r.status_code == 401 and r.json()["detail"]["codigo"] == "entra_con_google", r.text[:150])
+        eva = api.post("/cuenta/registro", json={"correo": "eva@gmail.com", "clave": CLAVE, "acepto_privacidad": True}).json()
+        r = api.post("/cuenta/google", json={"id_token": token_google("eva@gmail.com", "sub-eva")})
+        caso("Google con el correo de una cuenta con contraseña: entra a esa cuenta, la contraseña deja de servir y la sesión vieja se cierra",
+             r.status_code == 200 and not r.json()["cuenta_nueva"] and r.json()["cuenta"]["acceso"] == "google"
+             and api.post("/cuenta/sesion", json={"correo": "eva@gmail.com", "clave": CLAVE}).status_code == 401
+             and api.get("/cuenta", headers={"Authorization": f"Bearer {eva['token']}"}).status_code == 401, r.text[:200])
+        eva = {"Authorization": f"Bearer {r.json()['token']}"}
+
+        # --- Guardar: sin PDF, cifrado, con fecha de borrado a 14 días ---
         subida = api.post("/polizas", files=[("archivos", ("mi_poliza.pdf", pdf, "application/pdf"))], headers=anonimo).json()
         caso("guardar sin sesión: 401", api.post(f"/polizas/{subida['poliza_id']}/guardar").status_code == 401)
         r = api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana)
         g = r.json()
-        en_7 = (guardado.ahora() + timedelta(days=7)).astimezone(main.LIMA).strftime("%d/%m/%Y")
-        caso("guardar (plan gratis): devuelve la fecha exacta de borrado, a 7 días, y dice que habrá que volver a subir",
-             r.status_code == 201 and g["borrado_automatico"] == en_7 and en_7 in g["aviso"] and "volver a subir el PDF" in g["aviso"], r.text[:200])
+        en_14 = (guardado.ahora() + timedelta(days=14)).astimezone(main.LIMA).strftime("%d/%m/%Y")
+        caso("guardar (plan gratis): devuelve la fecha exacta de borrado, a 14 días",
+             r.status_code == 201 and g["borrado_automatico"] == en_14 and g["aviso"] == f"Guardada · se borra el {en_14}", r.text[:200])
         caso("plan gratis: una sola póliza guardada (la segunda, 409)",
              api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana).status_code == 409)
         cuenta = api.get("/cuenta", headers=ana).json()
         caso("mi cuenta: lista la póliza con su fecha de borrado",
-             len(cuenta["polizas"]) == 1 and cuenta["polizas"][0]["borrado_automatico"] == en_7 and cuenta["polizas"][0]["paginas"] == 62, cuenta.get("polizas"))
+             len(cuenta["polizas"]) == 1 and cuenta["polizas"][0]["borrado_automatico"] == en_14 and cuenta["polizas"][0]["paginas"] == 62, cuenta.get("polizas"))
         cruda = Path(_base.name).read_bytes()
         caso("en la base no hay texto de la póliza ni el PDF: el contenido va cifrado",
              b"COMPA" not in cruda and "Tarapoto".encode() not in cruda and b"%PDF" not in cruda and "Gastos Médicos".encode() not in cruda)
@@ -98,17 +175,18 @@ def main_() -> int:
         api.delete(f"/polizas/{subida['poliza_id']}", headers=anonimo)  # ya no está en memoria
         main._guardadas.clear()
         r = api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=ana)
-        caso("preguntar a la póliza guardada: responde (sin red, las cláusulas encontradas) y trae lo que queda del mes",
-             r.status_code == 200 and len(r.json()["pasajes"]) > 0 and r.json()["limites"]["plan"] == "gratis"
-             and r.json()["limites"]["restantes_mes"] == 29, (r.status_code, r.text[:200]))
+        caso("preguntar a la póliza guardada: responde (sin red, las cláusulas encontradas) y dice cuántas quedan hoy",
+             r.status_code == 200 and len(r.json()["pasajes"]) > 0 and r.json()["limites"] == {
+                 "plan": "gratis", "limite_dia": 3, "restantes_hoy": 2, "sin_modelo_por_tope": False}, (r.status_code, r.text[:200]))
         caso("otra cuenta o nadie no puede usar esa póliza",
-             api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=anonimo).status_code == 401)
+             api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=anonimo).status_code == 401
+             and api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=bea).status_code == 404)
 
         # Con veredicto y citas: una póliza con vectores, guardada y vuelta a cargar sin PDF
         usuario_id = cuentas.de_sesion(motor, ana["Authorization"][7:])["usuario_id"]
         guardado.borrar_poliza(motor, usuario_id, g["poliza_id"])
         original = almacen.precargada(CHUBB)
-        g2 = guardado.guardar_poliza(motor, usuario_id, original, 7)
+        g2 = guardado.guardar_poliza(motor, usuario_id, original, 14)
         cargada = guardado.cargar_poliza(motor, usuario_id, g2["poliza_id"])
         r = responder(P01, cargada, ProveedorGrabado())
         caso("la póliza cargada de la base no tiene PDF", cargada.pdf_bytes == b"" and len(cargada.paginas_leidas) == 2 * 62)
@@ -140,49 +218,99 @@ def main_() -> int:
         sin_cuenta = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=anonimo).json()
         caso("sin cuenta no se guarda historial", "consulta_id" not in sin_cuenta and guardado.filas(motor)["consultas"] == 20)
 
-        # --- Borrado automático: se adelanta el reloj ---
+        # --- Borrado automático a las 2 semanas: se adelanta el reloj ---
         antes = guardado.purgar(motor)
-        caso("limpieza hoy: no borra nada (faltan 7 días)", antes["polizas"] == 0 and guardado.filas(motor, usuario_id)["polizas"] == 1, antes)
-        casi = guardado.purgar(motor, guardado.ahora() + timedelta(days=6, hours=23))
-        caso("limpieza a los 6 días y 23 horas: todavía no", casi["polizas"] == 0)
-        despues = guardado.purgar(motor, guardado.ahora() + timedelta(days=7, minutes=1))
+        caso("limpieza hoy: no borra nada (faltan 14 días)", antes["polizas"] == 0 and guardado.filas(motor, usuario_id)["polizas"] == 1, antes)
+        casi = guardado.purgar(motor, guardado.ahora() + timedelta(days=13, hours=23))
+        caso("limpieza a los 13 días y 23 horas: todavía no", casi["polizas"] == 0 and guardado.filas(motor, usuario_id)["polizas"] == 1)
+        despues = guardado.purgar(motor, guardado.ahora() + timedelta(days=14, minutes=1))
         f = guardado.filas(motor, usuario_id)
-        caso("limpieza a los 7 días: se va la póliza con todo su historial y no queda ninguna fila suya",
+        caso("limpieza a los 14 días: se va la póliza con todo su historial y no queda ninguna fila suya",
              despues["polizas"] == 1 and despues["consultas"] == 20 and f["polizas"] == 0 and f["consultas"] == 0 and f["usuarios"] == 1, (despues, f))
-        g3 = guardado.guardar_poliza(motor, usuario_id, original, 7)
+        g3 = guardado.guardar_poliza(motor, usuario_id, original, 14)
         with motor.begin() as c:  # vencida pero todavía sin limpiar
             c.execute(guardado.polizas.update().where(guardado.polizas.c.id == g3["poliza_id"]).values(borrar_el=guardado.ahora() - timedelta(minutes=1)))
         caso("una póliza vencida no se entrega aunque la limpieza no haya pasado todavía",
              guardado.cargar_poliza(motor, usuario_id, g3["poliza_id"]) is None and guardado.listar_polizas(motor, usuario_id) == [])
         guardado.purgar(motor)
 
-        # --- Límites ordenados ---
+        # --- Límites por día, sin topes mensuales ---
         codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0002"}).status_code for _ in range(4)]
-        caso("sin cuenta: 3 consultas al día", codigos == [200, 200, 200, 429], codigos)
-        lim = main.limites()
-        for _ in range(lim.limite_dispositivo_mes):
-            lim.tomar("d:mensual", lim.limite_dispositivo_mes, lim.mes())
-        caso("sin cuenta: 15 al mes", lim.limite_dispositivo_mes == 15 and not lim.tomar("d:mensual", 15, lim.mes()))
-        usados = lim.usadas("u:" + usuario_id, lim.mes())
-        for _ in range(30 - usados):
-            lim.tomar("u:" + usuario_id, 30, lim.mes())
+        caso("sin cuenta: 3 consultas al día, la cuarta 429", codigos == [200, 200, 200, 429], codigos)
+        clave = main.clave_dispositivo("limite-prueba-0003")
+        lim.tomar(clave, 10**6, lim.mes())  # aunque hubiera uso en el mes, no hay tope mensual
+        with motor.begin() as c:
+            c.execute(uso_diario.update().where(uso_diario.c.clave == clave).values(cuenta=10**6))
+        caso("no hay topes mensuales: sin cuenta, 999 999 consultas cargadas al mes no bloquean las del día",
+             api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0003"}).status_code == 200
+             and not hasattr(lim, "limite_gratis_mes") and not hasattr(lim, "limite_dispositivo_mes"))
         r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana)
-        caso("cuenta gratis: 30 al mes, y después 429", lim.limite_gratis_mes == 30 and r.status_code == 429 and r.json()["detail"]["codigo"] == "limite_cuenta", r.status_code)
-        caso("activar el plan pagado a mano (punto de integración de la pasarela)", cuentas.cambiar_plan(motor, "ana@ejemplo.pe", "pagado"))
-        codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana).status_code for _ in range(11)]
-        caso("cuenta pagada: 10 al día", codigos == [200] * 10 + [429], codigos)
-        caso("orden: sin cuenta < gratis < pagada, en consultas al mes y en pólizas guardadas",
-             lim.limite_dispositivo_mes < lim.limite_gratis_mes < lim.limite_pagado_dia * 30
-             and 0 < cuentas.polizas_permitidas("gratis") < cuentas.polizas_permitidas("pagado"))
-        guardadas = [guardado.guardar_poliza(motor, usuario_id, original, cuentas.dias_de_guardado("pagado")) for _ in range(4)]
+        caso("cuenta gratis: 3 al día (ya hizo 3 hoy) y la cuarta 429", lim.usadas("u:" + usuario_id) == 3 and r.status_code == 429
+             and r.json()["detail"]["codigo"] == "limite_cuenta" and "Mañana se renuevan" in r.json()["detail"]["mensaje"], r.text[:200])
+        ayer = (dt.datetime.now(main.LIMA) - timedelta(days=1)).strftime("%Y-%m-%d")
+        lim.tomar("u:reinicio", 3, ayer), lim.tomar("u:reinicio", 3, ayer), lim.tomar("u:reinicio", 3, ayer)
+        caso("el cupo se reinicia cada día (día de Lima): 3 usadas ayer no cuentan hoy",
+             not lim.tomar("u:reinicio", 3, ayer) and lim.tomar("u:reinicio", 3))
+
+        # --- Radiografía: una gratis por cuenta, guardada en la base ---
+        r = api.get(f"/polizas/{CHUBB}/radiografia", headers=anonimo)
+        caso("radiografía sin cuenta: bloqueada (403)", r.status_code == 403 and r.json()["detail"]["codigo"] == "radiografia_sin_cuenta", r.text[:150])
+        r = api.get(f"/polizas/{CHUBB}/radiografia", headers=ana)
+        completa = radiografia.guardada(CHUBB)
+        caso("radiografía gratis: la primera sale completa, sin recortes",
+             r.status_code == 200 and r.json()["acceso"] == "muestra" and r.json()["coberturas"] == completa["coberturas"]
+             and r.json()["exclusiones"] == completa["exclusiones"] and r.json()["citas"] == completa["citas"], r.text[:200])
+        caso("radiografía gratis: se puede volver a abrir la misma", api.get(f"/polizas/{CHUBB}/radiografia", headers=ana).status_code == 200)
+        r = api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana)
+        caso("radiografía de otra póliza: bloqueada (403 plan_pagado)", r.status_code == 403 and r.json()["detail"]["codigo"] == "plan_pagado", r.text[:150])
+        ana2 = {"Authorization": f"Bearer {api.post('/cuenta/sesion', json={'correo': 'ana@ejemplo.pe', 'clave': CLAVE}).json()['token']}"}
+        f_ = api.get("/cuenta", headers=ana2).json()["funciones"]
+        caso("la cuenta de la radiografía gratis vive en la base: en otra sesión sigue usada, y de qué póliza",
+             f_["radiografia"] == "muestra_usada" and f_["radiografia_gratis_de"] == CHUBB
+             and api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2).status_code == 403, f_)
+        luis = {"Authorization": f"Bearer {api.post('/cuenta/registro', json={'correo': 'luis@ejemplo.pe', 'clave': CLAVE, 'acepto_privacidad': True}).json()['token']}"}
+        propia = api.post("/polizas", files=[("archivos", ("de_luis.pdf", pdf, "application/pdf"))], headers=anonimo).json()
+        r = api.get(f"/polizas/{propia['poliza_id']}/radiografia", headers=luis)
+        caso("si la radiografía no sale (sin modelo), la gratis no se pierde",
+             r.status_code == 200 and r.json()["modo"] != "radiografia"
+             and api.get("/cuenta", headers=luis).json()["funciones"]["radiografia"] == "muestra_disponible", r.text[:200])
+
+        # --- ¿Pagas doble?: del plan pagado ---
+        for quien, cab in (("sin cuenta", anonimo), ("cuenta gratis", ana2)):
+            r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, PACIFICO]}, headers=cab)
+            caso(f"¿Pagas doble? {quien}: bloqueada (403 plan_pagado)", r.status_code == 403 and r.json()["detail"]["codigo"] == "plan_pagado", r.text[:150])
+
+        # --- Plan pagado: un solo punto de activación ---
+        r = api.post("/cuenta/compra", json={"token_compra": "token-de-play"}, headers=ana2)
+        caso("comprar hoy: 501, el cobro llega con Play Billing en la app de Android",
+             r.status_code == 501 and r.json()["detail"]["codigo"] == "cobro_no_disponible", r.text[:150])
+        caso("no hay activación a mano por comando",
+             "__main__" not in (RAIZ / "backend" / "cuentas.py").read_text(encoding="utf-8")
+             and "__main__" not in (RAIZ / "backend" / "pagos.py").read_text(encoding="utf-8"))
+        caso("activar con una compra verificada (lo que hará Play Billing)", pagos.activar(motor, usuario_id, "comprobante-1"))
+        luis_id = cuentas.de_sesion(motor, luis["Authorization"][7:])["usuario_id"]
+        caso("la misma compra no activa una segunda cuenta", not pagos.activar(motor, luis_id, "comprobante-1"))
+        usadas = lim.usadas("u:" + usuario_id)
+        codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2).status_code for _ in range(21 - usadas)]
+        caso("cuenta pagada: 20 al día", lim.limite_pagado_dia == 20 and codigos == [200] * (20 - usadas) + [429], codigos)
+        caso("cuenta pagada: todas las radiografías", api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2).json().get("acceso") == "pagado")
+        lim.olvidar("u:" + usuario_id)
+        r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, PACIFICO]}, headers=ana2)
+        caso("cuenta pagada: ¿Pagas doble? responde", r.status_code == 200 and r.json()["modo"] in ("superposicion", "sin_modelo", "sin_datos"), r.text[:200])
+        caso("orden: gratis < pagada, en consultas al día y en pólizas guardadas",
+             lim.limite_gratis_dia < lim.limite_pagado_dia and 0 < pagos.polizas_permitidas("gratis") < pagos.polizas_permitidas("pagado"))
+        guardadas = [guardado.guardar_poliza(motor, usuario_id, original, pagos.dias_de_guardado("pagado")) for _ in range(4)]
         nueva = api.post("/polizas", files=[("archivos", ("otra.pdf", pdf, "application/pdf"))], headers=anonimo).json()
         caso("plan pagado: 4 pólizas, sin fecha de borrado, y la quinta no entra",
-             all(x["borrar_el"] is None for x in guardadas) and api.post(f"/polizas/{nueva['poliza_id']}/guardar", headers=ana).status_code == 409)
+             all(x["borrar_el"] is None for x in guardadas) and api.post(f"/polizas/{nueva['poliza_id']}/guardar", headers=ana2).status_code == 409)
         lejos = guardado.purgar(motor, guardado.ahora() + timedelta(days=300))
         caso("plan pagado: la limpieza no las borra ni 300 días después", lejos["polizas"] == 0 and guardado.filas(motor, usuario_id)["polizas"] == 4, lejos)
         caso("la sesión de 30 días sí venció con el reloj adelantado: hay que volver a entrar",
-             lejos["sesiones"] >= 1 and api.get("/cuenta", headers=ana).status_code == 401)
+             lejos["sesiones"] >= 1 and api.get("/cuenta", headers=ana2).status_code == 401)
         ana = {"Authorization": f"Bearer {api.post('/cuenta/sesion', json={'correo': 'ana@ejemplo.pe', 'clave': CLAVE}).json()['token']}"}
+        luis = {"Authorization": f"Bearer {api.post('/cuenta/sesion', json={'correo': 'luis@ejemplo.pe', 'clave': CLAVE}).json()['token']}"}
+        bea, eva = ({"Authorization": f"Bearer {api.post('/cuenta/google', json={'id_token': token_google(c, s)}).json()['token']}"}
+                    for c, s in (("bea@gmail.com", "sub-bea"), ("eva@gmail.com", "sub-eva")))
 
         # --- Borrar una póliza y borrar todo ---
         guardado.guardar_consulta(motor, usuario_id, guardadas[0]["poliza_id"], {"modo": "completo", "pregunta": "x"})
@@ -193,12 +321,19 @@ def main_() -> int:
         r = api.request("DELETE", "/cuenta", json={"clave": "no-es-la-clave"}, headers=ana)
         caso("borrar la cuenta pide la contraseña: con una mala no borra nada", r.status_code == 401 and guardado.filas(motor, usuario_id)["polizas"] == 3)
         r = api.request("DELETE", "/cuenta", json={"clave": CLAVE}, headers=ana)
-        f, total = guardado.filas(motor, usuario_id), guardado.filas(motor)
-        caso("borrar mi cuenta y todo: no queda ninguna fila suya en ninguna tabla",
-             r.status_code == 200 and all(v == 0 for v in f.values()) and all(v == 0 for v in total.values()), (f, total))
+        f = guardado.filas(motor, usuario_id)
+        caso("borrar mi cuenta y todo: no queda ninguna fila suya en ninguna tabla", r.status_code == 200 and all(v == 0 for v in f.values()), f)
         caso("ni sus contadores de uso", lim.usadas("u:" + usuario_id) == 0 and lim.usadas("u:" + usuario_id, lim.mes()) == 0)
         caso("y su sesión deja de servir", api.get("/cuenta", headers=ana).status_code == 401)
-        caso("ni queda su correo en la base", b"ana@ejemplo.pe" not in Path(_base.name).read_bytes() or guardado.filas(motor)["usuarios"] == 0)
+        bea_id = cuentas.de_sesion(motor, bea["Authorization"][7:])["usuario_id"]
+        r = api.request("DELETE", "/cuenta", json={}, headers=bea)
+        caso("una cuenta de Google se borra sin contraseña (con su sesión) y no queda ninguna fila suya",
+             r.status_code == 200 and all(v == 0 for v in guardado.filas(motor, bea_id).values()), r.text[:150])
+        for cab in (eva, luis):
+            api.request("DELETE", "/cuenta", json={"clave": CLAVE}, headers=cab)
+        total = guardado.filas(motor)
+        caso("borradas todas las cuentas: no queda ninguna fila en ninguna tabla", all(v == 0 for v in total.values()), total)
+        caso("ni queda un correo en la base", guardado.filas(motor)["usuarios"] == 0)
 
         # --- Cuenta inactiva y sin llave ---
         t2 = api.post("/cuenta/registro", json={"correo": "luis@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).json()["token"]
