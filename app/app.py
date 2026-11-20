@@ -169,10 +169,9 @@ def api(metodo: str, ruta: str, **kwargs):
         cabeceras = {"X-Dispositivo": dispositivo()}
         if st.session_state.get("token"):
             cabeceras["Authorization"] = f"Bearer {st.session_state['token']}"
-        r = httpx.request(metodo, api_url() + ruta, headers=cabeceras, timeout=150.0, **kwargs)
+        r = httpx.request(metodo, api_url() + "/v1" + ruta, headers=cabeceras, timeout=150.0, **kwargs)
     except httpx.HTTPError as e:
-        raise ErrorAPI("No pude conectarme con el servidor. Si estaba dormido tarda cerca de un minuto en "
-                       "despertar: vuelve a intentar.") from e
+        raise ErrorAPI("No pude conectarme. Vuelve a intentar en un momento.") from e
     if r.status_code >= 400:
         try:
             detalle = r.json().get("detail")
@@ -353,11 +352,7 @@ def citas(r: dict, archivos: Archivos | None = None) -> None:
             literal = html.escape(c["texto_literal"]).replace("\n", "<br>")
             st.markdown(f'<div class="qmc-cita">{literal}</div>', unsafe_allow_html=True)
             v = c["verificacion"]
-            lectores = " y ".join(n for n in ("pdfplumber", "pypdf") if v.get(n))
-            nota = (f"Verificada: el texto está literal en {donde} (leído con {lectores})." if varios(archivos)
-                    else f"Verificada: el texto está literal en la {donde}, tal como se extrajo de tu PDF al subirlo (con {lectores}).")
-            if v.get("puntuacion_final_ignorada"):
-                nota += f" Se quitó el signo final «{v['puntuacion_final_ignorada']}» que agregó el modelo."
+            nota = f"Verificada: el texto está literal en {donde if varios(archivos) else 'la ' + donde} de tu PDF. Búscala ahí para leerla en tu póliza."
             st.caption(nota)
 
 
@@ -421,6 +416,7 @@ def mostrar_pasos(r: dict, archivos: Archivos | None = None) -> None:
                                   for i, x in enumerate(r[campo], start=1)))
     mencionadas_ausentes(r | {"no_incluido_en_documento": []}, archivos)
     citas(r, archivos)
+    descargo()
 
 
 def mostrar_radiografia(r: dict) -> None:
@@ -441,6 +437,15 @@ def mostrar_radiografia(r: dict) -> None:
     mencionadas_ausentes(r | {"no_incluido_en_documento": []})
     citas(r)
     st.caption("Es un resumen de los pasajes más relevantes de tu póliza, no la póliza entera.")
+    descargo()
+
+
+DESCARGO = "Esto sale del documento que subiste. Revisa tú mismo la cláusula citada en tu póliza antes de decidir o reclamar: ese documento, no esta app, es el que vale ante tu aseguradora."
+
+
+def descargo() -> None:
+    """Junto a cada respuesta, visible."""
+    st.warning(DESCARGO, icon="⚖️")
 
 
 def mostrar(r: dict, archivos: Archivos | None = None) -> None:
@@ -450,7 +455,7 @@ def mostrar(r: dict, archivos: Archivos | None = None) -> None:
             st.markdown(f"##### Pregunta {i}: {md(sub['pregunta'])}")
             mostrar(sub, archivos)
         for q in r.get("sin_responder", []):
-            st.warning(f"No respondí «{q}»: llegaste al límite de consultas de hoy.")
+            st.warning(f"No respondí «{q}»: alcanzaste el límite de consultas de tu plan.")
         return
     veredicto(r)
     if r.get("cubre") == "fuera_de_alcance":
@@ -462,29 +467,20 @@ def mostrar(r: dict, archivos: Archivos | None = None) -> None:
         st.markdown("#### Cláusulas que encontré para tu pregunta")
         st.caption("Resaltadas, las palabras de la búsqueda. Aquí no hay un veredicto: léelas tú.")
         pasajes(r, abiertos=False, archivos=archivos)
+        descargo()
         return
     explicacion(r)
     mencionadas_ausentes(r, archivos)
     citas(r, archivos)
     podrian_aplicar(r)
     with st.expander(f"Pasajes que revisé ({len(r['pasajes'])})"):
-        st.caption("Lo que se le envió al modelo, en el orden de la búsqueda.")
         pasajes(r, abiertos=False, archivos=archivos)
-    quien = r.get("proveedor") or {}
-    st.caption(f"Modelo: {quien.get('modelo', '—')} en {quien.get('nombre', '—')} · costo de esta consulta: "
-               f"USD {r['uso'].get('costo_usd', 0):.4f}")
+    descargo()
 
 
 # ---------------------------------------------------------------------------
 # Tu póliza
 # ---------------------------------------------------------------------------
-
-
-def texto_limites(limites: dict) -> str:
-    if limites.get("saldo"):
-        return f"Te quedan {limites['saldo']} consultas pagadas."
-    return (f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas hoy y "
-            f"{limites['restantes_mes']} de {limites['limite_mes']} este mes.")
 
 
 def refrescar_cuenta() -> None:
@@ -503,7 +499,7 @@ def candado(texto: str) -> None:
     st.markdown(f'<span class="qmc-bloqueo">🔒 {html.escape(texto)}</span>', unsafe_allow_html=True)
 
 
-SOLO_ANDROID = "Plan pagado, en la app de Android"
+SOLO_ANDROID = "Función premium, en la app de Android"
 
 
 def guardar_en_cuenta(poliza: dict) -> None:
@@ -669,17 +665,15 @@ def pantalla_cuenta() -> None:
             formulario_de_entrada()
             return
         pagado = cuenta["plan"] == "pagado"
-        plan = "Plan pagado" if pagado else "Plan gratuito"
+        plan = "Premium" if pagado else "Plan gratuito"
         usuario, _, dominio = cuenta["correo"].partition("@")  # partido en dos etiquetas: que no se muestre como enlace
         correo = f"<span>{html.escape(usuario)}</span><span>@{html.escape(dominio)}</span>"
         st.markdown(f"#### {correo} &nbsp; <span class='qmc-plan'>{plan}</span>", unsafe_allow_html=True)
-        st.caption(texto_limites(cuenta["limites"]) + f" Pólizas guardadas: {len(cuenta['polizas'])} de {cuenta['polizas_permitidas']}.")
-        p = info()["plan_pagado"]
         if not pagado:
-            st.caption(f"⭐ Plan pagado ({p['precio']}): {p['consultas']} consultas que no caducan, en la app de Android.")
+            st.caption("⭐ Funciones premium: guarda varias pólizas sin que se borren, compara tus pólizas y ve la radiografía "
+                       "de cada una. En la app de Android.")
         elif cuenta.get("volver_a_comprar"):
-            st.markdown(f'<span class="qmc-bloqueo">Se acabaron tus consultas pagadas · {p["consultas"]} más por {p["precio"]}, '
-                        "en la app de Android</span>", unsafe_allow_html=True)
+            candado("Puedes ampliar tu plan desde la app de Android")
 
         st.markdown("##### Tus pólizas guardadas")
         if not cuenta["polizas"]:
@@ -794,10 +788,9 @@ def seccion_radiografia(poliza: dict, archivos) -> None:
             candado("Crea una cuenta gratis para ver una")
             return
         if acceso in ("bloqueada", "sin_saldo"):
-            candado(SOLO_ANDROID if acceso == "bloqueada" else "Sin consultas suficientes · vuelve a comprar en la app de Android")
+            candado(SOLO_ANDROID if acceso == "bloqueada" else "Puedes ampliar tu plan desde la app de Android")
             return
-        nota = {"muestra": " · tu radiografía gratis",
-                "cobrar": f" · usa {st.session_state['cuenta']['funciones']['costo_radiografia']} de tus consultas"}.get(acceso, "")
+        nota = {"muestra": " · tu radiografía gratis"}.get(acceso, "")
         st.button("Ver la radiografía" + nota, key="ver_radiografia", on_click=pedir, args=("pedir_radiografia",))
         if st.session_state.pop("pedir_radiografia", False):
             try:
@@ -859,7 +852,7 @@ def pantalla_poliza() -> None:
 
         st.text_area("Tu pregunta", key="pregunta", height=90,
                      placeholder="Por ejemplo: me robaron la maleta en el aeropuerto, ¿me cubre?")
-        st.caption("Puedes hacer hasta 3 preguntas en el mismo texto: cada una cuenta como una consulta.")
+        st.caption("Puedes hacer varias preguntas en el mismo texto.")
         st.button("Preguntar", type="primary", key="preguntar", on_click=pedir_respuesta, disabled=poliza is None)
         # Los ejemplos son de la póliza de Chubb: solo tienen sentido con ella elegida. Con el texto
         # exacto usan la normalización de la caché (una llamada al modelo en vez de dos).
@@ -905,7 +898,7 @@ def pantalla_poliza() -> None:
             de_archivos = [(a["nombre"], a["paginas"]) for a in poliza.get("archivos", [])]
             st.caption(f"Pregunta: {resultado['pregunta']}")
             if resultado["modo"] == "aclaracion":
-                st.info(f"**{resultado['aviso']}** Todavía no busqué nada: esto no gasta una consulta.", icon="💬")
+                st.info(f"**{resultado['aviso']}**", icon="💬")
                 for i, q in enumerate(resultado["repreguntas"]):
                     st.text_input(q, key=f"aclara_{i}")
                 st.button("Responder", type="primary", key="responder_aclaracion", on_click=pedir, args=("aclarar",))
@@ -925,9 +918,6 @@ def pantalla_poliza() -> None:
                             (st.warning if e.status == 429 else st.error)(str(e))
                     if st.session_state.get("pasos"):
                         mostrar_pasos(st.session_state["pasos"], de_archivos)
-            limites = resultado.get("limites") or {}
-            if limites:
-                st.caption(texto_limites(limites))
 
 
 # ---------------------------------------------------------------------------
@@ -1046,6 +1036,7 @@ st.markdown(
     "</ol>",
     unsafe_allow_html=True,
 )
+st.info("¿Qué Cubre? te muestra qué dice tu póliza y en qué cláusula lo dice, para que puedas leerlo y reclamar con ese texto en la mano. No es asesoría legal ni de seguros, puede equivocarse, y no reemplaza lo que diga tu aseguradora.", icon="⚖️")
 
 
 def pie_de_privacidad() -> None:
@@ -1053,12 +1044,8 @@ def pie_de_privacidad() -> None:
     i = info()
     partes = ["Tu PDF se procesa en memoria y no se guarda.",
               "Con cuenta, guardamos cifrados el texto de tu póliza y tus consultas, nunca el PDF; puedes borrarlos cuando quieras.",
-              i["aviso_proveedor"]]
-    if i.get("embeddings"):
-        partes.append("El texto de la póliza se envía también a Voyage AI para buscar en ella.")
-    if i.get("registra_preguntas"):
-        partes.append("El texto de tu pregunta, sin la póliza ni la respuesta, se registra para medir el servicio.")
-    partes.append("Es informativo: la decisión final sobre la cobertura la toma tu aseguradora.")
+              "Para responder, tu pregunta y los fragmentos de tu póliza que encontré se envían a servicios de inteligencia "
+              "artificial que no los usan para entrenar; quiénes son, en la política."]
     st.markdown(f'<div class="qmc-pie">{html.escape(" ".join(partes))} '
                 f'<a href="{html.escape(i["politica_privacidad"])}" target="_blank">Política de privacidad</a></div>',
                 unsafe_allow_html=True)
@@ -1066,7 +1053,7 @@ def pie_de_privacidad() -> None:
 
 try:
     if info().get("sin_modelo_por_tope"):
-        st.warning("Este mes el servicio llegó a su tope de gasto: verás las cláusulas de tu póliza, sin veredicto.", icon="⚠️")
+        st.warning("Por ahora no puedo redactar respuestas: verás las cláusulas de tu póliza, sin veredicto.", icon="⚠️")
     if st.session_state.get("token") and "cuenta" not in st.session_state:
         refrescar_cuenta()
     tab_poliza, tab_mapa, tab_cuenta = st.tabs(["Pregunta a tu póliza", "Dónde atenderte", "Mi cuenta"])

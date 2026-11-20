@@ -194,6 +194,38 @@ expose_tokens = "id"
 Sin la sección `[auth]` o sin `QMC_GOOGLE_CLIENT_IDS`, el botón no aparece y se entra con
 correo.
 
+## Fase 4: app de Android
+
+En la rama `fase-4-android`. La app está en [`movil/`](movil) (Flutter, `com.renatogates.quecubre`) y consume el
+backend; no decide coberturas, topes ni planes. Probada en una Samsung Galaxy Tab S7 FE (Android 14) con el APK de
+lanzamiento (R8 activado) contra el backend en local.
+
+| Función | Resultado medido | Archivo |
+|---|---|---|
+| Descargos | Junto a cada respuesta, pasos, radiografía y comparación, en letra normal; el de inicio, arriba de todo | [`movil/lib/textos.dart`](movil/lib/textos.dart), [`docs/ficha_play.md`](docs/ficha_play.md) |
+| «Ver esta cláusula en tu póliza» | En cada cita: página (y archivo, si son varios), artículo, sección y el inicio del texto para buscarlo en el PDF | [`movil/lib/resultado.dart`](movil/lib/resultado.dart) |
+| Regla de lenguaje | Sin consumo, contadores, modelos ni proveedores en pantalla; en la web lo revisa una prueba sobre 25 estados de la pantalla | [`app/app.py`](app/app.py), [`pruebas/probar_app.py`](pruebas/probar_app.py) |
+| Dictado por voz | El reconocedor del propio Android (costo cero); el texto queda en el campo, editable, antes de preguntar | [`movil/lib/pantalla_poliza.dart`](movil/lib/pantalla_poliza.dart) |
+| Google Play Billing | Verificación contra la Google Play Developer API (simulada en las pruebas): pagada, sin consumir y de esa cuenta; una compra se acredita una vez; sin sesión, 401 | [`backend/pagos.py`](backend/pagos.py), [`movil/lib/compras.dart`](movil/lib/compras.dart) |
+| Seguridad entre cuentas | La cuenta B no lee, usa ni borra nada de A en 14 endpoints, ni por id directo; una póliza subida solo la usa el dispositivo que la subió | [`pruebas/probar_fase4.py`](pruebas/probar_fase4.py) |
+| Caché | La misma pregunta (aunque cambien mayúsculas, tildes y signos) sobre el mismo documento cuesta USD 0 la segunda vez: las 10 preguntas medidas pasan de USD 0,0175 a 0 | [`pruebas/cache.md`](pruebas/cache.md) |
+| Langfuse | Un servidor local hace de Langfuse y recibe lo que el SDK envía de verdad: ningún texto de la póliza, la pregunta, la respuesta ni correos | [`pruebas/probar_fase4.py`](pruebas/probar_fase4.py), [`backend/observabilidad.py`](backend/observabilidad.py) |
+| Crashlytics | Recibe el tipo de error y las líneas de pila; probado con errores que traen texto de la póliza, preguntas, respuestas y correos en su mensaje y en la descripción de widgets | [`movil/test/telemetria_test.dart`](movil/test/telemetria_test.dart) |
+| Contraste | 18 de 18 pares cumplen WCAG (mínimo medido: 5,56:1 en texto normal) | [`pruebas/contraste.md`](pruebas/contraste.md) |
+| TalkBack | 47 de 47 controles con etiqueta en 6 pantallas del dispositivo; las guías de Flutter (etiquetas, 48×48, contraste dibujado) pasan | [`pruebas/accesibilidad.md`](pruebas/accesibilidad.md), [`movil/test/accesibilidad_test.dart`](movil/test/accesibilidad_test.dart) |
+| Versión mínima | `GET /v1/app` la da; con el backend pidiendo la 2, la app 1 muestra solo «Actualiza» | [`movil/lib/main.dart`](movil/lib/main.dart) |
+| Dependencias | pip-audit: 85 paquetes, ninguna vulnerabilidad conocida. OSV.dev: 143 paquetes de Flutter, ninguna | [`pruebas/auditoria_backend.md`](pruebas/auditoria_backend.md), [`pruebas/auditoria_flutter.md`](pruebas/auditoria_flutter.md) |
+| Atribuciones | OpenStreetMap en el mapa (con enlace a su licencia) y SUSALUD (RENIPRESS, ODC-BY) bajo la lista | [`movil/lib/pantalla_mapa.dart`](movil/lib/pantalla_mapa.dart) |
+
+**Versionado.** Todas las rutas viven bajo `/v1`. Dentro de `/v1` solo se agregan campos; un
+cambio que rompa clientes va a `/v2` mientras `/v1` sigue respondiendo, hasta que la versión
+mínima (`QMC_APP_VERSION_MINIMA`) deje fuera a las apps que la usan. Las rutas sin prefijo
+quedan por compatibilidad con la web desplegada y no salen en la documentación.
+
+**Compilar.** `flutter build apk --release` (o `appbundle` para Play). Sin `android/key.properties`
+se firma con la llave de depuración; sin `android/app/google-services.json`, Crashlytics no se
+activa y la app funciona igual. Ninguno de los dos va al repositorio.
+
 ## Instalación
 
 Python 3.11.
@@ -254,6 +286,7 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 
 | Método y ruta | Qué hace |
 |---|---|
+| `GET /v1/app` | Versión mínima de la app, cliente de Google del servidor y producto de Play |
 | `GET /salud`, `GET /info` | Estado, modelo en uso, límite diario y si el servicio está sin modelo por el tope |
 | `GET /polizas` | Condicionados de ejemplo, con preguntas de ejemplo |
 | `POST /polizas` | Sube uno o varios PDF (un solo documento); devuelve un identificador que solo conoce quien subió y, si el documento no parece un condicionado, `aviso_documento` |

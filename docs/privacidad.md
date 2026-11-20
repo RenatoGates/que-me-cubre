@@ -1,6 +1,6 @@
 # Política de privacidad de ¿Qué Cubre?
 
-Versión del 19 de noviembre de 2026. Describe lo que la app hace hoy. Si algo cambia, cambia
+Versión del 20 de noviembre de 2026. Describe lo que la app hace hoy. Si algo cambia, cambia
 este documento antes.
 
 ## En una frase
@@ -76,14 +76,25 @@ llave. No lee ese contenido como parte del funcionamiento de la app, pero técni
 
 - **Voyage AI:** al subir una póliza recibe su texto para calcular los vectores de búsqueda,
   y al preguntar recibe tu pregunta.
-- **Google:** si entras con Google, Google sabe que entraste a esta app.
+- **Google:** si entras con Google, Google sabe que entraste a esta app. Si compras funciones
+  premium, Google Play procesa el pago.
+- **Dictado por voz (app de Android):** si preguntas hablando, el audio lo transcribe el
+  reconocedor de voz de tu propio Android (normalmente el de Google), según la configuración de
+  tu teléfono. La app recibe solo el texto, que ves y puedes corregir antes de enviarlo.
+- **Errores técnicos (Firebase Crashlytics, app de Android):** si la app falla, se envía el
+  tipo de error y en qué parte del código ocurrió, con datos del dispositivo (modelo y versión
+  de Android). Nunca el texto de tu póliza, tus preguntas, las respuestas ni tu correo.
+- **Métricas del servicio (Langfuse):** cuánto tarda y cuánto cuesta cada respuesta, qué
+  función se usó y si hubo un error. Nunca el texto de tu póliza, tu pregunta ni la respuesta.
 - **Anthropic:** recibe tu pregunta y los fragmentos de la póliza encontrados para redactar
   la respuesta. Según su política, borra lo enviado por su API dentro de los 30 días.
-- **OpenStreetMap:** si usas el mapa, recibe la zona que miras y, si concedes tu ubicación,
-  las coordenadas de la consulta de centros cercanos. Tu ubicación no pasa por el servidor de
-  la app ni se guarda.
+- **OpenStreetMap:** si usas el mapa, recibe los pedidos de las imágenes del mapa de la zona
+  que miras. En la web, si concedes tu ubicación, recibe también las coordenadas de la consulta
+  de centros cercanos. En la app de Android, tu ubicación se usa solo en el teléfono para
+  ordenar los centros por distancia. Tu ubicación no pasa por el servidor de la app ni se guarda.
 
-La app no tiene publicidad ni usa analítica de terceros.
+La app no tiene publicidad ni analítica de comportamiento: lo único que mide son los errores
+técnicos y las métricas del servicio descritos arriba, sin contenido.
 
 ## Tus derechos
 

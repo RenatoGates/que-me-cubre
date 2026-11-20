@@ -134,9 +134,9 @@ def main_() -> int:
         caso("API: y se puede preguntar igual", r.status_code == 200 and r.json()["modo"] in ("solo_clausulas", "completo", "aclaracion"), r.status_code)
         r = api.post("/polizas", files=[("archivos", ("salud.pdf", bueno, "application/pdf"))], headers=d).json()
         caso("API: una póliza no trae aviso", r["aviso_documento"] is None, r.get("aviso_documento"))
-        nombradas = api.get(f"/polizas/{r['poliza_id']}/clinicas").json()
+        nombradas = api.get(f"/polizas/{r['poliza_id']}/clinicas", headers=d).json()
         caso("API: /clinicas devuelve las nombradas con su cita", [c["nombre"] for c in nombradas["clinicas"]] == nombres and "coberturas" in nombradas["aviso"])
-        caso("API: /clinicas de un condicionado que no nombra ninguna va vacío", api.get("/polizas/chubb_viajes_jetsmart/clinicas").json()["clinicas"] == [])
+        caso("API: /clinicas de un condicionado que no nombra ninguna va vacío", api.get("/polizas/chubb_viajes_jetsmart/clinicas", headers=d).json()["clinicas"] == [])
         mapa = api.get("/mapa/establecimientos", params={"departamento": "SAN MARTIN", "provincia": "SAN MARTIN", "distrito": "TARAPOTO"}).json()
         caso("API: el mapa da el centro del distrito elegido (Tarapoto)",
              mapa["centro"] is not None and -6.6 < mapa["centro"]["lat"] < -6.4 and -76.5 < mapa["centro"]["lon"] < -76.3, mapa.get("centro"))
