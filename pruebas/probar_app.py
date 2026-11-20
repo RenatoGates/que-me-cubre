@@ -32,6 +32,8 @@ os.environ.update({
     "QMC_PROVEEDOR": "grabado",
     "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
     "QMC_LIMITE_DISPOSITIVO_DIA": "50",
+    "QMC_LIMITE_DISPOSITIVO_MES": "200",
+    "QMC_GOOGLE_CLIENT_IDS": "cliente-de-prueba.apps.googleusercontent.com",
     "LANGFUSE_PUBLIC_KEY": "",
     "LANGFUSE_SECRET_KEY": "",
     "VOYAGE_API_KEY": "",
@@ -42,7 +44,11 @@ import httpx  # noqa: E402
 import uvicorn  # noqa: E402
 from streamlit.testing.v1 import AppTest  # noqa: E402
 
+from backend import guardado  # noqa: E402
+from backend import main as main_api  # noqa: E402
 from backend.main import app as api  # noqa: E402
+
+os.environ["QMC_CLAVE_DATOS"] = guardado.nueva_llave()  # llave de prueba, solo de este proceso
 
 
 def levantar_api() -> None:
@@ -75,12 +81,23 @@ def textos(at: AppTest) -> str:
 def main() -> int:
     utf8()
     levantar_api()
-    at = AppTest.from_file(str(RAIZ / "app" / "app.py"), default_timeout=180).run()
+    at = AppTest.from_file(str(RAIZ / "app" / "app.py"), default_timeout=180)
+    # Como en Streamlit Cloud con la sección [auth] de Google en los secrets (valores de prueba)
+    at.secrets["auth"] = {"redirect_uri": "http://localhost:8501/oauth2callback", "cookie_secret": "prueba",
+                          "client_id": "cliente-de-prueba.apps.googleusercontent.com", "client_secret": "prueba",
+                          "server_metadata_url": "https://accounts.google.com/.well-known/openid-configuration",
+                          "expose_tokens": "id"}
+    at.run()
     caso("la app carga sin errores", not at.exception, str(at.exception))
     t = textos(at)
-    caso("aviso permanente: PDF en memoria", "se procesa en memoria y no se guarda" in t)
-    caso("aviso permanente: lo que se envía al proveedor", "Respuesta grabada" in t or "Groq" in t)
-    caso("aviso permanente: informativo, decide la aseguradora", "la decisión final sobre la cobertura la toma tu aseguradora" in t)
+    pie = [m.value for m in at.markdown if 'class="qmc-pie"' in m.value]
+    caso("privacidad en un pie de página, con enlace a la política completa",
+         len(pie) == 1 and "se procesa en memoria y no se guarda" in pie[0] and "docs/privacidad.md" in pie[0]
+         and "Política de privacidad</a>" in pie[0], str(pie)[:300])
+    caso("pie: lo que se envía al proveedor y que es informativo",
+         ("Respuesta grabada" in pie[0] or "Groq" in pie[0]) and "la decisión final sobre la cobertura la toma tu aseguradora" in pie[0])
+    caso("arriba no hay un bloque de texto de privacidad", not any("se procesa en memoria" in i.body for i in at.info))
+    caso("el nombre de la app: ¿Qué Cubre?", any("¿Qué Cubre?</p>" in m.value for m in at.markdown))
     caso("cómo funciona: los tres pasos debajo del título",
          all(x in t for x in ("Sube el PDF de tu póliza o usa un ejemplo.", "Pregunta en español normal.",
                               "Te respondo con la cláusula exacta y su página.")))
@@ -137,12 +154,10 @@ def main() -> int:
     caso("pasos: sin modelo, el aviso y las cláusulas sobre el aviso del siniestro",
          not at.exception and "No pude redactar los pasos ahora" in t and any("Aviso" in e.label for e in at.expander), str(at.exception))
 
-    # Radiografía del condicionado de ejemplo: la versionada, con sus citas
-    at.button(key="ver_radiografia").click().run()
-    t = textos(at)
-    caso("radiografía: qué cubre, exclusiones, deducibles y carencias, con el aviso de que es un resumen",
-         not at.exception and all(x in t for x in ("Qué cubre y hasta cuánto", "Exclusiones principales", "Deducibles y copagos",
-                                                    "Carencias y períodos de espera", "no la póliza entera")), str(at.exception))
+    # Radiografía sin cuenta: se muestra bloqueada, no se oculta
+    caso("radiografía sin cuenta: visible y bloqueada",
+         any(e.label.startswith("🔒 Radiografía de tu póliza") for e in at.expander) and "Crea una cuenta gratis para ver una" in textos(at)
+         and not [b for b in at.button if b.key == "ver_radiografia"])
 
     # Red de seguridad: una pregunta sin grabación (el proveedor de maqueta no responde)
     at.text_area(key="pregunta").set_value("¿Me cubren si pierdo el pasaporte en Cusco?").run()
@@ -190,6 +205,91 @@ def main() -> int:
     b4 = [w.body for w in at.warning if "B4" in w.body]
     caso("dos PDF: B4 con su archivo y su página en ese archivo",
          bool(b4) and "clausulas_adicionales.pdf, pág. 6" in b4[0], str(b4)[:300])
+
+    # Mi cuenta: Google primero, correo después, «¿Olvidaste tu contraseña?», crear cuenta, guardar y borrar todo
+    t = textos(at)
+    botones = [b.key for b in at.button]
+    caso("acceso: «Entrar con Google» es la opción principal, antes del correo",
+         "google" in botones and at.button(key="google").proto.type == "primary" and "o con tu correo" in t
+         and botones.index("google") < botones.index("entrar_boton"), str(botones))
+    caso("acceso: sin párrafos ni avisos sobre la contraseña",
+         not any(x in t for x in ("no podemos recuperarla", "No guardamos el archivo PDF", "Sin cuenta todo funciona igual")))
+    caso("acceso: el enlace «¿Olvidaste tu contraseña?» está en la pantalla de entrar", "olvide" in botones)
+    at.button(key="olvide").click().run()
+    caso("«¿Olvidaste tu contraseña?» lleva a crear una cuenta nueva, sin explicaciones",
+         "registro_correo" in [x.key for x in at.text_input] and at.radio(key="modo_acceso").value == "Crear cuenta"
+         and not any("contraseña" in x.lower() and "recuper" in x.lower() for x in textos(at).split("\n")),
+         at.radio(key="modo_acceso").value)
+    casilla = at.checkbox(key="registro_acepto")
+    caso("cuenta: la casilla de privacidad, en una línea, sin marcar y con el enlace a la política",
+         casilla.value is False and casilla.label.startswith("Acepto la [política de privacidad](")
+         and casilla.label.endswith("y que se guarde el texto de mi póliza y mis consultas, que pueden incluir datos de salud."),
+         casilla.label)
+    at.text_input(key="registro_correo").set_value("prueba@ejemplo.pe")
+    at.text_input(key="registro_clave").set_value("clave-de-la-prueba")
+    at.button(key="registro_crear").click().run()
+    caso("cuenta: sin marcar la casilla no se crea y se dice por qué",
+         any("Marca la casilla" in e.value for e in at.error) and guardado.filas(main_api.limites().motor)["usuarios"] == 0)
+    at.checkbox(key="registro_acepto").check()
+    at.button(key="registro_crear").click().run()
+    t = "\n".join([textos(at)] + [m.value for m in at.markdown])
+    caso("cuenta: creada, plan gratuito, con sus consultas del día", not at.exception and "<span>prueba</span><span>@ejemplo.pe</span>" in t
+         and "Plan gratuito" in t and "Te quedan 3 de 3 consultas hoy y 20 de 20 este mes." in t and "Pólizas guardadas: 0 de 1" in t, str(at.exception) or t[-400:])
+    caso("cuenta gratis: el plan pagado no se vende en la web, se indica que está en la app de Android",
+         "⭐ Plan pagado (S/ 3,99): 200 consultas que no caducan, en la app de Android." in t and not [b for b in at.button if "pag" in (b.key or "")])
+    caso("cuenta gratis: ¿Pagas doble? se muestra bloqueada", "¿Pagas doble?" in t and "🔒 Plan pagado, en la app de Android" in t
+         and not [b for b in at.button if b.key == "comparar_boton"])
+    import datetime as dt
+
+    en_14 = (dt.date.today() + dt.timedelta(days=14)).strftime("%d/%m/%Y")
+    caso("guardar: junto al botón, el indicador pequeño de la fecha de borrado",
+         f'<span class="qmc-vence">se borra el {en_14}</span>' in "\n".join(m.value for m in at.markdown)
+         and "volver a subir el PDF" not in textos(at))
+    at.button(key="guardar_poliza").click().run()
+    t = "\n".join([textos(at)] + [m.value for m in at.markdown] + [x.value for x in at.success])
+    caso("guardar: confirmada en una línea con la fecha, y aparece como tarjeta en la cuenta con su indicador",
+         not at.exception and f"Guardada · se borra el {en_14}" in t and t.count(f"se borra el {en_14}") >= 2
+         and "Pólizas guardadas: 1 de 1" in t, str(at.exception) or t[-400:])
+    caso("borrar: un botón por póliza y la zona de «borrar mi cuenta y todo», que pide contraseña y confirmación",
+         any((b.key or "").startswith("borrar_p_g_") for b in at.button) and "confirmar_clave" in [x.key for x in at.text_input]
+         and "no se puede deshacer" in at.checkbox(key="confirmar_seguro").label)
+    boton = next(b for b in at.button if (b.key or "").startswith("borrar_p_g_"))
+    boton.click().run()
+    caso("borrar una póliza pide confirmación antes de hacerlo",
+         any("Se borra con sus consultas" in w.body for w in at.warning)
+         and guardado.filas(main_api.limites().motor)["polizas"] == 1)
+    next(b for b in at.button if (b.key or "").startswith("borrar_si_g_")).click().run()
+    caso("borrar una póliza: confirmada, ya no está", guardado.filas(main_api.limites().motor)["polizas"] == 0
+         and "Pólizas guardadas: 0 de 1" in textos(at), guardado.filas(main_api.limites().motor))
+    # Radiografía: con la cuenta gratis, una completa de muestra; después, bloqueada
+    at.file_uploader(key="pdfs").set_value([]).run()
+    at.radio(key="fuente").set_value("chubb_viajes_jetsmart").run()
+    caso("radiografía con cuenta gratis: abierta, con el botón de la radiografía gratis",
+         at.button(key="ver_radiografia").label == "Ver la radiografía · tu radiografía gratis", str([b.label for b in at.button])[:300])
+    at.button(key="ver_radiografia").click().run()
+    t = textos(at)
+    caso("radiografía gratis: completa (qué cubre, exclusiones, deducibles y carencias) con el aviso de que es un resumen",
+         not at.exception and all(x in t for x in ("Qué cubre y hasta cuánto", "Exclusiones principales", "Deducibles y copagos",
+                                                    "Carencias y períodos de espera", "no la póliza entera")), str(at.exception))
+    at.radio(key="fuente").set_value("pacifico_viajes").run()
+    caso("radiografía de otra póliza: bloqueada, en la app de Android",
+         any(e.label.startswith("🔒 Radiografía") for e in at.expander) and "🔒 Plan pagado, en la app de Android" in textos(at)
+         and not [b for b in at.button if b.key == "ver_radiografia"])
+
+    at.text_input(key="confirmar_clave").set_value("clave-de-la-prueba")
+    at.button(key="borrar_cuenta").click().run()
+    caso("borrar todo sin marcar la casilla: no borra nada y lo dice",
+         any("marca la casilla" in e.value for e in at.error) and guardado.filas(main_api.limites().motor)["usuarios"] == 1)
+    caso("la radiografía gratis quedó anotada en la base (no en el navegador)",
+         guardado.filas(main_api.limites().motor)["usuarios"] == 1 and main_api.limites().motor.connect().execute(
+             guardado.usuarios.select()).first().radiografia_gratis == "chubb_viajes_jetsmart")
+    at.text_input(key="confirmar_clave").set_value("clave-de-la-prueba")
+    at.checkbox(key="confirmar_seguro").check()
+    at.button(key="borrar_cuenta").click().run()
+    caso("borrar mi cuenta y todo: no queda ninguna fila y la pantalla vuelve a ofrecer crear una cuenta",
+         not at.exception and all(v == 0 for v in guardado.filas(main_api.limites().motor).values())
+         and any("se borraron" in x.value for x in at.success) and "google" in [b.key for b in at.button],
+         (str(at.exception), guardado.filas(main_api.limites().motor)))
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

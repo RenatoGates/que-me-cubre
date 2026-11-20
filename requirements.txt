@@ -28,6 +28,8 @@ google-genai==3.0.0
 
 # Contadores de los topes (SQLite en local, Postgres en producción) y observabilidad
 sqlalchemy==2.1.8
+cryptography==50.0.2               # AES-256-GCM para lo que se guarda de una cuenta
+google-auth==2.62.1                # verifica el ID token del inicio de sesión con Google
 psycopg[binary]==3.3.9
 langfuse==5.2.0
 

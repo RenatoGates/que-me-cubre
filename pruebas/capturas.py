@@ -34,7 +34,7 @@ ANCHO, ALTO = 1000, 3600  # alto: Streamlit hace scroll dentro de su contenedor,
 
 def esperar_app(pagina, timeout: int = 180_000) -> None:
     """Streamlit Cloud puede estar dormida: espera a que la póliza esté cargada (la caja de pregunta)."""
-    pagina.get_by_role("heading", name="¿Qué me cubre?").wait_for(timeout=timeout)
+    pagina.get_by_role("heading", name="¿Qué Cubre?").wait_for(timeout=timeout)
     pagina.get_by_label("Tu pregunta").wait_for(timeout=timeout)
 
 

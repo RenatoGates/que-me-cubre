@@ -1,4 +1,4 @@
-# ¿Qué me cubre?
+# ¿Qué Cubre?
 
 > Subes el PDF de tu póliza, preguntas en español normal y te responde citando la
 > cláusula exacta, con artículo y página.
@@ -9,17 +9,16 @@ Datos con Python. Enunciado: [d2cml-ai/Data-Science-Python#204](https://github.c
 > **Aviso.** Esta herramienta es informativa. La decisión final sobre la cobertura la
 > toma la aseguradora.
 >
-> **Privacidad.** El PDF que subes viaja al servidor de la app, que lo procesa en memoria: no
-> se guarda en disco ni en registros, y se borra de la memoria al vencer (60 minutos sin uso),
-> al pedirlo o al reiniciarse el servidor. Salen hacia terceros dos cosas: el texto de la
-> póliza va a Voyage AI, que calcula los vectores para buscar en ella; y tu pregunta con los
-> fragmentos encontrados (no el PDF entero) va a Anthropic, que redacta la respuesta. Anthropic
-> borra entradas y salidas de su API dentro de los 30 días
-> ([retención](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data));
-> no es retención cero, como sí lo era Groq en el prototipo. Las preguntas no se registran: el
-> registro de uso (Langfuse) está programado pero apagado, y si se activa guarda el texto de la
-> pregunta, nunca la póliza ni la respuesta. Para los topes de uso se guarda un hash del
-> identificador del dispositivo y de la IP, no los valores.
+> **Privacidad.** Sin cuenta, nada se guarda: el PDF que subes se procesa en la memoria del
+> servidor y se borra de ahí a los 60 minutos sin uso, al pedirlo o al reiniciarse el servidor.
+> Con cuenta, y solo si eliges guardar la póliza, se guardan cifrados su texto, sus vectores
+> y tus últimas 20 consultas; el archivo PDF no se guarda. La llave del cifrado está en el
+> servidor de quien administra la app, que por lo tanto podría leer ese contenido. Salen hacia
+> terceros el texto de la póliza (a Voyage AI, que calcula los vectores) y tu pregunta con los
+> fragmentos encontrados (a Anthropic, que redacta la respuesta y borra lo recibido dentro de
+> los 30 días). El detalle está en [`docs/privacidad.md`](docs/privacidad.md).
+>
+> **Regla de las citas.** Toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta.
 
 ---
 
@@ -67,7 +66,7 @@ En la rama `fase-2-funciones`. Medido con el modelo real en [`pruebas/fase2.md`]
 
 **Qué decide el modelo y qué decide el código.** El modelo clasifica el texto (¿falta
 información?, ¿cuántas preguntas?), y redacta pasos y resúmenes citando. El código verifica
-cada cita contra su página del PDF, descarta lo que no tenga cita válida, acepta un plazo solo
+cada cita contra el texto de su página, descarta lo que no tenga cita válida, acepta un plazo solo
 si su número está escrito en su cita (en cifras o en palabras), lee la fecha del hecho del
 texto ("ayer", "hace 3 días", "el 12 de noviembre") y calcula la fecha límite. Cuando el
 plazo es en días hábiles no cuenta feriados, y lo dice; cuando la póliza no dice el tipo de
@@ -105,6 +104,95 @@ prueba salieron con todas las citas verificadas por los dos lectores.
 **Costo del paso nuevo.** El triage que detecta preguntas vagas o múltiples es una llamada
 corta antes de cada consulta: USD 0,00014 y 1,9 s en promedio (2,4 s la más larga).
 
+
+## Fase 3: cuentas, pólizas guardadas, historial y plan pagado
+
+En la rama `fase-3-cuentas`. Probado sin red en [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)
+y, la pantalla, en [`pruebas/probar_app.py`](pruebas/probar_app.py).
+
+| Función | Resultado | Archivo |
+|---|---|---|
+| Entrar con Google | El backend verifica el ID token: firma con los certificados de Google, emisor, cliente, vencimiento y correo verificado. Rechaza el token de otro cliente, vencido, de otro emisor, sin correo verificado o con firma falsa. Probado con una llave y un certificado creados en la prueba; contra Google de verdad, todavía no | [`backend/acceso_google.py`](backend/acceso_google.py), [`backend/cuentas.py`](backend/cuentas.py) |
+| Entrar con correo y contraseña | Opción secundaria; contraseña con hash scrypt. Sin recuperación ni proveedor de correo: «¿Olvidaste tu contraseña?» lleva a crear una cuenta nueva | [`backend/cuentas.py`](backend/cuentas.py), [`app/app.py`](app/app.py) |
+| Consentimiento | Una casilla sin marcar, en una línea, con enlace a la política. Sin ella no se crea la cuenta, con correo ni con Google | [`backend/cuentas.py`](backend/cuentas.py), [`docs/privacidad.md`](docs/privacidad.md) |
+| Guardar la póliza sin el PDF | Una póliza cargada de la base no tiene PDF y responde con las mismas citas y páginas que con él, todas verificadas por los dos extractores | [`backend/guardado.py`](backend/guardado.py), [`ai/verificacion.py`](ai/verificacion.py) |
+| Cifrado | AES-256-GCM aplicado por la app; en la base no aparece texto de la póliza, de la pregunta ni la contraseña; un contenido no se descifra para otra cuenta | [`backend/guardado.py`](backend/guardado.py) |
+| Póliza temporal (plan gratis) | Se borra a los 14 días; la fecha va en un indicador pequeño junto a la póliza. Adelantando el reloj: a los 13 días y 23 horas sigue; a los 14 días no queda ninguna fila suya | [`backend/guardado.py`](backend/guardado.py) (`purgar`) |
+| Historial | Últimas 20 consultas por póliza, con su respuesta y sus citas verificadas; se borran una por una | [`backend/guardado.py`](backend/guardado.py) |
+| Topes del plan gratis y sin cuenta | Sin cuenta, 3 al día y 10 al mes; cuenta gratis, 3 al día y 20 al mes. Corta el primero que se agote; el del mes dice cuándo se reinicia (el día 1, hora de Lima) | [`backend/main.py`](backend/main.py) (`tomar_una`), [`backend/limites.py`](backend/limites.py) |
+| Bolsa del plan pagado | 200 consultas por pago, que no caducan (siguen ahí con el reloj adelantado 300 días). Una consulta descuenta 1; una radiografía nueva, 5, y volver a abrirla no cuesta. Freno de 20 al día aunque quede saldo. El saldo se ve en «Mi cuenta»; sin saldo se ofrece volver a comprar y se consulta con los topes del plan gratis | [`backend/pagos.py`](backend/pagos.py) |
+| Radiografía | Del plan pagado. Cada cuenta gratis tiene una completa, igual a la del plan pagado; la base anota de qué póliza fue, así que otra sesión la ve usada. Si el modelo falla, la gratis no se pierde | [`backend/pagos.py`](backend/pagos.py) |
+| ¿Pagas doble? | Del plan pagado; en el gratis se muestra bloqueada | [`backend/pagos.py`](backend/pagos.py), [`app/app.py`](app/app.py) |
+| Cobro | Un solo punto para conectar Google Play Billing (`verificar_compra`); hoy `POST /cuenta/compra` responde 501. No hay activación a mano. Una misma compra no se acredita dos veces; otra compra suma otras 200 | [`backend/pagos.py`](backend/pagos.py) |
+| Borrar la cuenta y todo | Pide la contraseña, o solo la sesión en una cuenta de Google; después no queda ninguna fila en ninguna tabla, ni sus contadores, y la sesión deja de servir | [`backend/guardado.py`](backend/guardado.py) (`borrar_todo`) |
+
+**Qué desbloquea el pago.** Cada pago de S/ 3,99 (Google Play) suma 200 consultas que no
+caducan, y la cuenta pasa al plan pagado: guarda hasta 4 pólizas sin borrado automático y
+abre ¿Pagas doble? y todas las radiografías (5 consultas cada una). Para poder volver a
+comprar, la app consume la compra en Play después de acreditarla. Gratis siguen la repregunta, varias preguntas, qué hacer
+ahora, la alerta de plazo y el mapa. La versión web no vende: el plan pagado aparece como
+disponible en la app de Android.
+
+**Un solo módulo guarda contenido.** Todo lo que se guarda de una póliza o de una consulta
+pasa por [`backend/guardado.py`](backend/guardado.py): si más adelante se guardan archivos,
+se toca ese archivo. Las tablas (`usuarios`, `sesiones`, `polizas`, `consultas`) viven en la
+misma base que los contadores (`DATABASE_URL`, Neon). La llave del cifrado es
+`QMC_CLAVE_DATOS`; sin ella no se crean cuentas y lo demás funciona igual.
+
+**Cómo se verifica sin el PDF.** Al subir una póliza, el texto de cada página se extrae con
+pdfplumber y con pypdf y queda guardado junto al índice. Las citas se comparan contra ese
+texto. Es lo mismo que antes se hacía reabriendo el PDF, hecho una sola vez.
+
+**El borrado automático no depende de un reloj externo.** El servidor gratuito se duerme, así
+que no hay tarea programada: la limpieza corre al arrancar y, como mucho una vez por hora,
+al atender. Una póliza vencida no se entrega aunque la limpieza todavía no haya pasado.
+
+**Costo de cada plan** ([`pruebas/planes.md`](pruebas/planes.md), generado por
+[`pruebas/medir_planes.py`](pruebas/medir_planes.py) con los costos medidos y los límites del
+código). Una consulta cuesta USD 0,00175 con el triage. Un pago deja S/ 3,39 (≈ USD 0,90)
+después de la comisión de Google Play. Gastar la bolsa entera en consultas cuesta USD 0,351:
+en el peor caso queda un margen de USD 0,55 por pago, y el costo es por pago, no por mes. El
+uso realista (4 pólizas, 2 preguntas por póliza al mes) cuesta USD 0,014 al mes y la bolsa
+dura 25 meses. Una cuenta gratis en su peor caso cuesta USD 0,035 al mes; 12 testers, USD 0,42.
+El tope global se queda en USD 2,00.
+
+### Activar el inicio de sesión con Google
+
+En [Google Cloud Console](https://console.cloud.google.com/), gratis y sin dominio propio:
+
+1. Crea un proyecto.
+2. *Google Auth Platform > Branding*: nombre de la app «¿Qué Cubre?», tu correo de soporte y,
+   como enlace de la política de privacidad, la URL de [`docs/privacidad.md`](docs/privacidad.md)
+   en GitHub.
+3. *Audience*: tipo **External**. Mientras esté en «Testing» solo entran los correos que
+   agregues como usuarios de prueba (hasta 100); para abrirla a todos, «Publish app». Con
+   solo los alcances básicos no hace falta la verificación de Google.
+4. *Data Access*: agrega solo `openid`, `.../auth/userinfo.email` y `.../auth/userinfo.profile`.
+5. *Clients > Create client*, tipo **Web application**. En «Authorized redirect URIs» pon
+   `https://queqbre.streamlit.app/oauth2callback` (y `http://localhost:8501/oauth2callback`
+   para probar en local). Copia el **Client ID** y el **Client secret**.
+6. En la Fase 4, otro cliente de tipo **Android** con el nombre del paquete y la huella SHA-1
+   del certificado (la de depuración sale en Android Studio con `./gradlew signingReport`; la
+   de producción, de Play Console > App signing). La app de Android usa el Client ID web como
+   `serverClientId`, así que el backend no cambia.
+
+En **Render** (Environment): `QMC_GOOGLE_CLIENT_IDS` = el Client ID web. El secreto no va en
+Render: el backend solo verifica tokens.
+
+En **Streamlit Cloud** (Settings > Secrets), si quieres el botón en la web:
+
+```toml
+[auth]
+redirect_uri = "https://queqbre.streamlit.app/oauth2callback"
+cookie_secret = "<una cadena al azar larga>"
+client_id = "<Client ID web>"
+client_secret = "<Client secret>"
+server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
+expose_tokens = "id"
+```
+
+Sin la sección `[auth]` o sin `QMC_GOOGLE_CLIENT_IDS`, el botón no aparece y se entra con
+correo.
 
 ## Instalación
 
@@ -145,6 +233,7 @@ python probar_subida.py
 python probar_api.py
 python probar_fase2.py
 python probar_mapa_portero.py
+python probar_cuentas.py
 python probar_app.py
 ```
 
@@ -171,9 +260,16 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 | `DELETE /polizas/{id}` | Borra de la memoria la póliza subida |
 | `POST /preguntar` | Pregunta sobre una póliza: veredicto, explicación, citas verificadas y cláusulas ausentes. Si falta información devuelve `modo: "aclaracion"` con repreguntas (se reenvía con `aclaraciones`); si hay varias preguntas, `modo: "varias"` con una respuesta por cada una |
 | `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
-| `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella |
-| `POST /superposiciones` | Coberturas que podrían superponerse entre 2 a 4 pólizas |
-| `GET /uso` | Consultas usadas y restantes hoy para el dispositivo |
+| `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella. Del plan pagado, con una gratis por cuenta (403 si no corresponde) |
+| `POST /superposiciones` | ¿Pagas doble?: coberturas que podrían superponerse entre 2 a 4 pólizas. Del plan pagado (403 si no) |
+| `GET /uso` | Consultas que le quedan hoy y este mes (o su saldo, con plan pagado) a quien pregunta |
+| `POST /cuenta/google` | Entrar con el ID token de Google; crea la cuenta si es nueva y se aceptó la política |
+| `POST /cuenta/registro`, `POST /cuenta/sesion`, `DELETE /cuenta/sesion` | Crear cuenta con correo (con la casilla de privacidad aceptada), entrar y salir. La sesión va en `Authorization: Bearer …` |
+| `GET /cuenta`, `GET /cuenta/avisos` | La cuenta con sus pólizas guardadas, su fecha de borrado y qué funciones tiene; la casilla de consentimiento y el enlace a la política |
+| `POST /cuenta/compra` | Un pago (200 consultas) con el token de compra de Google Play. Hoy responde 501: el cobro llega en la Fase 4 |
+| `POST /polizas/{id}/guardar` | Guarda en la cuenta la póliza recién subida (su texto, no el PDF) y devuelve la fecha de borrado |
+| `GET /polizas/{id}/consultas`, `DELETE /consultas/{id}` | Historial de una póliza guardada; borrar una consulta |
+| `DELETE /cuenta` | Borra la cuenta y todo, pidiendo la contraseña (una cuenta de Google, solo la sesión) |
 | `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona, con el centro del distrito para centrar el mapa |
 | `GET /mapa/con-internamiento` | Hospitales y clínicas con internamiento de todo el país, para calcular lo más cercano en el cliente |
 | `GET /polizas/{id}/clinicas` | Clínicas que el condicionado nombra literalmente, cada una con su cita verificada (sin modelo) |
@@ -182,8 +278,9 @@ El cliente manda un identificador propio en `X-Dispositivo`. Al cliente va solo 
 verificado: la salida cruda del modelo y los descartes no salen de la API.
 
 **Topes de gasto** ([`backend/limites.py`](backend/limites.py), probados en
-[`pruebas/probar_api.py`](pruebas/probar_api.py)): 10 consultas al día por dispositivo
-(`QMC_LIMITE_DISPOSITIVO_DIA`), 60 por IP como respaldo, y un tope global mensual en dólares
+[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): sin cuenta, 3 al día y 10 al mes
+por dispositivo; con cuenta gratis, 3 al día y 20 al mes; con plan pagado, su bolsa de consultas y un freno de 20 al día;
+60 por IP como respaldo, y un tope global mensual en dólares
 (`QMC_TOPE_GLOBAL_USD`, 2,00). Al llegar al global la API no se cae: responde las cláusulas
 encontradas, sin veredicto, que es la red de seguridad que ya existía.
 
@@ -256,7 +353,7 @@ lenguaje con salidas estructuradas permiten convertir una pregunta coloquial al 
 técnico de una póliza; hay proveedores con plan gratuito que lo hacen viable sin
 presupuesto; y un agente de programación permite que una persona construya y despliegue el
 flujo completo en días. Nada de esto reemplaza lo importante, que es que el producto no
-invente: eso se resolvió con código, verificando cada cita contra su página del PDF.
+invente: eso se resolvió con código, verificando cada cita contra el texto de su página.
 
 ## 6. Demo
 
@@ -293,7 +390,7 @@ invente: eso se resolvió con código, verificando cada cita contra su página d
 |---|---|---|
 | Extraer texto, página y artículo | pdfplumber (sin modelo) | Los condicionados tienen capa de texto; no hace falta OCR |
 | Buscar los pasajes | Embeddings de `voyage-4-large` por API, con la pregunta tal como se escribió | "Me torcí el dedo" no está en ninguna póliza; "Gastos Médicos por Accidente" sí. Los vectores acercan las dos cosas sin pasar por el modelo. Medido abajo |
-| Redactar la respuesta JSON con citas | Claude Haiku 5.5, salida con esquema JSON | Las citas se verifican después contra el PDF y el texto libre se recorta si nombra algo que no está citado. El veredicto es el campo estructurado `cubre`, no el texto |
+| Redactar la respuesta JSON con citas | Claude Haiku 5.5, salida con esquema JSON | Las citas se verifican después contra el texto de su página, extraído del PDF al subirlo, y el texto libre se recorta si nombra algo que no está citado. El veredicto es el campo estructurado `cubre`, no el texto |
 | Avisar lo que la póliza menciona pero no trae | Código ([`ai/referencias.py`](ai/referencias.py)), sin modelo | Igual que en el prototipo: B4 y las remisiones salen siempre, con su mención literal y su página |
 | Respaldo de la búsqueda | BM25 con 3-5 variantes que escribe el modelo | Si no hay clave de Voyage, la póliza no tiene vectores o Voyage falla, la búsqueda no se cae: vuelve al método del prototipo, que sí necesita la llamada de normalización |
 
@@ -426,7 +523,7 @@ de P02, no reintentar en la app y revertir la regla del "Sí"/"No".
 Lo que hizo el agente:
 
 - Extracción con página y artículo, troceado, índice BM25, normalización anclada al
-  documento, verificación de citas contra el PDF con dos lectores, bloque de lo mencionado
+  documento, verificación de citas contra el texto de cada página con dos lectores, bloque de lo mencionado
   pero ausente, red de seguridad, la app de Streamlit y la pestaña del mapa.
 - Pruebas sin red ni cuota:
   [`pruebas/probar_verificacion.py`](pruebas/probar_verificacion.py) (42 casos),
@@ -436,8 +533,10 @@ Lo que hizo el agente:
   modelo), [`pruebas/probar_fase2.py`](pruebas/probar_fase2.py) (35: fechas y plazos,
   repregunta, varias preguntas, pasos, radiografías y superposiciones),
   [`pruebas/probar_mapa_portero.py`](pruebas/probar_mapa_portero.py) (21: portero, reparación
-  de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación) y
-  [`pruebas/probar_app.py`](pruebas/probar_app.py) (36: el Streamlit contra la API, con
+  de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación),
+  [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py) (46: cuentas, guardado sin PDF, cifrado,
+  límites por plan, borrado automático y borrado total) y
+  [`pruebas/probar_app.py`](pruebas/probar_app.py) (47: el Streamlit contra la API, incluida la cuenta, con
   respuestas grabadas).
 - Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
   citas, la cuota por minuto y por día, y las opciones de recorte (todo en `pruebas/`).
@@ -495,6 +594,12 @@ que-me-cubre/
 - **Mapfre e Interseguro no tienen preguntas de prueba.** Se comprobó a mano que responden
   con citas verificadas, pero ninguna de las 10 preguntas medidas es sobre ellos (8 son de
   Chubb).
+- **Cuentas:** el correo no se verifica (no hay proveedor de correo), así que alguien puede
+  registrarse con un correo ajeno, y quien olvida su contraseña pierde el acceso a lo guardado.
+  El cifrado no protege del administrador: la llave está en su servidor. Si esa llave se
+  pierde, lo guardado no se puede descifrar. El proveedor de la base puede conservar copias
+  de respaldo por un tiempo después de un borrado. El cobro del plan pagado no existe: se
+  activa a mano.
 - **El tope por dispositivo se puede saltar.** Sin cuentas, el "dispositivo" es un
   identificador que genera el cliente: reinstalar la app o recargar el Streamlit da uno nuevo.
   El tope por IP y el global mensual son los que de verdad acotan el gasto.
@@ -563,7 +668,7 @@ que-me-cubre/
   preguntas, así que ellas no permiten elegir entre ellos. Nueve preguntas no alcanzan para
   calibrar nada; haría falta un conjunto de preguntas bastante más grande, escrito sin mirar
   los resultados ([`pruebas/normalizacion.md`](pruebas/normalizacion.md)).
-- **Verificación de citas:** la cita tiene que estar en el pasaje y en su página del PDF,
+- **Verificación de citas:** toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta. La cita tiene que estar en el pasaje y en el texto de su página,
   carácter por carácter. Se ignoran los espacios, los saltos de línea y los guiones de fin de
   línea (el PDF corta las palabras), las comillas tipográficas y un único signo de puntuación
   al final de la cita (. : ; ,), porque el modelo suele cerrar con punto una cita que en el

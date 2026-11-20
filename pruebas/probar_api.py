@@ -71,8 +71,9 @@ def main_() -> int:
              (r.status_code, d.get("modo"), d.get("cubre")))
         caso("al cliente no le llega la salida cruda del modelo ni los descartes",
              "modelo_crudo" not in d and "descartes" not in d, list(d))
-        caso("la respuesta dice cuántas consultas quedan hoy", d["limites"] == {"limite_dia": 3, "restantes_hoy": 2,
-                                                                              "sin_modelo_por_tope": False}, d.get("limites"))
+        caso("la respuesta dice cuántas consultas quedan hoy y este mes, y cuándo se renueva el mes",
+             d["limites"] == {"plan": "sin_cuenta", "limite_dia": 3, "restantes_hoy": 2, "limite_mes": 10, "restantes_mes": 9,
+                              "renueva_el_mes": main.limites().renueva_el_mes(), "saldo": None, "sin_modelo_por_tope": False}, d.get("limites"))
 
         entero = (RAIZ / "data" / "polizas" / f"{CHUBB}.pdf").read_bytes()
         parte1, parte2 = partir_pdf(entero, [11])
@@ -108,7 +109,7 @@ def main_() -> int:
         caso("tope por dispositivo: 3 consultas y después 429",
              codigos == [200, 200, 200, 429] and r.json()["detail"]["codigo"] == "limite_dispositivo", codigos)
         uso = api.get("/uso", headers=cabecera("dispositivo-c-0001")).json()
-        caso("uso: 3 usadas, 0 restantes", (uso["usadas_hoy"], uso["restantes_hoy"]) == (3, 0), uso)
+        caso("uso: 0 restantes hoy, 7 este mes", (uso["restantes_hoy"], uso["restantes_mes"]) == (0, 7), uso)
         r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=cabecera("dispositivo-d-0001"))
         caso("otro dispositivo sigue pudiendo consultar", r.status_code == 200)
 

@@ -33,7 +33,9 @@ from ai import consulta, pasos, radiografia  # noqa: E402
 from ai.fechas import fecha_en_texto, fecha_limite, numero_en_texto  # noqa: E402
 from ai.llm import ProveedorGrabado, ProveedorNoDisponible, Uso  # noqa: E402
 from ai.verificacion import verificar_en_pdf  # noqa: E402
-from backend import almacen, main  # noqa: E402
+from backend import almacen, cuentas, guardado, main, pagos  # noqa: E402
+
+os.environ["QMC_CLAVE_DATOS"] = guardado.nueva_llave()  # llave de prueba, solo de este proceso
 
 FALLAS: list[str] = []
 CHUBB = "chubb_viajes_jetsmart"
@@ -177,8 +179,15 @@ def main_() -> int:
     # --- API ---
     with TestClient(main.app) as api:
         d1 = {"X-Dispositivo": "fase2-prueba-0001"}
-        r = api.get(f"/polizas/{CHUBB}/radiografia", headers=d1).json()
-        caso("API: la radiografía de un condicionado de ejemplo sale de la versionada, con citas", r["modo"] == "radiografia" and len(r["citas"]) > 0)
+        caso("API: sin cuenta, la radiografía y ¿Pagas doble? están bloqueadas (403)",
+             api.get(f"/polizas/{CHUBB}/radiografia", headers=d1).status_code == 403
+             and api.post("/superposiciones", json={"poliza_ids": [CHUBB, "pacifico_viajes"]}, headers=d1).status_code == 403)
+        token = api.post("/cuenta/registro", json={"correo": "fase2@ejemplo.pe", "clave": "clave-de-prueba", "acepto_privacidad": True}).json()["token"]
+        cuenta = {"Authorization": f"Bearer {token}"}
+        r = api.get(f"/polizas/{CHUBB}/radiografia", headers=cuenta).json()
+        caso("API: la radiografía de un condicionado de ejemplo sale de la versionada, con citas (la gratis de la cuenta)",
+             r["modo"] == "radiografia" and len(r["citas"]) > 0)
+        pagos.acreditar(main.limites().motor, cuentas.de_sesion(main.limites().motor, token)["usuario_id"], "compra-de-prueba")
         r = api.post("/pasos", json={"poliza_id": CHUBB, "situacion": "me accidenté ayer"}, headers=d1)
         caso("API: /pasos sin modelo responde 200 con las cláusulas, sin pasos inventados",
              r.status_code == 200 and r.json()["modo"] == "sin_modelo" and r.json()["limites"]["restantes_hoy"] == 3, r.text[:200])
@@ -193,9 +202,9 @@ def main_() -> int:
         caso("API: dos preguntas gastan dos consultas y no llega la salida cruda del modelo",
              r["modo"] == "varias" and r["limites"]["restantes_hoy"] == 1 and all("modelo_crudo" not in x for x in r["respuestas"]), r.get("limites"))
         main.proveedor = lambda: falso
-        r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, "pacifico_viajes"]}, headers=d1)
-        caso("API: /superposiciones compara dos condicionados", r.status_code == 200 and len(r.json()["pares"]) == 1, r.text[:200])
-        r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, CHUBB]}, headers=d1)
+        r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, "pacifico_viajes"]}, headers=cuenta)
+        caso("API: /superposiciones (plan pagado) compara dos condicionados", r.status_code == 200 and len(r.json()["pares"]) == 1, r.text[:200])
+        r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, CHUBB]}, headers=cuenta)
         caso("API: comparar una póliza consigo misma se rechaza", r.status_code == 400)
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
