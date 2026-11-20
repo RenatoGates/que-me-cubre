@@ -19,7 +19,7 @@ data/privado/
 .env
 .env.*
 !.env.example
-.streamlit/secrets.toml
+**/.streamlit/secrets.toml
 
 # --- Python ---
 __pycache__/

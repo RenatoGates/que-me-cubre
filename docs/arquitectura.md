@@ -88,8 +88,10 @@ Sin cuenta nada cambia: la póliza vive en memoria. Con cuenta, `backend/guardad
 único módulo que guarda contenido: el índice de la póliza (fragmentos, vectores y el texto de
 cada página con los dos extractores) y las últimas 20 consultas, cifrados con AES-256-GCM
 antes de llegar a Neon. El PDF no se guarda. Una póliza cargada de la base se verifica contra
-el texto de páginas guardado. `backend/cuentas.py` lleva el correo, el hash de la contraseña,
-las sesiones y el plan. La política completa está en [`privacidad.md`](privacidad.md).
+el texto de páginas guardado. `backend/cuentas.py` lleva el correo, el hash de la contraseña
+o el identificador de Google (verificado en `backend/acceso_google.py`) y las sesiones.
+`backend/pagos.py` decide qué desbloquea el plan pagado y es el único punto donde se
+conectará Google Play Billing. La política completa está en [`privacidad.md`](privacidad.md).
 
 ## Prototipo (rama `main`)
 

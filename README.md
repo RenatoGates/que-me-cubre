@@ -1,4 +1,4 @@
-# ¿Qué me cubre?
+# ¿Qué Cubre?
 
 > Subes el PDF de tu póliza, preguntas en español normal y te responde citando la
 > cláusula exacta, con artículo y página.
@@ -105,22 +105,31 @@ prueba salieron con todas las citas verificadas por los dos lectores.
 corta antes de cada consulta: USD 0,00014 y 1,9 s en promedio (2,4 s la más larga).
 
 
-## Fase 3: cuentas, pólizas guardadas e historial
+## Fase 3: cuentas, pólizas guardadas, historial y plan pagado
 
 En la rama `fase-3-cuentas`. Probado sin red en [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)
-(46 casos) y, la pantalla, en [`pruebas/probar_app.py`](pruebas/probar_app.py).
+y, la pantalla, en [`pruebas/probar_app.py`](pruebas/probar_app.py).
 
 | Función | Resultado | Archivo |
 |---|---|---|
+| Entrar con Google | El backend verifica el ID token: firma con los certificados de Google, emisor, cliente, vencimiento y correo verificado. Rechaza el token de otro cliente, vencido, de otro emisor, sin correo verificado o con firma falsa. Probado con una llave y un certificado creados en la prueba; contra Google de verdad, todavía no | [`backend/acceso_google.py`](backend/acceso_google.py), [`backend/cuentas.py`](backend/cuentas.py) |
+| Entrar con correo y contraseña | Opción secundaria; contraseña con hash scrypt. Sin recuperación ni proveedor de correo: «¿Olvidaste tu contraseña?» lleva a crear una cuenta nueva | [`backend/cuentas.py`](backend/cuentas.py), [`app/app.py`](app/app.py) |
+| Consentimiento | Una casilla sin marcar, en una línea, con enlace a la política. Sin ella no se crea la cuenta, con correo ni con Google | [`backend/cuentas.py`](backend/cuentas.py), [`docs/privacidad.md`](docs/privacidad.md) |
 | Guardar la póliza sin el PDF | Una póliza cargada de la base no tiene PDF y responde con las mismas citas y páginas que con él, todas verificadas por los dos extractores | [`backend/guardado.py`](backend/guardado.py), [`ai/verificacion.py`](ai/verificacion.py) |
 | Cifrado | AES-256-GCM aplicado por la app; en la base no aparece texto de la póliza, de la pregunta ni la contraseña; un contenido no se descifra para otra cuenta | [`backend/guardado.py`](backend/guardado.py) |
-| Cuenta | Correo y contraseña (hash scrypt). Sin recuperación de contraseña: no existe ese endpoint y el registro lo avisa | [`backend/cuentas.py`](backend/cuentas.py) |
-| Consentimiento | La casilla no viene marcada; sin aceptarla el registro se rechaza | [`backend/cuentas.py`](backend/cuentas.py), [`docs/privacidad.md`](docs/privacidad.md) |
-| Póliza temporal (plan gratis) | Fecha exacta de borrado, a 7 días, al guardarla y al abrirla. Adelantando el reloj: a los 6 días y 23 horas sigue; a los 7 días no queda ninguna fila suya | [`backend/guardado.py`](backend/guardado.py) (`purgar`) |
+| Póliza temporal (plan gratis) | Se borra a los 14 días; la fecha va en un indicador pequeño junto a la póliza. Adelantando el reloj: a los 13 días y 23 horas sigue; a los 14 días no queda ninguna fila suya | [`backend/guardado.py`](backend/guardado.py) (`purgar`) |
 | Historial | Últimas 20 consultas por póliza, con su respuesta y sus citas verificadas; se borran una por una | [`backend/guardado.py`](backend/guardado.py) |
-| Límites ordenados | Sin cuenta: 3 al día y 15 al mes. Cuenta gratis: 30 al mes y 1 póliza. Cuenta pagada: 10 al día y 4 pólizas | [`backend/main.py`](backend/main.py) (`cupo`), [`backend/limites.py`](backend/limites.py) |
-| Borrar la cuenta y todo | Pide la contraseña; después no queda ninguna fila en ninguna tabla, ni sus contadores, y la sesión deja de servir | [`backend/guardado.py`](backend/guardado.py) (`borrar_todo`) |
-| Plan pagado | Se activa a mano (`python -m backend.cuentas --plan pagado correo`); el punto donde entrará la pasarela está marcado | [`backend/cuentas.py`](backend/cuentas.py) (`cambiar_plan`) |
+| Consultas por día | Sin cuenta 3, gratis 3, pagada 20; se reinician cada día (día de Lima). No hay topes mensuales | [`backend/main.py`](backend/main.py) (`cupo`), [`backend/limites.py`](backend/limites.py) |
+| Radiografía | Del plan pagado. Cada cuenta gratis tiene una completa, igual a la del plan pagado; la base anota de qué póliza fue, así que otra sesión la ve usada. Si el modelo falla, la gratis no se pierde | [`backend/pagos.py`](backend/pagos.py) |
+| ¿Pagas doble? | Del plan pagado; en el gratis se muestra bloqueada | [`backend/pagos.py`](backend/pagos.py), [`app/app.py`](app/app.py) |
+| Pago único | Un solo punto para conectar Google Play Billing (`verificar_compra`); hoy `POST /cuenta/compra` responde 501. No hay activación a mano. Una misma compra no activa dos cuentas | [`backend/pagos.py`](backend/pagos.py) |
+| Borrar la cuenta y todo | Pide la contraseña, o solo la sesión en una cuenta de Google; después no queda ninguna fila en ninguna tabla, ni sus contadores, y la sesión deja de servir | [`backend/guardado.py`](backend/guardado.py) (`borrar_todo`) |
+
+**Qué desbloquea el pago.** El plan pagado (S/ 3,99, pago único, producto no consumible de
+Google Play) guarda hasta 4 pólizas sin borrado automático, da 20 consultas al día, ¿Pagas
+doble? y todas las radiografías. Gratis siguen la repregunta, varias preguntas, qué hacer
+ahora, la alerta de plazo y el mapa. La versión web no vende: el plan pagado aparece como
+disponible en la app de Android.
 
 **Un solo módulo guarda contenido.** Todo lo que se guarda de una póliza o de una consulta
 pasa por [`backend/guardado.py`](backend/guardado.py): si más adelante se guardan archivos,
@@ -136,13 +145,51 @@ texto. Es lo mismo que antes se hacía reabriendo el PDF, hecho una sola vez.
 que no hay tarea programada: la limpieza corre al arrancar y, como mucho una vez por hora,
 al atender. Una póliza vencida no se entrega aunque la limpieza todavía no haya pasado.
 
-**¿Es rentable el pago único de S/ 3,99?** Una consulta cuesta USD 0,0016 más USD 0,00014 del
-triage ([`pruebas/resultados.md`](pruebas/resultados.md), [`pruebas/fase2.md`](pruebas/fase2.md)).
-Guardar no cuesta: Neon y los embeddings están dentro de sus planes gratuitos. Un perfil
-pagado con 4 pólizas y 2 preguntas por póliza al mes hace 8 consultas: 8 × 0,00174 ≈
-USD 0,014 al mes. El peor caso, usar las 10 consultas todos los días, son 300 al mes:
-≈ USD 0,52 al mes. El tope global de USD 2,00 al mes corta antes de que varios perfiles así
-se sumen.
+**Costo de cada plan** ([`pruebas/planes.md`](pruebas/planes.md), generado por
+[`pruebas/medir_planes.py`](pruebas/medir_planes.py) con los costos medidos y los límites del
+código). Una consulta cuesta USD 0,00175 con el triage. El pago único deja S/ 3,39 después de
+la comisión de Google Play. El uso realista de un perfil pagado (4 pólizas, 2 preguntas por
+póliza al mes) cuesta USD 0,014 al mes. El peor caso pagado, 20 consultas todos los días,
+cuesta USD 1,05 al mes: un usuario así consume en un mes más de lo que pagó, y dos agotan el
+tope global de USD 2,00. 12 testers gratis en su peor caso suman USD 1,90 al mes.
+
+### Activar el inicio de sesión con Google
+
+En [Google Cloud Console](https://console.cloud.google.com/), gratis y sin dominio propio:
+
+1. Crea un proyecto.
+2. *Google Auth Platform > Branding*: nombre de la app «¿Qué Cubre?», tu correo de soporte y,
+   como enlace de la política de privacidad, la URL de [`docs/privacidad.md`](docs/privacidad.md)
+   en GitHub.
+3. *Audience*: tipo **External**. Mientras esté en «Testing» solo entran los correos que
+   agregues como usuarios de prueba (hasta 100); para abrirla a todos, «Publish app». Con
+   solo los alcances básicos no hace falta la verificación de Google.
+4. *Data Access*: agrega solo `openid`, `.../auth/userinfo.email` y `.../auth/userinfo.profile`.
+5. *Clients > Create client*, tipo **Web application**. En «Authorized redirect URIs» pon
+   `https://queqbre.streamlit.app/oauth2callback` (y `http://localhost:8501/oauth2callback`
+   para probar en local). Copia el **Client ID** y el **Client secret**.
+6. En la Fase 4, otro cliente de tipo **Android** con el nombre del paquete y la huella SHA-1
+   del certificado (la de depuración sale en Android Studio con `./gradlew signingReport`; la
+   de producción, de Play Console > App signing). La app de Android usa el Client ID web como
+   `serverClientId`, así que el backend no cambia.
+
+En **Render** (Environment): `QMC_GOOGLE_CLIENT_IDS` = el Client ID web. El secreto no va en
+Render: el backend solo verifica tokens.
+
+En **Streamlit Cloud** (Settings > Secrets), si quieres el botón en la web:
+
+```toml
+[auth]
+redirect_uri = "https://queqbre.streamlit.app/oauth2callback"
+cookie_secret = "<una cadena al azar larga>"
+client_id = "<Client ID web>"
+client_secret = "<Client secret>"
+server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
+expose_tokens = "id"
+```
+
+Sin la sección `[auth]` o sin `QMC_GOOGLE_CLIENT_IDS`, el botón no aparece y se entra con
+correo.
 
 ## Instalación
 
@@ -210,14 +257,16 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 | `DELETE /polizas/{id}` | Borra de la memoria la póliza subida |
 | `POST /preguntar` | Pregunta sobre una póliza: veredicto, explicación, citas verificadas y cláusulas ausentes. Si falta información devuelve `modo: "aclaracion"` con repreguntas (se reenvía con `aclaraciones`); si hay varias preguntas, `modo: "varias"` con una respuesta por cada una |
 | `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
-| `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella |
-| `POST /superposiciones` | Coberturas que podrían superponerse entre 2 a 4 pólizas |
-| `GET /uso` | Consultas que le quedan hoy y este mes a quien pregunta (dispositivo o cuenta) |
-| `POST /cuenta/registro`, `POST /cuenta/sesion`, `DELETE /cuenta/sesion` | Crear cuenta (con la casilla de privacidad aceptada), entrar y salir. La sesión va en `Authorization: Bearer …` |
-| `GET /cuenta`, `GET /cuenta/avisos` | La cuenta con sus pólizas guardadas y su fecha de borrado; los textos que hay que mostrar antes de registrarse |
+| `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella. Del plan pagado, con una gratis por cuenta (403 si no corresponde) |
+| `POST /superposiciones` | ¿Pagas doble?: coberturas que podrían superponerse entre 2 a 4 pólizas. Del plan pagado (403 si no) |
+| `GET /uso` | Consultas que le quedan hoy a quien pregunta (dispositivo o cuenta) |
+| `POST /cuenta/google` | Entrar con el ID token de Google; crea la cuenta si es nueva y se aceptó la política |
+| `POST /cuenta/registro`, `POST /cuenta/sesion`, `DELETE /cuenta/sesion` | Crear cuenta con correo (con la casilla de privacidad aceptada), entrar y salir. La sesión va en `Authorization: Bearer …` |
+| `GET /cuenta`, `GET /cuenta/avisos` | La cuenta con sus pólizas guardadas, su fecha de borrado y qué funciones tiene; la casilla de consentimiento y el enlace a la política |
+| `POST /cuenta/compra` | El pago único con el token de compra de Google Play. Hoy responde 501: el cobro llega en la Fase 4 |
 | `POST /polizas/{id}/guardar` | Guarda en la cuenta la póliza recién subida (su texto, no el PDF) y devuelve la fecha de borrado |
 | `GET /polizas/{id}/consultas`, `DELETE /consultas/{id}` | Historial de una póliza guardada; borrar una consulta |
-| `DELETE /cuenta` | Borra la cuenta y todo, pidiendo la contraseña |
+| `DELETE /cuenta` | Borra la cuenta y todo, pidiendo la contraseña (una cuenta de Google, solo la sesión) |
 | `GET /mapa/departamentos`, `/mapa/distritos`, `/mapa/establecimientos` | RENIPRESS por zona, con el centro del distrito para centrar el mapa |
 | `GET /mapa/con-internamiento` | Hospitales y clínicas con internamiento de todo el país, para calcular lo más cercano en el cliente |
 | `GET /polizas/{id}/clinicas` | Clínicas que el condicionado nombra literalmente, cada una con su cita verificada (sin modelo) |
@@ -226,8 +275,8 @@ El cliente manda un identificador propio en `X-Dispositivo`. Al cliente va solo 
 verificado: la salida cruda del modelo y los descartes no salen de la API.
 
 **Topes de gasto** ([`backend/limites.py`](backend/limites.py), probados en
-[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): sin cuenta, 3 consultas al día y 15 al mes por dispositivo; con
-cuenta gratis, 30 al mes; con cuenta pagada, 10 al día; 60 por IP como respaldo, y un tope global mensual en dólares
+[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): consultas al día, sin topes mensuales:
+sin cuenta, 3 por dispositivo; con cuenta gratis, 3; con cuenta pagada, 20; 60 por IP como respaldo, y un tope global mensual en dólares
 (`QMC_TOPE_GLOBAL_USD`, 2,00). Al llegar al global la API no se cae: responde las cláusulas
 encontradas, sin veredicto, que es la red de seguridad que ya existía.
 
