@@ -206,12 +206,12 @@ class _PantallaMapaState extends State<PantallaMapa> {
                               child: Tooltip(
                                 message: '${x['nombre']}',
                                 child: Icon(Icons.location_on, size: 34,
-                                    color: '${x['tipo']}'.contains('CON INTERNAMIENTO') ? Paleta.noCubierto : Paleta.accion),
+                                    color: '${x['tipo']}'.contains('CON INTERNAMIENTO') ? Paleta.accion : Paleta.superficie),
                               ),
                             ),
                           if (_yo != null)
                             Marker(point: _yo!, width: 28, height: 28,
-                                child: const Tooltip(message: 'Tu ubicación', child: Icon(Icons.radio_button_checked, color: Paleta.parcial, size: 28))),
+                                child: const Tooltip(message: 'Tu ubicación', child: Icon(Icons.person_pin_circle, color: Paleta.fondo, size: 30))),
                         ]),
                         RichAttributionWidget(
                           alignment: AttributionAlignment.bottomLeft,
@@ -241,9 +241,9 @@ class _PantallaMapaState extends State<PantallaMapa> {
               ),
               const SizedBox(height: 8),
               const Wrap(spacing: 16, children: [
-                _Leyenda(Paleta.noCubierto, 'Con internamiento'),
-                _Leyenda(Paleta.accion, 'Otros establecimientos'),
-                _Leyenda(Paleta.parcial, 'Tú', icono: Icons.radio_button_checked),
+                _Leyenda(Paleta.accion, 'Con internamiento'),
+                _Leyenda(Paleta.textoSecundario, 'Otros establecimientos'),
+                _Leyenda(Paleta.textoSecundario, 'Tú', icono: Icons.person_pin_circle),
               ]),
               if (_cargando) const Cargando('Cargando establecimientos…'),
               if (_cercanos.isNotEmpty) ...[
@@ -255,7 +255,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                     for (final (n, t, p, km) in _cercanos)
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: const ExcludeSemantics(child: Icon(Icons.local_hospital_rounded, color: Paleta.noCubierto)),
+                        leading: const ExcludeSemantics(child: Icon(Icons.local_hospital_rounded, color: Paleta.accion)),
                         title: Text(n),
                         subtitle: Text('$t · a ${km.toStringAsFixed(km < 10 ? 1 : 0)} km en línea recta',
                             style: const TextStyle(color: Paleta.textoSecundario)),
@@ -292,7 +292,7 @@ class _PantallaMapaState extends State<PantallaMapa> {
                       contentPadding: EdgeInsets.zero,
                       leading: ExcludeSemantics(
                           child: Icon(Icons.local_hospital_outlined,
-                              color: '${x['tipo']}'.contains('CON INTERNAMIENTO') ? Paleta.noCubierto : Paleta.accion)),
+                              color: '${x['tipo']}'.contains('CON INTERNAMIENTO') ? Paleta.accion : Paleta.textoSecundario)),
                       title: Text('${x['nombre']}'),
                       subtitle: Text([x['clasificacion'], x['direccion'], x['telefono']].where((v) => v != null && '$v'.isNotEmpty).join(' · '),
                           style: const TextStyle(color: Paleta.textoSecundario)),

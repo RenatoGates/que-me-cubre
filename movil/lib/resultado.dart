@@ -284,7 +284,7 @@ class VistaRespuesta extends StatelessWidget {
         Lista('Condiciones y límites', [for (final c in _lista(r['condiciones'])) '${c['descripcion']}${refs(c['citas'] as List?)}'],
             color: Paleta.parcial),
         Lista('Exclusiones que aplican a lo que contaste',
-            [for (final c in _lista(r['exclusiones_aplicables'])) '${c['descripcion']}${refs(c['citas'] as List?)}'], color: Paleta.noCubierto),
+            [for (final c in _lista(r['exclusiones_aplicables'])) '${c['descripcion']}${refs(c['citas'] as List?)}'], color: Paleta.textoSecundario),
         MencionadasAusentes(r, archivos),
         Citas(_lista(r['citas']), archivos),
         if (_lista(r['podrian_aplicar']).isNotEmpty) ...[
@@ -339,7 +339,7 @@ class VistaPasos extends StatelessWidget {
             'Fecha límite para ${p['para']}: ${_fecha('${c['fecha_limite']}')} ($cuanto). Son $plazo ${p['desde']}${refs([p['cita']])}, '
             'contados desde el ${_fecha('${c['fecha_hecho']}')}.${[for (final n in (c['notas'] as List? ?? [])) '\n\n$n'].join()}',
             icono: urgente ? Icons.alarm : Icons.hourglass_bottom,
-            color: urgente ? Paleta.noCubierto : Paleta.parcial,
+            color: Paleta.parcial,
           ),
         ));
       }
@@ -374,7 +374,7 @@ class VistaRadiografia extends StatelessWidget {
           '${c['nombre']}: ${c['que_cubre']} ${c['limite'] != null ? 'Hasta: ${c['limite']}.' : 'Monto: no está en este documento.'}${refs(c['citas'] as List?)}'
       ], color: Paleta.cubierto),
       for (final (titulo, campo, color) in [
-        ('Exclusiones principales', 'exclusiones', Paleta.noCubierto),
+        ('Exclusiones principales', 'exclusiones', Paleta.textoSecundario),
         ('Deducibles y copagos', 'deducibles', Paleta.parcial),
         ('Carencias y períodos de espera', 'carencias', Paleta.parcial),
       ])

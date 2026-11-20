@@ -18,6 +18,12 @@ Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Telemetria.iniciar();
+    // Solo en una compilación de prueba (--dart-define=QMC_PRUEBA_CRASHLYTICS=true): un error cuyo
+    // mensaje trae texto como el de una póliza, para ver en la consola de Firebase que no llega.
+    if (const bool.fromEnvironment('QMC_PRUEBA_CRASHLYTICS')) {
+      Telemetria.registrar(const FormatException('PRUEBA-CRASHLYTICS Tarapoto ana.secreta@ejemplo.pe ¿me cubre la maleta?'),
+          StackTrace.current);
+    }
     FlutterError.onError = Telemetria.errorDeFlutter;
     PlatformDispatcher.instance.onError = (error, pila) {
       Telemetria.registrar(error, pila, fatal: true);

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -78,15 +79,15 @@ class _Casilla extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 12),
-            child: Wrap(children: [
-              const Text('Acepto la '),
-              InkWell(
-                onTap: () => launchUrl(Uri.parse(politica), mode: LaunchMode.externalApplication),
-                child: const Text('política de privacidad',
-                    style: TextStyle(color: Paleta.accion, decoration: TextDecoration.underline, decorationColor: Paleta.accion)),
+            child: Text.rich(TextSpan(children: [
+              const TextSpan(text: 'Acepto la '),
+              TextSpan(
+                text: 'política de privacidad',
+                style: const TextStyle(color: Paleta.accion, decoration: TextDecoration.underline, decorationColor: Paleta.accion),
+                recognizer: TapGestureRecognizer()..onTap = () => launchUrl(Uri.parse(politica), mode: LaunchMode.externalApplication),
               ),
-              const Text(' y que se guarde el texto de mi póliza y mis consultas, que pueden incluir datos de salud.'),
-            ]),
+              const TextSpan(text: ' y que se guarde el texto de mi póliza y mis consultas, que pueden incluir datos de salud.'),
+            ])),
           ),
         ),
       ]);
@@ -327,7 +328,7 @@ class _TarjetaGuardadaState extends State<_TarjetaGuardada> {
         content: const Text('Se borra con sus consultas y no se puede deshacer.'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Conservarla')),
-          FilledButton(style: FilledButton.styleFrom(backgroundColor: Paleta.noCubierto), onPressed: () => Navigator.pop(context, true),
+          FilledButton(style: FilledButton.styleFrom(backgroundColor: Paleta.texto), onPressed: () => Navigator.pop(context, true),
               child: const Text('Sí, borrarla')),
         ],
       ),
@@ -374,7 +375,7 @@ class _TarjetaGuardadaState extends State<_TarjetaGuardada> {
                 ),
                 trailing: IconButton(
                   tooltip: 'Borrar esta consulta',
-                  icon: const Icon(Icons.delete_outline, color: Paleta.noCubierto),
+                  icon: const Icon(Icons.delete_outline, color: Paleta.textoSecundario),
                   onPressed: () async {
                     await EstadoScope.of(context).api.delete('/consultas/${c['consulta_id']}');
                     if (mounted) _cargar();
@@ -384,9 +385,9 @@ class _TarjetaGuardadaState extends State<_TarjetaGuardada> {
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
-                style: TextButton.styleFrom(foregroundColor: Paleta.noCubierto),
+                style: TextButton.styleFrom(foregroundColor: Paleta.texto),
                 onPressed: () => _borrarPoliza().catchError((Object err) {
-                  if (mounted) mostrarError(context, err);
+                  if (context.mounted) mostrarError(context, err);
                 }),
                 icon: const Icon(Icons.delete_forever_outlined),
                 label: const Text('Borrar esta póliza'),
@@ -488,7 +489,7 @@ class _ZonaBorradoState extends State<_ZonaBorrado> {
     final e = EstadoScope.of(context);
     final conClave = e.cuenta?['acceso'] != 'google';
     return Tarjeta(
-      borde: Paleta.noCubierto,
+      borde: Paleta.textoSecundario,
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         const Titulo('Borrar mi cuenta y todo', icono: Icons.delete_forever_rounded),
         const SizedBox(height: 12),
@@ -501,7 +502,7 @@ class _ZonaBorradoState extends State<_ZonaBorrado> {
           onChanged: (v) => setState(() => _seguro = v ?? false),
         ),
         FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: Paleta.noCubierto),
+          style: FilledButton.styleFrom(backgroundColor: Paleta.texto),
           onPressed: () async {
             if (!_seguro || (conClave && _clave.text.isEmpty)) {
               return mostrarError(context, ErrorApi(conClave ? 'Escribe tu contraseña y marca la casilla.' : 'Marca la casilla para borrar todo.'));

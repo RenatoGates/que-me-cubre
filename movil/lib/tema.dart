@@ -21,7 +21,7 @@ ThemeData temaQueCubre() {
     onPrimary: Paleta.fondo,
     secondary: Paleta.accion,
     onSecondary: Paleta.fondo,
-    error: Paleta.noCubierto,
+    error: Paleta.parcial, // el coral queda solo para «no cubre»
     onError: Paleta.fondo,
     surface: Paleta.superficie,
     onSurface: Paleta.texto,

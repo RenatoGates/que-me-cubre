@@ -269,7 +269,7 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
               padding: const EdgeInsets.only(right: 4),
               child: IconButton(
                 tooltip: _escuchando ? 'Dejar de escuchar' : 'Preguntar hablando',
-                icon: Icon(_escuchando ? Icons.stop_circle_rounded : Icons.mic_rounded, color: _escuchando ? Paleta.noCubierto : Paleta.accion, size: 30),
+                icon: Icon(_escuchando ? Icons.stop_circle_rounded : Icons.mic_rounded, color: Paleta.accion, size: 30),
                 onPressed: _escuchar,
               ),
             ),

@@ -17,10 +17,11 @@ Generado por `pruebas/medir_contraste.py` con los colores de `movil/lib/tema.dar
 | Veredicto «Cubre con límites» sobre el fondo | #F5B544 | #0F1729 | 9.85:1 | 3:1 | sí |
 | Veredicto «No cubre» sobre el fondo | #FF6B5A | #0F1729 | 6.39:1 | 3:1 | sí |
 | «se borra el…» (13 px) sobre el fondo | #F5B544 | #0F1729 | 9.85:1 | 4.5:1 | sí |
-| Botón de borrar (texto coral) sobre tarjetas | #FF6B5A | #1A2338 | 5.59:1 | 4.5:1 | sí |
-| Texto del botón rojo de borrar todo | #0F1729 | #FF6B5A | 6.39:1 | 4.5:1 | sí |
+| Botones de borrar (texto claro) sobre tarjetas | #E8EDF7 | #1A2338 | 13.33:1 | 4.5:1 | sí |
+| Texto del botón de borrar todo (fondo claro) | #0F1729 | #E8EDF7 | 15.23:1 | 4.5:1 | sí |
+| Plazo urgente (ámbar) sobre el fondo | #F5B544 | #0F1729 | 9.85:1 | 4.5:1 | sí |
 | Ícono de verificada sobre el fondo | #35C77A | #0F1729 | 8.17:1 | 3:1 | sí |
 | Avisos (snackbar): fondo sobre texto | #0F1729 | #E8EDF7 | 15.23:1 | 4.5:1 | sí |
 | Atribución de OpenStreetMap sobre su recuadro blanco | #1A1A1A | #FFFFFF | 17.40:1 | 4.5:1 | sí |
 
-- **18 de 18 pares cumplen.**
+- **19 de 19 pares cumplen.**
