@@ -483,7 +483,7 @@ Lo que hizo el agente:
   de PDF, clínicas nombradas y lo que el mapa promete sobre la ubicación),
   [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py) (46: cuentas, guardado sin PDF, cifrado,
   límites por plan, borrado automático y borrado total) y
-  [`pruebas/probar_app.py`](pruebas/probar_app.py) (45: el Streamlit contra la API, incluida la cuenta, con
+  [`pruebas/probar_app.py`](pruebas/probar_app.py) (47: el Streamlit contra la API, incluida la cuenta, con
   respuestas grabadas).
 - Mediciones con cuota real: las 10 preguntas, la estabilidad de P01 y P02, la auditoría de
   citas, la cuota por minuto y por día, y las opciones de recorte (todo en `pruebas/`).

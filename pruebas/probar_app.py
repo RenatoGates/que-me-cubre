@@ -200,14 +200,16 @@ def main() -> int:
     t = textos(at)
     caso("cuenta: antes de crearla dice qué se guarda, que el dueño podría leerlo y que la contraseña no se recupera",
          "No guardamos el archivo PDF" in t and "podría leerlo" in t and "no podemos recuperarla" in t)
-    caso("cuenta: la casilla de privacidad no viene marcada y sin ella no se puede crear",
-         at.checkbox(key="registro_acepto").value is False and at.button(key="registro_crear").disabled)
+    caso("cuenta: la casilla de privacidad no viene marcada", at.checkbox(key="registro_acepto").value is False)
     at.text_input(key="registro_correo").set_value("prueba@ejemplo.pe")
     at.text_input(key="registro_clave").set_value("clave-de-la-prueba")
-    at.checkbox(key="registro_acepto").check().run()
+    at.button(key="registro_crear").click().run()
+    caso("cuenta: sin marcar la casilla no se crea y se dice por qué",
+         any("marcar la casilla" in e.value for e in at.error) and guardado.filas(main_api.limites().motor)["usuarios"] == 0)
+    at.checkbox(key="registro_acepto").check()
     at.button(key="registro_crear").click().run()
     t = "\n".join([textos(at)] + [m.value for m in at.markdown])
-    caso("cuenta: creada, plan gratuito, con sus límites del mes", not at.exception and "prueba@ejemplo.pe" in t and "Plan gratuito" in t
+    caso("cuenta: creada, plan gratuito, con sus límites del mes", not at.exception and "<span>prueba</span><span>@ejemplo.pe</span>" in t and "Plan gratuito" in t
          and "de 30 este mes" in t and "Pólizas guardadas: 0 de 1" in t, str(at.exception) or t[-400:])
     import datetime as dt
 
@@ -220,7 +222,7 @@ def main() -> int:
          not at.exception and f"Se borrará sola el {en_7}" in t and f"Se borra sola el {en_7}" in t and "Pólizas guardadas: 1 de 1" in t,
          str(at.exception) or t[-400:])
     caso("borrar: un botón por póliza y la zona de «borrar mi cuenta y todo», que pide contraseña y confirmación",
-         any((b.key or "").startswith("borrar_p_g_") for b in at.button) and at.button(key="borrar_cuenta").disabled
+         any((b.key or "").startswith("borrar_p_g_") for b in at.button) and "confirmar_clave" in [x.key for x in at.text_input]
          and "no se puede" in t)
     boton = next(b for b in at.button if (b.key or "").startswith("borrar_p_g_"))
     boton.click().run()
@@ -230,8 +232,12 @@ def main() -> int:
     next(b for b in at.button if (b.key or "").startswith("borrar_si_g_")).click().run()
     caso("borrar una póliza: confirmada, ya no está", guardado.filas(main_api.limites().motor)["polizas"] == 0
          and "Pólizas guardadas: 0 de 1" in textos(at), guardado.filas(main_api.limites().motor))
-    at.text_input(key="borrar_clave").set_value("clave-de-la-prueba")
-    at.checkbox(key="borrar_seguro").check().run()
+    at.text_input(key="confirmar_clave").set_value("clave-de-la-prueba")
+    at.button(key="borrar_cuenta").click().run()
+    caso("borrar todo sin marcar la casilla: no borra nada y lo dice",
+         any("marca la casilla" in e.value for e in at.error) and guardado.filas(main_api.limites().motor)["usuarios"] == 1)
+    at.text_input(key="confirmar_clave").set_value("clave-de-la-prueba")
+    at.checkbox(key="confirmar_seguro").check()
     at.button(key="borrar_cuenta").click().run()
     caso("borrar mi cuenta y todo: no queda ninguna fila y la pantalla vuelve a ofrecer crear una cuenta",
          not at.exception and all(v == 0 for v in guardado.filas(main_api.limites().motor).values())

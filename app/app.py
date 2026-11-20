@@ -88,10 +88,12 @@ st.markdown(
     div[class*="st-key-poliza_g_"] {background: #F7F7FD; border: 1px solid #DCDDF3; border-radius: 12px; padding: 1rem 1rem .6rem;}
     div.st-key-zona_borrado {background: #FFF5F4; border: 1.5px solid #D0645A; border-radius: 12px; padding: 1rem 1rem .8rem;
                              margin-top: 1.2rem;}
-    div[class*="st-key-borrar_"] button {border: 1.5px solid #B42318; color: #B42318; background: #FFFFFF;}
-    div[class*="st-key-borrar_"] button:hover {background: #B42318; color: #FFFFFF; border-color: #B42318;}
+    div[class*="st-key-borrar_c_"] button, div[class*="st-key-borrar_p_"] button, div[class*="st-key-borrar_si_"] button {
+        border: 1.5px solid #B42318; color: #B42318; background: #FFFFFF;}
+    div[class*="st-key-borrar_c_"] button:hover, div[class*="st-key-borrar_p_"] button:hover,
+    div[class*="st-key-borrar_si_"] button:hover {background: #B42318; color: #FFFFFF; border-color: #B42318;}
     div[class*="st-key-borrar_"] button:hover p {color: #FFFFFF;}
-    div.st-key-borrar_cuenta button {background: #B42318; color: #FFFFFF;}
+    div.st-key-borrar_cuenta button {background: #B42318; color: #FFFFFF; border: 0;}
     .qmc-plan {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #E0E7FF; color: #3730A3;
                font-weight: 700; font-size: .85rem;}
     .qmc-vence {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #FFF3D1; color: #6B4500;
@@ -514,23 +516,30 @@ def formulario_de_entrada() -> None:
     crear, entrar = st.tabs(["Crear cuenta", "Ya tengo cuenta"])
     with crear:
         st.info(avisos["guardado"], icon="🔒")
-        correo = st.text_input("Correo", key="registro_correo")
-        clave = st.text_input("Contraseña (8 caracteres o más)", type="password", key="registro_clave")
-        st.warning(avisos["clave"], icon="🔑")
-        acepto = st.checkbox(avisos["consentimiento"], value=False, key="registro_acepto")
-        st.caption("Política de privacidad: docs/privacidad.md en el repositorio del proyecto.")
-        if st.button("Crear mi cuenta", type="primary", key="registro_crear", disabled=not acepto):
-            try:
-                r = api("POST", "/cuenta/registro", json={"correo": correo, "clave": clave, "acepto_privacidad": acepto})
-                st.session_state["token"], st.session_state["cuenta"] = r["token"], r["cuenta"]
-                st.rerun()
-            except ErrorAPI as e:
-                st.error(str(e))
+        with st.form("form_registro", border=False):
+            correo = st.text_input("Correo", key="registro_correo")
+            clave = st.text_input("Contraseña (8 caracteres o más)", type="password", key="registro_clave")
+            st.warning(avisos["clave"], icon="🔑")
+            acepto = st.checkbox(avisos["consentimiento"], value=False, key="registro_acepto")
+            st.caption("Política de privacidad: docs/privacidad.md en el repositorio del proyecto.")
+            enviado = st.form_submit_button("Crear mi cuenta", type="primary", key="registro_crear")
+        if enviado:
+            if not acepto:
+                st.error("Para crear la cuenta tienes que marcar la casilla de la política de privacidad.")
+            else:
+                try:
+                    r = api("POST", "/cuenta/registro", json={"correo": correo, "clave": clave, "acepto_privacidad": acepto})
+                    st.session_state["token"], st.session_state["cuenta"] = r["token"], r["cuenta"]
+                    st.rerun()
+                except ErrorAPI as e:
+                    st.error(str(e))
     with entrar:
-        correo = st.text_input("Correo", key="entrar_correo")
-        clave = st.text_input("Contraseña", type="password", key="entrar_clave")
-        st.caption(avisos["clave"])
-        if st.button("Entrar", type="primary", key="entrar_boton"):
+        with st.form("form_entrar", border=False):
+            correo = st.text_input("Correo", key="entrar_correo")
+            clave = st.text_input("Contraseña", type="password", key="entrar_clave")
+            st.caption(avisos["clave"])
+            enviado = st.form_submit_button("Entrar", type="primary", key="entrar_boton")
+        if enviado:
             try:
                 r = api("POST", "/cuenta/sesion", json={"correo": correo, "clave": clave})
                 st.session_state["token"], st.session_state["cuenta"] = r["token"], r["cuenta"]
@@ -597,7 +606,9 @@ def pantalla_cuenta() -> None:
             return
         limites = cuenta["limites"]
         plan = "Plan de pago único" if cuenta["plan"] == "pagado" else "Plan gratuito"
-        st.markdown(f"#### {md(cuenta['correo'])} &nbsp; <span class='qmc-plan'>{plan}</span>", unsafe_allow_html=True)
+        usuario, _, dominio = cuenta["correo"].partition("@")  # partido en dos etiquetas: que no se muestre como enlace
+        correo = f"<span>{html.escape(usuario)}</span><span>@{html.escape(dominio)}</span>"
+        st.markdown(f"#### {correo} &nbsp; <span class='qmc-plan'>{plan}</span>", unsafe_allow_html=True)
         st.caption(texto_limites(limites) + f" Pólizas guardadas: {len(cuenta['polizas'])} de {cuenta['polizas_permitidas']}.")
         if cuenta["plan"] != "pagado":
             st.info("**Plan de pago único (S/ 3,99):** hasta 4 pólizas guardadas sin borrado automático y 10 consultas al día. "
@@ -622,9 +633,13 @@ def pantalla_cuenta() -> None:
             st.markdown("##### Borrar mi cuenta y todo")
             st.markdown("Borra tu cuenta, tus pólizas guardadas, todo tu historial y tus contadores. Es inmediato y **no se puede "
                         "deshacer**. Después puedes seguir usando la app sin cuenta.")
-            clave = st.text_input("Escribe tu contraseña para confirmar", type="password", key="borrar_clave")
-            seguro = st.checkbox("Entiendo que se borra todo y no se puede recuperar", value=False, key="borrar_seguro")
-            if st.button("Borrar mi cuenta y todo", key="borrar_cuenta", disabled=not (seguro and clave)):
+            with st.form("form_borrado", border=False):
+                clave = st.text_input("Escribe tu contraseña para confirmar", type="password", key="confirmar_clave")
+                seguro = st.checkbox("Entiendo que se borra todo y no se puede recuperar", value=False, key="confirmar_seguro")
+                enviado = st.form_submit_button("Borrar mi cuenta y todo", key="borrar_cuenta")
+            if enviado and not (seguro and clave):
+                st.error("Para borrar todo escribe tu contraseña y marca la casilla.")
+            elif enviado:
                 try:
                     api("DELETE", "/cuenta", json={"clave": clave})
                     for k in ("token", "cuenta", "guardada"):
