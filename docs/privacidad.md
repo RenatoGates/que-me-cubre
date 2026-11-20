@@ -14,7 +14,7 @@ Sin cuenta, la app no guarda nada tuyo. Con cuenta, guarda el texto de tu póliz
   registros, y se borra de la memoria tras 60 minutos sin uso, cuando lo pides o cuando el
   servidor se reinicia.
 - No se guarda tu pregunta ni la respuesta.
-- Para contar cuántas consultas haces (3 al día) se guarda un código derivado del
+- Para contar cuántas consultas haces (3 al día y 10 al mes) se guarda un código derivado del
   identificador de tu dispositivo y otro de tu dirección IP, no los valores originales. El de
   la IP cambia cada día.
 
@@ -30,8 +30,10 @@ Se guarda, hasta que lo borres:
   guardan.
 - La fecha en que aceptaste esta política.
 - Si ya usaste tu radiografía gratis, de qué póliza fue.
-- Si compraste el plan de pago: que la cuenta es de pago y un código derivado del comprobante
-  de la compra. Google Play procesa el pago; la app no ve ni guarda tus datos de pago.
+- Si compraste consultas: que la cuenta es de pago, cuántas consultas te quedan, de qué
+  pólizas pediste la radiografía y, de cada compra, la fecha, cuántas consultas sumó y un
+  código derivado de su comprobante. Google Play procesa el pago; la app no ve ni guarda tus
+  datos de pago.
 - De cada póliza que elijas guardar: su texto partido en fragmentos, los vectores que
   permiten buscar en ella y el texto de cada página. **No se guarda el archivo PDF.**
 - Tus últimas 20 consultas por póliza guardada: la pregunta, la respuesta y sus citas.
@@ -66,8 +68,9 @@ llave. No lee ese contenido como parte del funcionamiento de la app, pero técni
 
 - Una consulta: botón "Borrar" junto a ella.
 - Una póliza guardada, con todo su historial: botón "Borrar esta póliza".
-- Todo: "Borrar mi cuenta y todo". Borra la cuenta, las pólizas, el historial, las sesiones y
-  los contadores. Es inmediato y no se puede deshacer.
+- Todo: "Borrar mi cuenta y todo". Borra la cuenta, las pólizas, el historial, las sesiones,
+  los registros de compra y los contadores, y con ellos las consultas pagadas que te queden.
+  Es inmediato y no se puede deshacer.
 
 ## Lo que sale hacia terceros, con o sin cuenta
 

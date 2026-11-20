@@ -1,8 +1,9 @@
 """Los topes de gasto.
 
-1. Consultas al día (día de Lima), según quién pregunta: sin cuenta, QMC_LIMITE_DISPOSITIVO_DIA
-   por dispositivo; cuenta gratis, QMC_LIMITE_GRATIS_DIA; cuenta pagada, QMC_LIMITE_PAGADO_DIA.
-   No hay topes mensuales por persona.
+1. Por persona, al día y al mes (día y mes de Lima); corta el primero que se agote. Sin cuenta,
+   por dispositivo: QMC_LIMITE_DISPOSITIVO_DIA y _MES. Cuenta gratis: QMC_LIMITE_GRATIS_DIA y
+   _MES. La cuenta pagada no se mide por mes sino con su bolsa de consultas (backend/pagos.py),
+   más un freno diario contra abuso: QMC_LIMITE_PAGADO_DIA.
 2. Por IP, de respaldo: el identificador de dispositivo lo genera el cliente y se puede
    cambiar reinstalando; la IP pone un techo aunque eso pase.
 3. Global mensual: QMC_TOPE_GLOBAL_USD. Al llegar, el servicio sigue y responde sin modelo
@@ -80,21 +81,39 @@ class Limites:
             c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 10, uso_diario.c.dia < ayer))
             c.execute(sa.delete(uso_diario).where(sa.func.length(uso_diario.c.dia) == 7, uso_diario.c.dia < self.mes()))
 
-    # Consultas al día, con reinicio diario: sin cuenta 3, cuenta gratis 3, cuenta pagada 20.
+    # Sin cuenta: 3 al día y 10 al mes. Cuenta gratis: 3 al día y 20 al mes. Cuenta pagada: su
+    # bolsa, con un freno de 20 al día.
     @property
     def limite_dispositivo(self) -> int:
         return _entero("QMC_LIMITE_DISPOSITIVO_DIA", 3)
+
+    @property
+    def limite_dispositivo_mes(self) -> int:
+        return _entero("QMC_LIMITE_DISPOSITIVO_MES", 10)
 
     @property
     def limite_gratis_dia(self) -> int:
         return _entero("QMC_LIMITE_GRATIS_DIA", 3)
 
     @property
+    def limite_gratis_mes(self) -> int:
+        return _entero("QMC_LIMITE_GRATIS_MES", 20)
+
+    @property
     def limite_pagado_dia(self) -> int:
-        return _entero("QMC_LIMITE_PAGADO_DIA", 20)
+        return _entero("QMC_LIMITE_PAGADO_DIA", 20)  # freno contra abuso, no un cupo
 
     def limite_de(self, plan: str) -> int:
         return {"pagado": self.limite_pagado_dia, "gratis": self.limite_gratis_dia}.get(plan, self.limite_dispositivo)
+
+    def limite_mes_de(self, plan: str) -> int | None:
+        return {"pagado": None, "gratis": self.limite_gratis_mes}.get(plan, self.limite_dispositivo_mes)
+
+    @staticmethod
+    def renueva_el_mes() -> str:
+        """Primer día del mes siguiente (Lima), dd/mm/aaaa: cuando se reinicia el tope mensual."""
+        hoy_ = datetime.now(LIMA)
+        return (hoy_.replace(day=28) + timedelta(days=4)).replace(day=1).strftime("%d/%m/%Y")
 
     @property
     def limite_ip(self) -> int:

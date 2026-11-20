@@ -7,10 +7,12 @@
 - Lo guardado va cifrado: ni la base ni la fila traen texto de la póliza ni de la pregunta.
 - No se guarda el PDF: una póliza cargada de la base responde con citas verificadas por los
   dos lectores contra el texto de las páginas extraído al subirla.
-- Límites por día, sin topes mensuales: sin cuenta 3, gratis 3, pagada 20.
+- Topes por día y por mes, corta el primero: sin cuenta 3 y 10, gratis 3 y 20. La cuenta
+  pagada usa una bolsa de 200 consultas por pago que no caduca (la radiografía descuenta 5),
+  con un freno de 20 al día.
 - Plan gratis: la póliza guardada tiene fecha de borrado a 14 días; adelantando el reloj, la
   limpieza no deja ninguna fila de ella.
-- Plan pagado: un solo punto de activación (backend/pagos.py); hoy el cobro responde 501.
+- Plan pagado: un solo punto de cobro (backend/pagos.py); hoy el cobro responde 501.
   ¿Pagas doble? es del plan pagado; la radiografía también, con una gratis por cuenta.
 - Borrar una consulta, una póliza y "mi cuenta y todo": no queda ninguna fila en ninguna tabla.
 
@@ -85,6 +87,11 @@ def token_google(correo: str, sub: str, privada: str = PRIVADA, **cambios) -> st
     datos = {"iss": "https://accounts.google.com", "aud": CLIENTE, "sub": sub, "email": correo, "email_verified": True,
              "iat": ahora, "exp": ahora + 3600} | cambios
     return google_jwt.encode(google_crypt.RSASigner.from_string(privada, key_id="k1"), datos).decode()
+
+
+def almacen_otra() -> str:
+    """Un condicionado de ejemplo cuya radiografía la cuenta todavía no tiene."""
+    return "rimac_viajes"
 
 
 def main_() -> int:
@@ -176,8 +183,10 @@ def main_() -> int:
         main._guardadas.clear()
         r = api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=ana)
         caso("preguntar a la póliza guardada: responde (sin red, las cláusulas encontradas) y dice cuántas quedan hoy",
-             r.status_code == 200 and len(r.json()["pasajes"]) > 0 and r.json()["limites"] == {
-                 "plan": "gratis", "limite_dia": 3, "restantes_hoy": 2, "sin_modelo_por_tope": False}, (r.status_code, r.text[:200]))
+             r.status_code == 200 and len(r.json()["pasajes"]) > 0 and {k: r.json()["limites"][k] for k in (
+                 "plan", "limite_dia", "restantes_hoy", "limite_mes", "restantes_mes", "saldo")} == {
+                 "plan": "gratis", "limite_dia": 3, "restantes_hoy": 2, "limite_mes": 20, "restantes_mes": 19, "saldo": None},
+             (r.status_code, r.text[:300]))
         caso("otra cuenta o nadie no puede usar esa póliza",
              api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=anonimo).status_code == 401
              and api.post("/preguntar", json={"poliza_id": g["poliza_id"], "pregunta": P01}, headers=bea).status_code == 404)
@@ -234,16 +243,36 @@ def main_() -> int:
              guardado.cargar_poliza(motor, usuario_id, g3["poliza_id"]) is None and guardado.listar_polizas(motor, usuario_id) == [])
         guardado.purgar(motor)
 
-        # --- Límites por día, sin topes mensuales ---
+        # --- Topes por día y por mes: corta el primero que se agote ---
         codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0002"}).status_code for _ in range(4)]
         caso("sin cuenta: 3 consultas al día, la cuarta 429", codigos == [200, 200, 200, 429], codigos)
+
+        def mes_usado(clave: str, n: int) -> None:  # como si ya hubiera hecho n consultas este mes, en otros días
+            lim.tomar(clave, 10**6, lim.mes())
+            with motor.begin() as c:
+                c.execute(uso_diario.update().where(uso_diario.c.clave == clave, uso_diario.c.dia == lim.mes()).values(cuenta=n))
+
         clave = main.clave_dispositivo("limite-prueba-0003")
-        lim.tomar(clave, 10**6, lim.mes())  # aunque hubiera uso en el mes, no hay tope mensual
-        with motor.begin() as c:
-            c.execute(uso_diario.update().where(uso_diario.c.clave == clave).values(cuenta=10**6))
-        caso("no hay topes mensuales: sin cuenta, 999 999 consultas cargadas al mes no bloquean las del día",
-             api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0003"}).status_code == 200
-             and not hasattr(lim, "limite_gratis_mes") and not hasattr(lim, "limite_dispositivo_mes"))
+        mes_usado(clave, 9)
+        codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0003"}) for _ in range(2)]
+        caso("sin cuenta: 10 al mes; con el día libre, el tope del mes corta y dice cuándo se reinicia",
+             lim.limite_dispositivo_mes == 10 and [x.status_code for x in codigos] == [200, 429]
+             and codigos[1].json()["detail"]["mensaje"] == f"Llegaste a tus 10 consultas de este mes. Se renuevan el {lim.renueva_el_mes()}."
+             and lim.usadas(clave) == 1, [x.text[:150] for x in codigos])
+        caso("el mes se reinicia el primer día del mes siguiente",
+             dt.datetime.strptime(lim.renueva_el_mes(), "%d/%m/%Y").date().day == 1
+             and dt.datetime.strptime(lim.renueva_el_mes(), "%d/%m/%Y").date() > dt.datetime.now(main.LIMA).date())
+        registro = api.post("/cuenta/registro", json={"correo": "luisa@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).json()
+        luisa_id = cuentas.de_sesion(motor, registro["token"])["usuario_id"]
+        luisa = {"Authorization": f"Bearer {registro['token']}"}
+        mes_usado("u:" + luisa_id, 19)
+        r1 = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=luisa)
+        r2 = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=luisa)
+        caso("cuenta gratis: 20 al mes; la 20.ª pasa y la 21.ª se corta aunque quede cupo del día",
+             lim.limite_gratis_mes == 20 and r1.status_code == 200 and r1.json()["limites"]["restantes_mes"] == 0
+             and r1.json()["limites"]["restantes_hoy"] == 2 and r2.status_code == 429 and "de este mes" in r2.json()["detail"]["mensaje"],
+             (r1.status_code, r2.text[:150]))
+        api.request("DELETE", "/cuenta", json={"clave": CLAVE}, headers=luisa)
         r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana)
         caso("cuenta gratis: 3 al día (ya hizo 3 hoy) y la cuarta 429", lim.usadas("u:" + usuario_id) == 3 and r.status_code == 429
              and r.json()["detail"]["codigo"] == "limite_cuenta" and "Mañana se renuevan" in r.json()["detail"]["mensaje"], r.text[:200])
@@ -287,18 +316,56 @@ def main_() -> int:
         caso("no hay activación a mano por comando",
              "__main__" not in (RAIZ / "backend" / "cuentas.py").read_text(encoding="utf-8")
              and "__main__" not in (RAIZ / "backend" / "pagos.py").read_text(encoding="utf-8"))
-        caso("activar con una compra verificada (lo que hará Play Billing)", pagos.activar(motor, usuario_id, "comprobante-1"))
+        caso("acreditar una compra verificada (lo que hará Play Billing): plan pagado con 200 consultas",
+             pagos.acreditar(motor, usuario_id, "comprobante-1") and pagos.saldo(motor, usuario_id) == 200
+             and api.get("/cuenta", headers=ana2).json()["saldo"] == 200)
         luis_id = cuentas.de_sesion(motor, luis["Authorization"][7:])["usuario_id"]
-        caso("la misma compra no activa una segunda cuenta", not pagos.activar(motor, luis_id, "comprobante-1"))
+        caso("la misma compra no se acredita dos veces, ni a otra cuenta",
+             not pagos.acreditar(motor, luis_id, "comprobante-1") and not pagos.acreditar(motor, usuario_id, "comprobante-1")
+             and pagos.saldo(motor, usuario_id) == 200 and pagos.saldo(motor, luis_id) == 0)
+        lim.olvidar("u:" + usuario_id)
+        r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2)
+        caso("cuenta pagada: una consulta descuenta 1 de la bolsa y no del mes",
+             r.status_code == 200 and r.json()["limites"]["saldo"] == 199 and r.json()["limites"]["limite_mes"] is None
+             and lim.usadas("u:" + usuario_id, lim.mes()) == 0, r.text[:200])
+        mes_usado("u:" + usuario_id, 10**6)
+        caso("la bolsa no se mide por mes: un mes con 999 999 consultas no la frena",
+             api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2).json()["limites"]["saldo"] == 198)
+        r = api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2)
+        caso("cuenta pagada: una radiografía nueva descuenta 5", r.status_code == 200 and r.json()["consultas_descontadas"] == 5
+             and pagos.saldo(motor, usuario_id) == 193, r.text[:200])
+        r = api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2)
+        caso("volver a abrir esa radiografía no descuenta, ni la gratis que ya tenía",
+             r.json()["consultas_descontadas"] == 0 and api.get(f"/polizas/{CHUBB}/radiografia", headers=ana2).json()["consultas_descontadas"] == 0
+             and pagos.saldo(motor, usuario_id) == 193)
         usadas = lim.usadas("u:" + usuario_id)
-        codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2).status_code for _ in range(21 - usadas)]
-        caso("cuenta pagada: 20 al día", lim.limite_pagado_dia == 20 and codigos == [200] * (20 - usadas) + [429], codigos)
-        caso("cuenta pagada: todas las radiografías", api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2).json().get("acceso") == "pagado")
+        codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2) for _ in range(21 - usadas)]
+        caso("cuenta pagada: freno de 20 al día contra abuso, aunque quede saldo",
+             lim.limite_pagado_dia == 20 and [x.status_code for x in codigos] == [200] * (20 - usadas) + [429]
+             and "Mañana sigues con tu saldo" in codigos[-1].json()["detail"]["mensaje"] and pagos.saldo(motor, usuario_id) == 193 - (20 - usadas),
+             [x.status_code for x in codigos])
+        guardado.purgar(motor, guardado.ahora() + timedelta(days=300))
+        caso("la bolsa no caduca: 300 días después sigue igual", pagos.saldo(motor, usuario_id) == 193 - (20 - usadas))
+        ana2 = {"Authorization": f"Bearer {api.post('/cuenta/sesion', json={'correo': 'ana@ejemplo.pe', 'clave': CLAVE}).json()['token']}"}
+        lim.olvidar("u:" + usuario_id)
+        with motor.begin() as c:
+            c.execute(guardado.usuarios.update().where(guardado.usuarios.c.id == usuario_id).values(saldo=0))
+        cuenta = api.get("/cuenta", headers=ana2).json()
+        r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2)
+        caso("bolsa agotada: Mi cuenta muestra saldo 0 y ofrece volver a comprar; consulta con los topes del plan gratis",
+             cuenta["saldo"] == 0 and cuenta["volver_a_comprar"] and r.status_code == 200
+             and (r.json()["limites"]["limite_dia"], r.json()["limites"]["limite_mes"], r.json()["limites"]["saldo"]) == (3, 20, 0), r.text[:300])
+        r = api.get(f"/polizas/{almacen_otra()}/radiografia", headers=ana2)
+        caso("bolsa agotada: una radiografía nueva no sale (403 saldo_insuficiente)",
+             r.status_code == 403 and r.json()["detail"]["codigo"] == "saldo_insuficiente", r.text[:150])
+        caso("volver a comprar suma otras 200", pagos.acreditar(motor, usuario_id, "comprobante-2") and pagos.saldo(motor, usuario_id) == 200
+             and not api.get("/cuenta", headers=ana2).json()["volver_a_comprar"])
         lim.olvidar("u:" + usuario_id)
         r = api.post("/superposiciones", json={"poliza_ids": [CHUBB, PACIFICO]}, headers=ana2)
         caso("cuenta pagada: ¿Pagas doble? responde", r.status_code == 200 and r.json()["modo"] in ("superposicion", "sin_modelo", "sin_datos"), r.text[:200])
-        caso("orden: gratis < pagada, en consultas al día y en pólizas guardadas",
-             lim.limite_gratis_dia < lim.limite_pagado_dia and 0 < pagos.polizas_permitidas("gratis") < pagos.polizas_permitidas("pagado"))
+        caso("orden: sin cuenta < gratis < pagada, en consultas y en pólizas guardadas",
+             lim.limite_dispositivo_mes < lim.limite_gratis_mes < pagos.consultas_por_pago()
+             and 0 < pagos.polizas_permitidas("gratis") < pagos.polizas_permitidas("pagado"))
         guardadas = [guardado.guardar_poliza(motor, usuario_id, original, pagos.dias_de_guardado("pagado")) for _ in range(4)]
         nueva = api.post("/polizas", files=[("archivos", ("otra.pdf", pdf, "application/pdf"))], headers=anonimo).json()
         caso("plan pagado: 4 pólizas, sin fecha de borrado, y la quinta no entra",

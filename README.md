@@ -119,15 +119,17 @@ y, la pantalla, en [`pruebas/probar_app.py`](pruebas/probar_app.py).
 | Cifrado | AES-256-GCM aplicado por la app; en la base no aparece texto de la póliza, de la pregunta ni la contraseña; un contenido no se descifra para otra cuenta | [`backend/guardado.py`](backend/guardado.py) |
 | Póliza temporal (plan gratis) | Se borra a los 14 días; la fecha va en un indicador pequeño junto a la póliza. Adelantando el reloj: a los 13 días y 23 horas sigue; a los 14 días no queda ninguna fila suya | [`backend/guardado.py`](backend/guardado.py) (`purgar`) |
 | Historial | Últimas 20 consultas por póliza, con su respuesta y sus citas verificadas; se borran una por una | [`backend/guardado.py`](backend/guardado.py) |
-| Consultas por día | Sin cuenta 3, gratis 3, pagada 20; se reinician cada día (día de Lima). No hay topes mensuales | [`backend/main.py`](backend/main.py) (`cupo`), [`backend/limites.py`](backend/limites.py) |
+| Topes del plan gratis y sin cuenta | Sin cuenta, 3 al día y 10 al mes; cuenta gratis, 3 al día y 20 al mes. Corta el primero que se agote; el del mes dice cuándo se reinicia (el día 1, hora de Lima) | [`backend/main.py`](backend/main.py) (`tomar_una`), [`backend/limites.py`](backend/limites.py) |
+| Bolsa del plan pagado | 200 consultas por pago, que no caducan (siguen ahí con el reloj adelantado 300 días). Una consulta descuenta 1; una radiografía nueva, 5, y volver a abrirla no cuesta. Freno de 20 al día aunque quede saldo. El saldo se ve en «Mi cuenta»; sin saldo se ofrece volver a comprar y se consulta con los topes del plan gratis | [`backend/pagos.py`](backend/pagos.py) |
 | Radiografía | Del plan pagado. Cada cuenta gratis tiene una completa, igual a la del plan pagado; la base anota de qué póliza fue, así que otra sesión la ve usada. Si el modelo falla, la gratis no se pierde | [`backend/pagos.py`](backend/pagos.py) |
 | ¿Pagas doble? | Del plan pagado; en el gratis se muestra bloqueada | [`backend/pagos.py`](backend/pagos.py), [`app/app.py`](app/app.py) |
-| Pago único | Un solo punto para conectar Google Play Billing (`verificar_compra`); hoy `POST /cuenta/compra` responde 501. No hay activación a mano. Una misma compra no activa dos cuentas | [`backend/pagos.py`](backend/pagos.py) |
+| Cobro | Un solo punto para conectar Google Play Billing (`verificar_compra`); hoy `POST /cuenta/compra` responde 501. No hay activación a mano. Una misma compra no se acredita dos veces; otra compra suma otras 200 | [`backend/pagos.py`](backend/pagos.py) |
 | Borrar la cuenta y todo | Pide la contraseña, o solo la sesión en una cuenta de Google; después no queda ninguna fila en ninguna tabla, ni sus contadores, y la sesión deja de servir | [`backend/guardado.py`](backend/guardado.py) (`borrar_todo`) |
 
-**Qué desbloquea el pago.** El plan pagado (S/ 3,99, pago único, producto no consumible de
-Google Play) guarda hasta 4 pólizas sin borrado automático, da 20 consultas al día, ¿Pagas
-doble? y todas las radiografías. Gratis siguen la repregunta, varias preguntas, qué hacer
+**Qué desbloquea el pago.** Cada pago de S/ 3,99 (Google Play) suma 200 consultas que no
+caducan, y la cuenta pasa al plan pagado: guarda hasta 4 pólizas sin borrado automático y
+abre ¿Pagas doble? y todas las radiografías (5 consultas cada una). Para poder volver a
+comprar, la app consume la compra en Play después de acreditarla. Gratis siguen la repregunta, varias preguntas, qué hacer
 ahora, la alerta de plazo y el mapa. La versión web no vende: el plan pagado aparece como
 disponible en la app de Android.
 
@@ -147,11 +149,12 @@ al atender. Una póliza vencida no se entrega aunque la limpieza todavía no hay
 
 **Costo de cada plan** ([`pruebas/planes.md`](pruebas/planes.md), generado por
 [`pruebas/medir_planes.py`](pruebas/medir_planes.py) con los costos medidos y los límites del
-código). Una consulta cuesta USD 0,00175 con el triage. El pago único deja S/ 3,39 después de
-la comisión de Google Play. El uso realista de un perfil pagado (4 pólizas, 2 preguntas por
-póliza al mes) cuesta USD 0,014 al mes. El peor caso pagado, 20 consultas todos los días,
-cuesta USD 1,05 al mes: un usuario así consume en un mes más de lo que pagó, y dos agotan el
-tope global de USD 2,00. 12 testers gratis en su peor caso suman USD 1,90 al mes.
+código). Una consulta cuesta USD 0,00175 con el triage. Un pago deja S/ 3,39 (≈ USD 0,90)
+después de la comisión de Google Play. Gastar la bolsa entera en consultas cuesta USD 0,351:
+en el peor caso queda un margen de USD 0,55 por pago, y el costo es por pago, no por mes. El
+uso realista (4 pólizas, 2 preguntas por póliza al mes) cuesta USD 0,014 al mes y la bolsa
+dura 25 meses. Una cuenta gratis en su peor caso cuesta USD 0,035 al mes; 12 testers, USD 0,42.
+El tope global se queda en USD 2,00.
 
 ### Activar el inicio de sesión con Google
 
@@ -259,11 +262,11 @@ backend desplegado, `probar_desplegado.py --url …` y `medir_arranque.py --url 
 | `POST /pasos` | Qué hacer ahora: plazos con su fecha límite (`fecha_hecho`, o leída de la situación), a quién avisar, documentos y pasos, con citas |
 | `GET /polizas/{id}/radiografia` | Resumen de la póliza con citas; la de una póliza subida se genera una vez y queda en memoria con ella. Del plan pagado, con una gratis por cuenta (403 si no corresponde) |
 | `POST /superposiciones` | ¿Pagas doble?: coberturas que podrían superponerse entre 2 a 4 pólizas. Del plan pagado (403 si no) |
-| `GET /uso` | Consultas que le quedan hoy a quien pregunta (dispositivo o cuenta) |
+| `GET /uso` | Consultas que le quedan hoy y este mes (o su saldo, con plan pagado) a quien pregunta |
 | `POST /cuenta/google` | Entrar con el ID token de Google; crea la cuenta si es nueva y se aceptó la política |
 | `POST /cuenta/registro`, `POST /cuenta/sesion`, `DELETE /cuenta/sesion` | Crear cuenta con correo (con la casilla de privacidad aceptada), entrar y salir. La sesión va en `Authorization: Bearer …` |
 | `GET /cuenta`, `GET /cuenta/avisos` | La cuenta con sus pólizas guardadas, su fecha de borrado y qué funciones tiene; la casilla de consentimiento y el enlace a la política |
-| `POST /cuenta/compra` | El pago único con el token de compra de Google Play. Hoy responde 501: el cobro llega en la Fase 4 |
+| `POST /cuenta/compra` | Un pago (200 consultas) con el token de compra de Google Play. Hoy responde 501: el cobro llega en la Fase 4 |
 | `POST /polizas/{id}/guardar` | Guarda en la cuenta la póliza recién subida (su texto, no el PDF) y devuelve la fecha de borrado |
 | `GET /polizas/{id}/consultas`, `DELETE /consultas/{id}` | Historial de una póliza guardada; borrar una consulta |
 | `DELETE /cuenta` | Borra la cuenta y todo, pidiendo la contraseña (una cuenta de Google, solo la sesión) |
@@ -275,8 +278,9 @@ El cliente manda un identificador propio en `X-Dispositivo`. Al cliente va solo 
 verificado: la salida cruda del modelo y los descartes no salen de la API.
 
 **Topes de gasto** ([`backend/limites.py`](backend/limites.py), probados en
-[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): consultas al día, sin topes mensuales:
-sin cuenta, 3 por dispositivo; con cuenta gratis, 3; con cuenta pagada, 20; 60 por IP como respaldo, y un tope global mensual en dólares
+[`pruebas/probar_api.py`](pruebas/probar_api.py) y [`pruebas/probar_cuentas.py`](pruebas/probar_cuentas.py)): sin cuenta, 3 al día y 10 al mes
+por dispositivo; con cuenta gratis, 3 al día y 20 al mes; con plan pagado, su bolsa de consultas y un freno de 20 al día;
+60 por IP como respaldo, y un tope global mensual en dólares
 (`QMC_TOPE_GLOBAL_USD`, 2,00). Al llegar al global la API no se cae: responde las cláusulas
 encontradas, sin veredicto, que es la red de seguridad que ya existía.
 

@@ -32,6 +32,7 @@ os.environ.update({
     "QMC_PROVEEDOR": "grabado",
     "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
     "QMC_LIMITE_DISPOSITIVO_DIA": "50",
+    "QMC_LIMITE_DISPOSITIVO_MES": "200",
     "QMC_GOOGLE_CLIENT_IDS": "cliente-de-prueba.apps.googleusercontent.com",
     "LANGFUSE_PUBLIC_KEY": "",
     "LANGFUSE_SECRET_KEY": "",
@@ -233,9 +234,9 @@ def main() -> int:
     at.button(key="registro_crear").click().run()
     t = "\n".join([textos(at)] + [m.value for m in at.markdown])
     caso("cuenta: creada, plan gratuito, con sus consultas del día", not at.exception and "<span>prueba</span><span>@ejemplo.pe</span>" in t
-         and "Plan gratuito" in t and "Te quedan 3 de 3 consultas hoy." in t and "Pólizas guardadas: 0 de 1" in t, str(at.exception) or t[-400:])
+         and "Plan gratuito" in t and "Te quedan 3 de 3 consultas hoy y 20 de 20 este mes." in t and "Pólizas guardadas: 0 de 1" in t, str(at.exception) or t[-400:])
     caso("cuenta gratis: el plan pagado no se vende en la web, se indica que está en la app de Android",
-         "⭐ Plan pagado (S/ 3,99, pago único): disponible en la app de Android." in t and not [b for b in at.button if "pag" in (b.key or "")])
+         "⭐ Plan pagado (S/ 3,99): 200 consultas que no caducan, en la app de Android." in t and not [b for b in at.button if "pag" in (b.key or "")])
     caso("cuenta gratis: ¿Pagas doble? se muestra bloqueada", "¿Pagas doble?" in t and "🔒 Plan pagado, en la app de Android" in t
          and not [b for b in at.button if b.key == "comparar_boton"])
     import datetime as dt

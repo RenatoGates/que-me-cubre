@@ -18,7 +18,7 @@ import datetime as dt
 import math
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from contextlib import asynccontextmanager
 from functools import lru_cache
 from pathlib import Path
@@ -130,6 +130,7 @@ class Quien:
 
     cuenta: dict | None
     dispositivo: str | None  # hash del identificador que manda el cliente
+    tomadas: list = field(default_factory=list)  # de dónde salió cada consulta de esta petición: "bolsa" o "cupo"
 
     @property
     def plan(self) -> str:
@@ -226,10 +227,12 @@ def info() -> dict:
         "embeddings": embeddings.modelo() if embeddings.disponible() else None,
         "registra_preguntas": observabilidad.activo(),
         "limite_consultas_dia": lim.limite_dispositivo,
-        "limites": {plan: {"dia": lim.limite_de(plan), "polizas_guardadas": 0 if plan == "sin_cuenta" else pagos.polizas_permitidas(plan),
+        "limites": {plan: {"dia": lim.limite_de(plan), "mes": lim.limite_mes_de(plan),
+                           "polizas_guardadas": 0 if plan == "sin_cuenta" else pagos.polizas_permitidas(plan),
                            "dias_de_guardado": None if plan == "sin_cuenta" else pagos.dias_de_guardado(plan)}
                     for plan in ("sin_cuenta", "gratis", "pagado")},
-        "plan_pagado": {"producto": pagos.PRODUCTO, "precio": pagos.PRECIO},
+        "plan_pagado": {"producto": pagos.PRODUCTO, "precio": pagos.PRECIO, "consultas": pagos.consultas_por_pago(),
+                        "costo_radiografia": pagos.COSTO_RADIOGRAFIA},
         "cuentas_disponibles": guardado.hay_llave(),
         "google_disponible": acceso_google.disponible(),
         "politica_privacidad": POLITICA,
@@ -325,14 +328,37 @@ def limpiar(r: dict) -> dict:
     return r
 
 
+def tomar_una(lim: Limites, q: Quien) -> tuple[str, str] | None:
+    """Toma una consulta para quien pregunta; None si pudo, o (código, mensaje) del tope que cortó.
+
+    Cuenta pagada con saldo: 1 de su bolsa, con un freno de 20 al día. Sin saldo, o sin plan
+    pagado: el tope del día y el del mes (corta el primero que se agote)."""
+    if q.plan == "pagado":
+        if not lim.tomar(q.clave, lim.limite_pagado_dia):
+            return "limite_cuenta", f"Llegaste al máximo de {lim.limite_pagado_dia} consultas por día. Mañana sigues con tu saldo."
+        if pagos.descontar(lim.motor, q.cuenta["usuario_id"]):
+            q.tomadas.append("bolsa")
+            return None
+        lim.devolver(q.clave)  # sin saldo: consulta con los topes del plan gratis
+    plan = "gratis" if q.cuenta else "sin_cuenta"
+    codigo = "limite_cuenta" if q.cuenta else "limite_dispositivo"
+    dia, mes = lim.limite_de(plan), lim.limite_mes_de(plan)
+    if not lim.tomar(q.clave, dia):
+        return codigo, f"Llegaste a tus {dia} consultas de hoy. Mañana se renuevan."
+    if not lim.tomar(q.clave, mes, lim.mes()):
+        lim.devolver(q.clave)
+        return codigo, f"Llegaste a tus {mes} consultas de este mes. Se renuevan el {lim.renueva_el_mes()}."
+    q.tomadas.append("cupo")
+    return None
+
+
 def cupo(request: Request, q: Quien) -> Limites:
-    """Cuenta una consulta del día según el plan de quien pregunta, o responde 429. Sin cuenta,
-    además, un techo por IP (el identificador de dispositivo lo genera el cliente)."""
+    """Cuenta una consulta o responde 429. Sin cuenta, además, un techo por IP (el
+    identificador de dispositivo lo genera el cliente)."""
     lim = limites()
-    limite = lim.limite_de(q.plan)
-    if not lim.tomar(q.clave, limite):
-        raise error(429, "limite_cuenta" if q.cuenta else "limite_dispositivo",
-                    f"Llegaste a tus {limite} consultas de hoy. Mañana se renuevan.", limite_dia=limite)
+    corte = tomar_una(lim, q)
+    if corte:
+        raise error(429, corte[0], corte[1])
     if q.cuenta is None and not lim.tomar(clave_ip(ip_de(request)), lim.limite_ip):
         devolver_cupo(lim, q)
         raise error(429, "limite_red", "Desde esta red ya se hicieron demasiadas consultas hoy. Mañana se renueva.")
@@ -341,17 +367,28 @@ def cupo(request: Request, q: Quien) -> Limites:
 
 def otra_consulta(lim: Limites, q: Quien) -> bool:
     """Una consulta más del mismo texto (varias preguntas): ¿queda cupo?"""
-    return lim.tomar(q.clave, lim.limite_de(q.plan))
+    return tomar_una(lim, q) is None
 
 
 def devolver_cupo(lim: Limites, q: Quien) -> None:
+    """Devuelve la última consulta tomada (una repregunta todavía no respondió nada)."""
+    if not q.tomadas:
+        return
     lim.devolver(q.clave)
+    if q.tomadas.pop() == "bolsa":
+        pagos.reponer(lim.motor, q.cuenta["usuario_id"])
+    else:
+        lim.devolver(q.clave, lim.mes())
 
 
 def estado_limites(lim: Limites, q: Quien, por_tope: bool) -> dict:
-    """Cuánto le queda hoy a quien pregunta."""
-    dia = lim.limite_de(q.plan)
-    return {"plan": q.plan, "limite_dia": dia, "restantes_hoy": max(0, dia - lim.usadas(q.clave)), "sin_modelo_por_tope": por_tope}
+    """Cuánto le queda a quien pregunta: hoy y este mes; con plan pagado, su saldo."""
+    saldo = pagos.saldo(lim.motor, q.cuenta["usuario_id"]) if q.plan == "pagado" else None
+    plan = "pagado" if saldo else ("gratis" if q.cuenta else "sin_cuenta")
+    dia, mes = lim.limite_de(plan), lim.limite_mes_de(plan)
+    return {"plan": q.plan, "limite_dia": dia, "restantes_hoy": max(0, dia - lim.usadas(q.clave)),
+            "limite_mes": mes, "restantes_mes": None if mes is None else max(0, mes - lim.usadas(q.clave, lim.mes())),
+            "renueva_el_mes": None if mes is None else lim.renueva_el_mes(), "saldo": saldo, "sin_modelo_por_tope": por_tope}
 
 
 @app.post("/preguntar")
@@ -446,14 +483,22 @@ def ver_radiografia(poliza_id: str, x_dispositivo: str | None = Header(default=N
     poliza = buscar_poliza(poliza_id, q.cuenta)
     clave = clave_radiografia(poliza_id, poliza)
     acceso = pagos.acceso_radiografia(q.cuenta, clave)
+    motor = limites().motor
     if acceso == "sin_cuenta":
         raise error(403, "radiografia_sin_cuenta", "Crea una cuenta gratis para ver una radiografía.", funcion="radiografia")
-    if acceso == "bloqueada" or (acceso == "muestra" and not pagos.tomar_muestra(limites().motor, q.cuenta["usuario_id"], clave)):
+    if acceso == "sin_saldo" or (acceso == "cobrar" and not pagos.cobrar_radiografia(motor, q.cuenta["usuario_id"], clave)):
+        raise error(403, "saldo_insuficiente", f"La radiografía usa {pagos.COSTO_RADIOGRAFIA} consultas y no te alcanzan. "
+                    "Puedes volver a comprar en la app de Android.", funcion="radiografia")
+    if acceso == "bloqueada" or (acceso == "muestra" and not pagos.tomar_muestra(motor, q.cuenta["usuario_id"], clave)):
         raise error(403, "plan_pagado", "Ya usaste tu radiografía gratis. Las demás son del plan pagado.", funcion="radiografia")
     r = radiografia_de(poliza_id, q.cuenta)
-    if acceso == "muestra" and r["modo"] != "radiografia":  # no salió: la muestra gratis no se pierde
-        pagos.soltar_muestra(limites().motor, q.cuenta["usuario_id"], clave)
-    return r | {"acceso": "pagado" if acceso == "pagado" else "muestra"}
+    if r["modo"] != "radiografia":  # no salió: no se cobra ni se gasta la gratis
+        if acceso == "cobrar":
+            pagos.devolver_radiografia(motor, q.cuenta["usuario_id"], clave)
+        elif acceso == "muestra":
+            pagos.soltar_muestra(motor, q.cuenta["usuario_id"], clave)
+    cobro = {"cobrar": pagos.COSTO_RADIOGRAFIA}.get(acceso, 0) if r["modo"] == "radiografia" else 0
+    return r | {"acceso": acceso, "consultas_descontadas": cobro}
 
 
 @app.get("/polizas/{poliza_id}/clinicas")
@@ -542,10 +587,13 @@ def datos_de_cuenta(cuenta: dict) -> dict:
         g["borrado_automatico"] = fecha_lima(g["borrar_el"])
     plan = cuenta["plan"]
     radiografia_ = "pagado" if plan == "pagado" else "muestra_usada" if cuenta["radiografia_gratis"] else "muestra_disponible"
+    saldo = pagos.saldo(lim.motor, cuenta["usuario_id"])
     return {"correo": cuenta["correo"], "plan": plan, "acceso": "google" if cuenta["con_google"] else "clave",
             "polizas_permitidas": pagos.polizas_permitidas(plan), "dias_de_guardado": pagos.dias_de_guardado(plan),
+            "saldo": saldo if plan == "pagado" else None, "volver_a_comprar": plan == "pagado" and saldo == 0,
             "funciones": {"superposiciones": pagos.puede_comparar(plan), "radiografia": radiografia_,
-                          "radiografia_gratis_de": cuenta["radiografia_gratis"]},
+                          "radiografia_gratis_de": cuenta["radiografia_gratis"],
+                          "radiografias_pagadas": pagos.radiografias_pagadas(cuenta), "costo_radiografia": pagos.COSTO_RADIOGRAFIA},
             "polizas": guardadas, "limites": estado_limites(lim, Quien(cuenta, None), lim.tope_global_alcanzado())}
 
 
@@ -606,7 +654,8 @@ def ver_cuenta(authorization: str | None = Header(default=None)) -> dict:
 
 @app.post("/cuenta/compra")
 def comprar_plan(compra: Compra, authorization: str | None = Header(default=None)) -> dict:
-    """El pago único, comprado con Google Play Billing desde la app de Android. Hoy responde 501."""
+    """Un pago (200 consultas), comprado con Google Play Billing desde la app de Android. Se puede
+    volver a comprar cuando se acaba el saldo. Hoy responde 501."""
     cuenta = quien_es(None, authorization, exigir_cuenta=True).cuenta
     if compra.producto != pagos.PRODUCTO:
         raise error(400, "producto_desconocido", "Ese producto no existe.")
@@ -616,8 +665,8 @@ def comprar_plan(compra: Compra, authorization: str | None = Header(default=None
         raise error(501, "cobro_no_disponible", str(e)) from e
     except pagos.CompraInvalida as e:
         raise error(402, "compra_invalida", "Google Play no confirmó esa compra.") from e
-    if not pagos.activar(limites().motor, cuenta["usuario_id"], comprobante):
-        raise error(409, "compra_usada", "Esa compra ya activó otra cuenta.")
+    if not pagos.acreditar(limites().motor, cuenta["usuario_id"], comprobante):
+        raise error(409, "compra_usada", "Esa compra ya se acreditó.")
     return datos_de_cuenta(cuentas.de_sesion(limites().motor, token_de(authorization)))
 
 

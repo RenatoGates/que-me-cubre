@@ -7,7 +7,7 @@ Costos medidos (Claude Haiku, ya registrados en el repositorio):
 - una comparación de ¿Pagas doble?: pruebas/fase2.json.
 Límites: los de backend/limites.py y backend/pagos.py con su configuración por defecto.
 
-Ingreso del pago único: S/ 3,99 menos la comisión de Google Play (15 %). El tipo de cambio no
+Ingreso de un pago: S/ 3,99 menos la comisión de Google Play (15 %). El tipo de cambio no
 se mide: es un supuesto que se pasa con --tipo-cambio y queda escrito en el informe.
 
     python pruebas/medir_planes.py [--tipo-cambio 3.75]     # escribe pruebas/planes.md
@@ -58,28 +58,32 @@ def main() -> None:
     neto_usd = PRECIO_SOLES * (1 - COMISION_PLAY) / tc
     tope = lim.tope_global_usd
 
+    bolsa = pagos.consultas_por_pago()
+    radiografia_en_consultas = pagos.COSTO_RADIOGRAFIA
     pagado_real = 4 * 2 * por_consulta  # 4 pólizas, 2 preguntas por póliza al mes
-    pagado_unica = pagos.polizas_permitidas("pagado") * c["radiografia"]  # una radiografía por póliza, una sola vez
-    pagado_max = lim.limite_pagado_dia * DIAS * por_consulta
-    gratis_max = lim.limite_gratis_dia * DIAS * por_consulta
-    sin_cuenta_max = lim.limite_dispositivo * DIAS * por_consulta
+    bolsa_consultas = bolsa * por_consulta  # toda la bolsa en consultas
+    bolsa_radiografias = bolsa // radiografia_en_consultas * c["radiografia"]  # toda la bolsa en radiografías
+    peor_pago = max(bolsa_consultas, bolsa_radiografias)
+    gratis_max = lim.limite_gratis_mes * por_consulta
+    sin_cuenta_max = lim.limite_dispositivo_mes * por_consulta
     testers = 12
 
     filas = [
         ("Costo medido de una consulta (respuesta + triage)", f"USD {por_consulta:.5f}"),
-        ("Radiografía (una vez por póliza)", f"USD {c['radiografia']:.4f}"),
-        ("¿Pagas doble? (una comparación)", f"USD {c['comparar']:.4f}"),
-        ("Ingreso neto del pago único (S/ 3,99 − 15 % de Google Play)", f"S/ {PRECIO_SOLES * (1 - COMISION_PLAY):.2f} ≈ USD {neto_usd:.2f}"),
-        ("Pagado, uso realista: 4 pólizas × 2 preguntas al mes", f"USD {pagado_real:.4f} al mes; USD {pagado_real * 12:.3f} al año"),
-        ("Pagado, una vez: radiografía de sus 4 pólizas", f"USD {pagado_unica:.4f}"),
-        ("Pagado, uso realista: años que cubre el pago", f"{(neto_usd - pagado_unica) / (pagado_real * 12):.0f}"),
-        (f"Pagado, peor caso: {lim.limite_pagado_dia} consultas todos los días", f"USD {pagado_max:.2f} al mes"),
-        ("Pagado, peor caso: meses que cubre el pago", f"{neto_usd / pagado_max:.1f}"),
-        (f"Gratis, peor caso: {lim.limite_gratis_dia} consultas todos los días", f"USD {gratis_max:.3f} al mes"),
-        (f"Sin cuenta, peor caso: {lim.limite_dispositivo} consultas todos los días", f"USD {sin_cuenta_max:.3f} al mes por dispositivo"),
+        ("Radiografía (descuenta 5 de la bolsa)", f"USD {c['radiografia']:.4f}"),
+        ("¿Pagas doble? (una comparación, descuenta 1)", f"USD {c['comparar']:.4f}"),
+        ("Ingreso neto de un pago (S/ 3,99 − 15 % de Google Play)", f"S/ {PRECIO_SOLES * (1 - COMISION_PLAY):.2f} ≈ USD {neto_usd:.2f}"),
+        (f"Pagado: la bolsa entera ({bolsa}) en consultas", f"USD {bolsa_consultas:.3f} por pago"),
+        (f"Pagado: la bolsa entera en radiografías ({bolsa // radiografia_en_consultas})", f"USD {bolsa_radiografias:.3f} por pago"),
+        ("Pagado: margen en el peor caso de un pago", f"USD {neto_usd - peor_pago:.2f} ({(neto_usd - peor_pago) / neto_usd:.0%} del ingreso)"),
+        (f"Pagado: días mínimos para agotar la bolsa (freno de {lim.limite_pagado_dia} al día)", f"{bolsa / lim.limite_pagado_dia:.0f}"),
+        ("Pagado, uso realista (4 pólizas × 2 preguntas al mes)", f"USD {pagado_real:.4f} al mes; la bolsa dura {bolsa / 8:.0f} meses"),
+        (f"Gratis, peor caso: {lim.limite_gratis_dia} al día y {lim.limite_gratis_mes} al mes", f"USD {gratis_max:.4f} al mes"),
+        (f"Sin cuenta, peor caso: {lim.limite_dispositivo} al día y {lim.limite_dispositivo_mes} al mes",
+         f"USD {sin_cuenta_max:.4f} al mes por dispositivo"),
         (f"{testers} testers gratis en el peor caso", f"USD {testers * gratis_max:.2f} al mes (tope global: USD {tope:.2f})"),
-        ("Usuarios gratis en el peor caso que agotan el tope global", f"{tope / gratis_max:.1f}"),
-        ("Usuarios pagados en el peor caso que agotan el tope global", f"{tope / pagado_max:.1f}"),
+        ("Usuarios gratis en el peor caso que agotan el tope global", f"{tope / gratis_max:.0f}"),
+        ("Bolsas pagadas gastadas enteras en un mes que agotan el tope global", f"{tope / peor_pago:.1f}"),
     ]
     texto = ["# Costo de cada plan", "",
              f"Generado por `pruebas/medir_planes.py`. Consulta: promedio de {c['n_consultas']} preguntas medidas "

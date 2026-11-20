@@ -481,7 +481,10 @@ def mostrar(r: dict, archivos: Archivos | None = None) -> None:
 
 
 def texto_limites(limites: dict) -> str:
-    return f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas hoy."
+    if limites.get("saldo"):
+        return f"Te quedan {limites['saldo']} consultas pagadas."
+    return (f"Te quedan {limites['restantes_hoy']} de {limites['limite_dia']} consultas hoy y "
+            f"{limites['restantes_mes']} de {limites['limite_mes']} este mes.")
 
 
 def refrescar_cuenta() -> None:
@@ -671,8 +674,12 @@ def pantalla_cuenta() -> None:
         correo = f"<span>{html.escape(usuario)}</span><span>@{html.escape(dominio)}</span>"
         st.markdown(f"#### {correo} &nbsp; <span class='qmc-plan'>{plan}</span>", unsafe_allow_html=True)
         st.caption(texto_limites(cuenta["limites"]) + f" Pólizas guardadas: {len(cuenta['polizas'])} de {cuenta['polizas_permitidas']}.")
+        p = info()["plan_pagado"]
         if not pagado:
-            st.caption(f"⭐ Plan pagado ({info()['plan_pagado']['precio']}, pago único): disponible en la app de Android.")
+            st.caption(f"⭐ Plan pagado ({p['precio']}): {p['consultas']} consultas que no caducan, en la app de Android.")
+        elif cuenta.get("volver_a_comprar"):
+            st.markdown(f'<span class="qmc-bloqueo">Se acabaron tus consultas pagadas · {p["consultas"]} más por {p["precio"]}, '
+                        "en la app de Android</span>", unsafe_allow_html=True)
 
         st.markdown("##### Tus pólizas guardadas")
         if not cuenta["polizas"]:
@@ -760,14 +767,16 @@ def ejemplos_tarapoto() -> list[str]:
 
 
 def acceso_radiografia(documento: str | None) -> str:
-    """Igual que backend/pagos.py: pagado, muestra (la gratis, sin usar o de esta póliza), bloqueada o sin_cuenta."""
+    """Igual que backend/pagos.py: ya_obtenida, cobrar, sin_saldo, muestra, bloqueada o sin_cuenta."""
     cuenta = st.session_state.get("cuenta")
     if not cuenta:
         return "sin_cuenta"
     f = cuenta["funciones"]
-    if f["radiografia"] == "pagado":
-        return "pagado"
-    return "muestra" if f["radiografia_gratis_de"] in (None, documento) else "bloqueada"
+    if documento in (f["radiografia_gratis_de"], *f["radiografias_pagadas"]):
+        return "ya_obtenida"
+    if cuenta["plan"] == "pagado":
+        return "cobrar" if (cuenta.get("saldo") or 0) >= f["costo_radiografia"] else "sin_saldo"
+    return "muestra" if f["radiografia_gratis_de"] is None else "bloqueada"
 
 
 def seccion_radiografia(poliza: dict, archivos) -> None:
@@ -775,7 +784,7 @@ def seccion_radiografia(poliza: dict, archivos) -> None:
     acceso = acceso_radiografia(poliza.get("documento"))
     hecha = st.session_state.get("radiografia")
     hecha = hecha[1] if hecha and hecha[0] == poliza["huella"] else None
-    abierta = acceso in ("pagado", "muestra") or hecha
+    abierta = acceso in ("ya_obtenida", "cobrar", "muestra") or hecha
     with st.expander(("Radiografía de tu póliza" if abierta else "🔒 Radiografía de tu póliza")
                      + ": qué cubre, exclusiones, deducibles y carencias"):
         if hecha:
@@ -784,12 +793,12 @@ def seccion_radiografia(poliza: dict, archivos) -> None:
         if acceso == "sin_cuenta":
             candado("Crea una cuenta gratis para ver una")
             return
-        if acceso == "bloqueada":
-            candado(SOLO_ANDROID)
+        if acceso in ("bloqueada", "sin_saldo"):
+            candado(SOLO_ANDROID if acceso == "bloqueada" else "Sin consultas suficientes · vuelve a comprar en la app de Android")
             return
-        gratis = acceso == "muestra" and st.session_state["cuenta"]["funciones"]["radiografia_gratis_de"] is None
-        st.button("Ver la radiografía" + (" · tu radiografía gratis" if gratis else ""), key="ver_radiografia",
-                  on_click=pedir, args=("pedir_radiografia",))
+        nota = {"muestra": " · tu radiografía gratis",
+                "cobrar": f" · usa {st.session_state['cuenta']['funciones']['costo_radiografia']} de tus consultas"}.get(acceso, "")
+        st.button("Ver la radiografía" + nota, key="ver_radiografia", on_click=pedir, args=("pedir_radiografia",))
         if st.session_state.pop("pedir_radiografia", False):
             try:
                 with st.spinner("Leyendo tu póliza: tarda unos 15 segundos la primera vez…"):

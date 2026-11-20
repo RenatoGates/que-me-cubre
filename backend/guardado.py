@@ -46,9 +46,18 @@ usuarios = sa.Table(
     sa.Column("acepto_privacidad", sa.DateTime(timezone=True), nullable=False),  # consentimiento explícito (Ley 29733)
     sa.Column("google_sub", sa.String(64), nullable=True),  # identificador de la cuenta de Google, si entra con Google
     sa.Column("radiografia_gratis", sa.String(80), nullable=True),  # la póliza de su única radiografía gratis
-    sa.Column("compra", sa.String(64), nullable=True),  # hash del comprobante del pago único (backend/pagos.py)
+    sa.Column("saldo", sa.Integer, nullable=True),  # consultas pagadas que le quedan (no caducan; backend/pagos.py)
+    sa.Column("radiografias", sa.Text, nullable=True),  # JSON: pólizas cuya radiografía ya pagó con su saldo
 )
-_COLUMNAS_NUEVAS = ("google_sub", "radiografia_gratis", "compra")
+# Columnas agregadas después de crear la tabla, con su tipo para una base que no las tenga
+_COLUMNAS_NUEVAS = {"google_sub": "VARCHAR(64)", "radiografia_gratis": "VARCHAR(80)", "saldo": "INTEGER", "radiografias": "TEXT"}
+compras = sa.Table(  # cada pago: el comprobante (como hash) y cuántas consultas sumó
+    "compras", _meta,
+    sa.Column("comprobante_hash", sa.String(64), primary_key=True),
+    sa.Column("usuario_id", sa.String(40), nullable=False, index=True),
+    sa.Column("creado", sa.DateTime(timezone=True), nullable=False),
+    sa.Column("consultas", sa.Integer, nullable=False),
+)
 sesiones = sa.Table(
     "sesiones", _meta,
     sa.Column("token_hash", sa.String(64), primary_key=True),
@@ -71,7 +80,7 @@ consultas = sa.Table(
     sa.Column("creado", sa.DateTime(timezone=True), nullable=False),
     sa.Column("contenido", sa.LargeBinary, nullable=False),  # cifrado: pregunta, respuesta y citas verificadas
 )
-TABLAS = (usuarios, sesiones, polizas, consultas)
+TABLAS = (usuarios, sesiones, polizas, consultas, compras)
 
 
 class SinLlave(RuntimeError):
@@ -125,9 +134,9 @@ def crear_tablas(motor: sa.Engine) -> None:
     _meta.create_all(motor)
     existentes = {c["name"] for c in sa.inspect(motor).get_columns("usuarios")}
     with motor.begin() as c:  # una base creada antes de estas columnas
-        for nombre in _COLUMNAS_NUEVAS:
+        for nombre, tipo in _COLUMNAS_NUEVAS.items():
             if nombre not in existentes:
-                c.execute(sa.text(f"ALTER TABLE usuarios ADD COLUMN {nombre} VARCHAR(80)"))
+                c.execute(sa.text(f"ALTER TABLE usuarios ADD COLUMN {nombre} {tipo}"))
 
 
 # ---------------------------------------------------------------------------
@@ -281,7 +290,7 @@ def borrar_todo(motor: sa.Engine, usuario_id: str) -> dict:
     """Borra la cuenta y todo lo suyo, de todas las tablas. Devuelve cuántas filas quitó de cada una."""
     with motor.begin() as c:
         return {t.name: c.execute(sa.delete(t).where((t.c.id if t is usuarios else t.c.usuario_id) == usuario_id)).rowcount
-                for t in (consultas, polizas, sesiones, usuarios)}
+                for t in (consultas, polizas, sesiones, compras, usuarios)}
 
 
 def purgar(motor: sa.Engine, momento: datetime | None = None, meses_inactiva: int = 12) -> dict:

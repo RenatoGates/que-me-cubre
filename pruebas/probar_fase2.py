@@ -187,7 +187,7 @@ def main_() -> int:
         r = api.get(f"/polizas/{CHUBB}/radiografia", headers=cuenta).json()
         caso("API: la radiografía de un condicionado de ejemplo sale de la versionada, con citas (la gratis de la cuenta)",
              r["modo"] == "radiografia" and len(r["citas"]) > 0)
-        pagos.activar(main.limites().motor, cuentas.de_sesion(main.limites().motor, token)["usuario_id"], "compra-de-prueba")
+        pagos.acreditar(main.limites().motor, cuentas.de_sesion(main.limites().motor, token)["usuario_id"], "compra-de-prueba")
         r = api.post("/pasos", json={"poliza_id": CHUBB, "situacion": "me accidenté ayer"}, headers=d1)
         caso("API: /pasos sin modelo responde 200 con las cláusulas, sin pasos inventados",
              r.status_code == 200 and r.json()["modo"] == "sin_modelo" and r.json()["limites"]["restantes_hoy"] == 3, r.text[:200])

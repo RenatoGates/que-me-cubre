@@ -29,7 +29,7 @@ DIAS_SESION = 30
 MIN_CLAVE = 8
 _CORREO = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[^@\s]{2,}$")
 _CAMPOS = (usuarios.c.id, usuarios.c.correo, usuarios.c.plan, usuarios.c.clave_hash, usuarios.c.google_sub,
-           usuarios.c.radiografia_gratis)
+           usuarios.c.radiografia_gratis, usuarios.c.saldo, usuarios.c.radiografias)
 
 
 class ErrorCuenta(ValueError):
@@ -53,7 +53,8 @@ def clave_correcta(clave: str, guardada: str) -> bool:
 
 def _cuenta(fila) -> dict:
     return {"usuario_id": fila.id, "correo": fila.correo, "plan": fila.plan, "con_clave": bool(fila.clave_hash),
-            "con_google": bool(fila.google_sub), "radiografia_gratis": fila.radiografia_gratis}
+            "con_google": bool(fila.google_sub), "radiografia_gratis": fila.radiografia_gratis, "saldo": fila.saldo or 0,
+            "radiografias": fila.radiografias}
 
 
 def _hash_token(token: str) -> str:
