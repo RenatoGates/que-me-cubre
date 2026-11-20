@@ -387,11 +387,11 @@ def _solo_clausulas(pregunta: str, poliza: Poliza, proveedor: Proveedor | None, 
         pasajes = recuperar(poliza.indice, pregunta, [], [], k=k, metodo="emb_pregunta" if con_vectores else "bm25_pregunta")
     if isinstance(error, LimiteAlcanzado):
         espera = f" Vuelve a intentar en unos {round(error.espera_segundos)} segundos." if error.espera_segundos else ""
-        motivo = f"{getattr(error, 'motivo_publico', None) or 'Se alcanzó el límite de uso del modelo por ahora.'}{espera}"
+        motivo = f"{getattr(error, 'motivo_publico', None) or 'Ahora mismo no puedo redactar respuestas.'}{espera}"
     elif isinstance(error, SalidaInvalida):
-        motivo = "El modelo no devolvió una respuesta con el formato esperado esta vez; puedes volver a preguntar."
+        motivo = "Esta vez no pude redactar la respuesta; puedes volver a preguntar."
     else:
-        motivo = "No pude comunicarme con el proveedor del modelo."
+        motivo = "No pude redactar la respuesta ahora."
     aviso = (
         f"{motivo} No generé una respuesta: estas son las cláusulas de tu póliza que encontré para tu "
         "pregunta, con las palabras de búsqueda resaltadas. Léelas tú; aquí no hay un veredicto."

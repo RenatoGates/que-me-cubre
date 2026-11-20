@@ -46,7 +46,7 @@ def ejemplos() -> dict[str, list[str]]:
 
 class Subidas:
     def __init__(self) -> None:
-        self._polizas: dict[str, tuple[Poliza, float]] = {}
+        self._polizas: dict[str, tuple[Poliza, float, str | None]] = {}
         self._candado = threading.Lock()
 
     @property
@@ -59,27 +59,32 @@ class Subidas:
 
     def _limpiar(self) -> None:
         ahora = time.monotonic()
-        for clave in [k for k, (_, vence) in self._polizas.items() if vence < ahora]:
+        for clave in [k for k, (_, vence, _) in self._polizas.items() if vence < ahora]:
             del self._polizas[clave]
 
-    def guardar(self, poliza: Poliza) -> str:
+    def guardar(self, poliza: Poliza, dueno: str | None) -> str:
+        """Guarda la póliza atada a quien la subió (el hash de su dispositivo)."""
         with self._candado:
             self._limpiar()
             while len(self._polizas) >= self.maximo:  # sale la que vence primero
                 del self._polizas[min(self._polizas, key=lambda k: self._polizas[k][1])]
             clave = "s_" + secrets.token_urlsafe(24)
-            self._polizas[clave] = (poliza, time.monotonic() + self.ttl)
+            self._polizas[clave] = (poliza, time.monotonic() + self.ttl, dueno)
             return clave
 
-    def obtener(self, clave: str) -> Poliza | None:
+    def obtener(self, clave: str, dueno: str | None) -> Poliza | None:
+        """La póliza, solo para el dispositivo que la subió; para otro, como si no existiera."""
         with self._candado:
             self._limpiar()
             entrada = self._polizas.get(clave)
-            if entrada is None:
+            if entrada is None or dueno is None or entrada[2] != dueno:
                 return None
-            self._polizas[clave] = (entrada[0], time.monotonic() + self.ttl)  # se usa: se renueva
+            self._polizas[clave] = (entrada[0], time.monotonic() + self.ttl, entrada[2])  # se usa: se renueva
             return entrada[0]
 
-    def borrar(self, clave: str) -> bool:
+    def borrar(self, clave: str, dueno: str | None) -> bool:
         with self._candado:
+            entrada = self._polizas.get(clave)
+            if entrada is None or dueno is None or entrada[2] != dueno:
+                return False
             return self._polizas.pop(clave, None) is not None

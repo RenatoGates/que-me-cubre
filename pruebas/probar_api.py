@@ -25,7 +25,7 @@ os.environ.update({
     "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
     "QMC_LIMITE_DISPOSITIVO_DIA": "3",
     "QMC_TOPE_GLOBAL_USD": "2.00",
-    "LANGFUSE_PUBLIC_KEY": "",
+    "QMC_CACHE_RESPUESTAS": "0", "LANGFUSE_PUBLIC_KEY": "",
     "LANGFUSE_SECRET_KEY": "",
     "VOYAGE_API_KEY": "",
 })
@@ -97,7 +97,7 @@ def main_() -> int:
              r.status_code == 200 and d.get("modo") == "solo_clausulas" and len(d["pasajes"]) > 0 and d["documento"].startswith("Tu póliza"),
              (r.status_code, d.get("modo"), d.get("error_detalle")))
 
-        borrada = api.delete(f"/polizas/{subida['poliza_id']}").json()
+        borrada = api.delete(f"/polizas/{subida['poliza_id']}", headers=cabecera("dispositivo-b-0001")).json()
         r = api.post("/preguntar", json={"poliza_id": subida["poliza_id"], "pregunta": P02}, headers=cabecera("dispositivo-b-0001"))
         caso("borrar la póliza subida: ya no se puede consultar (404)",
              borrada == {"borrada": True} and r.status_code == 404, (borrada, r.status_code))
@@ -129,7 +129,7 @@ def main_() -> int:
         d = r.json()
         caso("tope global alcanzado: la API no se cae, muestra las cláusulas sin veredicto",
              r.status_code == 200 and d["modo"] == "solo_clausulas" and d["etiqueta_veredicto"] == "Sin veredicto"
-             and "tope de gasto" in d["aviso"] and len(d["pasajes"]) > 0 and d["limites"]["sin_modelo_por_tope"] is True,
+             and "Por ahora no puedo redactar respuestas" in d["aviso"] and len(d["pasajes"]) > 0 and d["limites"]["sin_modelo_por_tope"] is True,
              (r.status_code, d.get("modo"), d.get("aviso")))
         caso("tope global alcanzado: el mapa y la subida siguen funcionando",
              api.get("/mapa/departamentos").status_code == 200 and api.get("/info").json()["sin_modelo_por_tope"] is True)
