@@ -25,7 +25,7 @@ from comun import poliza, preguntas, utf8
 _base = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
 _base.close()
 os.environ.update({"QMC_PROVEEDOR": "grabado", "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
-                   "QMC_LIMITE_DISPOSITIVO_DIA": "4", "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "", "VOYAGE_API_KEY": ""})
+                   "QMC_LIMITE_DISPOSITIVO_DIA": "4", "QMC_CACHE_RESPUESTAS": "0", "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "", "VOYAGE_API_KEY": ""})
 
 from fastapi.testclient import TestClient  # noqa: E402
 

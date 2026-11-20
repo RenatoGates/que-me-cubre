@@ -110,6 +110,15 @@ class Limites:
         return {"pagado": None, "gratis": self.limite_gratis_mes}.get(plan, self.limite_dispositivo_mes)
 
     @staticmethod
+    def hoy_lima() -> str:
+        return hoy()
+
+    @staticmethod
+    def renueva_manana() -> str:
+        """Mañana (Lima), dd/mm/aaaa: cuando se reinicia el tope del día."""
+        return (datetime.now(LIMA) + timedelta(days=1)).strftime("%d/%m/%Y")
+
+    @staticmethod
     def renueva_el_mes() -> str:
         """Primer día del mes siguiente (Lima), dd/mm/aaaa: cuando se reinicia el tope mensual."""
         hoy_ = datetime.now(LIMA)

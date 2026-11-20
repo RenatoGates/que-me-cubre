@@ -34,7 +34,7 @@ _base = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
 _base.close()
 CLIENTE = "cliente-de-prueba.apps.googleusercontent.com"
 os.environ.update({"QMC_PROVEEDOR": "grabado", "DATABASE_URL": f"sqlite:///{_base.name.replace(os.sep, '/')}",
-                   "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "", "VOYAGE_API_KEY": "", "QMC_LIMITE_SUBIDAS_DIA": "50",
+                   "QMC_CACHE_RESPUESTAS": "0", "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "", "VOYAGE_API_KEY": "", "QMC_LIMITE_SUBIDAS_DIA": "50",
                    "QMC_LIMITE_IP_DIA": "500", "QMC_GOOGLE_CLIENT_IDS": CLIENTE})
 
 from cryptography import x509  # noqa: E402
@@ -123,7 +123,7 @@ def main_() -> int:
         caso("registro con un correo ya usado: 409", api.post("/cuenta/registro", json={"correo": "ana@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).status_code == 409)
         caso("entrar con otra contraseña: 401", api.post("/cuenta/sesion", json={"correo": "ana@ejemplo.pe", "clave": "otra-clave-mala"}).status_code == 401)
         caso("la contraseña no está en la base, solo su hash", CLAVE.encode() not in Path(_base.name).read_bytes())
-        rutas = [x.path for x in main.app.routes]
+        rutas = list(main.app.openapi()["paths"])
         caso("no hay ningún endpoint para recuperar la contraseña", not any("recuper" in x or "restablec" in x or "reset" in x for x in rutas), rutas)
         fuentes = "".join((RAIZ / "backend" / n).read_text(encoding="utf-8") for n in ("main.py", "cuentas.py"))
         caso("ningún texto del backend explica que la contraseña no se recupera", "no podemos recuperarla" not in fuentes)
@@ -164,13 +164,13 @@ def main_() -> int:
         # --- Guardar: sin PDF, cifrado, con fecha de borrado a 14 días ---
         subida = api.post("/polizas", files=[("archivos", ("mi_poliza.pdf", pdf, "application/pdf"))], headers=anonimo).json()
         caso("guardar sin sesión: 401", api.post(f"/polizas/{subida['poliza_id']}/guardar").status_code == 401)
-        r = api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana)
+        r = api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana | anonimo)
         g = r.json()
         en_14 = (guardado.ahora() + timedelta(days=14)).astimezone(main.LIMA).strftime("%d/%m/%Y")
         caso("guardar (plan gratis): devuelve la fecha exacta de borrado, a 14 días",
              r.status_code == 201 and g["borrado_automatico"] == en_14 and g["aviso"] == f"Guardada · se borra el {en_14}", r.text[:200])
         caso("plan gratis: una sola póliza guardada (la segunda, 409)",
-             api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana).status_code == 409)
+             api.post(f"/polizas/{subida['poliza_id']}/guardar", headers=ana | anonimo).status_code == 409)
         cuenta = api.get("/cuenta", headers=ana).json()
         caso("mi cuenta: lista la póliza con su fecha de borrado",
              len(cuenta["polizas"]) == 1 and cuenta["polizas"][0]["borrado_automatico"] == en_14 and cuenta["polizas"][0]["paginas"] == 62, cuenta.get("polizas"))
@@ -257,7 +257,7 @@ def main_() -> int:
         codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers={"X-Dispositivo": "limite-prueba-0003"}) for _ in range(2)]
         caso("sin cuenta: 10 al mes; con el día libre, el tope del mes corta y dice cuándo se reinicia",
              lim.limite_dispositivo_mes == 10 and [x.status_code for x in codigos] == [200, 429]
-             and codigos[1].json()["detail"]["mensaje"] == f"Llegaste a tus 10 consultas de este mes. Se renuevan el {lim.renueva_el_mes()}."
+             and codigos[1].json()["detail"]["mensaje"] == f"Alcanzaste el límite de consultas de tu plan. Se renuevan el {lim.renueva_el_mes()}."
              and lim.usadas(clave) == 1, [x.text[:150] for x in codigos])
         caso("el mes se reinicia el primer día del mes siguiente",
              dt.datetime.strptime(lim.renueva_el_mes(), "%d/%m/%Y").date().day == 1
@@ -270,12 +270,12 @@ def main_() -> int:
         r2 = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=luisa)
         caso("cuenta gratis: 20 al mes; la 20.ª pasa y la 21.ª se corta aunque quede cupo del día",
              lim.limite_gratis_mes == 20 and r1.status_code == 200 and r1.json()["limites"]["restantes_mes"] == 0
-             and r1.json()["limites"]["restantes_hoy"] == 2 and r2.status_code == 429 and "de este mes" in r2.json()["detail"]["mensaje"],
+             and r1.json()["limites"]["restantes_hoy"] == 2 and r2.status_code == 429 and r2.json()["detail"]["mensaje"].endswith(f"Se renuevan el {lim.renueva_el_mes()}."),
              (r1.status_code, r2.text[:150]))
         api.request("DELETE", "/cuenta", json={"clave": CLAVE}, headers=luisa)
         r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana)
         caso("cuenta gratis: 3 al día (ya hizo 3 hoy) y la cuarta 429", lim.usadas("u:" + usuario_id) == 3 and r.status_code == 429
-             and r.json()["detail"]["codigo"] == "limite_cuenta" and "Mañana se renuevan" in r.json()["detail"]["mensaje"], r.text[:200])
+             and r.json()["detail"]["codigo"] == "limite_cuenta" and r.json()["detail"]["mensaje"] == f"Alcanzaste el límite de consultas de tu plan. Se renuevan el {lim.renueva_manana()}.", r.text[:200])
         ayer = (dt.datetime.now(main.LIMA) - timedelta(days=1)).strftime("%Y-%m-%d")
         lim.tomar("u:reinicio", 3, ayer), lim.tomar("u:reinicio", 3, ayer), lim.tomar("u:reinicio", 3, ayer)
         caso("el cupo se reinicia cada día (día de Lima): 3 usadas ayer no cuentan hoy",
@@ -299,7 +299,7 @@ def main_() -> int:
              and api.get(f"/polizas/{PACIFICO}/radiografia", headers=ana2).status_code == 403, f_)
         luis = {"Authorization": f"Bearer {api.post('/cuenta/registro', json={'correo': 'luis@ejemplo.pe', 'clave': CLAVE, 'acepto_privacidad': True}).json()['token']}"}
         propia = api.post("/polizas", files=[("archivos", ("de_luis.pdf", pdf, "application/pdf"))], headers=anonimo).json()
-        r = api.get(f"/polizas/{propia['poliza_id']}/radiografia", headers=luis)
+        r = api.get(f"/polizas/{propia['poliza_id']}/radiografia", headers=luis | anonimo)
         caso("si la radiografía no sale (sin modelo), la gratis no se pierde",
              r.status_code == 200 and r.json()["modo"] != "radiografia"
              and api.get("/cuenta", headers=luis).json()["funciones"]["radiografia"] == "muestra_disponible", r.text[:200])
@@ -342,7 +342,7 @@ def main_() -> int:
         codigos = [api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=ana2) for _ in range(21 - usadas)]
         caso("cuenta pagada: freno de 20 al día contra abuso, aunque quede saldo",
              lim.limite_pagado_dia == 20 and [x.status_code for x in codigos] == [200] * (20 - usadas) + [429]
-             and "Mañana sigues con tu saldo" in codigos[-1].json()["detail"]["mensaje"] and pagos.saldo(motor, usuario_id) == 193 - (20 - usadas),
+             and codigos[-1].json()["detail"]["mensaje"] == f"Alcanzaste el límite de consultas de tu plan. Se renuevan el {lim.renueva_manana()}." and pagos.saldo(motor, usuario_id) == 193 - (20 - usadas),
              [x.status_code for x in codigos])
         guardado.purgar(motor, guardado.ahora() + timedelta(days=300))
         caso("la bolsa no caduca: 300 días después sigue igual", pagos.saldo(motor, usuario_id) == 193 - (20 - usadas))
@@ -369,7 +369,7 @@ def main_() -> int:
         guardadas = [guardado.guardar_poliza(motor, usuario_id, original, pagos.dias_de_guardado("pagado")) for _ in range(4)]
         nueva = api.post("/polizas", files=[("archivos", ("otra.pdf", pdf, "application/pdf"))], headers=anonimo).json()
         caso("plan pagado: 4 pólizas, sin fecha de borrado, y la quinta no entra",
-             all(x["borrar_el"] is None for x in guardadas) and api.post(f"/polizas/{nueva['poliza_id']}/guardar", headers=ana2).status_code == 409)
+             all(x["borrar_el"] is None for x in guardadas) and api.post(f"/polizas/{nueva['poliza_id']}/guardar", headers=ana2 | anonimo).status_code == 409)
         lejos = guardado.purgar(motor, guardado.ahora() + timedelta(days=300))
         caso("plan pagado: la limpieza no las borra ni 300 días después", lejos["polizas"] == 0 and guardado.filas(motor, usuario_id)["polizas"] == 4, lejos)
         caso("la sesión de 30 días sí venció con el reloj adelantado: hay que volver a entrar",

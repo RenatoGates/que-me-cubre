@@ -14,10 +14,13 @@ plazo y el mapa):
 - ¿Pagas doble? (superposiciones entre pólizas): necesita varias pólizas;
 - la radiografía de cualquier póliza. Cada cuenta gratis tiene una sola, completa, de muestra.
 
-Cómo se activa: la app compra con Play Billing y manda el token de compra a POST /cuenta/compra.
-`verificar_compra` es el punto donde se conecta Play Billing; hoy dice que el cobro no está
-disponible, así que no hay forma de pagar fuera de las pruebas automáticas, que llaman a
-`acreditar` directamente.
+Cómo se cobra: la app (con sesión iniciada) compra con Play Billing, con el id ofuscado de la
+cuenta (`id_ofuscado`), y manda el token de compra a POST /v1/cuenta/compra. El backend lo
+verifica contra la Google Play Developer API con una cuenta de servicio
+(QMC_PLAY_CUENTA_SERVICIO, el JSON de la llave, solo en Render): la compra tiene que estar
+pagada, sin consumir y hecha por esa misma cuenta. Recién entonces se acredita (una misma
+compra, una sola vez), se reconoce en Play y la app la consume para poder volver a comprar.
+Nunca se confía en lo que dice el cliente. Sin la cuenta de servicio, el cobro responde 501.
 """
 
 from __future__ import annotations
@@ -25,6 +28,7 @@ from __future__ import annotations
 import hashlib
 import json
 
+import httpx
 import sqlalchemy as sa
 from sqlalchemy.exc import IntegrityError
 
@@ -32,6 +36,8 @@ from ai.llm import config
 from backend import guardado
 from backend.guardado import compras, usuarios
 
+PAQUETE = config("QMC_PAQUETE_ANDROID") or "com.renatogates.quecubre"
+PLAY = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications"
 PRODUCTO = "consultas_200"  # id del producto en Play Console; se consume tras acreditarlo para poder recomprarlo
 PRECIO = "S/ 3,99"
 COSTO_RADIOGRAFIA = 5
@@ -147,22 +153,74 @@ def soltar_muestra(motor: sa.Engine, usuario_id: str, clave_poliza: str) -> None
 
 # --- El cobro ---
 
-def verificar_compra(token_compra: str, producto: str = PRODUCTO) -> str:
-    """Valida con Google Play el token de una compra del producto y devuelve el token.
+def id_ofuscado(usuario_id: str) -> str:
+    """Lo que la app pasa a Play como obfuscatedAccountId: ata la compra a la cuenta sin darle
+    a Google el id ni el correo."""
+    return hashlib.sha256(f"qmc|{usuario_id}".encode()).hexdigest()
 
-    PUNTO DE INTEGRACIÓN (Google Play Billing, Fase 4): consultar purchases.products.get de la
-    Google Play Developer API (paquete de la app, `producto`, `token_compra`) con una cuenta de
-    servicio; aceptar solo purchaseState == 0 (comprada) y sin consumir (consumptionState == 0),
-    y devolver el token. Después de `acreditar`, la app consume la compra para que se pueda
-    volver a comprar. Si Play no la confirma: CompraInvalida.
-    """
-    raise CobroNoDisponible("La compra se hace desde la app de Android.")
+
+def _huella(comprobante: str) -> str:
+    return hashlib.sha256(comprobante.encode()).hexdigest()
+
+
+def ya_acreditada(motor: sa.Engine, usuario_id: str, comprobante: str) -> bool:
+    """¿Esa compra ya se acreditó a esta cuenta? (la app la reenvía si no alcanzó a consumirla)"""
+    with motor.connect() as c:
+        return c.execute(sa.select(compras.c.usuario_id).where(compras.c.comprobante_hash == _huella(comprobante))).scalar() == usuario_id
+
+
+def _token_play() -> str:
+    from google.auth.transport.requests import Request
+    from google.oauth2 import service_account
+
+    credenciales = service_account.Credentials.from_service_account_info(
+        json.loads(config("QMC_PLAY_CUENTA_SERVICIO")), scopes=["https://www.googleapis.com/auth/androidpublisher"])
+    credenciales.refresh(Request())
+    return credenciales.token
+
+
+def _consultar_play(producto: str, token_compra: str) -> dict:
+    """purchases.products.get de la Google Play Developer API."""
+    r = httpx.get(f"{PLAY}/{PAQUETE}/purchases/products/{producto}/tokens/{token_compra}",
+                  headers={"Authorization": f"Bearer {_token_play()}"}, timeout=20)
+    if r.status_code in (400, 404, 410):
+        raise CompraInvalida("Play no conoce esa compra.")
+    r.raise_for_status()
+    return r.json()
+
+
+def reconocer(producto: str, token_compra: str) -> None:
+    """Reconoce la compra en Play (si no, Play la reembolsa a los 3 días). La app la consume
+    después; si no alcanza, esto la deja a salvo. Sin cuenta de servicio, no hace nada."""
+    if not config("QMC_PLAY_CUENTA_SERVICIO"):
+        return
+    try:
+        httpx.post(f"{PLAY}/{PAQUETE}/purchases/products/{producto}/tokens/{token_compra}:acknowledge",
+                   headers={"Authorization": f"Bearer {_token_play()}"}, json={}, timeout=20)
+    except httpx.HTTPError:
+        pass  # ya acreditada; si falló, consumirla en la app también la reconoce
+
+
+def verificar_compra(token_compra: str, producto: str = PRODUCTO, cuenta: str | None = None) -> str:
+    """Valida con Google Play una compra del producto y devuelve el token, que `acreditar`
+    guarda como hash. Exige: pagada (purchaseState 0), sin consumir (consumptionState 0) y, si
+    se da `cuenta`, hecha con ese id ofuscado. Si no: CompraInvalida."""
+    if not config("QMC_PLAY_CUENTA_SERVICIO"):
+        raise CobroNoDisponible("La compra todavía no está disponible.")
+    datos = _consultar_play(producto, token_compra)
+    if datos.get("purchaseState") != 0:
+        raise CompraInvalida("La compra no está pagada.")
+    if datos.get("consumptionState") == 1:
+        raise CompraInvalida("La compra ya se usó.")
+    if cuenta is not None and datos.get("obfuscatedExternalAccountId") != cuenta:
+        raise CompraInvalida("La compra es de otra cuenta.")
+    return token_compra
 
 
 def acreditar(motor: sa.Engine, usuario_id: str, comprobante: str) -> bool:
     """Suma una bolsa de consultas a la cuenta, la pasa al plan pagado y quita la fecha de
     borrado de sus pólizas guardadas. Un mismo comprobante no se acredita dos veces."""
-    huella = hashlib.sha256(comprobante.encode()).hexdigest()
+    huella = _huella(comprobante)
     n = consultas_por_pago()
     try:
         with motor.begin() as c:
