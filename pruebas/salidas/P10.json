@@ -3,13 +3,16 @@
   "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
   "documento": "Rimac Seguros · Seguro de Viaje",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre las radiografías como examen médico complementario en caso de enfermedad o accidente, cuando las indica el Departamento Médico de la Central de Asistencia o los médicos de la compañía. Si tu médico la pide durante el viaje, conviene que la indicación venga de esa central para que se cubra. No encontré en los pasajes un monto máximo específico para este examen.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Una radiografía es un examen de ayuda al diagnóstico que el texto expresamente incluye como gasto cubierto por enfermedad o accidente, siempre que la indique el Departamento Médico de la Central de Asistencia. El pasaje no dice que la cobertura se limite a un monto ni que dependa de si el viaje es fuera del país, pero tampoco aclara si la orden de tu médico del viaje cuenta como indicación del Departamento Médico, por eso conviene confirmarlo con la central.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "Tu póliza cubre exámenes médicos complementarios, como las radiografías, cuando hay una enfermedad o accidente. La cobertura exige que la radiografía sea indicada por el Departamento Médico de la Central de Asistencia, no solo por tu médico, así que conviene confirmarlo con ellos.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "La radiografía se cubre cuando la indica el Departamento Médico de la Central de Asistencia (o los médicos de la compañía), y el examen debe hacerse en caso de enfermedad o accidente.",
+      "descripcion": "La radiografía debe ser ordenada por los médicos de La COMPAÑÍA (Departamento Médico de la Central de Asistencia), y se cubre hasta determinar un diagnóstico.",
       "citas": [
         1,
         2
@@ -17,14 +20,7 @@
     }
   ],
   "exclusiones_aplicables": [],
-  "podrian_aplicar": [
-    {
-      "descripcion": "Si no fue indicada por el Departamento Médico de la Central de Asistencia, la cobertura podría no aplicar; la póliza exige esa indicación.",
-      "citas": [
-        2
-      ]
-    }
-  ],
+  "podrian_aplicar": [],
   "no_incluido_en_documento": [],
   "citas": [
     {
@@ -183,7 +179,7 @@
     ],
     "condiciones": [
       {
-        "descripcion": "La radiografía se cubre cuando la indica el Departamento Médico de la Central de Asistencia (o los médicos de la compañía), y el examen debe hacerse en caso de enfermedad o accidente.",
+        "descripcion": "La radiografía debe ser ordenada por los médicos de La COMPAÑÍA (Departamento Médico de la Central de Asistencia), y se cubre hasta determinar un diagnóstico.",
         "citas": [
           1,
           2
@@ -191,17 +187,15 @@
       }
     ],
     "exclusiones_aplicables": [],
-    "podrian_aplicar": [
-      {
-        "descripcion": "Si no fue indicada por el Departamento Médico de la Central de Asistencia, la cobertura podría no aplicar; la póliza exige esa indicación.",
-        "citas": [
-          2
-        ]
-      }
-    ],
+    "podrian_aplicar": [],
     "no_incluido_en_documento": [],
-    "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre las radiografías como examen médico complementario en caso de enfermedad o accidente, cuando las indica el Departamento Médico de la Central de Asistencia o los médicos de la compañía. Si tu médico la pide durante el viaje, conviene que la indicación venga de esa central para que se cubra. No encontré en los pasajes un monto máximo específico para este examen."
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Una radiografía es un examen de ayuda al diagnóstico que el texto expresamente incluye como gasto cubierto por enfermedad o accidente, siempre que la indique el Departamento Médico de la Central de Asistencia. El pasaje no dice que la cobertura se limite a un monto ni que dependa de si el viaje es fuera del país, pero tampoco aclara si la orden de tu médico del viaje cuenta como indicación del Departamento Médico, por eso conviene confirmarlo con la central.",
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre exámenes médicos complementarios, como las radiografías, cuando hay una enfermedad o accidente. La cobertura exige que la radiografía sea indicada por el Departamento Médico de la Central de Asistencia, no solo por tu médico, así que conviene confirmarlo con ellos."
   },
   "descartes": [],
   "proveedor": {
@@ -217,16 +211,16 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 5678,
-        "tokens_salida": 584,
+        "tokens_entrada": 6669,
+        "tokens_salida": 685,
         "tokens_razonamiento": 0,
-        "segundos": 2.64,
-        "costo_usd": 0.00086
+        "segundos": 3.74,
+        "costo_usd": 0.001009
       }
     ],
-    "tokens": 6262,
-    "costo_usd": 0.00086,
-    "segundos": 2.64
+    "tokens": 7354,
+    "costo_usd": 0.001009,
+    "segundos": 3.74
   },
   "prueba": {
     "id": "P10",

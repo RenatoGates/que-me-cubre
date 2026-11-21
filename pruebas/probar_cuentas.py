@@ -109,7 +109,7 @@ def main_() -> int:
         caso("avisos: solo la casilla de consentimiento, con el enlace a la política; nada sobre recuperar la contraseña",
              avisos["consentimiento"] == "Acepto la política de privacidad y que se guarde el texto de mi póliza y mis consultas, "
                                         "que pueden incluir datos de salud."
-             and avisos["politica_privacidad"].endswith("docs/privacidad.md") and set(avisos) == {
+             and avisos["politica_privacidad"].endswith("privacidad.html") and set(avisos) == {
                  "consentimiento", "politica_privacidad", "disponible", "google_disponible"}, avisos)
         r = api.post("/cuenta/registro", json={"correo": "ana@ejemplo.pe", "clave": CLAVE})
         caso("registro sin marcar la casilla de privacidad: se rechaza", r.status_code == 400 and r.json()["detail"]["codigo"] == "falta_consentimiento", r.text[:150])
@@ -200,7 +200,7 @@ def main_() -> int:
         r = responder(P01, cargada, ProveedorGrabado())
         caso("la póliza cargada de la base no tiene PDF", cargada.pdf_bytes == b"" and len(cargada.paginas_leidas) == 2 * 62)
         caso("y aun así responde con veredicto y todas sus citas verificadas por los dos lectores",
-             r["modo"] == "completo" and r["cubre"] == "con_limites" and len(r["citas"]) > 0
+             r["modo"] == "completo" and r["cubre"] == "si" and len(r["citas"]) > 0
              and all(c["verificacion"]["pdfplumber"] and c["verificacion"]["pypdf"] for c in r["citas"]), (r["modo"], r.get("citas", [])[:1]))
         con_pdf = responder(P01, original, ProveedorGrabado())
         caso("con las mismas citas y páginas que la póliza con su PDF",
@@ -216,7 +216,7 @@ def main_() -> int:
         ids = [api.post("/preguntar", json={"poliza_id": g2["poliza_id"], "pregunta": P01}, headers=ana).json().get("consulta_id") for _ in range(2)]
         h = api.get(f"/polizas/{g2['poliza_id']}/consultas", headers=ana).json()["consultas"]
         caso("historial: las consultas de la póliza guardada, con su respuesta y sus citas verificadas",
-             len(h) == 2 and h[0]["pregunta"] == P01 and h[0]["cubre"] == "con_limites" and h[0]["citas"]
+             len(h) == 2 and h[0]["pregunta"] == P01 and h[0]["cubre"] == "si" and h[0]["citas"]
              and h[0]["citas"][0]["verificacion"]["pypdf"] and "pasajes" not in h[0], [x.get("modo") for x in h])
         caso("historial: se borra una consulta sola", api.delete(f"/consultas/{ids[0]}", headers=ana).json() == {"borrada": True}
              and len(api.get(f"/polizas/{g2['poliza_id']}/consultas", headers=ana).json()["consultas"]) == 1)

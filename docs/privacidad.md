@@ -13,7 +13,9 @@ Sin cuenta, la app no guarda nada tuyo. Con cuenta, guarda el texto de tu póliz
 - El PDF que subes se procesa en la memoria del servidor. No se escribe en disco ni en
   registros, y se borra de la memoria tras 60 minutos sin uso, cuando lo pides o cuando el
   servidor se reinicia.
-- No se guarda tu pregunta ni la respuesta.
+- No se guarda tu pregunta ni la respuesta en el servidor. En la app de Android, las respuestas
+  de la sesión quedan en la memoria del teléfono para que puedas volver a leerlas en
+  "Historial", y se borran al cerrar la app.
 - Para contar cuántas consultas haces (3 al día y 10 al mes) se guarda un código derivado del
   identificador de tu dispositivo y otro de tu dirección IP, no los valores originales. El de
   la IP cambia cada día.
@@ -37,6 +39,12 @@ Se guarda, hasta que lo borres:
 - De cada póliza que elijas guardar: su texto partido en fragmentos, los vectores que
   permiten buscar en ella y el texto de cada página. **No se guarda el archivo PDF.**
 - Tus últimas 20 consultas por póliza guardada: la pregunta, la respuesta y sus citas.
+
+En tu teléfono, no en el servidor: si en una póliza guardada tocas "Ver esta cláusula en tu
+póliza", la app te pide elegir tu PDF una vez y guarda una copia en su almacenamiento privado,
+para abrirlo en la página de cada cita. Comprueba que sea el mismo documento que guardaste. Esa
+copia nunca se sube; se borra al borrar esa póliza, al salir de tu cuenta, al borrarla o al
+desinstalar la app.
 
 El texto de una póliza puede traer tu nombre, tu documento de identidad y datos de tu salud,
 y tus preguntas también pueden contarlos. Son datos sensibles según la Ley N.° 29733, Ley de
@@ -75,7 +83,8 @@ llave. No lee ese contenido como parte del funcionamiento de la app, pero técni
 ## Lo que sale hacia terceros, con o sin cuenta
 
 - **Voyage AI:** al subir una póliza recibe su texto para calcular los vectores de búsqueda,
-  y al preguntar recibe tu pregunta.
+  y al preguntar recibe tu pregunta (y, si sigues una conversación, tus preguntas anteriores
+  de esa conversación, para buscar en la póliza con todo lo que contaste).
 - **Google:** si entras con Google, Google sabe que entraste a esta app. Si compras funciones
   premium, Google Play procesa el pago.
 - **Dictado por voz (app de Android):** si preguntas hablando, el audio lo transcribe el
@@ -93,7 +102,8 @@ llave. No lee ese contenido como parte del funcionamiento de la app, pero técni
 - **Métricas del servicio (Langfuse):** cuánto tarda y cuánto cuesta cada respuesta, qué
   función se usó y si hubo un error. Nunca el texto de tu póliza, tu pregunta ni la respuesta.
 - **Anthropic:** recibe tu pregunta y los fragmentos de la póliza encontrados para redactar
-  la respuesta. Según su política, borra lo enviado por su API dentro de los 30 días.
+  la respuesta. Si sigues una conversación, recibe también hasta 3 preguntas anteriores de esa
+  conversación con su veredicto y su explicación breve. Según su política, borra lo enviado por su API dentro de los 30 días.
 - **OpenStreetMap:** si usas el mapa, recibe los pedidos de las imágenes del mapa de la zona
   que miras. En la web, si concedes tu ubicación, recibe también las coordenadas de la consulta
   de centros cercanos. En la app de Android, tu ubicación se usa solo en el teléfono para

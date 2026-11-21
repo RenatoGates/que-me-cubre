@@ -8,6 +8,7 @@ import 'comun.dart';
 import 'compras.dart';
 import 'estado.dart';
 import 'pantalla_cuenta.dart';
+import 'pantalla_historial.dart';
 import 'pantalla_mapa.dart';
 import 'pantalla_poliza.dart';
 import 'telemetria.dart';
@@ -153,7 +154,7 @@ class Principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final e = EstadoScope.of(context);
-    final paginas = [const PantallaPoliza(), const PantallaMapa(), PantallaCuenta(compras: compras)];
+    final paginas = [const PantallaPoliza(), const PantallaHistorial(), const PantallaMapa(), PantallaCuenta(compras: compras)];
     return Scaffold(
       body: IndexedStack(index: e.pestana, children: paginas),
       bottomNavigationBar: NavigationBar(
@@ -161,6 +162,7 @@ class Principal extends StatelessWidget {
         onDestinationSelected: e.irA,
         destinations: const [
           NavigationDestination(icon: Icon(Icons.description_outlined), selectedIcon: Icon(Icons.description_rounded), label: 'Tu póliza'),
+          NavigationDestination(icon: Icon(Icons.history_rounded), selectedIcon: Icon(Icons.history_rounded), label: 'Historial'),
           NavigationDestination(icon: Icon(Icons.local_hospital_outlined), selectedIcon: Icon(Icons.local_hospital_rounded), label: 'Cerca de ti'),
           NavigationDestination(icon: Icon(Icons.person_outline_rounded), selectedIcon: Icon(Icons.person_rounded), label: 'Mi cuenta'),
         ],

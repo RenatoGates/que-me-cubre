@@ -28,27 +28,38 @@ def main() -> int:
     utf8()
     tema = (RAIZ / "movil" / "lib" / "tema.dart").read_text(encoding="utf-8")
     p = {m.group(1): m.group(2)[2:] for m in re.finditer(r"static const (\w+) = Color\(0x([0-9A-Fa-f]{8})\)", tema)}
-    cabecera = "16304A"  # inicio del degradado del encabezado de inicio
-    pares = [  # (uso, texto, fondo, mínimo)
-        ("Texto principal sobre el fondo", "texto", "fondo", 4.5),
+    pares = [  # (uso, texto, fondo, mínimo): app de Android y web de Streamlit, con la misma paleta
+        ("Texto principal sobre el fondo crema", "texto", "fondo", 4.5),
         ("Texto principal sobre tarjetas", "texto", "superficie", 4.5),
-        ("Texto principal sobre el encabezado", "texto", cabecera, 4.5),
-        ("Texto secundario sobre el fondo", "textoSecundario", "fondo", 4.5),
+        ("Texto citado sobre su bloque de cita", "texto", "citaFondo", 4.5),
+        ("Texto secundario sobre el fondo crema", "textoSecundario", "fondo", 4.5),
         ("Texto secundario sobre tarjetas", "textoSecundario", "superficie", 4.5),
-        ("Texto secundario sobre el encabezado", "textoSecundario", cabecera, 4.5),
-        ("Enlaces y botones de texto sobre el fondo", "accion", "fondo", 4.5),
+        ("Enlaces y botones de texto sobre el fondo crema", "accion", "fondo", 4.5),
         ("Enlaces y botones de texto sobre tarjetas", "accion", "superficie", 4.5),
-        ("Texto de los botones principales", "fondo", "accion", 4.5),
-        ("Veredicto «Cubre» (21 px negrita) sobre el fondo", "cubierto", "fondo", 3.0),
-        ("Veredicto «Cubre con límites» sobre el fondo", "parcial", "fondo", 3.0),
-        ("Veredicto «No cubre» sobre el fondo", "noCubierto", "fondo", 3.0),
-        ("«se borra el…» (13 px) sobre el fondo", "parcial", "fondo", 4.5),
-        ("Botones de borrar (texto claro) sobre tarjetas", "texto", "superficie", 4.5),
-        ("Texto del botón de borrar todo (fondo claro)", "fondo", "texto", 4.5),
-        ("Plazo urgente (ámbar) sobre el fondo", "parcial", "fondo", 4.5),
-        ("Ícono de verificada sobre el fondo", "cubierto", "fondo", 3.0),
-        ("Avisos (snackbar): fondo sobre texto", "fondo", "texto", 4.5),
-        ("Atribución de OpenStreetMap sobre su recuadro blanco", "1A1A1A", "FFFFFF", 4.5),
+        ("Texto blanco de los botones principales (y la banda de la web)", "sobreAccion", "accion", 4.5),
+        ("Veredicto «Cubre» sobre el fondo crema", "cubierto", "fondo", 4.5),
+        ("Veredicto «Cubre» sobre tarjetas", "cubierto", "superficie", 4.5),
+        ("Veredicto «Cubre con límites» y su límite sobre el fondo crema", "parcial", "fondo", 4.5),
+        ("Veredicto «Cubre con límites» y su límite sobre tarjetas", "parcial", "superficie", 4.5),
+        ("Veredicto «No cubre» sobre el fondo crema", "noCubierto", "fondo", 4.5),
+        ("Veredicto «No cubre» sobre tarjetas", "noCubierto", "superficie", 4.5),
+        ("Descargo del martillo (ámbar) y «se borra el…»", "parcial", "superficie", 4.5),
+        ("Avisos (snackbar): blanco sobre texto oscuro", "superficie", "texto", 4.5),
+        ("Etiqueta «bloqueado» de la web sobre su fondo", "texto", "citaFondo", 4.5),
+        ("Atribución de OpenStreetMap sobre su recuadro blanco", "texto", "FFFFFF", 4.5),
+        # Los avisos amarillos de Streamlit pintan su fondo con el amarillo #FFBD45 al 10 % sobre el crema: #FBF1E1.
+        ("Web: texto de los avisos amarillos sobre su fondo", "9A5C00", "FBF1E1", 4.5),
+    ]
+    # Lo que se cambió de la paleta pedida, y por qué: el par original no llegaba.
+    ajustes = [
+        ("«Con límites» pedido #B06A00 sobre tarjetas", "B06A00", "superficie"),
+        ("«Con límites» pedido #B06A00 sobre el fondo crema", "B06A00", "fondo"),
+        ("Web: #A36200 en los avisos amarillos (pasó a #9A5C00 solo ahí)", "parcial", "FBF1E1"),
+    ]
+    # Pares que no llegan y por eso no se usan: el bloque de cita lleva solo el texto citado.
+    evitados = [
+        ("Texto secundario sobre el bloque de cita", "textoSecundario", "citaFondo"),
+        ("Azul de enlaces sobre el bloque de cita", "accion", "citaFondo"),
     ]
     filas, malos = [], []
     for uso, a, b, minimo in pares:
@@ -58,9 +69,22 @@ def main() -> int:
         if not ok:
             malos.append(uso)
         filas.append(f"| {uso} | #{ca.upper()} | #{cb.upper()} | {r:.2f}:1 | {minimo:g}:1 | {'sí' if ok else '**no**'} |")
-    texto = ["# Contraste de la app de Android", "", "Generado por `pruebas/medir_contraste.py` con los colores de `movil/lib/tema.dart`.", "",
+    def fila(uso: str, a: str, b: str) -> str:
+        ca, cb = p.get(a, a)[-6:], p.get(b, b)[-6:]
+        return f"| {uso} | #{ca.upper()} | #{cb.upper()} | {contraste(ca, cb):.2f}:1 |"
+
+    texto = ["# Contraste de la paleta clara", "",
+             "Generado por `pruebas/medir_contraste.py` con los colores de `movil/lib/tema.dart` (los mismos de la web, "
+             "`.streamlit/config.toml`).", "",
              "| Uso | Texto | Fondo | Contraste | Mínimo WCAG | Cumple |", "|---|---|---|---:|---:|---|", *filas, "",
-             f"- **{len(pares) - len(malos)} de {len(pares)} pares cumplen.**", ""]
+             f"- **{len(pares) - len(malos)} de {len(pares)} pares cumplen.**", "",
+             "## Colores ajustados", "", "| Par original | Texto | Fondo | Contraste |", "|---|---|---|---:|",
+             *[fila(*x) for x in ajustes], "",
+             f"«Con límites» pasó de #B06A00 a #{p['parcial'][-6:].upper()}, un ámbar algo más oscuro que llega a 4,5:1 sobre ambos fondos.", "",
+             "## Pares que no llegan y por eso no se usan", "", "| Par | Texto | Fondo | Contraste |", "|---|---|---|---:|",
+             *[fila(*x) for x in evitados], "",
+             "Sobre el bloque de cita (#F3EDE4) va solo el texto citado, en el color principal; la verificación y el botón "
+             "para abrir el PDF van debajo, sobre blanco.", ""]
     (PRUEBAS / "contraste.md").write_text("\n".join(texto), encoding="utf-8")
     print("\n".join(texto))
     return 1 if malos else 0

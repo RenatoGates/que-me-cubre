@@ -30,6 +30,11 @@ def fuentes() -> dict[str, dict]:
     return {f["id"]: f for f in json.loads((POLIZAS / "fuentes.json").read_text(encoding="utf-8"))}
 
 
+def ruta_pdf(doc_id: str) -> Path:
+    """El PDF de un condicionado de ejemplo (público, versionado en data/polizas/)."""
+    return POLIZAS / fuentes()[doc_id]["archivo"]
+
+
 @lru_cache(maxsize=None)
 def precargada(doc_id: str) -> Poliza:
     indice = Indice.cargar(INDICES, doc_id)

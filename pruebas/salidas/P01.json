@@ -3,19 +3,22 @@
   "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes ocurridos durante el viaje, hasta el límite fijado en tus Condiciones Particulares o Certificado de Seguro, que no encontré en los pasajes revisados. La cobertura se limita a tratamientos de urgencia de cuadros agudos que impidan continuar el viaje, así que conviene revisar esos documentos para saber el monto y si tu plan incluye esta cobertura.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Torcerte el dedo en el viaje es un accidente durante el viaje, y la cobertura de gastos médicos por accidente cubre la atención de urgencia que impida continuar el viaje. No encuentro en los pasajes que el esguince de dedo sea específicamente un caso cubierto, así que depende de si la atención recibida fue de urgencia y de si te impidió seguir el viaje; el monto depende de otro documento.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes ocurridos durante el viaje, siempre que sea una atención de urgencia que impida continuar el viaje. El monto máximo no está en los pasajes revisados: aparece en las Condiciones Particulares o el Certificado de Seguro, que deberías pedirle a tu aseguradora.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "La cobertura de gastos médicos por accidente durante el viaje llega hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según el plan contratado; ese monto no aparece en los pasajes revisados.",
+      "descripcion": "La cobertura es por gastos médicos y hospitalarios por accidente o enfermedad súbita ocurrida durante el viaje, hasta el límite fijado en las Condiciones Particulares o Certificado de Seguro.",
       "citas": [
         1
       ]
     },
     {
-      "descripcion": "Solo se cubren tratamientos de urgencia de cuadros agudos que impidan la normal continuación del viaje, no procedimientos de larga duración.",
+      "descripcion": "Solo cubre tratamientos de urgencia que impidan continuar el viaje, no procedimientos de larga duración.",
       "citas": [
         2
       ]
@@ -75,17 +78,40 @@
       "n": 3,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Texto inicial de la sección",
-      "pagina": 15,
+      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+      "pagina": 16,
       "paginas": [
-        15
+        16
       ],
-      "texto_literal": "se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes.",
-      "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0055",
+      "texto_literal": "Para fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
       "posicion": [
-        175,
-        385
+        651,
+        763
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos.",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0061",
+      "posicion": [
+        1000,
+        1194
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -261,19 +287,24 @@
       },
       {
         "n": 3,
-        "pasaje": "P3",
-        "texto_literal": "se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
+        "pasaje": "P5",
+        "texto_literal": "Para fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:"
+      },
+      {
+        "n": 4,
+        "pasaje": "P5",
+        "texto_literal": "d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La cobertura de gastos médicos por accidente durante el viaje llega hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según el plan contratado; ese monto no aparece en los pasajes revisados.",
+        "descripcion": "La cobertura es por gastos médicos y hospitalarios por accidente o enfermedad súbita ocurrida durante el viaje, hasta el límite fijado en las Condiciones Particulares o Certificado de Seguro.",
         "citas": [
           1
         ]
       },
       {
-        "descripcion": "Solo se cubren tratamientos de urgencia de cuadros agudos que impidan la normal continuación del viaje, no procedimientos de larga duración.",
+        "descripcion": "Solo cubre tratamientos de urgencia que impidan continuar el viaje, no procedimientos de larga duración.",
         "citas": [
           2
         ]
@@ -284,12 +315,17 @@
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Es donde se fija el monto máximo y si el plan que contrataste incluye esta cobertura, datos que no aparecen en los pasajes revisados.",
+        "por_que_importa": "Ahí está fijado el monto máximo de la cobertura de gastos médicos, que no aparece en los pasajes revisados.",
         "cita": 1
       }
     ],
-    "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes ocurridos durante el viaje, hasta el límite fijado en tus Condiciones Particulares o Certificado de Seguro, que no encontré en los pasajes revisados. La cobertura se limita a tratamientos de urgencia de cuadros agudos que impidan continuar el viaje, así que conviene revisar esos documentos para saber el monto y si tu plan incluye esta cobertura."
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Torcerte el dedo en el viaje es un accidente durante el viaje, y la cobertura de gastos médicos por accidente cubre la atención de urgencia que impida continuar el viaje. No encuentro en los pasajes que el esguince de dedo sea específicamente un caso cubierto, así que depende de si la atención recibida fue de urgencia y de si te impidió seguir el viaje; el monto depende de otro documento.",
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes ocurridos durante el viaje, siempre que sea una atención de urgencia que impida continuar el viaje. El monto máximo no está en los pasajes revisados: aparece en las Condiciones Particulares o el Certificado de Seguro, que deberías pedirle a tu aseguradora."
   },
   "descartes": [
     {
@@ -311,23 +347,24 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 5910,
-        "tokens_salida": 1034,
+        "tokens_entrada": 6881,
+        "tokens_salida": 1207,
         "tokens_razonamiento": 0,
-        "segundos": 4.1,
-        "costo_usd": 0.001108
+        "segundos": 5.48,
+        "costo_usd": 0.001292
       }
     ],
-    "tokens": 6944,
-    "costo_usd": 0.001108,
-    "segundos": 4.1
+    "tokens": 8088,
+    "costo_usd": 0.001292,
+    "segundos": 5.48
   },
   "prueba": {
     "id": "P01",
     "poliza": "chubb_viajes_jetsmart",
     "origen": "Caso real (amigo del autor), texto literal",
     "veredictos_aceptables": [
-      "con_limites"
+      "con_limites",
+      "si"
     ],
     "que_deberia_pasar": "Mostrar la cobertura de gastos médicos por accidente durante el viaje (Art. 3°) y sus límites: monto fijado en las Condiciones Particulares, contingencias a más de 200 km del domicilio, y el trámite de reembolso cuando no se llamó a la Central de Asistencia."
   }

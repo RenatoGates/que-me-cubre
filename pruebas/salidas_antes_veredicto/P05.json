@@ -1,0 +1,387 @@
+{
+  "modo": "completo",
+  "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "con_limites",
+  "etiqueta_veredicto": "Cubre con límites",
+  "respuesta": "Tu póliza contempla el reembolso de gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, pero solo hasta el límite indicado en las Condiciones Particulares o en el Certificado de Seguro, que no están en el documento que revisé. Para tener derecho, los costos debían estar reservados y pagados, o adeudarse, antes de enfermarte, y debes presentar recibos, facturas y contratos de viaje. El texto también dice al inicio 'en caso de la muerte del ASEGURADO', así que pide a tu aseguradora que aclare si este beneficio aplica a tu situación.",
+  "apertura_contradictoria": null,
+  "condiciones": [
+    {
+      "descripcion": "El pago tiene un límite fijado en las Condiciones Particulares o en el Certificado de Seguro, que no están en este documento.",
+      "citas": [
+        1,
+        3
+      ]
+    },
+    {
+      "descripcion": "La compañía puede hacer una auditoría médica comprobatoria.",
+      "citas": [
+        2
+      ]
+    },
+    {
+      "descripcion": "Hay que acreditar lo ocurrido con certificados o documentos, y presentar recibos, boletas, facturas y contratos o pasajes.",
+      "citas": [
+        3,
+        4
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
+    {
+      "descripcion": "Si no reservaste y pagaste los costos del viaje antes de enfermarte, ni siquiera los debías, este beneficio no aplicaría.",
+      "citas": [
+        1
+      ]
+    }
+  ],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
+      "paginas": [
+        41
+      ],
+      "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "posicion": [
+        22,
+        738
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
+      "paginas": [
+        41
+      ],
+      "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "posicion": [
+        739,
+        820
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "texto_literal": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
+      "pasaje": "P3",
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "posicion": [
+        0,
+        270
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 4,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 5)",
+      "pagina": 43,
+      "paginas": [
+        43
+      ],
+      "texto_literal": "a)Recibos, boletas y facturas cuando corresponda;",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0157",
+      "posicion": [
+        717,
+        766
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
+      "paginas": [
+        41
+      ],
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "posicion": [
+        163,
+        187
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
+      "paginas": [
+        41
+      ],
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "posicion": [
+        192,
+        213
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+    "Cláusula Adicional: Cancelación del Viaje › Artículo 3° Cobertura",
+    "Cláusula Adicional: Cancelación del Viaje › Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0114",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        3,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "- Interrupción del viaje y regreso anticipado – cobertura amplia: Se reembolsará o coordinará el pago de los gastos por servicios no devueltos y no reembolsables pagados anticipadamente al hotel y/o el pasaje de TRANSPORTE PÚBLICO AUTORIZADO, menos el valor del crédito aplicado por el pasaje de regreso no utilizado, en caso que el ASEGURADO quede imposibilitado de concluir el viaje debido a alguna de las siguientes circunstancias:\n• Muerte o enfermedad grave del ASEGURADO, que tenga carácter de urgencia y que motive la internación o inhiba la de ambulación, generando un estado de postración en el ASEGURADO y por lo tanto imposibilite la iniciación y/o prosecución del viaje del ASEGURADO.\n• Muerte o internación hospitalaria por más de cinco (5) días por accidente o Enfermedad Repentina de un MIEMBRO DE SU FAMILIA.\n• Cuando el ASEGURADO recibiese notificación fehaciente para comparecer ante la justicia, debiendo haber recibido dicha notificación con posterioridad al inicio del Viaje.\n• Cuando el ASEGURADO haya sido declarado en cuarentena por autoridad sanitaria competente con posterioridad al inicio del viaje.\n• Por incendio o robo en la residencia habitual del ASEGURADO, ocurrido mientras el ASEGURADO se encuentre en el viaje."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        41
+      ],
+      "texto": "Artículo 3° Cobertura\nLA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento.\nLA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        4,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEn el caso que el ASEGURADO no pueda realizar cambio en sus pasajes de TRANSPORTE PÚBLICO AUTORIZADO, la COMPAÑÍA le entregará un pasaje aéreo en la misma clase que viajaba originalmente para su retorno al país de origen, en caso de que él mismo quede inhabilitado de continuar el VIAJE. Este pasaje será entregado sólo en caso de que no sea posible utilizar el medio de TRANSPORTE PÚBLICO AUTORIZADO originalmente previsto.\nCondiciones:\n•LA COMPAÑÍA no será responsable por ninguna multa o penalidad adicional incurrida que no hubiese sido impuesta si el ASEGURADO hubiera notificado a LA COMPAÑÍA durante las setenta y dos (72) horas siguientes de ocurrido el siniestro."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0116",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        5,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "•Para efectos de este beneficio las ENFERMEDADES DE CARÁCTER SÚBITO deberán manifestarse o ser contraídas a partir de la fecha de inicio del viaje. En los casos que exista una CONDICIÓN DE PRE-EXISTENCIA el beneficio de Interrupción del Viaje y Regreso Anticipado se otorgará sólo en los casos en que el MÉDICO certifique un deterioro severo, repentino e imprevisto, donde la continuación del viaje, coloque en peligro grave la vida del ASEGURADO, su COMPAÑERO DE VIAJE, MIEMBRO DE SU FAMILIA o MIEMBRO DE LA FAMILIA de su COMPAÑERO DE VIAJE.\n•El ASEGURADO debe entregar a la COMPAÑÍA los originales extendidos a nombre del ASEGURADO de los recibos, boletas y facturas cuando corresponda, copia de los contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; como asimismo, en su caso, los que acrediten el pago o el reembolso de una parte de ellos, por las instituciones o entidades referidos en el número anterior."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0157",
+      "seccion": "Cláusula Adicional: Cancelación del Viaje",
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura",
+      "parte": [
+        2,
+        5
+      ],
+      "paginas": [
+        43
+      ],
+      "texto": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada). El ASEGURADO o el BENEFICIARIO podrá presentar los documentos en cualquier momento, sin plazo límite específico, pero antes del plazo de prescripción establecido por la normatividad vigente:\na)Recibos, boletas y facturas cuando corresponda;\nb)Contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; y\nc)Documentos que acrediten el pago o el reembolso de los gastos incurridos por esta cobertura, los mismos que deberán ser emitidos por las instituciones o entidades correspondientes, de acuerdo al tipo de reembolso."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0112",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        1,
+        7
+      ],
+      "paginas": [
+        30
+      ],
+      "texto": "Artículo 3° Asistencias\n- Recuperación en hotel durante el viaje: El pago o reembolso de las estadías diarias del hotel al ASEGURADO, limitado al valor por día y al número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, en caso de que el equipo MÉDICO del establecimiento donde se encuentre el ASEGURADO y el MÉDICO determinen la necesidad de prorrogar el periodo de estadía del ASEGURADO por convalecencia, después que fue dado de alta del HOSPITAL, debido a ACCIDENTE o ENFERMEDAD. Estos gastos deberán ser previamente autorizados por LA COMPAÑÍA.\nLA COMPAÑÍA no será responsable del pago o reembolso de los gastos que sean responsabilidad de terceros o que estén ya incluidos en el costo del viaje.\nEsta cobertura comienza a regir siempre que el ASEGURADO haya estado hospitalizado al menos el número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
+  },
+  "busqueda": "emb_pregunta",
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "LA COMPAÑÍA reembolsará o coordinará el pago al ASEGURADO o Beneficiario en caso de la muerte del ASEGURADO, hasta el límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de un TRANSPORTE PÚBLICO AUTORIZADO, en caso de que el ASEGURADO se vea impedido de iniciar el VIAJE debido a una ENFERMEDAD DE CARÁCTER SÚBITO, ACCIDENTE, o fallecimiento del ASEGURADO o fallecimiento de un MIEMBRO DE LA FAMILIA, siempre y cuando el ASEGURADO haya reservado y pagado o adeude estos costos antes que ocurriera tal ENFERMEDAD, ACCIDENTE o fallecimiento."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+      },
+      {
+        "n": 3,
+        "pasaje": "P3",
+        "texto_literal": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+      },
+      {
+        "n": 4,
+        "pasaje": "P5",
+        "texto_literal": "a)Recibos, boletas y facturas cuando corresponda;"
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "El pago tiene un límite fijado en las Condiciones Particulares o en el Certificado de Seguro, que no están en este documento.",
+        "citas": [
+          1,
+          3
+        ]
+      },
+      {
+        "descripcion": "La compañía puede hacer una auditoría médica comprobatoria.",
+        "citas": [
+          2
+        ]
+      },
+      {
+        "descripcion": "Hay que acreditar lo ocurrido con certificados o documentos, y presentar recibos, boletas, facturas y contratos o pasajes.",
+        "citas": [
+          3,
+          4
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si no reservaste y pagaste los costos del viaje antes de enfermarte, ni siquiera los debías, este beneficio no aplicaría.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares y/o Certificado de Seguro",
+        "por_que_importa": "Ahí se fija el monto máximo que te pueden reembolsar.",
+        "cita": 1
+      }
+    ],
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza contempla el reembolso de gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, pero solo hasta el límite indicado en las Condiciones Particulares o en el Certificado de Seguro, que no están en el documento que revisé. Para tener derecho, los costos debían estar reservados y pagados, o adeudarse, antes de enfermarte, y debes presentar recibos, facturas y contratos de viaje. El texto también dice al inicio 'en caso de la muerte del ASEGURADO', así que pide a tu aseguradora que aclare si este beneficio aplica a tu situación."
+  },
+  "descartes": [
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares y/o Certificado de Seguro",
+      "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    }
+  ],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": false,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 7608,
+        "tokens_salida": 3517,
+        "tokens_razonamiento": 0,
+        "segundos": 14.1,
+        "costo_usd": 0.002519
+      }
+    ],
+    "tokens": 11125,
+    "costo_usd": 0.002519,
+    "segundos": 14.1
+  },
+  "prueba": {
+    "id": "P05",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites"
+    ],
+    "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
+  }
+}

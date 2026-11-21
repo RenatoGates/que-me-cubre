@@ -134,13 +134,17 @@ no dijo va en "podrian_aplicar", nunca en "condiciones" ni en "exclusiones_aplic
 la respuesta no lo afirma como si aplicara.
 
 Veredicto ("cubre"):
-- "si": un pasaje cubre la situación de forma explícita y ninguna condición o límite de \
-los pasajes la restringe de manera relevante.
-- "con_limites": un pasaje la cubre, pero hay condiciones, límites o exclusiones en los \
-pasajes que aplican o podrían aplicar (monto máximo, territorio, fechas, autorización \
-previa, documentos, preexistencias).
+- "si": un pasaje cubre la situación. Las condiciones de trámite (avisar a tiempo, \
+presentar documentos, atenderse en la red) y un monto que está fijado en otro documento \
+(Condiciones Particulares, Certificado) NO la vuelven "con_limites": van en "condiciones".
+- "con_limites": un pasaje la cubre, pero un límite concreto escrito en tus citas cambia \
+lo que la persona recibe en su caso: un monto máximo con su cifra, un tope de días o de \
+eventos, un porcentaje, un deducible o copago, o una zona, fecha o tipo de atención que \
+deja fuera una parte de lo que contó. Para elegir "con_limites" tienes que poner ese \
+límite en "limite", con el número de la cita donde está escrito. Si no puedes nombrarlo \
+así, el veredicto no puede ser "con_limites".
 - "no": un pasaje la excluye o dice que no está cubierta.
-- "no_encontrado": los pasajes no tratan la situación.
+- "no_encontrado": los pasajes no tratan la situación. Si un pasaje la cubre pero el monto o un detalle está en otro documento, NO es "no_encontrado": es "si", y lo que falta va en "no_incluido_en_documento". Tampoco lo es cuando la situación entra en una cobertura \ndescrita en términos generales (una enfermedad, un accidente) aunque el pasaje no nombre lo \nespecífico (la diabetes, el tobillo): decide por lo que dice esa cobertura y di en el \nrazonamiento qué lo vuelve incierto.
 - "fuera_de_alcance": la pregunta no es sobre lo que dice esta póliza (ver "Alcance").
 
 Alcance: solo respondes sobre lo que dice la póliza cargada. No recomiendes ni compares \
@@ -151,6 +155,13 @@ respondas temas ajenos a la póliza. Si la pregunta pide algo de eso, el veredic
 sobre lo que dice la póliza cargada, y para ahí, sin dar la recomendación ni el consejo ni \
 siquiera en parte. Si la pregunta mezcla algo de la póliza con algo fuera de alcance, \
 responde solo lo de la póliza y di en la respuesta que lo otro no lo respondes.
+
+Conversación previa: si te doy <conversacion_previa>, la pregunta actual continúa esa \
+conversación. Junta los hechos de antes con los de ahora y responde sobre todos (por \
+ejemplo, si antes contó "me doblé el tobillo" y ahora dice "es que fue un accidente", \
+responde sobre el tobillo doblado en un accidente) y nombra esos hechos de antes en el \
+razonamiento ("tu tobillo doblado"). Los hechos salen de lo que la persona dijo; lo que la \
+app respondió antes no es una prueba: las pruebas siguen siendo solo tus citas.
 
 Campos:
 - citas: las pruebas, en el orden en que las uses.
@@ -170,6 +181,15 @@ nombra pero cuya cláusula no aparece en el índice, o las Condiciones Particula
 Certificado de Seguro donde se fija un monto. Indica el nombre tal como aparece en la \
 cita, por qué importa para esta pregunta y el número de la cita donde se menciona. Es un \
 hallazgo para el asegurado, no un error: le dice qué documento pedirle a su aseguradora.
+- limite: solo si el veredicto es "con_limites": el límite concreto en una frase corta \
+(por ejemplo "hasta US$ 500 por evento") y el número de la cita donde está escrito. Con \
+cualquier otro veredicto, descripcion vacía y cita 0.
+- razonamiento: una o dos oraciones que van de los hechos que contó la persona al \
+veredicto, nombrando la cobertura o exclusión que lo decide y lo que lo vuelve incierto, \
+si hay algo. Razona, no enumeres. Por ejemplo: "Como fue un accidente durante el viaje, \
+tu póliza lo cubre por la cobertura de gastos médicos. No dice nada específico sobre el \
+tobillo, pero una lesión por accidente entra en lo que describe." Es lo primero que lee la \
+persona: no repitas el veredicto con otras palabras ni copies citas.
 - respuesta: de 2 a 4 oraciones en español sencillo, en segunda persona ("tu póliza..."). \
 No afirmes nada que las citas no respalden. Menciona el límite principal y, si aplica, \
 qué no está en el documento. No nombres artículos, cláusulas, coberturas ni documentos \
@@ -246,18 +266,39 @@ ESQUEMA_RESPUESTA = {
                 "additionalProperties": False,
             },
         },
+        "limite": {
+            "type": "object",
+            "properties": {"descripcion": {"type": "string"}, "cita": {"type": "integer"}},
+            "required": ["descripcion", "cita"],
+            "additionalProperties": False,
+        },
+        "razonamiento": {"type": "string"},
         "cubre": {"type": "string", "enum": ["si", "no", "con_limites", "no_encontrado", "fuera_de_alcance"]},
         "respuesta": {"type": "string"},
     },
     "required": [
-        "citas", "condiciones", "exclusiones_aplicables", "podrian_aplicar", "no_incluido_en_documento", "cubre", "respuesta",
+        "citas", "condiciones", "exclusiones_aplicables", "podrian_aplicar", "no_incluido_en_documento", "limite", "razonamiento",
+        "cubre", "respuesta",
     ],
     "additionalProperties": False,
 }
 
 
+def conversacion_previa(turnos: list[dict]) -> str:
+    """Los turnos anteriores de la conversación (lo que la persona preguntó y el veredicto y
+    razonamiento que recibió), para que la pregunta actual se entienda encadenada."""
+    if not turnos:
+        return ""
+    lineas = []
+    for i, t in enumerate(turnos, start=1):
+        lineas.append(f"{i}. La persona preguntó: {t.get('pregunta', '').strip()}")
+        if t.get("veredicto") or t.get("razonamiento"):
+            lineas.append(f"   La app respondió: {t.get('veredicto', '').strip()}. {t.get('razonamiento', '').strip()}".rstrip())
+    return "<conversacion_previa>\n" + "\n".join(lineas) + "\n</conversacion_previa>\n\n"
+
+
 def mensaje_respuesta(pregunta: str, hechos: list[str], indice_documento: list[str], pasajes_xml: str,
-                      marca: str = MARCA_FIJA) -> str:
+                      marca: str = MARCA_FIJA, turnos: list[dict] | None = None) -> str:
     secciones = "\n".join(f"- {s}" for s in indice_documento)
     lista_hechos = "\n".join(f"- {h}" for h in hechos) or "- (ninguno)"
     return (
@@ -265,6 +306,7 @@ def mensaje_respuesta(pregunta: str, hechos: list[str], indice_documento: list[s
         f"<indice_del_documento>\nSecciones que contiene este documento:\n{secciones}\n</indice_del_documento>\n\n"
         f"<pasajes>\n{pasajes_xml}\n</pasajes>\n"
         f"</datos_{marca}>\n\n"
+        f"{conversacion_previa(turnos or [])}"
         f"<hechos_de_la_pregunta>\n{lista_hechos}\n</hechos_de_la_pregunta>\n\n"
         f"<pregunta>\n{pregunta}\n</pregunta>"
     )

@@ -60,6 +60,7 @@ from ai.referencias import MENSAJE
 from ai.verificacion import partir_primera_oracion, recortar, ubicar_cita, verificar_en_pdf
 
 MIN_VARIANTES, MAX_VARIANTES = 3, 5
+MAX_TURNOS = 3  # turnos anteriores de la conversación que ve cada respuesta
 NORMALIZAR = "0"  # con búsqueda por embeddings no se normaliza; QMC_NORMALIZAR=1 la vuelve a activar
 SIN_NORMALIZACION = {"variantes": [], "titulos": [], "clausulas": [], "articulos": [], "hechos": [],
                      "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"}
@@ -318,12 +319,22 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
                                 "cita": cita["n"]})
 
     cubre, respuesta = crudo["cubre"], crudo["respuesta"].strip()
-    degradado, apertura = False, None
+    degradado, apertura, ajuste = False, None, None
+    # "Cubre con límites" exige un límite concreto escrito en una cita verificada. Sin él, el
+    # veredicto es "cubre": las condiciones generales ya están en "condiciones".
+    pedido = crudo.get("limite") or {}
+    cita_limite = renumerar.get(pedido.get("cita") or 0)
+    limite = ({"descripcion": sin_referencias_ajenas(pedido.get("descripcion", "").strip(), "limite"), "cita": cita_limite}
+              if cubre == "con_limites" and cita_limite and pedido.get("descripcion", "").strip() else None)
+    if cubre == "con_limites" and (limite is None or not limite["descripcion"]):
+        cubre, limite, ajuste = "si", None, "con_limites sin un límite concreto citado"
+        descartes.append({"tipo": "veredicto", "texto": "con_limites", "motivo": ajuste})
+    razonamiento = sin_referencias_ajenas((crudo.get("razonamiento") or "").strip(), "razonamiento")
     if cubre == "fuera_de_alcance":
-        respuesta, citas = FUERA_DE_ALCANCE, []
+        respuesta, citas, razonamiento, limite = FUERA_DE_ALCANCE, [], "", None
         condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
     elif cubre != "no_encontrado" and not citas:
-        cubre, degradado = "no_encontrado", True
+        cubre, degradado, razonamiento, limite = "no_encontrado", True, "", None
         respuesta = f"{NO_ENCONTRADO} No pude respaldar ninguna afirmación con una cita literal del documento."
         condiciones, exclusiones, podrian_aplicar, no_incluido = [], [], [], []
     else:
@@ -340,6 +351,9 @@ def _validar(crudo: dict, pasajes: list[Pasaje], poliza: Poliza, ausentes: list[
         {
             "cubre": cubre,
             "etiqueta_veredicto": ETIQUETA_VEREDICTO[cubre],
+            "razonamiento": razonamiento,
+            "limite": limite,
+            "veredicto_ajustado": ajuste,
             "respuesta": respuesta,
             "apertura_contradictoria": apertura,
             "condiciones": condiciones,
@@ -444,8 +458,11 @@ def _uso(usos: list[Uso], desde_cache: bool) -> dict:
 
 
 def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None, k: int = 5,
-              avance: Callable[[str], None] | None = None) -> dict:
-    """`avance`, si se da, recibe un texto por cada paso (la app lo muestra mientras espera)."""
+              avance: Callable[[str], None] | None = None, turnos: list[dict] | None = None) -> dict:
+    """`avance`, si se da, recibe un texto por cada paso (la app lo muestra mientras espera).
+    `turnos`: los anteriores de la misma conversación (pregunta, veredicto y razonamiento); la
+    búsqueda usa también lo que la persona contó antes y el modelo responde encadenando."""
+    turnos = (turnos or [])[-MAX_TURNOS:]
     proveedor = proveedor or obtener_proveedor()
     usos: list[Uso] = []
     avisar = avance or (lambda _texto: None)
@@ -464,9 +481,10 @@ def responder(pregunta: str, poliza: Poliza, proveedor: Proveedor | None = None,
             return _solo_clausulas(pregunta, poliza, proveedor, None, e, k, usos)
 
     avisar("Buscando en tu póliza las cláusulas que aplican…")
-    pasajes = recuperar_normalizada(poliza.indice, pregunta, norm, k=k)
+    con_lo_anterior = "\n".join([*(t.get("pregunta", "") for t in turnos), pregunta]).strip()
+    pasajes = recuperar_normalizada(poliza.indice, con_lo_anterior, norm, k=k)
     marca = nueva_marca()
-    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes), marca)
+    usuario = mensaje_respuesta(pregunta, norm["hechos"], poliza.secciones, pasajes_xml(pasajes), marca, turnos)
     avisar("Redactando la respuesta: suele tardar entre 5 y 10 segundos…")
     try:
         crudo, uso_r = proveedor.json("respuesta", sistema_respuesta(marca), usuario, ESQUEMA_RESPUESTA)

@@ -82,7 +82,7 @@ def _fecha(texto: str) -> dict | None:
 
 
 def atender(texto: str, poliza: Poliza, proveedor: Proveedor | None = None, aclaraciones: list[dict] | None = None,
-            permitir_otra: Callable[[], bool] | None = None, k: int = 5) -> dict:
+            permitir_otra: Callable[[], bool] | None = None, k: int = 5, turnos: list[dict] | None = None) -> dict:
     """La consulta completa. Devuelve el resultado de `responder` (una pregunta), o
     {"modo": "aclaracion"} con las repreguntas, o {"modo": "varias"} con una respuesta por
     pregunta. `permitir_otra` se llama antes de cada pregunta adicional (tope por dispositivo):
@@ -93,7 +93,8 @@ def atender(texto: str, poliza: Poliza, proveedor: Proveedor | None = None, acla
     uso_triage = uso_t.a_dict() if uso_t else None
     fecha = _fecha(completo)
 
-    if analisis["falta_informacion"] and not aclaraciones:
+    # Con conversación previa no se repregunta: lo que la persona contó antes completa los hechos.
+    if analisis["falta_informacion"] and not aclaraciones and not turnos:
         return {"modo": "aclaracion", "pregunta": texto, "documento": poliza.nombre,
                 "aviso": "Para buscar en tu póliza necesito saber un poco más.",
                 "repreguntas": analisis["repreguntas"], "fecha_hecho": fecha,
@@ -102,7 +103,7 @@ def atender(texto: str, poliza: Poliza, proveedor: Proveedor | None = None, acla
 
     preguntas = analisis["preguntas"] if not aclaraciones or len(analisis["preguntas"]) > 1 else [completo]
     if len(preguntas) == 1:
-        r = responder(preguntas[0], poliza, proveedor, k=k)
+        r = responder(preguntas[0], poliza, proveedor, k=k, turnos=turnos)
         _sumar_triage(r, uso_t)
         return r | {"pregunta": texto, "fecha_hecho": fecha, "triage_error": analisis["error"]}
 
@@ -111,7 +112,7 @@ def atender(texto: str, poliza: Poliza, proveedor: Proveedor | None = None, acla
         if i > 0 and permitir_otra is not None and not permitir_otra():
             sin_responder.append(pregunta)
             continue
-        respuestas.append(responder(pregunta, poliza, proveedor, k=k))
+        respuestas.append(responder(pregunta, poliza, proveedor, k=k, turnos=turnos))
     total = {"llamadas": sum(r["uso"]["llamadas"] for r in respuestas) + (1 if uso_t else 0),
              "costo_usd": round(sum(r["uso"]["costo_usd"] for r in respuestas) + (uso_t.costo_usd if uso_t else 0.0), 6),
              "segundos": round(sum(r["uso"]["segundos"] for r in respuestas) + (uso_t.segundos if uso_t else 0.0), 2),

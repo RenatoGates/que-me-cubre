@@ -3,34 +3,29 @@
   "pregunta": "Me dijeron que me saque una radiografía al llegar a Lima porque allá no tenían la especialidad, ¿eso también me cubre?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes o enfermedades de carácter súbito ocurridos durante el viaje, y los exámenes de diagnóstico están incluidos en esos gastos. La cobertura tiene un límite fijado en las Condiciones Particulares y/o Certificado de Seguro, que no está en este documento, así que conviene pedirlo a tu aseguradora. Además, la radiografía tiene que deberse a un accidente o enfermedad súbita ocurrida durante el viaje para quedar cubierta.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Tu radiografía sería un examen de diagnóstico ordenado durante el viaje, y la cobertura de gastos médicos incluye exámenes de diagnóstico, pero solo si se hace por un accidente o enfermedad de carácter súbito. Los pasajes no dicen nada sobre el lugar específico ni sobre si la radiografía fue ordenada por un médico, así que queda incierto; además, el monto depende de otro documento.",
+  "limite": null,
+  "veredicto_ajustado": "con_limites sin un límite concreto citado",
+  "respuesta": "Según tu póliza, los exámenes médicos y de diagnóstico durante el viaje están dentro de la cobertura de gastos médicos, siempre que la radiografía sea parte de la atención por un accidente o enfermedad de carácter súbito. El monto máximo no está en este documento: se fija en las Condiciones Particulares o el Certificado de Seguro, que deberías pedir a tu aseguradora.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "La cobertura de gastos médicos aplica solo si la radiografía responde a un accidente o enfermedad de carácter súbito ocurrido durante el viaje, y hasta el límite fijado en las Condiciones Particulares y/o Certificado de Seguro.",
+      "descripcion": "La cobertura de gastos médicos aplica solo a gastos ocurridos durante el viaje, por accidentes o enfermedades de carácter súbito, hasta el límite fijado en las Condiciones Particulares y/o Certificado de Seguro.",
       "citas": [
         1
       ]
     },
     {
-      "descripcion": "Solo se cubren como gastos médicos los exámenes de diagnóstico que están dentro de la lista de gastos médicos y hospitalarios de la póliza.",
+      "descripcion": "Se consideran gastos médicos los exámenes médicos y procedimientos de diagnóstico, lo que incluiría una radiografía si se realiza como parte de la atención por una enfermedad o accidente súbito durante el viaje.",
       "citas": [
-        2,
-        3
+        2
       ]
     }
   ],
   "exclusiones_aplicables": [],
-  "podrian_aplicar": [
-    {
-      "descripcion": "Si la radiografía no es por un accidente o una enfermedad de carácter súbito ocurrida durante el viaje, no quedaría dentro de esta cobertura.",
-      "citas": [
-        1
-      ]
-    }
-  ],
+  "podrian_aplicar": [],
   "no_incluido_en_documento": [],
   "citas": [
     {
@@ -42,12 +37,12 @@
       "paginas": [
         16
       ],
-      "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado",
+      "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:",
       "pasaje": "P2",
       "trozo_id": "chubb_viajes_jetsmart:0061",
       "posicion": [
         22,
-        315
+        503
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -71,29 +66,6 @@
       "posicion": [
         1000,
         1194
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 3,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 3° Cobertura (parte 1 de 2)",
-      "pagina": 16,
-      "paginas": [
-        16
-      ],
-      "texto_literal": "Para fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:",
-      "pasaje": "P2",
-      "trozo_id": "chubb_viajes_jetsmart:0061",
-      "posicion": [
-        651,
-        763
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -260,58 +232,55 @@
       {
         "n": 1,
         "pasaje": "P2",
-        "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado"
+        "texto_literal": "El reembolso o pago de gastos médicos y hospitalarios efectuados, en caso de Accidentes o Enfermedades de Carácter Súbito, hasta el límite establecido en las Condiciones Particulares y/o Certificado de Seguro para pólizas grupales, ocurridos durante el Viaje, de acuerdo con el plan contratado, menos cualquier otro monto pagado al ASEGURADO por el mismo accidente o enfermedad bajo esta cobertura y las siguientes en caso se encuentren en el mismo plan adquirido por el ASEGURADO:"
       },
       {
         "n": 2,
         "pasaje": "P2",
         "texto_literal": "d)Exámenes médicos, de laboratorio, procedimientos de diagnóstico o terapéuticos, derecho de hospitalización, incluyendo los insumos utilizados durante la hospitalización, honorarios de médicos."
-      },
-      {
-        "n": 3,
-        "pasaje": "P2",
-        "texto_literal": "Para fines de esta Cláusula Adicional, se entienden por gastos médicos y hospitalarios solamente los siguientes:"
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La cobertura de gastos médicos aplica solo si la radiografía responde a un accidente o enfermedad de carácter súbito ocurrido durante el viaje, y hasta el límite fijado en las Condiciones Particulares y/o Certificado de Seguro.",
+        "descripcion": "La cobertura de gastos médicos aplica solo a gastos ocurridos durante el viaje, por accidentes o enfermedades de carácter súbito, hasta el límite fijado en las Condiciones Particulares y/o Certificado de Seguro.",
         "citas": [
           1
         ]
       },
       {
-        "descripcion": "Solo se cubren como gastos médicos los exámenes de diagnóstico que están dentro de la lista de gastos médicos y hospitalarios de la póliza.",
+        "descripcion": "Se consideran gastos médicos los exámenes médicos y procedimientos de diagnóstico, lo que incluiría una radiografía si se realiza como parte de la atención por una enfermedad o accidente súbito durante el viaje.",
         "citas": [
-          2,
-          3
+          2
         ]
       }
     ],
     "exclusiones_aplicables": [],
-    "podrian_aplicar": [
-      {
-        "descripcion": "Si la radiografía no es por un accidente o una enfermedad de carácter súbito ocurrida durante el viaje, no quedaría dentro de esta cobertura.",
-        "citas": [
-          1
-        ]
-      }
-    ],
+    "podrian_aplicar": [],
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Ahí está fijado el límite de monto para los gastos médicos, que no aparece en este documento.",
+        "por_que_importa": "Ahí se fija el límite de monto de la cobertura de gastos médicos, que no aparece en los pasajes revisados.",
         "cita": 1
       }
     ],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Tu radiografía sería un examen de diagnóstico ordenado durante el viaje, y la cobertura de gastos médicos incluye exámenes de diagnóstico, pero solo si se hace por un accidente o enfermedad de carácter súbito. Los pasajes no dicen nada sobre el lugar específico ni sobre si la radiografía fue ordenada por un médico, así que queda incierto; además, el monto depende de otro documento.",
     "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre gastos médicos y hospitalarios por accidentes o enfermedades de carácter súbito ocurridos durante el viaje, y los exámenes de diagnóstico están incluidos en esos gastos. La cobertura tiene un límite fijado en las Condiciones Particulares y/o Certificado de Seguro, que no está en este documento, así que conviene pedirlo a tu aseguradora. Además, la radiografía tiene que deberse a un accidente o enfermedad súbita ocurrida durante el viaje para quedar cubierta."
+    "respuesta": "Según tu póliza, los exámenes médicos y de diagnóstico durante el viaje están dentro de la cobertura de gastos médicos, siempre que la radiografía sea parte de la atención por un accidente o enfermedad de carácter súbito. El monto máximo no está en este documento: se fija en las Condiciones Particulares o el Certificado de Seguro, que deberías pedir a tu aseguradora."
   },
   "descartes": [
     {
       "tipo": "no_incluido",
       "texto": "Condiciones Particulares y/o Certificado de Seguro",
       "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    },
+    {
+      "tipo": "veredicto",
+      "texto": "con_limites",
+      "motivo": "con_limites sin un límite concreto citado"
     }
   ],
   "proveedor": {
@@ -327,23 +296,24 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 6005,
-        "tokens_salida": 2467,
+        "tokens_entrada": 6992,
+        "tokens_salida": 997,
         "tokens_razonamiento": 0,
-        "segundos": 11.05,
-        "costo_usd": 0.001834
+        "segundos": 4.82,
+        "costo_usd": 0.001198
       }
     ],
-    "tokens": 8472,
-    "costo_usd": 0.001834,
-    "segundos": 11.05
+    "tokens": 7989,
+    "costo_usd": 0.001198,
+    "segundos": 4.82
   },
   "prueba": {
     "id": "P02",
     "poliza": "chubb_viajes_jetsmart",
     "origen": "Caso real (amigo del autor), texto literal",
     "veredictos_aceptables": [
-      "con_limites"
+      "con_limites",
+      "si"
     ],
     "que_deberia_pasar": "No contestar sí o no a la ligera: citar que los gastos cubiertos son los ocurridos durante el viaje y que la protección termina en la fecha de llegada, y avisar que la póliza menciona 'B4 - Continuación de Tratamiento en País de Residencia' pero el texto de esa cláusula no está en el documento: hay que pedírsela a la aseguradora."
   }

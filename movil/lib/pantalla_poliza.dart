@@ -5,11 +5,10 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'api.dart';
 import 'comun.dart';
 import 'estado.dart';
+import 'pantalla_historial.dart';
 import 'resultado.dart';
 import 'tema.dart';
 import 'textos.dart';
-
-const _tarapoto = 'chubb_viajes_jetsmart';
 
 class PantallaPoliza extends StatefulWidget {
   const PantallaPoliza({super.key});
@@ -87,11 +86,16 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
     if (_escuchando) await _voz.stop();
     setState(() => _preguntando = true);
     try {
-      final r = await e.conPoliza((id) => e.api.post('/preguntar', {'poliza_id': id, 'pregunta': texto, 'aclaraciones': aclaraciones ?? []}));
+      final poliza = e.poliza!;
+      final r = await e.conPoliza((id) => e.api.post('/preguntar',
+          {'poliza_id': id, 'pregunta': texto, 'aclaraciones': aclaraciones ?? [], 'turnos': e.turnos(poliza)}));
+      final resultado = Map<String, dynamic>.from(r as Map);
+      e.registrarRespuesta(poliza, resultado);
       setState(() {
-        _resultado = Map<String, dynamic>.from(r as Map);
-        _resultadoDe = e.poliza!.id;
-        _aclaraciones = [for (final _ in (_resultado!['repreguntas'] as List? ?? [])) TextEditingController()];
+        _resultado = resultado;
+        _resultadoDe = poliza.id;
+        _aclaraciones = [for (final _ in (resultado['repreguntas'] as List? ?? [])) TextEditingController()];
+        if (aclaraciones == null) _pregunta.clear(); // la pregunta enviada no se queda en el campo
       });
     } on ErrorApi catch (err) {
       if (mounted) {
@@ -111,7 +115,7 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
           content: Text(err.mensaje),
           actions: [
             if (err.mensaje.contains('Mi cuenta'))
-              FilledButton(onPressed: () { Navigator.pop(context); e.irA(2); }, child: const Text('Ir a Mi cuenta')),
+              FilledButton(onPressed: () { Navigator.pop(context); e.irA(Estado.pestanaCuenta); }, child: const Text('Ir a Mi cuenta')),
             TextButton(onPressed: () => Navigator.pop(context), child: const Text('Entendido')),
           ],
         ),
@@ -123,8 +127,9 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
     final p = estado.poliza;
     final ancho = MediaQuery.sizeOf(context).width;
     final columnas = ancho > 900;
+    final conResultado = !_preguntando && _resultado != null && _resultadoDe == p?.id;
     final izquierda = <Widget>[
-      _Encabezado(),
+      const _Encabezado(),
       const SizedBox(height: 16),
       _tarjetaPoliza(estado),
       const SizedBox(height: 16),
@@ -132,10 +137,18 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
     ];
     final derecha = <Widget>[
       if (_preguntando) const Tarjeta(child: Cargando('Buscando en tu póliza y verificando cada cita…')),
-      if (!_preguntando && _resultado != null && _resultadoDe == p?.id) ...[
+      if (conResultado) ...[
         _tarjetaResultado(),
-        if (_resultado!['modo'] != 'aclaracion') ...[const SizedBox(height: 16), _QueHacerAhora(situacion: '${_resultado!['pregunta']}',
+        if (_resultado!['modo'] != 'aclaracion') ...[const SizedBox(height: 16), _QueHacerAhora(
+            key: ValueKey(_resultado!['ref']), situacion: '${_resultado!['pregunta']}', ref: _resultado!['ref'] as String?,
             fecha: (_resultado!['fecha_hecho'] as Map?)?['fecha'] as String?)],
+      ],
+      if (p != null && estado.conversacion(p).length > 1) ...[
+        const SizedBox(height: 16),
+        _Conversacion(poliza: p, alEmpezarOtra: () {
+          estado.nuevaConversacion(p);
+          _limpiarResultado();
+        }),
       ],
       if (p != null) ...[const SizedBox(height: 16), const _Radiografia()],
       if (!_preguntando && _resultado == null) ...[
@@ -149,7 +162,13 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
       return SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: Column(children: [...izquierda, const SizedBox(height: 16), ...derecha]),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 760),
+              child: Column(children: [...izquierda, const SizedBox(height: 16), ...derecha, const SizedBox(height: 16),
+                  const _DescargoInicio()]),
+            ),
+          ),
         ),
       );
     }
@@ -159,7 +178,8 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1400),
           child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Expanded(flex: 5, child: SingleChildScrollView(padding: const EdgeInsets.fromLTRB(32, 16, 12, 16), child: Column(children: izquierda))),
+            Expanded(flex: 5, child: SingleChildScrollView(padding: const EdgeInsets.fromLTRB(32, 16, 12, 16),
+                child: Column(children: [...izquierda, const SizedBox(height: 16), const _DescargoInicio()]))),
             Expanded(flex: 6, child: SingleChildScrollView(padding: const EdgeInsets.fromLTRB(12, 16, 32, 16), child: Column(children: derecha))),
           ]),
         ),
@@ -220,9 +240,7 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
                 titulo: '${g['nombre']}',
                 fecha: g['borrado_automatico'] as String?,
                 alTocar: () {
-                  estado.elegir(PolizaActual(id: '${g['poliza_id']}', nombre: '${g['nombre']}', tipo: 'guardada',
-                      documento: g['sha256'] as String?, paginas: g['paginas'] as int?, borradoAutomatico: g['borrado_automatico'] as String?,
-                      archivos: List<Map<String, dynamic>>.from(g['archivos'] ?? const [])));
+                  estado.elegir(polizaGuardada(g));
                   _limpiarResultado();
                 },
               ),
@@ -247,14 +265,15 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
   }
 
   Widget _tarjetaPregunta(Estado estado) {
-    final ejemplos = estado.poliza?.id == _tarapoto
-        ? [for (final f in estado.ejemplos.where((f) => f['poliza_id'] == _tarapoto)) ...(f['ejemplos'] as List).cast<String>()]
-            .where((q) => q.contains('Tarapoto') || q.contains('al llegar a Lima'))
-            .toList()
-        : <String>[];
+    final p = estado.poliza;
+    final enConversacion = p != null && estado.conversacion(p).isNotEmpty;
     return Tarjeta(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Titulo('Tu pregunta', icono: Icons.forum_rounded),
+        Titulo(enConversacion ? 'Sigue la conversación' : 'Tu pregunta', icono: Icons.forum_rounded),
+        const Padding(
+          padding: EdgeInsets.only(left: 32, top: 2),
+          child: Text(Textos.masDetalles, style: TextStyle(color: Paleta.textoSecundario)),
+        ),
         const SizedBox(height: 14),
         TextField(
           controller: _pregunta,
@@ -281,8 +300,6 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
             child: Semantics(liveRegion: true, child: const Text('Escuchando… cuando termines, revisa el texto y toca Preguntar.',
                 style: TextStyle(color: Paleta.accion))),
           ),
-        const SizedBox(height: 8),
-        const Text('Puedes hacer varias preguntas en el mismo texto.', style: TextStyle(color: Paleta.textoSecundario, fontSize: 13.5)),
         const SizedBox(height: 14),
         FilledButton.icon(
           onPressed: _preguntando ? null : () => _preguntar(),
@@ -290,26 +307,13 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
           label: const Text('Preguntar'),
           style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(54)),
         ),
-        if (ejemplos.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          const Text('Prueba con un ejemplo:', style: TextStyle(color: Paleta.textoSecundario)),
-          for (final q in ejemplos)
-            TextButton(
-              style: TextButton.styleFrom(alignment: Alignment.centerLeft, padding: const EdgeInsets.symmetric(vertical: 8)),
-              onPressed: () {
-                _pregunta.text = q;
-                _preguntar();
-              },
-              child: Text(q, style: const TextStyle(decoration: TextDecoration.underline, decorationColor: Paleta.accion)),
-            ),
-        ],
       ]),
     );
   }
 
   Widget _tarjetaResultado() {
     final r = _resultado!;
-    final archivos = e.poliza?.archivos ?? const [];
+    final poliza = e.poliza;
     final cuerpo = <Widget>[Text('Pregunta: ${r['pregunta']}', style: const TextStyle(color: Paleta.textoSecundario)), const SizedBox(height: 14)];
     if (r['modo'] == 'aclaracion') {
       cuerpo.addAll([
@@ -336,55 +340,84 @@ class _PantallaPolizaState extends State<PantallaPoliza> {
           const SizedBox(height: 22),
           Semantics(header: true, child: Text('Pregunta ${i + 1}: ${sub['pregunta']}', style: Theme.of(context).textTheme.titleMedium)),
           const SizedBox(height: 10),
-          VistaRespuesta(Map<String, dynamic>.from(sub as Map), archivos),
+          VistaRespuesta(Map<String, dynamic>.from(sub as Map), poliza),
         ],
         for (final q in (r['sin_responder'] as List? ?? []))
           Padding(padding: const EdgeInsets.only(top: 12), child: Aviso('No respondí «$q»: alcanzaste el límite de consultas de tu plan.')),
       ]);
     } else {
-      cuerpo.add(VistaRespuesta(r, archivos));
+      cuerpo.add(VistaRespuesta(r, poliza));
     }
     return Tarjeta(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: cuerpo));
   }
 }
 
 class _Encabezado extends StatelessWidget {
+  const _Encabezado();
+
   @override
-  Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(22),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          gradient: const LinearGradient(colors: [Color(0xFF16304A), Paleta.superficie], begin: Alignment.topLeft, end: Alignment.bottomRight),
-          border: Border.all(color: Paleta.borde),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset('assets/icono_512.png', width: 64, height: 64, semanticLabel: 'Logo de ¿Qué Cubre?'),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Semantics(header: true, child: Text(Textos.nombre, style: Theme.of(context).textTheme.headlineMedium)),
-                const Text('Pregunta en tus palabras. Te respondo con la cláusula exacta y su página.',
-                    style: TextStyle(color: Paleta.textoSecundario, fontSize: 15)),
-              ]),
-            ),
-          ]),
-          const SizedBox(height: 18),
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(color: Paleta.fondo, borderRadius: BorderRadius.circular(14), border: Border.all(color: Paleta.parcial)),
-            child: const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              ExcludeSemantics(child: Icon(Icons.gavel_rounded, color: Paleta.parcial)),
-              SizedBox(width: 10),
-              Expanded(child: Text(Textos.descargoInicio, style: TextStyle(fontSize: 15, height: 1.45))),
+  Widget build(BuildContext context) => Tarjeta(
+        child: Row(children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset('assets/icono_512.png', width: 64, height: 64, semanticLabel: 'Logo de ¿Qué Cubre?'),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Semantics(header: true, child: Text(Textos.nombre, style: Theme.of(context).textTheme.headlineMedium)),
+              const Text('Pregunta en tus palabras. Te respondo con la cláusula exacta y su página.',
+                  style: TextStyle(color: Paleta.textoSecundario, fontSize: 15)),
             ]),
           ),
         ]),
       );
+}
+
+/// El descargo de la pantalla de inicio: al final, en letra grande.
+class _DescargoInicio extends StatelessWidget {
+  const _DescargoInicio();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(color: Paleta.superficie, borderRadius: BorderRadius.circular(20), border: Border.all(color: Paleta.parcial, width: 1.4)),
+        child: const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ExcludeSemantics(child: Icon(Icons.gavel_rounded, color: Paleta.parcial, size: 28)),
+          SizedBox(width: 14),
+          Expanded(child: Text(Textos.descargoInicio, style: TextStyle(fontSize: 17.5, height: 1.5, color: Paleta.texto))),
+        ]),
+      );
+}
+
+/// Lo que se preguntó antes en esta conversación (sin la última respuesta, que está arriba).
+class _Conversacion extends StatelessWidget {
+  const _Conversacion({required this.poliza, required this.alEmpezarOtra});
+  final PolizaActual poliza;
+  final VoidCallback alEmpezarOtra;
+
+  @override
+  Widget build(BuildContext context) {
+    final e = EstadoScope.of(context);
+    final anteriores = e.conversacion(poliza).reversed.skip(1).toList();
+    return Tarjeta(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Titulo('Antes en esta conversación', icono: Icons.history_rounded),
+        const SizedBox(height: 4),
+        const Padding(
+          padding: EdgeInsets.only(left: 32),
+          child: Text('Tu próxima pregunta tiene en cuenta lo que contaste aquí.', style: TextStyle(color: Paleta.textoSecundario)),
+        ),
+        const SizedBox(height: 8),
+        for (final r in anteriores) FilaRespuesta(r, alTocar: () => abrirRespuesta(context, r, poliza)),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(onPressed: alEmpezarOtra, icon: const Icon(Icons.add_comment_outlined), label: const Text('Empezar una conversación nueva')),
+        ),
+      ]),
+    );
+  }
 }
 
 class _ComoFunciona extends StatelessWidget {
@@ -444,12 +477,6 @@ class _Ideas extends StatelessWidget {
                 onPressed: () => alElegir(texto),
                 tooltip: 'Usar esta pregunta',
               ),
-          ]),
-          const SizedBox(height: 16),
-          const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            ExcludeSemantics(child: Icon(Icons.lock_rounded, color: Paleta.textoSecundario, size: 20)),
-            SizedBox(width: 10),
-            Expanded(child: Text(Textos.privacidadCorta, style: TextStyle(color: Paleta.textoSecundario, fontSize: 14))),
           ]),
         ]),
       );
@@ -540,9 +567,10 @@ class _GuardarEnCuentaState extends State<_GuardarEnCuenta> {
 }
 
 class _QueHacerAhora extends StatefulWidget {
-  const _QueHacerAhora({required this.situacion, this.fecha});
+  const _QueHacerAhora({super.key, required this.situacion, this.fecha, this.ref});
   final String situacion;
   final String? fecha;
+  final String? ref; // firma de la respuesta: sobre ella, los pasos no cuentan como consulta
 
   @override
   State<_QueHacerAhora> createState() => _QueHacerAhoraState();
@@ -589,6 +617,7 @@ class _QueHacerAhoraState extends State<_QueHacerAhora> {
                       final r = await e.conPoliza((id) => e.api.post('/pasos', {
                             'poliza_id': id,
                             'situacion': widget.situacion,
+                            'ref': widget.ref ?? '',
                             'fecha_hecho': f == null ? null : '${f.year}-${f.month.toString().padLeft(2, '0')}-${f.day.toString().padLeft(2, '0')}',
                           }));
                       setState(() => _pasos = Map<String, dynamic>.from(r as Map));
@@ -602,7 +631,7 @@ class _QueHacerAhoraState extends State<_QueHacerAhora> {
           ),
         ]),
         if (_cargando) const Cargando('Buscando en tu póliza cómo se reclama…'),
-        if (_pasos != null) ...[const SizedBox(height: 16), VistaPasos(_pasos!, e.poliza?.archivos ?? const [])],
+        if (_pasos != null) ...[const SizedBox(height: 16), VistaPasos(_pasos!, e.poliza)],
       ]),
     );
   }
@@ -649,13 +678,13 @@ class _RadiografiaState extends State<_Radiografia> {
         const Text('Qué cubre y hasta cuánto, exclusiones, deducibles y carencias.', style: TextStyle(color: Paleta.textoSecundario)),
         const SizedBox(height: 14),
         if (_r != null)
-          VistaRadiografia(_r!, p.archivos)
+          VistaRadiografia(_r!, p)
         else if (_cargando)
           const Cargando('Leyendo tu póliza: la primera vez tarda unos segundos…')
         else if (acceso == 'sin_cuenta')
-          Bloqueada(texto: 'Crea una cuenta gratis para ver una radiografía', alTocar: () => e.irA(2))
+          Bloqueada(texto: 'Crea una cuenta gratis para ver una radiografía', alTocar: () => e.irA(Estado.pestanaCuenta))
         else if (acceso == 'bloqueada')
-          Bloqueada(texto: '${Textos.botonPremium} para ver la radiografía de todas tus pólizas', alTocar: () => e.irA(2))
+          Bloqueada(texto: '${Textos.botonPremium} para ver la radiografía de todas tus pólizas', alTocar: () => e.irA(Estado.pestanaCuenta))
         else
           FilledButton.icon(
             onPressed: () async {

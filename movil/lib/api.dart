@@ -42,6 +42,18 @@ class Api {
   Future<dynamic> get(String ruta, {Map<String, String>? params}) =>
       _enviar(() => _http.get(_ruta(ruta, params), headers: _cabeceras));
 
+  /// Un archivo (el PDF de un condicionado de ejemplo).
+  Future<Uint8List> getBytes(String ruta) async {
+    final http.Response r;
+    try {
+      r = await _http.get(_ruta(ruta), headers: _cabeceras).timeout(_espera);
+    } on Exception {
+      throw ErrorApi(Textos.sinConexion);
+    }
+    if (r.statusCode >= 400) throw ErrorApi('No pude abrir el documento.', status: r.statusCode);
+    return r.bodyBytes;
+  }
+
   Future<dynamic> post(String ruta, [Object? cuerpo]) => _enviar(() => _http.post(_ruta(ruta),
       headers: {..._cabeceras, 'Content-Type': 'application/json'}, body: jsonEncode(cuerpo ?? {})));
 

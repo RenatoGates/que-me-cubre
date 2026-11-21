@@ -1,0 +1,235 @@
+{
+  "modo": "completo",
+  "pregunta": "Si durante el viaje el médico me pide una radiografía, ¿Rimac la cubre?",
+  "documento": "Rimac Seguros · Seguro de Viaje",
+  "aviso": null,
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Una radiografía indicada por el médico durante un accidente o enfermedad está listada como examen complementario que La COMPAÑÍA se hace cargo, siempre que la indique su Departamento Médico. No mencionaste si el problema es un accidente o una enfermedad, pero ambos casos están contemplados en los pasajes.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "Tu póliza cubre las radiografías como examen médico complementario, siempre que la ordene el Departamento Médico de la Central de Asistencia hasta determinar un diagnóstico. Esto aplica por una enfermedad o accidente, durante el viaje.",
+  "apertura_contradictoria": null,
+  "condiciones": [
+    {
+      "descripcion": "La radiografía debe ser ordenada por los médicos de La COMPAÑÍA (Departamento Médico de la Central de Asistencia) hasta determinar un diagnóstico.",
+      "citas": [
+        1,
+        2
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+      "pagina": 6,
+      "paginas": [
+        6
+      ],
+      "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico.",
+      "pasaje": "P1",
+      "trozo_id": "rimac_viajes:0040",
+      "posicion": [
+        37,
+        333
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Rimac Seguros · Seguro de Viaje",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad (parte 1 de 2)",
+      "pagina": 5,
+      "paginas": [
+        5
+      ],
+      "texto_literal": "C. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.",
+      "pasaje": "P2",
+      "trozo_id": "rimac_viajes:0035",
+      "posicion": [
+        534,
+        648
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [],
+  "secciones_revisadas": [
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.6. Traslados médicos de emergencia por recomenda",
+    "Condicionado General de la Póliza › ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "rimac_viajes:0040",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.5. Exámenes de ayuda al diagnóstico",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.5 Exámenes de ayuda al diagnóstico\nEn caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "rimac_viajes:0035",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+      "parte": [
+        1,
+        2
+      ],
+      "paginas": [
+        5
+      ],
+      "texto": "9.1 Asistencia médica por accidente y por Enfermedad\nA. Consultas médicas: Se prestarán en caso de accidente o enfermedad aguda e imprevista, incluyendo la opción de repatriación del ASEGURADO a su país de origen si su estado de salud lo permite. La Central de Asistencia se reserva el derecho de decidir el más adecuado de entre los tratamientos propuestos por el Departamento Médico.\nB. Atención por especialistas: Cuando sea indicada por el Departamento Médico de la Central de Asistencia del área donde se encuentre el ASEGURADO.\nC. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia.\nD. Internaciones: De acuerdo a la naturaleza de la lesión o enfermedad, y siempre que el Departamento Médico de la Central de Asistencia así lo prescriba, se procederá a la internación del ASEGURADO en el Centro Hospitalario más próximo al lugar donde éste se encuentre."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "rimac_viajes:0036",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.1. Asistencia médica por accidente y por Enfermedad",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        5
+      ],
+      "texto": "E. Intervenciones quirúrgicas: Cuando sean autorizadas por el Departamento Médico de la Central de Asistencia y en los casos de emergencia que requieran en forma inmediata este tratamiento, y que no puedan ser diferidas hasta el retorno del ASEGURADO a su país de origen. Si a juicio del Departamento Médico de la Central de Asistencia fuese posible el regreso al país de origen para sufrir en él, el tratamiento quirúrgico necesario, se procederá a la repatriación del ASEGURADO, quien está obligado a aceptar tal solución, perdiendo en caso de rechazo, todos los beneficios consignados en la Póliza."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "rimac_viajes:0041",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.6. Traslados médicos de emergencia por recomenda",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.6 Traslados médicos de emergencia por recomenda\nción médica En caso de emergencia, La COMPAÑÍA organizará el traslado al centro asistencial más próximo para que el beneficiario herido o enfermo reciba atención médica.\nEn caso que el médico tratante aconseje el traslado a otro centro asistencial más adecuado, previa autorización del Departamento Médico de La COMPAÑÍA, se procederá a la organización del mismo. Únicamente razones de índole médica, evaluadas a criterio exclusivo del Departamento Médico de La COMPAÑÍA, serán tomadas en cuenta para decidir la procedencia y/o urgencia del traslado del Beneficiario. Si el Beneficiario y/o sus acompañantes decidieran efectuar el traslado, dejando de lado la opinión del Departamento Médico de La COMPAÑÍA, ninguna responsabilidad recaerá sobre La COMPAÑÍA por dicha actitud, siendo el traslado y sus consecuencias por cuenta y riesgo del beneficiario y/o sus acompañantes. Este servicio está incluido en el límite de gastos médicos u hospitalarios por accidente o enfermedad."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "rimac_viajes:0044",
+      "seccion": "Condicionado General de la Póliza",
+      "articulo": "ARTÍCULO 9º.- GASTOS CUBIERTOS BAJO EL MONTO MÁXIMO GARANTIZADO › 9.9. Desplazamiento de acompañante",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        6
+      ],
+      "texto": "9.9 Desplazamiento de acompañante\nSi como consecuencia de un accidente o enfermedad (no crónica, ni preexistente) ocurridos durante un viaje y durante la vigencia del contrato; el ASEGURADO se encontrase sin acompañante y como producto de su recuperación, fuera recomendable por el profesional médico la presencia de un familiar del ASEGURADO, LA COMPAÑÍA gestionará y cubrirá el costo de los gastos de transporte que requiera el familiar del Titular y/o Cliente para que acompañe a éste en el lugar donde se esté recuperando siempre y cuando su recuperación tome más de cinco (05) días."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
+  },
+  "busqueda": "emb_pregunta",
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P1",
+        "texto_literal": "En caso de enfermedad o accidente del ASEGURADO, La COMPAÑÍA se hará cargo de los exámenes médicos complementarios, tales como: Análisis de orina, sangre, radiografías, electrocardiograma, y/o cualquier otro estudio que sea ordenado por los médicos de La COMPAÑÍA hasta determinar un diagnóstico."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "C. Exámenes médicos complementarios: Cuando sean indicados por el Departamento Médico de la Central de Asistencia."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La radiografía debe ser ordenada por los médicos de La COMPAÑÍA (Departamento Médico de la Central de Asistencia) hasta determinar un diagnóstico.",
+        "citas": [
+          1,
+          2
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [],
+    "no_incluido_en_documento": [],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Una radiografía indicada por el médico durante un accidente o enfermedad está listada como examen complementario que La COMPAÑÍA se hace cargo, siempre que la indique su Departamento Médico. No mencionaste si el problema es un accidente o una enfermedad, pero ambos casos están contemplados en los pasajes.",
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre las radiografías como examen médico complementario, siempre que la ordene el Departamento Médico de la Central de Asistencia hasta determinar un diagnóstico. Esto aplica por una enfermedad o accidente, durante el viaje."
+  },
+  "descartes": [],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": false,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 6649,
+        "tokens_salida": 598,
+        "tokens_razonamiento": 0,
+        "segundos": 3.31,
+        "costo_usd": 0.000964
+      }
+    ],
+    "tokens": 7247,
+    "costo_usd": 0.000964,
+    "segundos": 3.31
+  },
+  "prueba": {
+    "id": "P10",
+    "poliza": "rimac_viajes",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "si",
+      "con_limites"
+    ],
+    "que_deberia_pasar": "Citar el numeral 9.5 Exámenes de ayuda al diagnóstico del Artículo 9° (póliza a dos columnas)."
+  }
+}

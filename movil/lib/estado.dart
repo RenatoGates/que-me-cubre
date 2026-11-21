@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import 'api.dart';
@@ -24,7 +27,27 @@ class PolizaActual {
   final List<(String, Uint8List)>? bytes; // para volver a subirla si el servidor la olvidó
 
   bool get esEjemplo => tipo == 'ejemplo';
+
+  /// La conversación es de este documento: si la póliza se vuelve a subir, sigue la misma.
+  String get conversacionId => documento ?? id;
 }
+
+/// Una póliza guardada en la cuenta, tal como la devuelve /cuenta.
+PolizaActual polizaGuardada(Map<String, dynamic> g) => PolizaActual(id: '${g['poliza_id']}', nombre: '${g['nombre']}', tipo: 'guardada',
+    documento: g['sha256'] as String?, paginas: g['paginas'] as int?, borradoAutomatico: g['borrado_automatico'] as String?,
+    archivos: List<Map<String, dynamic>>.from(g['archivos'] ?? const []));
+
+/// Una respuesta de esta sesión: se puede volver a leer completa sin que cueste una consulta.
+class EntradaHistorial {
+  EntradaHistorial(this.respuesta, this.poliza, this.hora);
+  final Map<String, dynamic> respuesta;
+  final PolizaActual poliza;
+  final DateTime hora;
+}
+
+/// La huella de un conjunto de PDF, igual que la calcula el backend (ai/subida.py, `huella`).
+String huellaDe(List<Uint8List> archivos) =>
+    sha256.convert([for (final a in archivos) ...sha256.convert(a).bytes]).toString();
 
 class Estado extends ChangeNotifier {
   static const _guardado = FlutterSecureStorage();
@@ -39,6 +62,11 @@ class Estado extends ChangeNotifier {
   String? _tokenGooglePendiente; // cuenta nueva con Google: espera la casilla de privacidad
 
   int pestana = 0;
+  static const pestanaPoliza = 0, pestanaHistorial = 1, pestanaMapa = 2, pestanaCuenta = 3;
+  static const maxTurnos = 3; // turnos anteriores que ve cada respuesta (el backend también corta en 3)
+  final Map<String, List<Map<String, dynamic>>> _conversaciones = {};
+  final List<EntradaHistorial> sesion = [];
+  final Map<String, List<(String, Uint8List)>> _pdfs = {}; // en memoria; los de pólizas guardadas, también en el teléfono
 
   void irA(int i) {
     pestana = i;
@@ -48,7 +76,7 @@ class Estado extends ChangeNotifier {
   bool get conCuenta => cuenta != null;
   bool get premium => cuenta?['plan'] == 'pagado';
   bool get cuentasDisponibles => config['cuentas_disponibles'] == true;
-  String get politica => '${config['politica_privacidad'] ?? 'https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md'}';
+  String get politica => '${config['politica_privacidad'] ?? 'https://renatogates.github.io/que-me-cubre/privacidad.html'}';
   List<Map<String, dynamic>> get guardadas => List<Map<String, dynamic>>.from(cuenta?['polizas'] ?? const []);
 
   Future<void> iniciar() async {
@@ -132,6 +160,7 @@ class Estado extends ChangeNotifier {
     }
     if (_googleListo) await GoogleSignIn.instance.signOut();
     await _olvidarSesion();
+    await _olvidarLoDeLaCuenta();
     notifyListeners();
   }
 
@@ -139,7 +168,21 @@ class Estado extends ChangeNotifier {
     await api.delete('/cuenta', {'clave': clave});
     if (_googleListo) await GoogleSignIn.instance.signOut();
     await _olvidarSesion();
+    await _olvidarLoDeLaCuenta();
     notifyListeners();
+  }
+
+  /// Al salir o borrar la cuenta: las copias locales de los PDF y lo de esta sesión sobre pólizas guardadas.
+  Future<void> _olvidarLoDeLaCuenta() async {
+    sesion.removeWhere((h) => h.poliza.tipo == 'guardada');
+    _pdfs.clear();
+    if (poliza?.tipo == 'guardada') poliza = null;
+    try {
+      final carpeta = Directory('${(await getApplicationDocumentsDirectory()).path}/polizas');
+      if (await carpeta.exists()) await carpeta.delete(recursive: true);
+    } on Exception {
+      // sin carpeta o sin acceso: no hay nada que borrar
+    }
   }
 
   void elegir(PolizaActual? p) {
@@ -175,4 +218,77 @@ class Estado extends ChangeNotifier {
     await refrescarCuenta();
     return r['borrado_automatico'] as String?;
   }
+
+  // --- Conversación e historial de la sesión ---
+
+  List<Map<String, dynamic>> conversacion(PolizaActual p) => _conversaciones[p.conversacionId] ?? const [];
+
+  /// Los últimos turnos de la conversación sobre esta póliza, en la forma que pide el backend.
+  List<Map<String, String>> turnos(PolizaActual p) => [
+        for (final r in conversacion(p).reversed.take(maxTurnos).toList().reversed)
+          {'pregunta': '${r['pregunta'] ?? ''}', 'veredicto': '${r['etiqueta_veredicto'] ?? ''}', 'razonamiento': '${r['razonamiento'] ?? ''}'}
+      ];
+
+  void registrarRespuesta(PolizaActual p, Map<String, dynamic> r) {
+    if (r['modo'] == 'aclaracion') return;
+    for (final sub in r['modo'] == 'varias' ? (r['respuestas'] as List) : [r]) {
+      _conversaciones.putIfAbsent(p.conversacionId, () => []).add(Map<String, dynamic>.from(sub as Map));
+    }
+    sesion.insert(0, EntradaHistorial(r, p, DateTime.now()));
+    notifyListeners();
+  }
+
+  void nuevaConversacion(PolizaActual p) {
+    _conversaciones.remove(p.conversacionId);
+    notifyListeners();
+  }
+
+  // --- El PDF de la póliza, para abrirlo en la página de una cita. Nunca sale del teléfono. ---
+
+  Future<File> _archivoLocal(String polizaId, int i) async =>
+      File('${(await getApplicationDocumentsDirectory()).path}/polizas/${polizaId}_$i.pdf');
+
+  /// Los PDF de la póliza si ya están en el teléfono (o, si es un ejemplo, descargados del
+  /// servidor: son públicos). null si hace falta que la persona elija su PDF.
+  Future<List<(String, Uint8List)>?> pdfDe(PolizaActual p) async {
+    if (p.bytes != null) return p.bytes;
+    if (_pdfs[p.id] != null) return _pdfs[p.id];
+    if (p.esEjemplo) {
+      final datos = await api.getBytes('/polizas/${p.id}/pdf');
+      return _pdfs[p.id] = [('${p.id}.pdf', datos)];
+    }
+    final copias = <(String, Uint8List)>[];
+    for (var i = 0;; i++) {
+      final f = await _archivoLocal(p.id, i);
+      if (!await f.exists()) break;
+      copias.add(('${p.nombre} ($i)', await f.readAsBytes()));
+    }
+    if (copias.isNotEmpty && (p.documento == null || huellaDe([for (final c in copias) c.$2]) == p.documento)) {
+      return _pdfs[p.id] = copias;
+    }
+    return null;
+  }
+
+  /// La persona eligió su PDF para una póliza guardada: se comprueba que sea el mismo documento y
+  /// se guarda una copia solo en el teléfono, para no pedírselo otra vez.
+  Future<bool> recordarPdf(PolizaActual p, List<(String, Uint8List)> archivos) async {
+    if (p.documento != null && huellaDe([for (final a in archivos) a.$2]) != p.documento) return false;
+    for (final (i, a) in archivos.indexed) {
+      final f = await _archivoLocal(p.id, i);
+      await f.parent.create(recursive: true);
+      await f.writeAsBytes(a.$2, flush: true);
+    }
+    _pdfs[p.id] = archivos;
+    return true;
+  }
+
+  Future<void> olvidarPdfLocal(String polizaId) async {
+    _pdfs.remove(polizaId);
+    for (var i = 0;; i++) {
+      final f = await _archivoLocal(polizaId, i);
+      if (!await f.exists()) break;
+      await f.delete();
+    }
+  }
+
 }

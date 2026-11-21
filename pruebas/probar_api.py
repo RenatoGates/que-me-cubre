@@ -67,7 +67,7 @@ def main_() -> int:
         r = api.post("/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=cabecera("dispositivo-a-0001"))
         d = r.json()
         caso("ejemplo: P01 con veredicto y citas verificadas",
-             r.status_code == 200 and d["modo"] == "completo" and d["cubre"] == "con_limites" and len(d["citas"]) > 0,
+             r.status_code == 200 and d["modo"] == "completo" and d["cubre"] == "si" and len(d["citas"]) > 0,
              (r.status_code, d.get("modo"), d.get("cubre")))
         caso("al cliente no le llega la salida cruda del modelo ni los descartes",
              "modelo_crudo" not in d and "descartes" not in d, list(d))

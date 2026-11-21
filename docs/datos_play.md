@@ -9,7 +9,7 @@ app hace hoy (ver [`privacidad.md`](privacidad.md)); si algo cambia, se actualiz
   para fines propios de ellos (Anthropic, Voyage AI y Google procesan datos por encargo de la app).
 - **¿Los datos se cifran en tránsito?** Sí (HTTPS).
 - **¿El usuario puede pedir que se borren?** Sí, dentro de la app: «Mi cuenta → Borrar mi cuenta y todo».
-- **Política de privacidad:** https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md
+- **Política de privacidad:** https://renatogates.github.io/que-me-cubre/privacidad.html
 
 ## Tipos de datos
 

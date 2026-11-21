@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad de ¿Qué Cubre?</title>
+<meta name="description" content="Qué datos guarda ¿Qué Cubre?, dónde, cuánto tiempo y cómo borrarlos.">
+<link rel="icon" href="icono.png">
+<style>
+:root { --fondo:#FBF7F2; --tarjeta:#FFFFFF; --borde:#E8DFD4; --texto:#2E2620; --secundario:#7A6E62;
+        --primario:#2D6BE5; --cita:#F3EDE4; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--texto);
+       font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+header { background: var(--primario); color: #FFFFFF; padding: 28px 16px; }
+header .ancho { display: flex; gap: 16px; align-items: center; }
+header img { width: 64px; height: 64px; border-radius: 16px; background: #FFFFFF; flex: none; }
+header h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; }
+header p { margin: 4px 0 0; font-weight: 600; }
+.ancho { max-width: 760px; margin: 0 auto; }
+main { padding: 24px 16px 48px; }
+article { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 20px; padding: 8px 28px 24px; }
+h2 { font-size: 1.3rem; margin: 28px 0 8px; }
+h3 { font-size: 1.1rem; margin: 22px 0 6px; }
+p, li { margin: 0 0 10px; }
+ul { padding-left: 1.3rem; margin: 0 0 12px; }
+a { color: var(--primario); font-weight: 600; text-underline-offset: 2px; overflow-wrap: anywhere; }
+strong { font-weight: 700; }
+article > p:first-of-type { background: var(--cita); border-left: 4px solid var(--primario); padding: 10px 14px; }
+footer { color: var(--secundario); font-size: .95rem; text-align: center; padding: 0 16px 32px; }
+@media (max-width: 520px) { article { padding: 4px 16px 16px; border-radius: 16px; } header h1 { font-size: 1.4rem; } }
+</style>
+</head>
+<body>
+<header><div class="ancho"><img src="icono.png" alt=""><div><h1>Política de privacidad de ¿Qué Cubre?</h1>
+<p>Tu póliza, en tus palabras, con la cláusula exacta.</p></div></div></header>
+<main><div class="ancho"><article>
+<p>Versión del 20 de noviembre de 2026. Describe lo que la app hace hoy. Si algo cambia, cambia este documento antes.</p>
+<h2>En una frase</h2>
+<p>Sin cuenta, la app no guarda nada tuyo. Con cuenta, guarda el texto de tu póliza y tus últimas consultas, cifrados, y quien administra la app podría leerlos.</p>
+<h2>Si usas la app sin cuenta</h2>
+<ul><li>El PDF que subes se procesa en la memoria del servidor. No se escribe en disco ni en registros, y se borra de la memoria tras 60 minutos sin uso, cuando lo pides o cuando el servidor se reinicia.</li><li>No se guarda tu pregunta ni la respuesta en el servidor. En la app de Android, las respuestas de la sesión quedan en la memoria del teléfono para que puedas volver a leerlas en "Historial", y se borran al cerrar la app.</li><li>Para contar cuántas consultas haces (3 al día y 10 al mes) se guarda un código derivado del identificador de tu dispositivo y otro de tu dirección IP, no los valores originales. El de la IP cambia cada día.</li></ul>
+<h2>Si creas una cuenta</h2>
+<p>Se guarda, hasta que lo borres:</p>
+<ul><li>Tu correo.</li><li>Si entras con correo y contraseña: tu contraseña, transformada (hash scrypt), que no se puede leer.</li><li>Si entras con Google: el identificador de tu cuenta de Google. La app pide a Google solo tu correo, tu nombre y tu foto (alcances openid, email y profile); el nombre y la foto no se guardan.</li><li>La fecha en que aceptaste esta política.</li><li>Si ya usaste tu radiografía gratis, de qué póliza fue.</li><li>Si compraste consultas: que la cuenta es de pago, cuántas consultas te quedan, de qué pólizas pediste la radiografía y, de cada compra, la fecha, cuántas consultas sumó y un código derivado de su comprobante. Google Play procesa el pago; la app no ve ni guarda tus datos de pago.</li><li>De cada póliza que elijas guardar: su texto partido en fragmentos, los vectores que permiten buscar en ella y el texto de cada página. <strong>No se guarda el archivo PDF.</strong></li><li>Tus últimas 20 consultas por póliza guardada: la pregunta, la respuesta y sus citas.</li></ul>
+<p>En tu teléfono, no en el servidor: si en una póliza guardada tocas "Ver esta cláusula en tu póliza", la app te pide elegir tu PDF una vez y guarda una copia en su almacenamiento privado, para abrirlo en la página de cada cita. Comprueba que sea el mismo documento que guardaste. Esa copia nunca se sube; se borra al borrar esa póliza, al salir de tu cuenta, al borrarla o al desinstalar la app.</p>
+<p>El texto de una póliza puede traer tu nombre, tu documento de identidad y datos de tu salud, y tus preguntas también pueden contarlos. Son datos sensibles según la Ley N.° 29733, Ley de Protección de Datos Personales del Perú. Por eso el registro te pide aceptarlo de forma expresa, con una casilla que no viene marcada.</p>
+<h3>Dónde está y cómo se protege</h3>
+<ul><li>Está en una base de datos Postgres del proveedor Neon.</li><li>Viaja cifrado entre tu dispositivo, el servidor de la app y la base (TLS).</li><li>El contenido de tus pólizas y de tus consultas se cifra con AES-256 antes de guardarse.</li></ul>
+<p><strong>La llave de ese cifrado está en el servidor de quien administra la app. Por lo tanto, quien administra la app podría leer el contenido de tus pólizas y de tus consultas.</strong> El cifrado protege tus datos si alguien accede a la base sin la llave; no los protege de quien tiene la llave. No lee ese contenido como parte del funcionamiento de la app, pero técnicamente puede.</p>
+<h3>Cuánto tiempo</h3>
+<ul><li>En el plan gratuito, la póliza guardada se borra sola a los 14 días de guardarla, con todas sus consultas. La app muestra la fecha junto a la póliza. Desde ese día tienes que volver a subir el PDF.</li><li>En el plan de pago, las pólizas guardadas no se borran solas.</li><li>Una cuenta en la que nadie entra durante 12 meses se borra entera.</li><li>La base puede conservar copias de respaldo del proveedor por un tiempo limitado después de un borrado.</li></ul>
+<h3>Cómo lo borras</h3>
+<ul><li>Una consulta: botón "Borrar" junto a ella.</li><li>Una póliza guardada, con todo su historial: botón "Borrar esta póliza".</li><li>Todo: "Borrar mi cuenta y todo". Borra la cuenta, las pólizas, el historial, las sesiones, los registros de compra y los contadores, y con ellos las consultas pagadas que te queden. Es inmediato y no se puede deshacer.</li></ul>
+<h2>Lo que sale hacia terceros, con o sin cuenta</h2>
+<ul><li><strong>Voyage AI:</strong> al subir una póliza recibe su texto para calcular los vectores de búsqueda, y al preguntar recibe tu pregunta (y, si sigues una conversación, tus preguntas anteriores de esa conversación, para buscar en la póliza con todo lo que contaste).</li><li><strong>Google:</strong> si entras con Google, Google sabe que entraste a esta app. Si compras funciones premium, Google Play procesa el pago.</li><li><strong>Dictado por voz (app de Android):</strong> si preguntas hablando, el audio lo transcribe el reconocedor de voz de tu propio Android (normalmente el de Google), según la configuración de tu teléfono. La app recibe solo el texto, que ves y puedes corregir antes de enviarlo.</li><li><strong>Errores técnicos (Firebase Crashlytics, de Google, app de Android):</strong> si la app falla, se envía el tipo de error y en qué parte del código ocurrió, con datos del dispositivo (modelo, versión de Android, memoria libre), un identificador de instalación que genera Crashlytics y el inicio y fin de cada sesión de uso, para calcular cuántas sesiones terminan sin fallas. Nunca el texto de tu póliza, tus preguntas, las respuestas ni tu correo: la app no le envía registros, eventos ni datos propios.</li><li><strong>Google Analytics (Firebase):</strong> el proyecto de Firebase de la app lo tiene activado, pero la app no incluye su componente, así que no le envía datos de uso: ni pantallas, ni toques, ni eventos. Si eso cambia, cambia este documento antes.</li><li><strong>Métricas del servicio (Langfuse):</strong> cuánto tarda y cuánto cuesta cada respuesta, qué función se usó y si hubo un error. Nunca el texto de tu póliza, tu pregunta ni la respuesta.</li><li><strong>Anthropic:</strong> recibe tu pregunta y los fragmentos de la póliza encontrados para redactar la respuesta. Si sigues una conversación, recibe también hasta 3 preguntas anteriores de esa conversación con su veredicto y su explicación breve. Según su política, borra lo enviado por su API dentro de los 30 días.</li><li><strong>OpenStreetMap:</strong> si usas el mapa, recibe los pedidos de las imágenes del mapa de la zona que miras. En la web, si concedes tu ubicación, recibe también las coordenadas de la consulta de centros cercanos. En la app de Android, tu ubicación se usa solo en el teléfono para ordenar los centros por distancia. Tu ubicación no pasa por el servidor de la app ni se guarda.</li></ul>
+<p>La app no tiene publicidad ni mide cómo la usas: lo único que se registra son los errores técnicos y las métricas del servicio descritos arriba, sin contenido.</p>
+<h2>Tus derechos</h2>
+<p>Puedes acceder a lo guardado desde "Mi cuenta", y borrarlo ahí mismo. Para cualquier otra solicitud sobre tus datos (acceso, rectificación, cancelación u oposición), escribe a quien administra la app por el repositorio del proyecto: <a href="https://github.com/RenatoGates/que-me-cubre/issues">https://github.com/RenatoGates/que-me-cubre/issues</a>.</p>
+<h2>Lo que esta app no es</h2>
+<p>Es una herramienta informativa. La decisión final sobre una cobertura la toma tu aseguradora.</p>
+</article></div></main>
+<footer>Generado desde <a href="https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md">docs/privacidad.md</a>.</footer>
+</body>
+</html>

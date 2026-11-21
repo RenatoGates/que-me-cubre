@@ -3,52 +3,48 @@
   "pregunta": "La aerolínea perdió mi maleta en el vuelo, ¿qué me pagan?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre la pérdida de equipaje en un transporte público autorizado como avión, si el equipaje no llega en 72 horas tras tu llegada. El pago se calcula según el peso de tu equipaje y no puede superar el monto declarado en tu informe de pérdida; el tope máximo está en tus Condiciones Particulares o Certificado de Seguro, que no están en este documento. Necesitas el informe de pérdida de la aerolínea y el ticket del equipaje.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Tu maleta perdida por la aerolínea entra en la cobertura de extravío de equipaje, que paga según el peso y hasta el monto declarado en el informe de pérdida. La cifra máxima no está en este documento, así que no puedo decir cuánto te pagarían.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "Tu póliza cubre el extravío de equipaje cuando la maleta queda bajo responsabilidad de un transporte público autorizado, como un avión, y el beneficio se da si no llega hasta 72 horas después de tu llegada. El pago se calcula por el peso de tu equipaje, hasta el monto declarado en el informe de pérdida, pero el monto máximo está en las Condiciones Particulares o el Certificado de Seguro, que no tengo en mis pasajes.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "La pérdida de la maleta debe ser en un medio de transporte público autorizado (tren, bus, avión o crucero) y acreditarse con el informe de pérdida (PIR) o su equivalente.",
-      "citas": [
-        1,
-        5,
-        6
-      ]
-    },
-    {
-      "descripcion": "El pago se calcula por el peso del equipaje y no puede superar el monto declarado en el informe de pérdida. El monto máximo fijado está en las Condiciones Particulares y/o Certificado de Seguro, que no se incluyen en el documento.",
+      "descripcion": "El pago es por el peso del equipaje, hasta el monto declarado en el informe de pérdida, y se descuenta lo que ya te paguen por demora de equipaje si tu plan lo incluye.",
       "citas": [
         1,
         2
       ]
     },
     {
-      "descripcion": "El beneficio aplica si el equipaje no llega hasta 72 horas después de la llegada al destino.",
+      "descripcion": "El beneficio aplica cuando el equipaje no llega hasta 72 horas después de tu llegada al destino indicado en el boleto.",
       "citas": [
         3
       ]
     },
     {
-      "descripcion": "Debes presentar el informe de pérdida con el peso del equipaje (o una lista por ítem) y el ticket del equipaje.",
+      "descripcion": "Debes presentar el informe de pérdida (PIR) o su equivalente; el monto máximo se fija en las Condiciones Particulares y/o Certificado de Seguro.",
       "citas": [
-        4
+        1,
+        2
       ]
     }
   ],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [
     {
-      "descripcion": "Si ya recibiste un pago por demora de equipaje bajo la cobertura de Reembolso de Gastos por Demora de Equipaje (si está en tu plan), ese monto se descuenta del pago.",
+      "descripcion": "Si no pudieras llamar a la Central de Asistencia, puedes pedir el beneficio presentando los documentos directamente en las oficinas de la compañía.",
       "citas": [
-        2
+        4
       ]
     }
   ],
   "no_incluido_en_documento": [
     {
       "nombre": "cláusula G2 - Reembolso de Gastos por demora de Equipaje",
-      "por_que_importa": "Se menciona como cobertura que puede descontarse del pago, pero su texto no está en el documento.",
+      "por_que_importa": "Si tu plan la incluye, lo que te paguen por ella se descuenta de lo que te corresponde por la pérdida.",
       "cita": 2
     }
   ],
@@ -131,104 +127,12 @@
       "paginas": [
         47
       ],
-      "texto_literal": "a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos;",
+      "texto_literal": "La COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura;",
       "pasaje": "P5",
       "trozo_id": "chubb_viajes_jetsmart:0169",
       "posicion": [
-        504,
-        817
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 5,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
-      "articulo": "Artículo 1° Descripción de la Cobertura",
-      "pagina": 45,
-      "paginas": [
-        45
-      ],
-      "texto_literal": "Equipaje: Para efectos de esta PÓLIZA, será considerado equipaje todo volumen acondicionado en compartimiento cerrado, despachado comprobadamente bajo responsabilidad del Transporte Público Autorizado.",
-      "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0162",
-      "posicion": [
-        293,
-        494
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 6,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Pérdida de Equipaje",
-      "articulo": "Artículo 1° Descripción de la Cobertura",
-      "pagina": 45,
-      "paginas": [
-        45
-      ],
-      "texto_literal": "Transporte Público Autorizado: Todo medio de transporte que funcione según un itinerario fijo y conocido por el ASEGURADO y que, para hacer uso del mismo, requiera el pago de un pasaje. Se considerarán como Transporte Público Autorizado a los siguientes medios de transporte: Tren, Bus, avión y crucero marítimo.",
-      "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0162",
-      "posicion": [
-        900,
-        1212
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 7,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 3° Cobertura",
-      "pagina": 49,
-      "paginas": [
-        49
-      ],
-      "texto_literal": "El reembolso de los gastos por compras de efectos personales, no provisto por el TRANSPORTE PÚBLICO AUTORIZADO, a causa del retraso o extravío del equipaje del ASEGURADO, una vez que este se encuentre bajo la responsabilidad de una COMPAÑÍA de TRANSPORTE PÚBLICO AUTORIZADO.",
-      "pasaje": "P2",
-      "trozo_id": "chubb_viajes_jetsmart:0175",
-      "posicion": [
-        22,
-        296
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 8,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Reembolso de Gastos por Demora de Equipaje",
-      "articulo": "Artículo 3° Cobertura",
-      "pagina": 49,
-      "paginas": [
-        49
-      ],
-      "texto_literal": "Este beneficio reconoce como límite el indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, pagadero a razón de una cuarta parte de dicho máximo por cada veinticuatro (24) horas adicionales que el equipaje del ASEGURADO se atrase.",
-      "pasaje": "P2",
-      "trozo_id": "chubb_viajes_jetsmart:0175",
-      "posicion": [
-        812,
-        1076
+        841,
+        1019
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -392,81 +296,59 @@
       {
         "n": 4,
         "pasaje": "P5",
-        "texto_literal": "a)Informe comprobante de la pérdida emitido por el TRANSPORTE PÚBLICO AUTORIZADO responsable (PIR-Property Irregularity Report) o su equivalente, que señale el peso, en kilogramos del EQUIPAJE extraviado, o la declaración por ítem contenidos en el equipaje, para la estimación de los kilos aproximados contenidos;"
-      },
-      {
-        "n": 5,
-        "pasaje": "P3",
-        "texto_literal": "Equipaje: Para efectos de esta PÓLIZA, será considerado equipaje todo volumen acondicionado en compartimiento cerrado, despachado comprobadamente bajo responsabilidad del Transporte Público Autorizado."
-      },
-      {
-        "n": 6,
-        "pasaje": "P3",
-        "texto_literal": "Transporte Público Autorizado: Todo medio de transporte que funcione según un itinerario fijo y conocido por el ASEGURADO y que, para hacer uso del mismo, requiera el pago de un pasaje. Se considerarán como Transporte Público Autorizado a los siguientes medios de transporte: Tren, Bus, avión y crucero marítimo."
-      },
-      {
-        "n": 7,
-        "pasaje": "P2",
-        "texto_literal": "El reembolso de los gastos por compras de efectos personales, no provisto por el TRANSPORTE PÚBLICO AUTORIZADO, a causa del retraso o extravío del equipaje del ASEGURADO, una vez que este se encuentre bajo la responsabilidad de una COMPAÑÍA de TRANSPORTE PÚBLICO AUTORIZADO."
-      },
-      {
-        "n": 8,
-        "pasaje": "P2",
-        "texto_literal": "Este beneficio reconoce como límite el indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, pagadero a razón de una cuarta parte de dicho máximo por cada veinticuatro (24) horas adicionales que el equipaje del ASEGURADO se atrase."
+        "texto_literal": "La COMPAÑÍA tendrá un plazo máximo de treinta (30) días contados desde la recepción completa de los documentos antes indicados, para aprobar o rechazar la solicitud de cobertura;"
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La pérdida de la maleta debe ser en un medio de transporte público autorizado (tren, bus, avión o crucero) y acreditarse con el informe de pérdida (PIR) o su equivalente.",
-        "citas": [
-          1,
-          5,
-          6
-        ]
-      },
-      {
-        "descripcion": "El pago se calcula por el peso del equipaje y no puede superar el monto declarado en el informe de pérdida. El monto máximo fijado está en las Condiciones Particulares y/o Certificado de Seguro, que no se incluyen en el documento.",
+        "descripcion": "El pago es por el peso del equipaje, hasta el monto declarado en el informe de pérdida, y se descuenta lo que ya te paguen por demora de equipaje si tu plan lo incluye.",
         "citas": [
           1,
           2
         ]
       },
       {
-        "descripcion": "El beneficio aplica si el equipaje no llega hasta 72 horas después de la llegada al destino.",
+        "descripcion": "El beneficio aplica cuando el equipaje no llega hasta 72 horas después de tu llegada al destino indicado en el boleto.",
         "citas": [
           3
         ]
       },
       {
-        "descripcion": "Debes presentar el informe de pérdida con el peso del equipaje (o una lista por ítem) y el ticket del equipaje.",
+        "descripcion": "Debes presentar el informe de pérdida (PIR) o su equivalente; el monto máximo se fija en las Condiciones Particulares y/o Certificado de Seguro.",
         "citas": [
-          4
+          1,
+          2
         ]
       }
     ],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [
       {
-        "descripcion": "Si ya recibiste un pago por demora de equipaje bajo la cobertura de Reembolso de Gastos por Demora de Equipaje (si está en tu plan), ese monto se descuenta del pago.",
+        "descripcion": "Si no pudieras llamar a la Central de Asistencia, puedes pedir el beneficio presentando los documentos directamente en las oficinas de la compañía.",
         "citas": [
-          2
+          4
         ]
       }
     ],
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Ahí se fija el monto máximo que puedes recibir por la pérdida, que no aparece en los pasajes revisados.",
+        "por_que_importa": "Ahí se fija el monto máximo que te pueden pagar por el equipaje.",
         "cita": 2
       },
       {
         "nombre": "cláusula G2 - Reembolso de Gastos por demora de Equipaje",
-        "por_que_importa": "Se menciona como cobertura que puede descontarse del pago, pero su texto no está en el documento.",
+        "por_que_importa": "Si tu plan la incluye, lo que te paguen por ella se descuenta de lo que te corresponde por la pérdida.",
         "cita": 2
       }
     ],
-    "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre la pérdida de equipaje en un transporte público autorizado como avión, si el equipaje no llega en 72 horas tras tu llegada. El pago se calcula según el peso de tu equipaje y no puede superar el monto declarado en tu informe de pérdida; el tope máximo está en tus Condiciones Particulares o Certificado de Seguro, que no están en este documento. Necesitas el informe de pérdida de la aerolínea y el ticket del equipaje."
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Tu maleta perdida por la aerolínea entra en la cobertura de extravío de equipaje, que paga según el peso y hasta el monto declarado en el informe de pérdida. La cifra máxima no está en este documento, así que no puedo decir cuánto te pagarían.",
+    "cubre": "si",
+    "respuesta": "Tu póliza cubre el extravío de equipaje cuando la maleta queda bajo responsabilidad de un transporte público autorizado, como un avión, y el beneficio se da si no llega hasta 72 horas después de tu llegada. El pago se calcula por el peso de tu equipaje, hasta el monto declarado en el informe de pérdida, pero el monto máximo está en las Condiciones Particulares o el Certificado de Seguro, que no tengo en mis pasajes."
   },
   "descartes": [
     {
@@ -488,16 +370,16 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 7329,
-        "tokens_salida": 1987,
+        "tokens_entrada": 8300,
+        "tokens_salida": 1400,
         "tokens_razonamiento": 0,
-        "segundos": 7.46,
-        "costo_usd": 0.001726
+        "segundos": 5.74,
+        "costo_usd": 0.00153
       }
     ],
-    "tokens": 9316,
-    "costo_usd": 0.001726,
-    "segundos": 7.46
+    "tokens": 9700,
+    "costo_usd": 0.00153,
+    "segundos": 5.74
   },
   "prueba": {
     "id": "P03",

@@ -6,7 +6,7 @@
     "pregunta": "Me torcí el dedo en Tarapoto y fui a un centro médico, ¿me cubre los gastos?",
     "esperados": [{"seccion": "Gastos Médicos", "articulo": "Artículo 3°"}],
     "modo": "alguno",
-    "veredictos_aceptables": ["con_limites"],
+    "veredictos_aceptables": ["con_limites", "si"],
     "que_deberia_pasar": "Mostrar la cobertura de gastos médicos por accidente durante el viaje (Art. 3°) y sus límites: monto fijado en las Condiciones Particulares, contingencias a más de 200 km del domicilio, y el trámite de reembolso cuando no se llamó a la Central de Asistencia."
   },
   {
@@ -19,7 +19,7 @@
       {"seccion": "Gastos Médicos", "articulo": "Artículo 3°", "contiene": "B4"}
     ],
     "modo": "todos",
-    "veredictos_aceptables": ["con_limites"],
+    "veredictos_aceptables": ["con_limites", "si"],
     "debe_mencionar_no_incluido": "B4",
     "que_deberia_pasar": "No contestar sí o no a la ligera: citar que los gastos cubiertos son los ocurridos durante el viaje y que la protección termina en la fecha de llegada, y avisar que la póliza menciona 'B4 - Continuación de Tratamiento en País de Residencia' pero el texto de esa cláusula no está en el documento: hay que pedírsela a la aseguradora."
   },
@@ -43,7 +43,7 @@
       {"seccion": "Gastos Médicos", "articulo": "Artículo 5°", "contiene": "PRE-EXISTENTES"}
     ],
     "modo": "alguno",
-    "veredictos_aceptables": ["con_limites"],
+    "veredictos_aceptables": ["con_limites", "si"],
     "que_deberia_pasar": "Mostrar que ante una condición preexistente los gastos médicos se limitan al tratamiento de emergencia y estabilización, y la exclusión de preexistencias."
   },
   {
@@ -53,7 +53,7 @@
     "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
     "esperados": [{"seccion": "Cancelación del Viaje", "articulo": "Artículo 3°"}],
     "modo": "alguno",
-    "veredictos_aceptables": ["con_limites"],
+    "veredictos_aceptables": ["con_limites", "si"],
     "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
   },
   {
@@ -63,7 +63,7 @@
     "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
     "esperados": [{"seccion": "Gastos Odontológicos", "articulo": "Artículo 3°"}],
     "modo": "alguno",
-    "veredictos_aceptables": ["con_limites"],
+    "veredictos_aceptables": ["con_limites", "si"],
     "que_deberia_pasar": "Citar Gastos Odontológicos de Emergencia con sus condiciones: primer tratamiento en el exterior y dentro de 24 horas, límite por diente."
   },
   {

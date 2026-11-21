@@ -160,7 +160,9 @@ def main() -> int:
     print("Apertura del texto contra el veredicto (se marca, no se borra):")
 
     def abre(respuesta: str, cubre: str) -> tuple[str, str | None, str]:
-        f, d = _validar({**crudo, "cubre": cubre, "respuesta": respuesta}, pas, pol)
+        # «con límites» solo vale con un límite concreto y su cita (si no, pasa a «Cubre»: abajo)
+        limite = {"descripcion": "solo urgencias", "cita": crudo["citas"][0]["n"]} if cubre == "con_limites" else {"descripcion": "", "cita": 0}
+        f, d = _validar({**crudo, "cubre": cubre, "respuesta": respuesta, "limite": limite}, pas, pol)
         marca = f["apertura_contradictoria"]
         return f["respuesta"], marca and f"{marca['palabra']} / {marca['veredicto']}", f["etiqueta_veredicto"]
 
@@ -177,6 +179,19 @@ def main() -> int:
     caso("'Si la radiografía…' (condicional, sin tilde) no es un 'Sí'",
          abre("Si la radiografía es de urgencia, tu póliza la cubre.", "con_limites")[1], None)
     caso("'No obstante, …' no es un 'No'", abre("No obstante, tu póliza cubre urgencias.", "con_limites")[1], None)
+
+    print("«Con límites» exige un límite concreto con su cita:")
+    sin_limite, d = _validar({**crudo, "cubre": "con_limites", "respuesta": "Cubre.", "limite": {"descripcion": "", "cita": 0}}, pas, pol)
+    caso("sin límite nombrado, «con límites» pasa a «Cubre» y queda anotado",
+         (sin_limite["cubre"], sin_limite["etiqueta_veredicto"], sin_limite["limite"], sin_limite["veredicto_ajustado"]),
+         ("si", "Cubre", None, "con_limites sin un límite concreto citado"))
+    cita_falsa, d = _validar({**crudo, "cubre": "con_limites", "respuesta": "Cubre.", "limite": {"descripcion": "hasta USD 500", "cita": 99}},
+                             pas, pol)
+    caso("con un límite que cita algo que no está entre las citas verificadas, tampoco", cita_falsa["cubre"], "si")
+    con_limite, d = _validar({**crudo, "cubre": "con_limites", "respuesta": "Cubre.",
+                              "limite": {"descripcion": "solo urgencias", "cita": crudo["citas"][0]["n"]}}, pas, pol)
+    caso("con el límite y su cita verificada, queda «Cubre con límites» y el límite sale con su cita",
+         (con_limite["cubre"], con_limite["limite"]["descripcion"], con_limite["limite"]["cita"] >= 1), ("con_limites", "solo urgencias", True))
 
     print(f"\n{'Todo bien' if not FALLAS else f'{len(FALLAS)} fallas'}.")
     return 1 if FALLAS else 0

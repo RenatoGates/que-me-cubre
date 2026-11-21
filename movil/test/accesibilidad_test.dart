@@ -8,6 +8,7 @@ import 'package:quecubre/comun.dart';
 import 'package:quecubre/compras.dart';
 import 'package:quecubre/estado.dart';
 import 'package:quecubre/pantalla_cuenta.dart';
+import 'package:quecubre/pantalla_historial.dart';
 import 'package:quecubre/pantalla_poliza.dart';
 import 'package:quecubre/resultado.dart';
 import 'package:quecubre/tema.dart';
@@ -56,10 +57,19 @@ void main() {
 
   testWidgets('una respuesta real: veredicto con texto (no solo color), citas y descargo', (tester) async {
     final r = jsonDecode(File('../pruebas/salidas/P01.json').readAsStringSync()) as Map<String, dynamic>;
-    await revisar(tester, SingleChildScrollView(child: VistaRespuesta(r, const [])), estadoDePrueba());
-    expect(find.bySemanticsLabel('Veredicto: Cubre con límites'), findsOneWidget);
+    final poliza = PolizaActual(id: 'chubb_viajes_jetsmart', nombre: 'Chubb', tipo: 'ejemplo');
+    await revisar(tester, SingleChildScrollView(child: VistaRespuesta(r, poliza, detalleAbierto: true)), estadoDePrueba());
+    expect(find.bySemanticsLabel('Veredicto: ${r['etiqueta_veredicto']}'), findsOneWidget);
     expect(find.textContaining('Esto sale del documento que subiste'), findsOneWidget);
     expect(find.textContaining('Ver esta cláusula en tu póliza'), findsWidgets);
+  });
+
+  testWidgets('el historial con una respuesta de la sesión', (tester) async {
+    final r = jsonDecode(File('../pruebas/salidas/P01.json').readAsStringSync()) as Map<String, dynamic>;
+    final poliza = PolizaActual(id: 'chubb_viajes_jetsmart', nombre: 'Chubb', tipo: 'ejemplo');
+    final e = estadoDePrueba()..registrarRespuesta(poliza, r);
+    await revisar(tester, const PantallaHistorial(), e);
+    expect(find.text('${r['pregunta']}'), findsOneWidget);
   });
 
   test('cada veredicto lleva ícono y texto, además del color', () {

@@ -5,18 +5,21 @@
   "aviso": null,
   "cubre": "no_encontrado",
   "etiqueta_veredicto": "No está en tu póliza",
-  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, por actos riesgosos y de cómo se rigen las coberturas en general. La exclusión por esquí solo aplica fuera de pistas autorizadas, así que por ese motivo tu caso no quedaría excluido, pero los pasajes no muestran qué cobertura da el seguro por lesiones. Eso podría estar en las Condiciones Particulares o Especiales, que no están en este documento.",
+  "razonamiento": "Esquiar en una pista reglamentaria y autorizada no entra en la exclusión de esquí fuera de pistas, por lo que el caso no queda excluido por esa cláusula. Los pasajes revisados no describen una cobertura específica para fracturas, así que no puedo confirmar el monto ni el procedimiento de atención para tu caso.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "No encontré esto en tu póliza de forma directa. Los pasajes revisados tratan sobre exclusiones, y la que menciona el esquí solo excluye practicarlo fuera de pistas reglamentarias y autorizadas, así que tu caso no queda excluido por esa parte. Si fuiste en competencia o entrenamiento, sí podría aplicar otra exclusión de deportes.",
   "apertura_contradictoria": null,
-  "condiciones": [
+  "condiciones": [],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
     {
-      "descripcion": "La exclusión por esquí y otros deportes invernales se aplica solo si la práctica es fuera de pistas reglamentarias y autorizadas. Según contaste, te lesionaste en una pista autorizada, así que esa exclusión no aplicaría a tu caso.",
+      "descripcion": "La exclusión de esquí fuera de pistas reglamentarias y autorizadas no aplicaría al esquiar en una pista autorizada, pero si la práctica hubiera sido en competencia o entrenamiento, podría aplicar la exclusión de deportes.",
       "citas": [
-        1
+        2
       ]
     }
   ],
-  "exclusiones_aplicables": [],
-  "podrian_aplicar": [],
   "no_incluido_en_documento": [],
   "citas": [
     {
@@ -45,41 +48,18 @@
     {
       "n": 2,
       "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-      "seccion": "PARTE G. CONDICIONES LEGALES",
-      "articulo": "6. Coberturas y Exclusiones",
-      "pagina": 29,
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+      "pagina": 14,
       "paginas": [
-        29
+        14
       ],
-      "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso.",
-      "pasaje": "P5",
-      "trozo_id": "pacifico_viajes:0097",
+      "texto_literal": "Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas.",
+      "pasaje": "P2",
+      "trozo_id": "pacifico_viajes:0041",
       "posicion": [
-        28,
-        259
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 3,
-      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
-      "seccion": "RESUMEN DE LA PÓLIZA",
-      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones (parte 3 de 3)",
-      "pagina": 4,
-      "paginas": [
-        4
-      ],
-      "texto_literal": "Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales.",
-      "pasaje": "P3",
-      "trozo_id": "pacifico_viajes:0012",
-      "posicion": [
-        1094,
-        1238
+        2,
+        283
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -246,52 +226,30 @@
       },
       {
         "n": 2,
-        "pasaje": "P5",
-        "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso."
-      },
-      {
-        "n": 3,
-        "pasaje": "P3",
-        "texto_literal": "Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales."
+        "pasaje": "P2",
+        "texto_literal": "Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas."
       }
     ],
-    "condiciones": [
+    "condiciones": [],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [
       {
-        "descripcion": "La exclusión por esquí y otros deportes invernales se aplica solo si la práctica es fuera de pistas reglamentarias y autorizadas. Según contaste, te lesionaste en una pista autorizada, así que esa exclusión no aplicaría a tu caso.",
+        "descripcion": "La exclusión de esquí fuera de pistas reglamentarias y autorizadas no aplicaría al esquiar en una pista autorizada, pero si la práctica hubiera sido en competencia o entrenamiento, podría aplicar la exclusión de deportes.",
         "citas": [
-          1
+          2
         ]
       }
     ],
-    "exclusiones_aplicables": [],
-    "podrian_aplicar": [],
-    "no_incluido_en_documento": [
-      {
-        "nombre": "Condiciones Particulares y/o Condiciones Especiales",
-        "por_que_importa": "Según los pasajes, las coberturas se rigen por estas condiciones además de las Condiciones Generales, así que ahí puede estar la cobertura que te aplica por lesiones.",
-        "cita": 2
-      },
-      {
-        "nombre": "cláusulas adicionales de las coberturas adicionales",
-        "por_que_importa": "Pueden contener exclusiones especiales que no aparecen en este documento.",
-        "cita": 3
-      }
-    ],
-    "cubre": "no_encontrado",
-    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, por actos riesgosos y de cómo se rigen las coberturas en general. La exclusión por esquí solo aplica fuera de pistas autorizadas, así que por ese motivo tu caso no quedaría excluido, pero los pasajes no muestran qué cobertura da el seguro por lesiones. Eso podría estar en las Condiciones Particulares o Especiales, que no están en este documento."
-  },
-  "descartes": [
-    {
-      "tipo": "no_incluido",
-      "texto": "Condiciones Particulares y/o Condiciones Especiales",
-      "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    "no_incluido_en_documento": [],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
     },
-    {
-      "tipo": "no_incluido",
-      "texto": "cláusulas adicionales de las coberturas adicionales",
-      "motivo": "el nombre no está en su cita"
-    }
-  ],
+    "razonamiento": "Esquiar en una pista reglamentaria y autorizada no entra en la exclusión de esquí fuera de pistas, por lo que el caso no queda excluido por esa cláusula. Los pasajes revisados no describen una cobertura específica para fracturas, así que no puedo confirmar el monto ni el procedimiento de atención para tu caso.",
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza de forma directa. Los pasajes revisados tratan sobre exclusiones, y la que menciona el esquí solo excluye practicarlo fuera de pistas reglamentarias y autorizadas, así que tu caso no queda excluido por esa parte. Si fuiste en competencia o entrenamiento, sí podría aplicar otra exclusión de deportes."
+  },
+  "descartes": [],
   "proveedor": {
     "nombre": "claude",
     "modelo": "claude-haiku-5-5",
@@ -305,16 +263,16 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 6744,
-        "tokens_salida": 2924,
+        "tokens_entrada": 7727,
+        "tokens_salida": 691,
         "tokens_razonamiento": 0,
-        "segundos": 13.47,
-        "costo_usd": 0.002136
+        "segundos": 3.67,
+        "costo_usd": 0.001118
       }
     ],
-    "tokens": 9668,
-    "costo_usd": 0.002136,
-    "segundos": 13.47
+    "tokens": 8418,
+    "costo_usd": 0.001118,
+    "segundos": 3.67
   },
   "prueba": {
     "id": "P09",

@@ -1,0 +1,357 @@
+{
+  "modo": "completo",
+  "pregunta": "Tengo diabetes desde hace años; si me descompenso durante el viaje, ¿me cubren la atención?",
+  "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+  "aviso": null,
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Una descompensación aguda durante el viaje podría entrar en la cobertura de gastos médicos por enfermedad de urgencia, pero los pasajes no mencionan la diabetes ni las descompensaciones, así que es incierto si tu caso encaja. Además, si la diabetes es una condición de pre-existencia, aplican reglas más estrictas para la interrupción del viaje.",
+  "limite": null,
+  "veredicto_ajustado": "con_limites sin un límite concreto citado",
+  "respuesta": "Tu póliza cubre gastos médicos por enfermedad durante el viaje, pero solo para tratamientos de urgencia de un cuadro agudo que impida continuar el viaje, no para tratamientos de larga duración. Los pasajes no mencionan la diabetes, así que no puedo confirmar si una descompensación entra en esa cobertura.",
+  "apertura_contradictoria": null,
+  "condiciones": [
+    {
+      "descripcion": "La atención médica cubierta es de urgencia por un cuadro agudo que impida continuar el viaje, y no para procedimientos de larga duración.",
+      "citas": [
+        1
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
+    {
+      "descripcion": "Si tu diabetes es una condición de pre-existencia, el beneficio de interrupción del viaje y regreso anticipado solo se otorga si el médico certifica un deterioro severo, repentino e imprevisto que ponga en peligro grave la vida.",
+      "citas": [
+        2
+      ]
+    }
+  ],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura (parte 2 de 2)",
+      "pagina": 17,
+      "paginas": [
+        17
+      ],
+      "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0064",
+      "posicion": [
+        1,
+        302
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 5 de 7)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "texto_literal": "En los casos que exista una CONDICIÓN DE PRE-EXISTENCIA el beneficio de Interrupción del Viaje y Regreso Anticipado se otorgará sólo en los casos en que el MÉDICO certifique un deterioro severo, repentino e imprevisto, donde la continuación del viaje, coloque en peligro grave la vida del ASEGURADO",
+      "pasaje": "P1",
+      "trozo_id": "chubb_viajes_jetsmart:0116",
+      "posicion": [
+        148,
+        446
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura (parte 2 de 2)",
+      "pagina": 16,
+      "paginas": [
+        16
+      ],
+      "texto_literal": "f)Fisioterapia: En caso de necesidad de Fisioterapia como resultado de lesiones provenientes de accidentes ocurridos o enfermedades contraídas durante el viaje",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0062",
+      "posicion": [
+        0,
+        159
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "posicion": [
+        200,
+        224
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Certificado de Seguro",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Certificado de Seguro» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Certificado de Seguro",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
+      "pagina": 31,
+      "paginas": [
+        31
+      ],
+      "pasaje": "P4",
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "posicion": [
+        229,
+        250
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores › Artículo 3° Asistencias",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 4° Condiciones de Cobertura",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Texto inicial de la sección",
+    "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje › Artículo 3° Cobertura"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "chubb_viajes_jetsmart:0116",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        5,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "•Para efectos de este beneficio las ENFERMEDADES DE CARÁCTER SÚBITO deberán manifestarse o ser contraídas a partir de la fecha de inicio del viaje. En los casos que exista una CONDICIÓN DE PRE-EXISTENCIA el beneficio de Interrupción del Viaje y Regreso Anticipado se otorgará sólo en los casos en que el MÉDICO certifique un deterioro severo, repentino e imprevisto, donde la continuación del viaje, coloque en peligro grave la vida del ASEGURADO, su COMPAÑERO DE VIAJE, MIEMBRO DE SU FAMILIA o MIEMBRO DE LA FAMILIA de su COMPAÑERO DE VIAJE.\n•El ASEGURADO debe entregar a la COMPAÑÍA los originales extendidos a nombre del ASEGURADO de los recibos, boletas y facturas cuando corresponda, copia de los contratos de viaje, pasajes, vouchers de hotelería u otros documentos que acrediten el gasto incurrido y su cancelación o interrupción; como asimismo, en su caso, los que acrediten el pago o el reembolso de una parte de ellos, por las instituciones o entidades referidos en el número anterior."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "chubb_viajes_jetsmart:0064",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        17
+      ],
+      "texto": "•Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje y por la misma razón no se prestan para procedimientos de larga duración, sino para garantizar la recuperación inicial y las condiciones físicas que permitan la normal continuación del viaje del ASEGURADO."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "chubb_viajes_jetsmart:0055",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Texto inicial de la sección",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "Gastos Médicos por Accidente y/o Enfermedad durante el Viaje Cláusula Adicional\nLa presente Cláusula Adicional cubre riesgos adicionales a los de las Coberturas Principales y se regirá, en todo lo que no esté expresamente estipulado en ésta, por las Condiciones Generales de la Póliza, de modo que sólo será válida y regirá mientras las coberturas principales lo sean y estén vigentes."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "chubb_viajes_jetsmart:0115",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        4,
+        7
+      ],
+      "paginas": [
+        31
+      ],
+      "texto": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\nEn el caso que el ASEGURADO no pueda realizar cambio en sus pasajes de TRANSPORTE PÚBLICO AUTORIZADO, la COMPAÑÍA le entregará un pasaje aéreo en la misma clase que viajaba originalmente para su retorno al país de origen, en caso de que él mismo quede inhabilitado de continuar el VIAJE. Este pasaje será entregado sólo en caso de que no sea posible utilizar el medio de TRANSPORTE PÚBLICO AUTORIZADO originalmente previsto.\nCondiciones:\n•LA COMPAÑÍA no será responsable por ninguna multa o penalidad adicional incurrida que no hubiese sido impuesta si el ASEGURADO hubiera notificado a LA COMPAÑÍA durante las setenta y dos (72) horas siguientes de ocurrido el siniestro."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "chubb_viajes_jetsmart:0062",
+      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
+      "articulo": "Artículo 3° Cobertura",
+      "parte": [
+        2,
+        2
+      ],
+      "paginas": [
+        16
+      ],
+      "texto": "f)Fisioterapia: En caso de necesidad de Fisioterapia como resultado de lesiones provenientes de accidentes ocurridos o enfermedades contraídas durante el viaje, el ASEGURADO recibirá atención fisioterapéutica, a condición de que ésta sea prescrita por el médico que atendió al ASEGURADO durante el viaje."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0112",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        1,
+        7
+      ],
+      "paginas": [
+        30
+      ],
+      "texto": "Artículo 3° Asistencias\n- Recuperación en hotel durante el viaje: El pago o reembolso de las estadías diarias del hotel al ASEGURADO, limitado al valor por día y al número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, en caso de que el equipo MÉDICO del establecimiento donde se encuentre el ASEGURADO y el MÉDICO determinen la necesidad de prorrogar el periodo de estadía del ASEGURADO por convalecencia, después que fue dado de alta del HOSPITAL, debido a ACCIDENTE o ENFERMEDAD. Estos gastos deberán ser previamente autorizados por LA COMPAÑÍA.\nLA COMPAÑÍA no será responsable del pago o reembolso de los gastos que sean responsabilidad de terceros o que estén ya incluidos en el costo del viaje.\nEsta cobertura comienza a regir siempre que el ASEGURADO haya estado hospitalizado al menos el número de días indicados en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
+    },
+    {
+      "id": "P7",
+      "rango": 0,
+      "trozo_id": "chubb_viajes_jetsmart:0113",
+      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
+      "articulo": "Artículo 3° Asistencias",
+      "parte": [
+        2,
+        7
+      ],
+      "paginas": [
+        30,
+        31
+      ],
+      "texto": "- Acompañante en caso de hospitalización prolongada durante el viaje: El financiamiento de un pasaje aéreo de ida y regreso en clase económica, a quien indique el ASEGURADO, cuando éste se encuentre viajando solo y los MÉDICOS del servicio de asistencia consideren necesaria su hospitalización por un periodo superior a cinco (5) días, siempre que la CENTRAL DE ASISTENCIA obtenga la aprobación de LA COMPAÑÍA respecto de dicho financiamiento. En caso que el ASEGURADO no pueda designar a un acompañante, será su cónyuge o cualquier pariente en primer grado mayor de edad. Este beneficio está sujeto al límite indicado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.\n- Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje: Es el pago o reembolso de los gastos diarios en hotel para hospedaje del acompañante del ASEGURADO, que, de acuerdo con lo establecido en esta cláusula, se limitará al monto informado en las Condiciones Particulares y/o Certificado de Seguro, según corresponda, desde que fuera solicitado a través de la CENTRAL DE ASISTENCIA y previamente aprobado por LA COMPAÑÍA, con un máximo de diez (10) días por evento. Esta cobertura aplica únicamente como continuación a la cobertura C2 - Acompañante en caso de Hospitalización Prolongada durante el Viaje."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
+  },
+  "busqueda": "emb_pregunta",
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Los gastos médicos por accidente o enfermedad se limitan a tratamientos de urgencia de cuadros agudos y están orientados a cubrir eventos súbitos e imprevisibles donde se haya diagnosticado por un médico una enfermedad o accidente claro, comprobable y agudo que impida la normal continuación del viaje"
+      },
+      {
+        "n": 2,
+        "pasaje": "P1",
+        "texto_literal": "En los casos que exista una CONDICIÓN DE PRE-EXISTENCIA el beneficio de Interrupción del Viaje y Regreso Anticipado se otorgará sólo en los casos en que el MÉDICO certifique un deterioro severo, repentino e imprevisto, donde la continuación del viaje, coloque en peligro grave la vida del ASEGURADO"
+      },
+      {
+        "n": 3,
+        "pasaje": "P5",
+        "texto_literal": "f)Fisioterapia: En caso de necesidad de Fisioterapia como resultado de lesiones provenientes de accidentes ocurridos o enfermedades contraídas durante el viaje"
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La atención médica cubierta es de urgencia por un cuadro agudo que impida continuar el viaje, y no para procedimientos de larga duración.",
+        "citas": [
+          1
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si tu diabetes es una condición de pre-existencia, el beneficio de interrupción del viaje y regreso anticipado solo se otorga si el médico certifica un deterioro severo, repentino e imprevisto que ponga en peligro grave la vida.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Una descompensación aguda durante el viaje podría entrar en la cobertura de gastos médicos por enfermedad de urgencia, pero los pasajes no mencionan la diabetes ni las descompensaciones, así que es incierto si tu caso encaja. Además, si la diabetes es una condición de pre-existencia, aplican reglas más estrictas para la interrupción del viaje.",
+    "cubre": "con_limites",
+    "respuesta": "Tu póliza cubre gastos médicos por enfermedad durante el viaje, pero solo para tratamientos de urgencia de un cuadro agudo que impida continuar el viaje, no para tratamientos de larga duración. Los pasajes no mencionan la diabetes, así que no puedo confirmar si una descompensación entra en esa cobertura. Si tu diabetes es una condición de pre-existencia, el regreso anticipado solo se otorga en casos de deterioro severo certificado por un médico."
+  },
+  "descartes": [
+    {
+      "tipo": "veredicto",
+      "texto": "con_limites",
+      "motivo": "con_limites sin un límite concreto citado"
+    },
+    {
+      "tipo": "texto",
+      "campo": "respuesta",
+      "texto": "Si tu diabetes es una condición de pre-existencia, el regreso anticipado solo se otorga en casos de deterioro severo certificado por un médico.",
+      "motivo": "nombra certificado, que no está en las citas verificadas"
+    }
+  ],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": false,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 8327,
+        "tokens_salida": 952,
+        "tokens_razonamiento": 0,
+        "segundos": 4.29,
+        "costo_usd": 0.001309
+      }
+    ],
+    "tokens": 9279,
+    "costo_usd": 0.001309,
+    "segundos": 4.29
+  },
+  "prueba": {
+    "id": "P04",
+    "poliza": "chubb_viajes_jetsmart",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites",
+      "si"
+    ],
+    "que_deberia_pasar": "Mostrar que ante una condición preexistente los gastos médicos se limitan al tratamiento de emergencia y estabilización, y la exclusión de preexistencias."
+  }
+}

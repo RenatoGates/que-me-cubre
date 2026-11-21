@@ -16,7 +16,8 @@ Datos con Python. Enunciado: [d2cml-ai/Data-Science-Python#204](https://github.c
 > servidor de quien administra la app, que por lo tanto podría leer ese contenido. Salen hacia
 > terceros el texto de la póliza (a Voyage AI, que calcula los vectores) y tu pregunta con los
 > fragmentos encontrados (a Anthropic, que redacta la respuesta y borra lo recibido dentro de
-> los 30 días). El detalle está en [`docs/privacidad.md`](docs/privacidad.md).
+> los 30 días). El detalle está en la [política de privacidad](https://renatogates.github.io/que-me-cubre/privacidad.html)
+> (generada de [`docs/privacidad.md`](docs/privacidad.md)).
 >
 > **Regla de las citas.** Toda cita se verifica contra el texto de la página extraído del PDF con dos extractores independientes al momento de subirlo, o se descarta.
 
@@ -162,8 +163,9 @@ En [Google Cloud Console](https://console.cloud.google.com/), gratis y sin domin
 
 1. Crea un proyecto.
 2. *Google Auth Platform > Branding*: nombre de la app «¿Qué Cubre?», tu correo de soporte y,
-   como enlace de la política de privacidad, la URL de [`docs/privacidad.md`](docs/privacidad.md)
-   en GitHub.
+   como enlace de la política de privacidad, https://renatogates.github.io/que-me-cubre/privacidad.html
+   (la página que GitHub Pages publica desde `docs/`; se genera de [`docs/privacidad.md`](docs/privacidad.md)
+   con `python pruebas/generar_privacidad.py`).
 3. *Audience*: tipo **External**. Mientras esté en «Testing» solo entran los correos que
    agregues como usuarios de prueba (hasta 100); para abrirla a todos, «Publish app». Con
    solo los alcances básicos no hace falta la verificación de Google.
@@ -203,7 +205,7 @@ lanzamiento (R8 activado) contra el backend en local.
 | Función | Resultado medido | Archivo |
 |---|---|---|
 | Descargos | Junto a cada respuesta, pasos, radiografía y comparación, en letra normal; el de inicio, arriba de todo | [`movil/lib/textos.dart`](movil/lib/textos.dart), [`docs/ficha_play.md`](docs/ficha_play.md) |
-| «Ver esta cláusula en tu póliza» | En cada cita: página (y archivo, si son varios), artículo, sección y el inicio del texto para buscarlo en el PDF | [`movil/lib/resultado.dart`](movil/lib/resultado.dart) |
+| «Ver esta cláusula en tu póliza» | Abre el PDF dentro de la app, en la página de la cita (y en su archivo, si son varios). Ver las correcciones abajo | [`movil/lib/visor_pdf.dart`](movil/lib/visor_pdf.dart) |
 | Regla de lenguaje | Sin consumo, contadores, modelos ni proveedores en pantalla; en la web lo revisa una prueba sobre 25 estados de la pantalla | [`app/app.py`](app/app.py), [`pruebas/probar_app.py`](pruebas/probar_app.py) |
 | Dictado por voz | El reconocedor del propio Android (costo cero); el texto queda en el campo, editable, antes de preguntar | [`movil/lib/pantalla_poliza.dart`](movil/lib/pantalla_poliza.dart) |
 | Google Play Billing | Verificación contra la Google Play Developer API (simulada en las pruebas): pagada, sin consumir y de esa cuenta; una compra se acredita una vez; sin sesión, 401 | [`backend/pagos.py`](backend/pagos.py), [`movil/lib/compras.dart`](movil/lib/compras.dart) |
@@ -212,12 +214,30 @@ lanzamiento (R8 activado) contra el backend en local.
 | Langfuse | Un servidor local hace de Langfuse y recibe lo que el SDK envía de verdad: ningún texto de la póliza, la pregunta, la respuesta ni correos | [`pruebas/probar_fase4.py`](pruebas/probar_fase4.py), [`backend/observabilidad.py`](backend/observabilidad.py) |
 | Crashlytics | Recibe el tipo de error y las líneas de pila; probado con errores que traen texto de la póliza, preguntas, respuestas y correos en su mensaje y en la descripción de widgets. En la tableta, un error de prueba llegó a Firebase (respuesta 200). Sin Google Analytics en la app, Crashlytics no registra breadcrumbs | [`movil/test/telemetria_test.dart`](movil/test/telemetria_test.dart), [`movil/test/reglas_test.dart`](movil/test/reglas_test.dart) |
 | Entrar con Google | En la tableta: selector de cuentas de Google, el backend verificó el token del cliente Android y abrió la sesión | [`movil/lib/estado.dart`](movil/lib/estado.dart), [`backend/acceso_google.py`](backend/acceso_google.py) |
-| Paleta | La acordada, exacta; el coral solo para «no cubre» (una prueba lo exige) | [`movil/lib/tema.dart`](movil/lib/tema.dart), [`movil/test/reglas_test.dart`](movil/test/reglas_test.dart) |
-| Contraste | 19 de 19 pares cumplen WCAG (mínimo medido: 5,56:1 en texto normal) | [`pruebas/contraste.md`](pruebas/contraste.md) |
-| TalkBack | 47 de 47 controles con etiqueta en 6 pantallas del dispositivo; las guías de Flutter (etiquetas, 48×48, contraste dibujado) pasan | [`pruebas/accesibilidad.md`](pruebas/accesibilidad.md), [`movil/test/accesibilidad_test.dart`](movil/test/accesibilidad_test.dart) |
+| Paleta | La clara de las correcciones, exacta salvo «con límites» (#A36200); el rojo solo para «no cubre» (una prueba lo exige) | [`movil/lib/tema.dart`](movil/lib/tema.dart), [`movil/test/reglas_test.dart`](movil/test/reglas_test.dart) |
+| Contraste | 19 de 19 pares de la app y la web cumplen WCAG AA (mínimo medido: 4,53:1, azul sobre crema) | [`pruebas/contraste.md`](pruebas/contraste.md) |
+| TalkBack | 47 de 47 controles con etiqueta en 6 pantallas del dispositivo (medido antes de las correcciones); las guías de Flutter (etiquetas, 48×48, contraste dibujado) pasan sobre las pantallas de ahora | [`pruebas/accesibilidad.md`](pruebas/accesibilidad.md), [`movil/test/accesibilidad_test.dart`](movil/test/accesibilidad_test.dart) |
 | Versión mínima | `GET /v1/app` la da; con el backend pidiendo la 2, la app 1 muestra solo «Actualiza» | [`movil/lib/main.dart`](movil/lib/main.dart) |
 | Dependencias | pip-audit: 85 paquetes, ninguna vulnerabilidad conocida. OSV.dev: 143 paquetes de Flutter, ninguna | [`pruebas/auditoria_backend.md`](pruebas/auditoria_backend.md), [`pruebas/auditoria_flutter.md`](pruebas/auditoria_flutter.md) |
 | Atribuciones | OpenStreetMap en el mapa (con enlace a su licencia) y SUSALUD (RENIPRESS, ODC-BY) bajo la lista | [`movil/lib/pantalla_mapa.dart`](movil/lib/pantalla_mapa.dart) |
+
+### Correcciones tras probar en la tableta
+
+En la rama `fase-4-correcciones`.
+
+| Cambio | Resultado medido | Archivo |
+|---|---|---|
+| Veredicto | Sale del campo estructurado. «Cubre con límites» exige un límite concreto escrito en una cita; si el modelo no lo da, el código lo pasa a «Cubre». En las 10 preguntas, «con límites» pasó de 7 a 0 (dos corridas); veredicto aceptable en 10 de 10 en la corrida grabada | [`pruebas/veredictos.md`](pruebas/veredictos.md), [`ai/respuesta.py`](ai/respuesta.py) (`_validar`) |
+| Respuesta corta | Arriba, el veredicto y su razonamiento (1 o 2 frases que van de los hechos al veredicto); la explicación, las condiciones y las citas, plegadas | [`movil/lib/resultado.dart`](movil/lib/resultado.dart), [`app/app.py`](app/app.py) |
+| Memoria de la conversación | Cada pregunta ve los 3 turnos anteriores de la misma póliza. Con ellos, la segunda respuesta nombra «tu tobillo doblado»; sin ellos, no. Cuesta 617 tokens más con 3 turnos: USD 0,000062 por consulta (4,4 %) | [`pruebas/conversacion.md`](pruebas/conversacion.md), [`ai/prompts.py`](ai/prompts.py) |
+| Lo que no cuenta como consulta | «Qué hacer ahora» sobre una respuesta ya dada (firmada por el servidor) y volver a abrir el historial | [`backend/main.py`](backend/main.py), [`pruebas/probar_fase4.py`](pruebas/probar_fase4.py) |
+| Cuentas sin límite | `QMC_CORREOS_SIN_LIMITE`: sin tope diario, mensual ni bolsa, todas las funciones; el tope global de gasto sigue | [`backend/cuentas.py`](backend/cuentas.py) |
+| PDF en la página de la cita | Se abre dentro de la app desde el archivo del teléfono; nunca se sube. En una póliza guardada se pide elegir el PDF una vez, se comprueba que sea el mismo (huella SHA-256) y queda una copia solo en el teléfono | [`movil/lib/visor_pdf.dart`](movil/lib/visor_pdf.dart), [`movil/lib/estado.dart`](movil/lib/estado.dart) |
+| Mapa | Sin lugar por defecto: pide elegir o usar la ubicación. La ubicación llena departamento y distrito (editables); buscador de los 1891 distritos; clínicas como cuadrados con cruz, tú como punto redondo; lista con nombre, distrito y distancia, y cuántas hay en 10 km | [`movil/lib/pantalla_mapa.dart`](movil/lib/pantalla_mapa.dart) |
+| Historial | Pestaña propia: las respuestas de la sesión y las de cada póliza guardada, completas y con sus citas, sin costo | [`movil/lib/pantalla_historial.dart`](movil/lib/pantalla_historial.dart) |
+| Inicio | Sin «prueba con un ejemplo»; el campo se vacía al enviar; «Mientras más detalles des, mejor te puedo responder.» junto a «Tu pregunta»; el descargo, al final y en letra grande | [`movil/lib/pantalla_poliza.dart`](movil/lib/pantalla_poliza.dart) |
+| Tableta | En vertical (800×1280) y horizontal (1280×800): sin desbordes, la columna de texto no pasa de 760 puntos | [`movil/test/diseno_test.dart`](movil/test/diseno_test.dart) |
+| Política de privacidad | Página de GitHub Pages con el diseño de la app, generada del .md | [`pruebas/generar_privacidad.py`](pruebas/generar_privacidad.py), [`docs/privacidad.html`](docs/privacidad.html) |
 
 **Versionado.** Todas las rutas viven bajo `/v1`. Dentro de `/v1` solo se agregan campos; un
 cambio que rompa clientes va a `/v2` mientras `/v1` sigue respondiendo, hasta que la versión

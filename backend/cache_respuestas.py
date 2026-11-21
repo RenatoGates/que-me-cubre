@@ -31,9 +31,10 @@ def normalizar(texto: str) -> str:
     return " ".join(re.sub(r"[^\w\s]", " ", t).split())
 
 
-def clave(pregunta: str, aclaraciones: list[dict], documento: str, dia: str) -> str:
+def clave(pregunta: str, aclaraciones: list[dict], documento: str, dia: str, turnos: list[dict] | None = None) -> str:
     partes = {"p": normalizar(pregunta), "a": [[normalizar(a.get("pregunta", "")), normalizar(a.get("respuesta", ""))]
-                                              for a in aclaraciones], "d": documento, "dia": dia}
+                                              for a in aclaraciones], "d": documento, "dia": dia,
+              "t": [normalizar(t.get("pregunta", "")) for t in turnos or []]}
     return hashlib.sha256(json.dumps(partes, sort_keys=True).encode()).hexdigest()
 
 

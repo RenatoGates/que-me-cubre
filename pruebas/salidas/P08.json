@@ -5,13 +5,40 @@
   "aviso": null,
   "cubre": "no_encontrado",
   "etiqueta_veredicto": "No está en tu póliza",
-  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de accidentes personales, gastos médicos, odontológicos y farmacéuticos durante el viaje, traslados, cancelaciones, equipaje y pagos de siniestros, pero ninguno menciona daños a un auto alquilado ni su reparación.",
+  "razonamiento": "Revisé si algún pasaje trataba un choque con otras palabras y no encontré ninguno.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de gastos médicos, odontológicos y farmacéuticos durante el viaje, cancelaciones, pérdida de equipaje y traslados, y ninguno habla de daños a un vehículo alquilado ni de su reparación.",
   "apertura_contradictoria": null,
   "condiciones": [],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [],
   "no_incluido_en_documento": [],
-  "citas": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
+      "seccion": "Resumen Informativo",
+      "articulo": "INFORMACIÓN DE LA PÓLIZA DE SEGURO › 1. Riesgos Cubiertos",
+      "pagina": 2,
+      "paginas": [
+        2
+      ],
+      "texto_literal": "Pérdida de equipaje y reembolso por retraso Pérdida de equipaje Reembolso de Gastos por Demora de Equipaje",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0008",
+      "posicion": [
+        836,
+        942
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
   "veredicto_degradado": false,
   "mencionadas_ausentes": [
     {
@@ -178,15 +205,33 @@
   },
   "busqueda": "emb_pregunta",
   "modelo_crudo": {
-    "citas": [],
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Pérdida de equipaje y reembolso por retraso Pérdida de equipaje Reembolso de Gastos por Demora de Equipaje"
+      }
+    ],
     "condiciones": [],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [],
     "no_incluido_en_documento": [],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Los pasajes revisados tratan de gastos médicos, odontológicos, farmacéuticos, cancelación de viaje, pérdida de equipaje, repatriación y asistencias durante el viaje, pero ninguno menciona daños a un vehículo alquilado ni la reparación de un auto en un choque. Revisé si algún pasaje trataba un choque con otras palabras y no encontré ninguno.",
     "cubre": "no_encontrado",
-    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de accidentes personales, gastos médicos, odontológicos y farmacéuticos durante el viaje, traslados, cancelaciones, equipaje y pagos de siniestros, pero ninguno menciona daños a un auto alquilado ni su reparación."
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de gastos médicos, odontológicos y farmacéuticos durante el viaje, cancelaciones, pérdida de equipaje y traslados, y ninguno habla de daños a un vehículo alquilado ni de su reparación."
   },
-  "descartes": [],
+  "descartes": [
+    {
+      "tipo": "texto",
+      "campo": "razonamiento",
+      "texto": "Los pasajes revisados tratan de gastos médicos, odontológicos, farmacéuticos, cancelación de viaje, pérdida de equipaje, repatriación y asistencias durante el viaje, pero ninguno menciona daños a un vehículo alquilado ni la reparación de un auto en un choque.",
+      "motivo": "nombra cancel viaj, que no está en las citas verificadas"
+    }
+  ],
   "proveedor": {
     "nombre": "claude",
     "modelo": "claude-haiku-5-5",
@@ -200,16 +245,16 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 7261,
-        "tokens_salida": 188,
+        "tokens_entrada": 8232,
+        "tokens_salida": 417,
         "tokens_razonamiento": 0,
-        "segundos": 1.39,
-        "costo_usd": 0.00082
+        "segundos": 2.76,
+        "costo_usd": 0.001032
       }
     ],
-    "tokens": 7449,
-    "costo_usd": 0.00082,
-    "segundos": 1.39
+    "tokens": 8649,
+    "costo_usd": 0.001032,
+    "segundos": 2.76
   },
   "prueba": {
     "id": "P08",

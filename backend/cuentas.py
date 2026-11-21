@@ -22,6 +22,7 @@ from datetime import timedelta
 import sqlalchemy as sa
 from sqlalchemy.exc import IntegrityError
 
+from ai.llm import config
 from backend import acceso_google, guardado
 from backend.guardado import sesiones, usuarios
 
@@ -51,10 +52,18 @@ def clave_correcta(clave: str, guardada: str) -> bool:
         return False
 
 
+def exentos() -> set[str]:
+    """QMC_CORREOS_SIN_LIMITE: correos separados por coma (el dueño de la app). Esas cuentas no
+    tienen tope diario, mensual ni bolsa, y tienen todas las funciones. El tope global de gasto
+    del servicio sigue valiendo también para ellas."""
+    return {c.strip().lower() for c in (config("QMC_CORREOS_SIN_LIMITE") or "").split(",") if c.strip()}
+
+
 def _cuenta(fila) -> dict:
-    return {"usuario_id": fila.id, "correo": fila.correo, "plan": fila.plan, "con_clave": bool(fila.clave_hash),
-            "con_google": bool(fila.google_sub), "radiografia_gratis": fila.radiografia_gratis, "saldo": fila.saldo or 0,
-            "radiografias": fila.radiografias}
+    exenta = fila.correo in exentos()
+    return {"usuario_id": fila.id, "correo": fila.correo, "plan": "pagado" if exenta else fila.plan, "exenta": exenta,
+            "con_clave": bool(fila.clave_hash), "con_google": bool(fila.google_sub), "radiografia_gratis": fila.radiografia_gratis,
+            "saldo": fila.saldo or 0, "radiografias": fila.radiografias}
 
 
 def _hash_token(token: str) -> str:

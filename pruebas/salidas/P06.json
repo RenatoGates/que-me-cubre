@@ -3,20 +3,28 @@
   "pregunta": "Se me rompió un diente comiendo durante el viaje, ¿me cubre el dentista?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza cubre gastos odontológicos de emergencia recibidos durante el viaje, y el beneficio incluye arreglos de prótesis si derivan de un traumatismo. El primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El monto máximo por diente y total está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Como el diente se rompió comiendo durante el viaje, no es claro que sea un accidente de los que describe la cobertura de emergencia odontológica; el pasaje cubre tratamiento de emergencia pero excluye el tratamiento dental salvo lesiones en dientes naturales sanos por accidente, así que depende de si la rotura fue un accidente y de los antecedentes médicos.",
+  "limite": null,
+  "veredicto_ajustado": "con_limites sin un límite concreto citado",
+  "respuesta": "Tu póliza tiene una cobertura de gastos odontológicos de emergencia durante el viaje, pero excluye el tratamiento dental salvo las lesiones en dientes naturales sanos causadas por un accidente. El pago tiene un límite por diente y total que está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista, y el primer tratamiento debe empezar dentro de las 24 horas.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "La cobertura de emergencia odontológica exige que el primer tratamiento se realice en el exterior y comience dentro de las 24 horas siguientes a la emergencia.",
+      "descripcion": "El primer tratamiento debe realizarse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia.",
       "citas": [
-        1,
+        1
+      ]
+    },
+    {
+      "descripcion": "La causa debe ser calificada según los antecedentes médicos que proporcione el médico tratante, para verificar que no esté dentro de las exclusiones.",
+      "citas": [
         2
       ]
     },
     {
-      "descripcion": "El pago se limita al monto total y por diente fijado en las Condiciones Particulares y/o Certificado de Seguro, y solo aplica hasta 30 días después de iniciado el primer tratamiento. El monto no aparece en los pasajes revisados.",
+      "descripcion": "El pago es hasta el límite del beneficio total y por diente, y hasta 30 días después de iniciado el primer tratamiento; los montos están en las Condiciones Particulares y/o Certificado de Seguro.",
       "citas": [
         3
       ]
@@ -24,7 +32,7 @@
   ],
   "exclusiones_aplicables": [
     {
-      "descripcion": "Tratamiento dental por lesiones en dientes naturales sanos ocasionados por un accidente queda excluido de la exclusión general; la exclusión de tratamiento dental no aplica a lesiones accidentales en dientes naturales sanos.",
+      "descripcion": "Se excluye el tratamiento o cirugía dental, salvo por lesiones en dientes naturales sanos ocasionados por un accidente.",
       "citas": [
         4
       ]
@@ -42,12 +50,12 @@
       "paginas": [
         21
       ],
-      "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje.",
+      "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.",
       "pasaje": "P1",
       "trozo_id": "chubb_viajes_jetsmart:0079",
       "posicion": [
         22,
-        134
+        349
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -65,12 +73,12 @@
       "paginas": [
         21
       ],
-      "texto_literal": "El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino.",
+      "texto_literal": "El hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos que al efecto proporcione el MEDICO TRATANTE para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura.",
       "pasaje": "P1",
       "trozo_id": "chubb_viajes_jetsmart:0079",
       "posicion": [
-        135,
-        349
+        502,
+        846
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -111,11 +119,11 @@
       "paginas": [
         22
       ],
-      "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.",
+      "texto_literal": "Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente.",
       "pasaje": "P3",
       "trozo_id": "chubb_viajes_jetsmart:0084",
       "posicion": [
-        0,
+        2,
         110
       ],
       "verificacion": {
@@ -129,17 +137,17 @@
       "n": 5,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Odontológicos de Emergencia durante el Viaje",
-      "articulo": "Artículo 3° Cobertura",
+      "articulo": "Artículo 4° Condiciones de Cobertura",
       "pagina": 21,
       "paginas": [
         21
       ],
-      "texto_literal": "Este beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo.",
-      "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0079",
+      "texto_literal": "todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje.",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0080",
       "posicion": [
-        350,
-        501
+        473,
+        809
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -288,12 +296,12 @@
       {
         "n": 1,
         "pasaje": "P1",
-        "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje."
+        "texto_literal": "Los gastos correspondientes a servicios odontológicos de emergencia recibidos por el ASEGURADO durante el viaje. El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino."
       },
       {
         "n": 2,
         "pasaje": "P1",
-        "texto_literal": "El primer tratamiento deberá realizarse en el exterior y comenzar dentro de las veinticuatro (24) horas siguientes a la emergencia o al momento en que se presentó por primera vez el dolor agudo, súbito y repentino."
+        "texto_literal": "El hecho que se produzca una emergencia odontológica no significa que por esta sola circunstancia sea objeto de beneficio, todo lo cual será debidamente calificado de acuerdo con los antecedentes médicos que al efecto proporcione el MEDICO TRATANTE para verificar que la causa no se encuentre dentro de las exclusiones de la presente cobertura."
       },
       {
         "n": 3,
@@ -303,24 +311,29 @@
       {
         "n": 4,
         "pasaje": "P3",
-        "texto_literal": "n)Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
+        "texto_literal": "Tratamiento o cirugía dental, excepto por lesiones en dientes naturales sanos, ocasionados por un accidente."
       },
       {
         "n": 5,
-        "pasaje": "P1",
-        "texto_literal": "Este beneficio incluye el reembolso o pago de los gastos en arreglos o sustituciones de prótesis odontológicas siempre y cuando deriven de traumatismo."
+        "pasaje": "P5",
+        "texto_literal": "todos los gastos de las coberturas B1, B2, B3 y B4, serán considerados como un gasto único combinable, no pudiendo, en la sumatoria de todos ellos, exceder el monto establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda bajo la cobertura B1 Gastos Médicos por Accidente y/o Enfermedad Durante el Viaje."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "La cobertura de emergencia odontológica exige que el primer tratamiento se realice en el exterior y comience dentro de las 24 horas siguientes a la emergencia.",
+        "descripcion": "El primer tratamiento debe realizarse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia.",
         "citas": [
-          1,
+          1
+        ]
+      },
+      {
+        "descripcion": "La causa debe ser calificada según los antecedentes médicos que proporcione el médico tratante, para verificar que no esté dentro de las exclusiones.",
+        "citas": [
           2
         ]
       },
       {
-        "descripcion": "El pago se limita al monto total y por diente fijado en las Condiciones Particulares y/o Certificado de Seguro, y solo aplica hasta 30 días después de iniciado el primer tratamiento. El monto no aparece en los pasajes revisados.",
+        "descripcion": "El pago es hasta el límite del beneficio total y por diente, y hasta 30 días después de iniciado el primer tratamiento; los montos están en las Condiciones Particulares y/o Certificado de Seguro.",
         "citas": [
           3
         ]
@@ -328,28 +341,48 @@
     ],
     "exclusiones_aplicables": [
       {
-        "descripcion": "Tratamiento dental por lesiones en dientes naturales sanos ocasionados por un accidente queda excluido de la exclusión general; la exclusión de tratamiento dental no aplica a lesiones accidentales en dientes naturales sanos.",
+        "descripcion": "Se excluye el tratamiento o cirugía dental, salvo por lesiones en dientes naturales sanos ocasionados por un accidente.",
         "citas": [
           4
         ]
       }
     ],
-    "podrian_aplicar": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si tenías una enfermedad preexistente y el viaje se hizo para tratarla, la compañía queda exenta de prestar el servicio.",
+        "citas": []
+      }
+    ],
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Ahí se fija el monto máximo total y por diente que paga la cobertura odontológica de emergencia.",
+        "por_que_importa": "Allí está fijado el monto máximo por beneficio total y por diente para gastos odontológicos, que no aparece en los pasajes revisados.",
         "cita": 3
       }
     ],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Como el diente se rompió comiendo durante el viaje, no es claro que sea un accidente de los que describe la cobertura de emergencia odontológica; el pasaje cubre tratamiento de emergencia pero excluye el tratamiento dental salvo lesiones en dientes naturales sanos por accidente, así que depende de si la rotura fue un accidente y de los antecedentes médicos.",
     "cubre": "con_limites",
-    "respuesta": "Tu póliza cubre gastos odontológicos de emergencia recibidos durante el viaje, y el beneficio incluye arreglos de prótesis si derivan de un traumatismo. El primer tratamiento debe hacerse en el exterior y comenzar dentro de las 24 horas siguientes a la emergencia. El monto máximo por diente y total está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista."
+    "respuesta": "Tu póliza tiene una cobertura de gastos odontológicos de emergencia durante el viaje, pero excluye el tratamiento dental salvo las lesiones en dientes naturales sanos causadas por un accidente. El pago tiene un límite por diente y total que está en las Condiciones Particulares o el Certificado de Seguro, que no tengo a la vista, y el primer tratamiento debe empezar dentro de las 24 horas."
   },
   "descartes": [
+    {
+      "tipo": "podria_aplicar",
+      "texto": "Si tenías una enfermedad preexistente y el viaje se hizo para tratarla, la compañía queda exenta de prestar el servicio.",
+      "motivo": "sin cita válida"
+    },
     {
       "tipo": "no_incluido",
       "texto": "Condiciones Particulares y/o Certificado de Seguro",
       "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    },
+    {
+      "tipo": "veredicto",
+      "texto": "con_limites",
+      "motivo": "con_limites sin un límite concreto citado"
     }
   ],
   "proveedor": {
@@ -365,23 +398,24 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 6184,
-        "tokens_salida": 1048,
+        "tokens_entrada": 7155,
+        "tokens_salida": 1487,
         "tokens_razonamiento": 0,
-        "segundos": 4.26,
-        "costo_usd": 0.001142
+        "segundos": 6.34,
+        "costo_usd": 0.001459
       }
     ],
-    "tokens": 7232,
-    "costo_usd": 0.001142,
-    "segundos": 4.26
+    "tokens": 8642,
+    "costo_usd": 0.001459,
+    "segundos": 6.34
   },
   "prueba": {
     "id": "P06",
     "poliza": "chubb_viajes_jetsmart",
     "origen": "Propia",
     "veredictos_aceptables": [
-      "con_limites"
+      "con_limites",
+      "si"
     ],
     "que_deberia_pasar": "Citar Gastos Odontológicos de Emergencia con sus condiciones: primer tratamiento en el exterior y dentro de 24 horas, límite por diente."
   }

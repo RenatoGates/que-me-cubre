@@ -3,38 +3,39 @@
   "pregunta": "Me enfermé dos días antes de viajar y no pude subir al avión, ¿me devuelven lo que pagué?",
   "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
   "aviso": null,
-  "cubre": "con_limites",
-  "etiqueta_veredicto": "Cubre con límites",
-  "respuesta": "Tu póliza contempla el reembolso de gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, pero solo hasta el límite indicado en las Condiciones Particulares o en el Certificado de Seguro, que no están en el documento que revisé. Para tener derecho, los costos debían estar reservados y pagados, o adeudarse, antes de enfermarte, y debes presentar recibos, facturas y contratos de viaje. El texto también dice al inicio 'en caso de la muerte del ASEGURADO', así que pide a tu aseguradora que aclare si este beneficio aplica a tu situación.",
+  "cubre": "si",
+  "etiqueta_veredicto": "Cubre",
+  "razonamiento": "Como una enfermedad súbita te impidió iniciar el viaje, la póliza contempla el reembolso de gastos de viaje por la cobertura de cancelación, siempre que los hayas reservado y pagado o debas antes de enfermarte. La primera frase de esa cobertura menciona solo la muerte del asegurado, lo que la vuelve algo confusa, pero la frase siguiente describe expresamente el caso de impedimento por enfermedad.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "Tu póliza sí contempla el reembolso de gastos de viaje cuando una enfermedad súbita te impide iniciar el viaje, siempre que hayas reservado y pagado o debas esos costos antes de enfermarte. El monto máximo no está en este documento: se fija en tus Condiciones Particulares o en tu Certificado de Seguro, así que conviene pedirlos a tu aseguradora. Si la gravedad de la enfermedad te impidió llamar a la central de asistencia, la póliza describe los documentos que hay que presentar para pedir el reembolso.",
   "apertura_contradictoria": null,
   "condiciones": [
     {
-      "descripcion": "El pago tiene un límite fijado en las Condiciones Particulares o en el Certificado de Seguro, que no están en este documento.",
+      "descripcion": "La póliza cubre el reembolso de los gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, siempre que hayas reservado y pagado (o debas) estos costos antes de que ocurriera la enfermedad.",
       "citas": [
-        1,
+        1
+      ]
+    },
+    {
+      "descripcion": "La compañía se reserva el derecho de hacer una auditoría médica de comprobación.",
+      "citas": [
         3
       ]
     },
     {
-      "descripcion": "La compañía puede hacer una auditoría médica comprobatoria.",
+      "descripcion": "El monto máximo de reembolso está fijado en las Condiciones Particulares o en el Certificado de Seguro, no en este documento.",
       "citas": [
-        2
-      ]
-    },
-    {
-      "descripcion": "Hay que acreditar lo ocurrido con certificados o documentos, y presentar recibos, boletas, facturas y contratos o pasajes.",
-      "citas": [
-        3,
-        4
+        1
       ]
     }
   ],
   "exclusiones_aplicables": [],
   "podrian_aplicar": [
     {
-      "descripcion": "Si no reservaste y pagaste los costos del viaje antes de enfermarte, ni siquiera los debías, este beneficio no aplicaría.",
+      "descripcion": "Si la gravedad de la enfermedad te impidió llamar a la central de asistencia, podías pedir el reembolso presentando los documentos indicados en la póliza. No dijiste si llamaste.",
       "citas": [
-        1
+        2
       ]
     }
   ],
@@ -67,17 +68,17 @@
       "n": 2,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Cancelación del Viaje",
-      "articulo": "Artículo 3° Cobertura",
-      "pagina": 41,
+      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 5)",
+      "pagina": 43,
       "paginas": [
-        41
+        43
       ],
-      "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
-      "pasaje": "P2",
-      "trozo_id": "chubb_viajes_jetsmart:0149",
+      "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada).",
+      "pasaje": "P5",
+      "trozo_id": "chubb_viajes_jetsmart:0157",
       "posicion": [
-        739,
-        820
+        0,
+        525
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -89,41 +90,18 @@
     {
       "n": 3,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Asistencia de Viajes Adicionales – Recuperación en Hotel durante el Viaje / Acompañante en caso de hospitalización prolongada durante el viaje / Alojamiento del acompañante en caso de hospitalización prolongada durante el viaje / Interrupción de viaje y regreso anticipado / Retorno de menores",
-      "articulo": "Artículo 3° Asistencias (parte 4 de 7)",
-      "pagina": 31,
-      "paginas": [
-        31
-      ],
-      "texto_literal": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda.",
-      "pasaje": "P3",
-      "trozo_id": "chubb_viajes_jetsmart:0115",
-      "posicion": [
-        0,
-        270
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 4,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Cancelación del Viaje",
-      "articulo": "Artículo 6° Aviso de Siniestro y Procedimiento para Solicitar la Cobertura (parte 2 de 5)",
-      "pagina": 43,
+      "articulo": "Artículo 3° Cobertura",
+      "pagina": 41,
       "paginas": [
-        43
+        41
       ],
-      "texto_literal": "a)Recibos, boletas y facturas cuando corresponda;",
-      "pasaje": "P5",
-      "trozo_id": "chubb_viajes_jetsmart:0157",
+      "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria.",
+      "pasaje": "P2",
+      "trozo_id": "chubb_viajes_jetsmart:0149",
       "posicion": [
-        717,
-        766
+        739,
+        820
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -289,60 +267,58 @@
       },
       {
         "n": 2,
-        "pasaje": "P2",
-        "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
+        "pasaje": "P5",
+        "texto_literal": "Documentos: En caso que la gravedad del accidente o enfermedad impida al ASEGURADO o BENEFICIARIO llamar a la CENTRAL DE ASISTENCIA, podrá solicitar el rembolso de los gastos por servicios de viajes, pasajes no devueltos, hospedaje en el hotel y/o de los cargos por cancelación de la utilización de TRANSPORTE PÚBLICO AUTORIZADO, para lo cual, el ASEGURADO o Beneficiario deberá presentar en las oficinas de la COMPAÑÍA los siguientes documentos (en original o certificación de reproducción notarial, antes copia legalizada)."
       },
       {
         "n": 3,
-        "pasaje": "P3",
-        "texto_literal": "Las situaciones descritas deberán ser acreditadas mediante certificados o documentos legales, en donde se demuestre la veracidad de la solicitud de cobertura. Pago sujeto al límite establecido en las Condiciones Particulares y/o Certificado de Seguro, según corresponda."
-      },
-      {
-        "n": 4,
-        "pasaje": "P5",
-        "texto_literal": "a)Recibos, boletas y facturas cuando corresponda;"
+        "pasaje": "P2",
+        "texto_literal": "LA COMPAÑÍA se reserva el derecho de realizar una auditoría médica comprobatoria."
       }
     ],
     "condiciones": [
       {
-        "descripcion": "El pago tiene un límite fijado en las Condiciones Particulares o en el Certificado de Seguro, que no están en este documento.",
+        "descripcion": "La póliza cubre el reembolso de los gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, siempre que hayas reservado y pagado (o debas) estos costos antes de que ocurriera la enfermedad.",
         "citas": [
-          1,
+          1
+        ]
+      },
+      {
+        "descripcion": "La compañía se reserva el derecho de hacer una auditoría médica de comprobación.",
+        "citas": [
           3
         ]
       },
       {
-        "descripcion": "La compañía puede hacer una auditoría médica comprobatoria.",
+        "descripcion": "El monto máximo de reembolso está fijado en las Condiciones Particulares o en el Certificado de Seguro, no en este documento.",
         "citas": [
-          2
-        ]
-      },
-      {
-        "descripcion": "Hay que acreditar lo ocurrido con certificados o documentos, y presentar recibos, boletas, facturas y contratos o pasajes.",
-        "citas": [
-          3,
-          4
+          1
         ]
       }
     ],
     "exclusiones_aplicables": [],
     "podrian_aplicar": [
       {
-        "descripcion": "Si no reservaste y pagaste los costos del viaje antes de enfermarte, ni siquiera los debías, este beneficio no aplicaría.",
+        "descripcion": "Si la gravedad de la enfermedad te impidió llamar a la central de asistencia, podías pedir el reembolso presentando los documentos indicados en la póliza. No dijiste si llamaste.",
         "citas": [
-          1
+          2
         ]
       }
     ],
     "no_incluido_en_documento": [
       {
         "nombre": "Condiciones Particulares y/o Certificado de Seguro",
-        "por_que_importa": "Ahí se fija el monto máximo que te pueden reembolsar.",
+        "por_que_importa": "Ahí se fija el límite de dinero que te pueden reembolsar.",
         "cita": 1
       }
     ],
-    "cubre": "con_limites",
-    "respuesta": "Tu póliza contempla el reembolso de gastos de viaje cuando una enfermedad de carácter súbito te impide iniciar el viaje, pero solo hasta el límite indicado en las Condiciones Particulares o en el Certificado de Seguro, que no están en el documento que revisé. Para tener derecho, los costos debían estar reservados y pagados, o adeudarse, antes de enfermarte, y debes presentar recibos, facturas y contratos de viaje. El texto también dice al inicio 'en caso de la muerte del ASEGURADO', así que pide a tu aseguradora que aclare si este beneficio aplica a tu situación."
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Como una enfermedad súbita te impidió iniciar el viaje, la póliza contempla el reembolso de gastos de viaje por la cobertura de cancelación, siempre que los hayas reservado y pagado o debas antes de enfermarte. La primera frase de esa cobertura menciona solo la muerte del asegurado, lo que la vuelve algo confusa, pero la frase siguiente describe expresamente el caso de impedimento por enfermedad.",
+    "cubre": "si",
+    "respuesta": "Tu póliza sí contempla el reembolso de gastos de viaje cuando una enfermedad súbita te impide iniciar el viaje, siempre que hayas reservado y pagado o debas esos costos antes de enfermarte. El monto máximo no está en este documento: se fija en tus Condiciones Particulares o en tu Certificado de Seguro, así que conviene pedirlos a tu aseguradora. Si la gravedad de la enfermedad te impidió llamar a la central de asistencia, la póliza describe los documentos que hay que presentar para pedir el reembolso."
   },
   "descartes": [
     {
@@ -364,23 +340,24 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 7608,
-        "tokens_salida": 3517,
+        "tokens_entrada": 8595,
+        "tokens_salida": 3954,
         "tokens_razonamiento": 0,
-        "segundos": 14.1,
-        "costo_usd": 0.002519
+        "segundos": 15.77,
+        "costo_usd": 0.002837
       }
     ],
-    "tokens": 11125,
-    "costo_usd": 0.002519,
-    "segundos": 14.1
+    "tokens": 12549,
+    "costo_usd": 0.002837,
+    "segundos": 15.77
   },
   "prueba": {
     "id": "P05",
     "poliza": "chubb_viajes_jetsmart",
     "origen": "Propia",
     "veredictos_aceptables": [
-      "con_limites"
+      "con_limites",
+      "si"
     ],
     "que_deberia_pasar": "Citar Cancelación del Viaje: reembolso hasta el límite de las Condiciones Particulares si una enfermedad de carácter súbito impide iniciar el viaje y los gastos se pagaron antes."
   }

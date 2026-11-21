@@ -105,6 +105,8 @@ def acceso_radiografia(cuenta: dict | None, clave_poliza: str) -> str:
     "bloqueada" (la gratis ya se usó en otra) o "sin_cuenta"."""
     if cuenta is None:
         return "sin_cuenta"
+    if cuenta.get("exenta"):
+        return "ya_obtenida"  # sin límite: no se cobra
     if clave_poliza == cuenta.get("radiografia_gratis") or clave_poliza in radiografias_pagadas(cuenta):
         return "ya_obtenida"
     if cuenta["plan"] == "pagado":

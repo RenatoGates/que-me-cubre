@@ -20,6 +20,9 @@ Al cliente va solo lo verificado: se quitan la salida cruda del modelo y los des
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
+import hmac
+import os
 import math
 import threading
 import time
@@ -33,6 +36,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 from fastapi import APIRouter, FastAPI, File, Header, HTTPException, Request, UploadFile  # noqa: E402
+from fastapi.responses import FileResponse  # noqa: E402
 from fastapi.concurrency import run_in_threadpool  # noqa: E402
 from pydantic import BaseModel, Field  # noqa: E402
 from starlette.formparsers import MultiPartParser  # noqa: E402
@@ -46,7 +50,7 @@ from backend import acceso_google, almacen, cache_respuestas, cuentas, guardado,
 from backend.limites import LIMA, Limites, clave_dispositivo, clave_ip  # noqa: E402
 
 VERSION = "1.4.0"
-POLITICA = config("QMC_POLITICA_URL") or "https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md"
+POLITICA = config("QMC_POLITICA_URL") or "https://renatogates.github.io/que-me-cubre/privacidad.html"
 MAX_ARCHIVOS = 6
 MAX_BYTES = 20 * 1024 * 1024  # por archivo
 MultiPartParser.spool_max_size = MAX_BYTES + 1
@@ -298,6 +302,15 @@ def ver_poliza(poliza_id: str, x_dispositivo: str | None = Header(default=None),
     return resumen_poliza(poliza_id, buscar_poliza(poliza_id, quien_es(x_dispositivo, authorization)))
 
 
+@api.get("/polizas/{poliza_id}/pdf")
+def pdf_de_ejemplo(poliza_id: str) -> FileResponse:
+    """El PDF de un condicionado de ejemplo (son documentos públicos), para abrirlo en la página
+    de una cita. El PDF de una póliza subida nunca se guarda ni se sirve: vive en el teléfono."""
+    if poliza_id not in almacen.fuentes():
+        raise error(404, "sin_pdf", "Ese PDF está solo en tu dispositivo.")
+    return FileResponse(almacen.ruta_pdf(poliza_id), media_type="application/pdf", filename=f"{poliza_id}.pdf")
+
+
 @api.post("/polizas", status_code=201)
 async def subir_poliza(request: Request, archivos: list[UploadFile] = File(...),
                        x_dispositivo: str | None = Header(default=None)) -> dict:
@@ -352,11 +365,32 @@ class Aclaracion(BaseModel):
     respuesta: str = Field(max_length=500)
 
 
+class Turno(BaseModel):
+    """Un turno anterior de la misma conversación: lo que la persona preguntó y lo que recibió."""
+
+    pregunta: str = Field(max_length=1000)
+    veredicto: str = Field(default="", max_length=60)
+    razonamiento: str = Field(default="", max_length=800)
+
+
 class Consulta(BaseModel):
     poliza_id: str = Field(min_length=1, max_length=200)
     pregunta: str = Field(min_length=3, max_length=1000)
     # Lo que la persona respondió a las repreguntas de una respuesta anterior con modo "aclaracion"
     aclaraciones: list[Aclaracion] = Field(default_factory=list, max_length=3)
+    # Los turnos anteriores de la conversación sobre esta póliza (los últimos, como mucho 3)
+    turnos: list[Turno] = Field(default_factory=list, max_length=3)
+
+
+_LLAVE_REF = hashlib.sha256(b"ref|" + (config("QMC_CLAVE_DATOS") or "").encode()).digest() if config("QMC_CLAVE_DATOS") \
+    else os.urandom(32)
+
+
+def ref_de(documento: str, pregunta: str) -> str:
+    """Firma de una respuesta ya dada: con ella, ver "qué hacer ahora" sobre esa misma pregunta no
+    cuenta como consulta. La firma la hace el servidor; el cliente no puede inventarla."""
+    texto = f"{documento}|{cache_respuestas.normalizar(pregunta)}"
+    return hmac.new(_LLAVE_REF, texto.encode(), hashlib.sha256).hexdigest()[:32]
 
 
 INTERNOS = ("modelo_crudo", "descartes", "proveedor", "uso", "error", "error_detalle", "normalizacion", "triage",
@@ -382,6 +416,9 @@ def tomar_una(lim: Limites, q: Quien) -> tuple[str, str] | None:
 
     Cuenta pagada con saldo: 1 de su bolsa, con un freno de 20 al día. Sin saldo, o sin plan
     pagado: el tope del día y el del mes (corta el primero que se agote)."""
+    if q.cuenta and q.cuenta.get("exenta"):  # QMC_CORREOS_SIN_LIMITE: sin tope diario, mensual ni bolsa
+        q.tomadas.append("exenta")
+        return None
     if q.plan == "pagado":
         if not lim.tomar(q.clave, lim.limite_pagado_dia):  # freno contra abuso: se renueva mañana
             return "limite_cuenta", f"{TOPE} Se renuevan el {lim.renueva_manana()}."
@@ -421,7 +458,7 @@ def otra_consulta(lim: Limites, q: Quien) -> bool:
 
 def devolver_cupo(lim: Limites, q: Quien) -> None:
     """Devuelve la última consulta tomada (una repregunta todavía no respondió nada)."""
-    if not q.tomadas:
+    if not q.tomadas or q.tomadas[-1] == "exenta":
         return
     lim.devolver(q.clave)
     if q.tomadas.pop() == "bolsa":
@@ -448,8 +485,9 @@ def preguntar(consulta: Consulta, request: Request, x_dispositivo: str | None = 
     poliza = buscar_poliza(consulta.poliza_id, q)
     tipo = "ejemplo" if consulta.poliza_id in almacen.fuentes() else "guardada" if consulta.poliza_id.startswith("g_") else "subida"
     aclaraciones = [a.model_dump() for a in consulta.aclaraciones]
+    turnos = [t.model_dump() for t in consulta.turnos]
     documento = documento_de(consulta.poliza_id, poliza)
-    k = cache_respuestas.clave(pregunta, aclaraciones, documento, limites().hoy_lima())
+    k = cache_respuestas.clave(pregunta, aclaraciones, documento, limites().hoy_lima(), turnos)
     with observabilidad.funcion("preguntar", poliza=consulta.poliza_id if tipo == "ejemplo" else tipo) as anotar:
         r = respuestas.obtener(k) if cache_activa() else None
         lim = limites()
@@ -460,7 +498,7 @@ def preguntar(consulta: Consulta, request: Request, x_dispositivo: str | None = 
         else:
             lim = cupo(request, q)
             quien = proveedor_por_tope() if por_tope else proveedor()
-            r = flujo.atender(pregunta, poliza, quien, aclaraciones, permitir_otra=lambda: otra_consulta(lim, q))
+            r = flujo.atender(pregunta, poliza, quien, aclaraciones, permitir_otra=lambda: otra_consulta(lim, q), turnos=turnos)
             costo = r["uso"]["costo_usd"]
             if r["modo"] == "aclaracion":  # todavía no se respondió nada: no gasta una consulta
                 devolver_cupo(lim, q)
@@ -477,7 +515,7 @@ def preguntar(consulta: Consulta, request: Request, x_dispositivo: str | None = 
     limpiar(r)
     if tipo == "guardada" and r["modo"] != "aclaracion":  # historial: solo de pólizas guardadas en una cuenta
         r["consulta_id"] = guardado.guardar_consulta(lim.motor, q.cuenta["usuario_id"], consulta.poliza_id, r)
-    return r | {"limites": estado_limites(lim, q, por_tope)}
+    return r | {"limites": estado_limites(lim, q, por_tope), "ref": ref_de(documento, r["pregunta"])}
 
 
 # ---------------------------------------------------------------------------
@@ -489,6 +527,10 @@ class PedidoPasos(BaseModel):
     poliza_id: str = Field(min_length=1, max_length=200)
     situacion: str = Field(default="", max_length=1000)
     fecha_hecho: dt.date | None = None  # si no viene, se lee de la situación ("ayer", "el 12 de noviembre")
+    ref: str = Field(default="", max_length=64)  # la firma de la respuesta sobre la que se piden los pasos
+
+
+_pasos_hechos: dict[str, tuple[dict, float]] = {}  # los pasos de una respuesta ya dada, por un rato
 
 
 @api.post("/pasos")
@@ -498,13 +540,26 @@ def pasos_para_reclamar(pedido: PedidoPasos, request: Request, x_dispositivo: st
         raise error(400, "fecha_futura", "La fecha del hecho no puede ser futura.")
     q = quien_es(x_dispositivo, authorization)
     poliza = buscar_poliza(pedido.poliza_id, q)
-    with observabilidad.funcion("pasos") as anotar:
-        lim = cupo(request, q)
+    documento = documento_de(pedido.poliza_id, poliza)
+    # Sobre una respuesta que ya existe (firmada por el servidor), los pasos no cuentan como consulta.
+    sobre_respuesta = bool(pedido.ref) and hmac.compare_digest(pedido.ref, ref_de(documento, pedido.situacion))
+    k = f"{documento}|{cache_respuestas.normalizar(pedido.situacion)}|{pedido.fecha_hecho}|{limites().hoy_lima()}"
+    guardados = _pasos_hechos.get(k)
+    if sobre_respuesta and guardados and guardados[1] > time.monotonic():
+        lim = limites()
+        return guardados[0] | {"limites": estado_limites(lim, q, lim.tope_global_alcanzado())}
+    with observabilidad.funcion("pasos", sobre_respuesta=sobre_respuesta) as anotar:
+        lim = limites() if sobre_respuesta else cupo(request, q)
         por_tope = lim.tope_global_alcanzado()
         r = pasos.que_hacer(poliza, pedido.situacion.strip(), pedido.fecha_hecho, proveedor_por_tope() if por_tope else proveedor())
         lim.registrar_gasto(r["uso"]["costo_usd"], sin_modelo=r["modo"] != "pasos")
         anotar(modo=r["modo"], costo_usd=r["uso"]["costo_usd"], segundos=r["uso"].get("segundos"), plazos=len(r.get("plazos", [])))
-    return limpiar(r) | {"limites": estado_limites(lim, q, por_tope)}
+    limpiar(r)
+    if sobre_respuesta and r["modo"] == "pasos" and not por_tope:
+        while len(_pasos_hechos) >= 200:
+            _pasos_hechos.pop(next(iter(_pasos_hechos)))
+        _pasos_hechos[k] = (r, time.monotonic() + 3600)
+    return r | {"limites": estado_limites(lim, q, por_tope)}
 
 
 _candado_radiografia = threading.Lock()
@@ -659,7 +714,8 @@ def datos_de_cuenta(cuenta: dict) -> dict:
     saldo = pagos.saldo(lim.motor, cuenta["usuario_id"])
     return {"correo": cuenta["correo"], "plan": plan, "acceso": "google" if cuenta["con_google"] else "clave",
             "polizas_permitidas": pagos.polizas_permitidas(plan), "dias_de_guardado": pagos.dias_de_guardado(plan),
-            "saldo": saldo if plan == "pagado" else None, "volver_a_comprar": plan == "pagado" and saldo == 0,
+            "saldo": saldo if plan == "pagado" else None,
+            "volver_a_comprar": plan == "pagado" and saldo == 0 and not cuenta.get("exenta"),
             "id_compra": pagos.id_ofuscado(cuenta["usuario_id"]),  # obfuscatedAccountId para Play
             "funciones": {"superposiciones": pagos.puede_comparar(plan), "radiografia": radiografia_,
                           "radiografia_gratis_de": cuenta["radiografia_gratis"],
@@ -822,16 +878,32 @@ def mapa_distritos(departamento: str) -> list[dict]:
 def _con_internamiento() -> list:
     df = registro()
     con = df[df["tipo"].str.contains("CON INTERNAMIENTO")].dropna(subset=["lat", "lon"])
-    return [[f.nombre, renipress.nombre_propio(f.clasificacion.split(",")[0]), round(float(f.lat), 5), round(float(f.lon), 5)]
-            for f in con.itertuples()]
+    return [[f.nombre, renipress.nombre_propio(f.clasificacion.split(",")[0]), round(float(f.lat), 5), round(float(f.lon), 5),
+             f.departamento, f.provincia, f.distrito] for f in con.itertuples()]
 
 
 @api.get("/mapa/con-internamiento")
 def mapa_con_internamiento() -> dict:
     """Hospitales y clínicas con internamiento de todo el país con coordenadas: [nombre, tipo,
-    lat, lon]. El cliente calcula con esto lo más cercano sin enviar la ubicación a nadie."""
+    lat, lon, departamento, provincia, distrito]. El cliente calcula con esto lo más cercano y en
+    qué distrito está la persona, sin enviar la ubicación a nadie."""
     return {"aviso": "Son establecimientos registrados en SUSALUD, no la red de tu aseguradora.",
             "fuente": renipress.fuente(), "establecimientos": _con_internamiento()}
+
+
+@lru_cache(maxsize=1)
+def _todos_los_distritos() -> list[dict]:
+    df = registro()[["departamento", "provincia", "distrito"]].drop_duplicates()
+    return [{"departamento": f.departamento, "provincia": f.provincia, "distrito": f.distrito,
+             "nombre": renipress.nombre_propio(f.distrito), "nombre_provincia": renipress.nombre_propio(f.provincia),
+             "nombre_departamento": renipress.nombre_propio(f.departamento)}
+            for f in df.sort_values(["departamento", "provincia", "distrito"]).itertuples()]
+
+
+@api.get("/mapa/distritos-todos")
+def mapa_todos_los_distritos() -> list[dict]:
+    """Todos los distritos del registro, para buscar uno por nombre sin pasar por el departamento."""
+    return _todos_los_distritos()
 
 
 @api.get("/mapa/establecimientos")

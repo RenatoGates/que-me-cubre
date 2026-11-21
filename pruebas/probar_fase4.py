@@ -9,6 +9,9 @@
    acredita una sola vez, nunca de otra cuenta y nunca sin sesión.
 5. Versionado: todo bajo /v1, con la versión mínima de la app.
 6. Lo que va al cliente: ni proveedor, ni modelo, ni tokens, ni costo; los topes, sin números.
+7. Correcciones tras la tableta: «qué hacer ahora» sobre una respuesta ya dada no cuenta; los
+   correos de QMC_CORREOS_SIN_LIMITE no tienen topes; el PDF se sirve solo de los ejemplos; la
+   conversación previa llega al modelo delimitada y con un máximo de 3 turnos.
 
     python pruebas/probar_fase4.py      # termina con código 1 si algo falla
 """
@@ -105,6 +108,7 @@ class ProveedorPrueba(Proveedor):
             self.grabadas[texto_clave(r["pregunta"])] = (r["modelo_crudo"], d["tokens_entrada"], d["tokens_salida"])
 
     def _llamar(self, tarea, modelo, sistema, usuario, esquema):
+        self.ultimo = usuario
         if tarea == "respuesta" and "<pregunta>" in usuario:
             pregunta = usuario.rsplit("<pregunta>", 1)[1].split("</pregunta>")[0].strip()
             if texto_clave(pregunta) in self.grabadas:
@@ -239,6 +243,59 @@ def main_() -> int:
         caso("al tope: «Alcanzaste el límite de consultas de tu plan. Se renuevan el DD/MM/AAAA.», sin otros números",
              re.fullmatch(r"Alcanzaste el límite de consultas de tu plan\. Se renuevan el \d\d/\d\d/\d{4}\.", mensaje) is not None, mensaje)
         os.environ["QMC_LIMITE_DISPOSITIVO_DIA"] = "50"
+
+        # --- 7. Correcciones tras probar en la tableta ---
+        d7 = {"X-Dispositivo": "pasos-ref-01"}
+        lim.olvidar(main.clave_dispositivo("pasos-ref-01"))
+        main.respuestas = main.cache_respuestas.Cache()
+        r = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=d7).json()
+        hoy0 = r["limites"]["restantes_hoy"]
+        con_ref = [api.post("/v1/pasos", json={"poliza_id": CHUBB, "situacion": P01, "ref": r["ref"]}, headers=d7).json() for _ in range(2)]
+        caso("«qué hacer ahora» sobre una respuesta ya dada (con su firma) no cuenta como consulta, ni la primera vez ni al repetirlo",
+             bool(r.get("ref")) and all(x["limites"]["restantes_hoy"] == hoy0 for x in con_ref), [x["limites"] for x in con_ref])
+        falsa = api.post("/v1/pasos", json={"poliza_id": CHUBB, "situacion": P01, "ref": "0" * 32}, headers=d7).json()
+        otra = api.post("/v1/pasos", json={"poliza_id": CHUBB, "situacion": "me robaron la maleta", "ref": r["ref"]}, headers=d7).json()
+        caso("con una firma inventada, o la de otra pregunta, sí cuenta",
+             falsa["limites"]["restantes_hoy"] == hoy0 - 1 and otra["limites"]["restantes_hoy"] == hoy0 - 2, (falsa["limites"], otra["limites"]))
+
+        os.environ.update({"QMC_LIMITE_GRATIS_DIA": "1", "QMC_LIMITE_GRATIS_MES": "1", "QMC_CORREOS_SIN_LIMITE": "otro@ejemplo.pe, Dueno@Ejemplo.pe"})
+        main.respuestas = main.cache_respuestas.Cache()
+        tx = api.post("/v1/cuenta/registro", json={"correo": "dueno@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).json()["token"]
+        X = {"Authorization": f"Bearer {tx}", "X-Dispositivo": "dispositivo-del-dueno"}
+        estados = [api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": f"¿Me cubre si pierdo el vuelo {i}?"}, headers=X).status_code
+                   for i in range(4)]
+        cuenta_x = api.get("/v1/cuenta", headers=X).json()
+        radiografias = [api.get(f"/v1/polizas/{p_}/radiografia", headers=X).status_code for p_ in (CHUBB, PACIFICO)]
+        caso("correo en QMC_CORREOS_SIN_LIMITE (sin importar mayúsculas): 4 consultas con tope gratis de 1, todas las funciones",
+             estados == [200] * 4 and cuenta_x["plan"] == "pagado" and not cuenta_x.get("volver_a_comprar") and radiografias == [200, 200],
+             (estados, cuenta_x.get("plan"), radiografias))
+        tc = api.post("/v1/cuenta/registro", json={"correo": "carla@ejemplo.pe", "clave": CLAVE, "acepto_privacidad": True}).json()["token"]
+        C = {"Authorization": f"Bearer {tc}", "X-Dispositivo": "dispositivo-de-carla"}
+        r = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": "¿Me cubre si pierdo el vuelo 9?"}, headers=C)
+        r2 = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": "¿Me cubre si pierdo el vuelo 10?"}, headers=C)
+        caso("una cuenta que no está en la lista sigue con su tope", r.status_code == 200 and r2.status_code == 429, (r.status_code, r2.status_code))
+        os.environ.update({"QMC_LIMITE_GRATIS_DIA": "50", "QMC_LIMITE_GRATIS_MES": "500"})
+        os.environ.pop("QMC_CORREOS_SIN_LIMITE")
+
+        r = api.get(f"/v1/polizas/{CHUBB}/pdf")
+        sY = api.post("/v1/polizas", files=[("archivos", ("mia.pdf", pdf, "application/pdf"))], headers=d7).json()["poliza_id"]
+        caso("el PDF se sirve solo de un condicionado de ejemplo; el de una póliza subida, nunca (vive en el teléfono)",
+             r.status_code == 200 and r.content == pdf and r.headers["content-type"] == "application/pdf"
+             and api.get(f"/v1/polizas/{sY}/pdf", headers=d7).status_code == 404, r.status_code)
+
+        main.respuestas = main.cache_respuestas.Cache()
+        turnos = [{"pregunta": "Me doblé el tobillo en Cusco", "veredicto": "No encontrado", "razonamiento": "No hay nada literal sobre el tobillo."}]
+        sin = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": P01}, headers=d7).json()
+        msg_sin = prueba.ultimo
+        con = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": P01, "turnos": turnos}, headers=d7).json()
+        msg_con = prueba.ultimo
+        bloque = msg_con.split("<conversacion_previa>")[1].split("</conversacion_previa>")[0] if "<conversacion_previa>" in msg_con else ""
+        caso("la conversación previa llega al modelo dentro de <conversacion_previa>, y sin turnos no aparece",
+             "Me doblé el tobillo en Cusco" in bloque and "<conversacion_previa>" not in msg_sin and con["cubre"] == sin["cubre"], bloque[:120])
+        caso("con turnos, la misma pregunta no reusa la respuesta guardada sin ellos (otra clave de caché)",
+             con["limites"]["restantes_hoy"] == sin["limites"]["restantes_hoy"] - 1, (sin["limites"], con["limites"]))
+        r = api.post("/v1/preguntar", json={"poliza_id": CHUBB, "pregunta": P01, "turnos": turnos * 4}, headers=d7)
+        caso("más de 3 turnos anteriores se rechazan (422)", r.status_code == 422, r.status_code)
 
         # --- 4. Google Play Billing ---
         os.environ.pop("QMC_PLAY_CUENTA_SERVICIO")

@@ -52,6 +52,8 @@ dependencies:
   package_info_plus: ^10.2.2
   uuid: ^4.6.0
   crypto: ^3.0.8
+  path_provider: ^2.1.6
+  pdfx: ^2.11.0
 
 dev_dependencies:
   flutter_test:

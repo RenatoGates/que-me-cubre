@@ -34,13 +34,13 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 POLIZA_TARAPOTO = "chubb_viajes_jetsmart"
-COLORES = {  # fondo, texto, borde
-    "si": ("#e3f4e8", "#14532d", "#4f9a69"),
-    "con_limites": ("#fff3d1", "#6b4500", "#a67c00"),
-    "no": ("#fde4e2", "#8a1c13", "#d0645a"),
-    "no_encontrado": ("#eceff3", "#2f3640", "#7d8796"),
-    "fuera_de_alcance": ("#eceff3", "#2f3640", "#7d8796"),
-    None: ("#eceff3", "#2f3640", "#7d8796"),
+COLORES = {  # fondo, texto, borde: la paleta clara de la app (contrastes en pruebas/medir_contraste.py)
+    "si": ("#FFFFFF", "#1E7A4D", "#1E7A4D"),
+    "con_limites": ("#FFFFFF", "#A36200", "#A36200"),
+    "no": ("#FFFFFF", "#C0392B", "#C0392B"),  # el rojo, solo para «no cubre»
+    "no_encontrado": ("#FFFFFF", "#7A6E62", "#7A6E62"),
+    "fuera_de_alcance": ("#FFFFFF", "#7A6E62", "#7A6E62"),
+    None: ("#FFFFFF", "#7A6E62", "#7A6E62"),
 }
 
 st.set_page_config(page_title="¿Qué Cubre?", page_icon="🛡️", layout="centered")
@@ -50,15 +50,17 @@ st.markdown(
     .qmc-veredicto {font-size: 1.6rem; font-weight: 700; padding: .55rem 1rem; border-radius: .6rem;
                     border: 2px solid; display: inline-block; margin: .2rem 0 .8rem 0;}
     .qmc-pasaje {font-size: .92rem; line-height: 1.5; white-space: normal;}
-    .qmc-pasaje mark {background: #ffe58a; color: #1d1d1d; padding: 0 .1em; border-radius: .15em;}
-    .qmc-cita {border-left: 4px solid #4338CA; padding: .35rem 0 .35rem .9rem; margin: .3rem 0 .6rem 0;
+    .qmc-razon {font-size: 1.12rem; line-height: 1.55; margin: 0 0 .5rem 0;}
+    .qmc-limite {color: #A36200; font-weight: 700; margin: 0 0 .5rem 0;}
+    .qmc-pasaje mark {background: #F6E3B4; color: #2E2620; padding: 0 .1em; border-radius: .15em;}
+    .qmc-cita {border-left: 4px solid #2D6BE5; background: #F3EDE4; color: #2E2620; padding: .5rem .8rem .5rem .9rem; margin: .3rem 0 .6rem 0;
                font-size: 1rem; line-height: 1.55;}
     /* Streamlit dibuja st.caption al 60 % de opacidad: sobre el fondo azul claro del tema queda en
        4,2:1, bajo el 4,5:1 de WCAG AA. Ahí van la página y la verificación de cada cita. */
     [data-testid="stCaptionContainer"] {opacity: .75;}
 
     /* Encabezado fijo de Streamlit con el mismo degradado que la banda, íconos en blanco */
-    header[data-testid="stHeader"] {background: linear-gradient(90deg, #4C2FC9, #6366F1);}
+    header[data-testid="stHeader"] {background: #2D6BE5;}
     header[data-testid="stHeader"] button, header[data-testid="stHeader"] a,
     header[data-testid="stHeader"] span, header[data-testid="stHeader"] svg {color: #FFFFFF; fill: #FFFFFF;}
     [data-testid="stDecoration"] {display: none;}
@@ -70,44 +72,43 @@ st.markdown(
     /* el fondo sube por debajo del encabezado fijo para que banda y encabezado se vean como una sola pieza */
     .qmc-banda::before {content: ""; position: absolute; z-index: -1; top: -6rem; bottom: 0; left: 50%;
                         width: 100vw; transform: translateX(-50%);
-                        background: linear-gradient(90deg, #4C2FC9, #6366F1);}
+                        background: #2D6BE5;}
     [data-testid="stMarkdownContainer"] p.qmc-titulo {color: #FFFFFF; font-size: clamp(2rem, 7vw, 2.75rem) !important;
                  font-weight: 700; line-height: 1.15; margin: 0 0 .45rem 0;}
-    /* Texto grande para WCAG (19 px en negrita): pide 3:1, y el blanco al 85 % da de 3,7:1 (extremo
-       claro del degradado) a 6,4:1. A tamaño normal pediría 4,5:1 y no llegaría en el extremo claro. */
-    [data-testid="stMarkdownContainer"] p.qmc-bajada {color: rgba(255, 255, 255, .85); font-size: 19px !important;
+    /* Blanco pleno sobre el azul primario: 4,83:1 */
+    [data-testid="stMarkdownContainer"] p.qmc-bajada {color: #FFFFFF; font-size: 19px !important;
                  font-weight: 700; line-height: 1.4; margin: 0;}
 
     /* Tarjetas blancas: el contenido (y el texto de las cláusulas) siempre sobre blanco */
     div[class*="st-key-tarjeta_"] {background: #FFFFFF; border-radius: 12px; padding: 1.25rem 1.25rem 1rem;
-                                   border: 1px solid rgba(22, 26, 46, .05);
-                                   box-shadow: 0 1px 2px rgba(22, 26, 46, .05), 0 4px 14px rgba(22, 26, 46, .06);}
+                                   border: 1px solid rgba(46, 38, 32, .05);
+                                   box-shadow: 0 1px 2px rgba(46, 38, 32, .05), 0 4px 14px rgba(46, 38, 32, .06);}
 
     /* Ejemplos: chicos, tipo enlace */
     /* Cuenta: tarjetas de póliza guardada y una zona de borrado que no se confunde con el resto */
-    div[class*="st-key-poliza_g_"] {background: #F7F7FD; border: 1px solid #DCDDF3; border-radius: 12px; padding: 1rem 1rem .6rem;}
-    div.st-key-zona_borrado {background: #FFF5F4; border: 1.5px solid #D0645A; border-radius: 12px; padding: 1rem 1rem .8rem;
+    div[class*="st-key-poliza_g_"] {background: #FBF7F2; border: 1px solid #E8DFD4; border-radius: 12px; padding: 1rem 1rem .6rem;}
+    div.st-key-zona_borrado {background: #FFFFFF; border: 1.5px solid #A36200; border-radius: 12px; padding: 1rem 1rem .8rem;
                              margin-top: 1.2rem;}
     div[class*="st-key-borrar_c_"] button, div[class*="st-key-borrar_p_"] button, div[class*="st-key-borrar_si_"] button {
-        border: 1.5px solid #B42318; color: #B42318; background: #FFFFFF;}
+        border: 1.5px solid #2E2620; color: #2E2620; background: #FFFFFF;}
     div[class*="st-key-borrar_c_"] button:hover, div[class*="st-key-borrar_p_"] button:hover,
-    div[class*="st-key-borrar_si_"] button:hover {background: #B42318; color: #FFFFFF; border-color: #B42318;}
+    div[class*="st-key-borrar_si_"] button:hover {background: #2E2620; color: #FFFFFF; border-color: #2E2620;}
     div[class*="st-key-borrar_"] button:hover p {color: #FFFFFF;}
-    div.st-key-borrar_cuenta button {background: #B42318; color: #FFFFFF; border: 0;}
-    .qmc-plan {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #E0E7FF; color: #3730A3;
+    div.st-key-borrar_cuenta button {background: #2E2620; color: #FFFFFF; border: 0;}
+    .qmc-plan {display: inline-block; padding: .15rem .6rem; border-radius: 999px; background: #FFFFFF; color: #2D6BE5; border: 1px solid #2D6BE5;
                font-weight: 700; font-size: .85rem;}
-    .qmc-vence {display: inline-block; padding: .05rem .5rem; border-radius: 999px; background: #FFF3D1; color: #6B4500;
+    .qmc-vence {display: inline-block; padding: .05rem .5rem; border-radius: 999px; background: #FFFFFF; color: #A36200; border: 1px solid #A36200;
                 font-size: .8rem; white-space: nowrap;}
-    .qmc-bloqueo {display: inline-block; padding: .2rem .65rem; border-radius: 999px; background: #EEF0F4; color: #2F3640;
+    .qmc-bloqueo {display: inline-block; padding: .2rem .65rem; border-radius: 999px; background: #F3EDE4; color: #2E2620;
                   font-size: .88rem;}
     /* Pie de privacidad: discreto, pero con contraste suficiente para leerse */
-    .qmc-pie {margin-top: 2rem; padding-top: .8rem; border-top: 1px solid rgba(22, 26, 46, .12); font-size: .82rem;
-              line-height: 1.5; color: #3D4452;}
-    .qmc-pie a {color: #3730A3; font-weight: 600;}
+    .qmc-pie {margin-top: 2rem; padding-top: .8rem; border-top: 1px solid rgba(46, 38, 32, .12); font-size: .82rem;
+              line-height: 1.5; color: #2E2620;}
+    .qmc-pie a {color: #2D6BE5; font-weight: 600;}
     div.st-key-olvide button {padding: 0; min-height: 0;}
-    div.st-key-olvide button p {font-size: .9rem; color: #4338CA; text-decoration: underline; text-underline-offset: 2px;}
+    div.st-key-olvide button p {font-size: .9rem; color: #2D6BE5; text-decoration: underline; text-underline-offset: 2px;}
     div[class*="st-key-tarapoto_"] button {padding: 0; min-height: 0; justify-content: flex-start;}
-    div[class*="st-key-tarapoto_"] button p {font-size: .92rem; color: #4338CA; text-align: left;
+    div[class*="st-key-tarapoto_"] button p {font-size: .92rem; color: #2D6BE5; text-align: left;
                                               text-decoration: underline; text-underline-offset: 2px;}
 
     /* Cómo funciona: tres pasos debajo del título */
@@ -115,8 +116,8 @@ st.markdown(
                                                        margin: .1rem 0 .4rem 0; padding: 0;}
     ol.qmc-pasos li {flex: 1; display: flex; align-items: center; gap: .6rem; margin: 0; padding: .6rem .8rem;
                      background: #FFFFFF; border-radius: 12px; font-size: .95rem; line-height: 1.35;
-                     box-shadow: 0 1px 2px rgba(22, 26, 46, .05), 0 4px 14px rgba(22, 26, 46, .06);}
-    ol.qmc-pasos li span {flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #4338CA;
+                     box-shadow: 0 1px 2px rgba(46, 38, 32, .05), 0 4px 14px rgba(46, 38, 32, .06);}
+    ol.qmc-pasos li span {flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #2D6BE5;
                           color: #FFFFFF; font-weight: 700; font-size: .9rem; display: inline-flex;
                           align-items: center; justify-content: center;}
 
@@ -304,6 +305,21 @@ def veredicto(r: dict) -> None:
 
 
 def explicacion(r: dict) -> None:
+    razon = (r.get("razonamiento") or "").strip()
+    if razon:
+        st.markdown(f'<p class="qmc-razon">{html.escape(razon)}</p>', unsafe_allow_html=True)
+    limite = r.get("limite") or {}
+    if limite.get("descripcion"):
+        st.markdown(f'<p class="qmc-limite">Límite: {html.escape(limite["descripcion"])}{refs([limite["cita"]]) if limite.get("cita") else ""}</p>',
+                    unsafe_allow_html=True)
+    if razon:
+        with st.expander("Ver la explicación completa"):
+            _explicacion_completa(r)
+    else:
+        _explicacion_completa(r)
+
+
+def _explicacion_completa(r: dict) -> None:
     st.markdown(md(r["respuesta"]))
     if r["condiciones"]:
         st.markdown("**Condiciones y límites**")
@@ -913,7 +929,8 @@ def pantalla_poliza() -> None:
                         try:
                             with st.spinner("Buscando en tu póliza cómo se reclama: tarda entre 10 y 20 segundos…"):
                                 st.session_state["pasos"] = con_poliza("POST", "/pasos", poliza, archivos, {
-                                    "situacion": resultado["pregunta"], "fecha_hecho": fecha.isoformat() if fecha else None})
+                                    "situacion": resultado["pregunta"], "fecha_hecho": fecha.isoformat() if fecha else None,
+                                    "ref": resultado.get("ref") or ""})  # sobre una respuesta ya dada: no cuenta como consulta
                         except ErrorAPI as e:
                             (st.warning if e.status == 429 else st.error)(str(e))
                     if st.session_state.get("pasos"):

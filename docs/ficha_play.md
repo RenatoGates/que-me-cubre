@@ -24,4 +24,4 @@ encuentres en tu PDF.
 Funciones premium: guarda varias pólizas sin que se borren, compáralas para ver si pagas doble
 y mira la radiografía de cada una.
 
-**Política de privacidad:** https://github.com/RenatoGates/que-me-cubre/blob/main/docs/privacidad.md
+**Política de privacidad:** https://renatogates.github.io/que-me-cubre/privacidad.html

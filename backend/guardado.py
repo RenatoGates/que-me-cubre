@@ -245,7 +245,7 @@ def conservar_polizas(motor: sa.Engine, usuario_id: str) -> None:
 # Historial de consultas
 # ---------------------------------------------------------------------------
 
-_CAMPOS = ("modo", "pregunta", "documento", "aviso", "cubre", "etiqueta_veredicto", "respuesta", "condiciones", "exclusiones_aplicables",
+_CAMPOS = ("modo", "pregunta", "documento", "aviso", "cubre", "etiqueta_veredicto", "razonamiento", "limite", "respuesta", "condiciones", "exclusiones_aplicables",
            "podrian_aplicar", "no_incluido_en_documento", "citas", "mencionadas_ausentes", "repreguntas", "fecha_hecho")
 
 

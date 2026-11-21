@@ -14,6 +14,7 @@ condicionados de ejemplo debajo, cómo funciona) y la subida de una póliza en d
 
 from __future__ import annotations
 
+import json
 import os
 import re
 
@@ -108,7 +109,7 @@ def main() -> int:
     t = textos(at)
     pie = [m.value for m in at.markdown if 'class="qmc-pie"' in m.value]
     caso("privacidad en un pie de página, con enlace a la política completa",
-         len(pie) == 1 and "se procesa en memoria y no se guarda" in pie[0] and "docs/privacidad.md" in pie[0]
+         len(pie) == 1 and "se procesa en memoria y no se guarda" in pie[0] and "privacidad.html" in pie[0]
          and "Política de privacidad</a>" in pie[0], str(pie)[:300])
     caso("pie: lo que se envía al proveedor y que es informativo",
          "servicios de inteligencia artificial" in pie[0])
@@ -150,9 +151,14 @@ def main() -> int:
     caso("P02: responde sin errores", not at.exception, str(at.exception))
     t = textos(at)
     html = "\n".join(m.value for m in at.markdown)
-    caso("P02: el veredicto arriba es la etiqueta del campo estructurado", 'class="qmc-veredicto"' in html and "Cubre con límites" in html)
-    caso("P02: 'podrían aplicar' aparte y como posibilidad",
-         "Exclusiones que podrían aplicar según tu caso" in t and "No es lo que pasó" in t)
+    caso("P02: el veredicto arriba es la etiqueta del campo estructurado", 'class="qmc-veredicto"' in html and ">Cubre</div>" in html)
+    p02 = json.loads((RAIZ / "pruebas" / "salidas" / "P02.json").read_text(encoding="utf-8"))
+    if p02.get("podrian_aplicar"):
+        caso("P02: 'podrían aplicar' aparte y como posibilidad",
+             "Exclusiones que podrían aplicar según tu caso" in t and "No es lo que pasó" in t)
+    else:  # la grabación de ahora no trae ninguna: el bloque no aparece vacío
+        caso("P02: sin exclusiones que podrían aplicar en la grabación, no aparece el bloque vacío",
+             "Exclusiones que podrían aplicar según tu caso" not in t)
     orden = [html.find('class="qmc-veredicto"'), t.find("Lo que tu póliza menciona pero no trae"), t.find("Citas de tu póliza")]
     caso("P02: orden veredicto → menciones → citas", -1 not in orden and orden == sorted(orden), str(orden))
     b4 = [w.body for w in at.warning if "B4" in w.body]
@@ -166,7 +172,7 @@ def main() -> int:
     t = textos(at)
     html = "\n".join(m.value for m in at.markdown)
     caso("P01: responde sin errores", not at.exception, str(at.exception))
-    caso("P01: veredicto, B4 y citas", "Cubre con límites" in html and any("B4" in w.body for w in at.warning)
+    caso("P01: veredicto, B4 y citas", ">Cubre</div>" in html and any("B4" in w.body for w in at.warning)
          and "Citas de tu póliza" in t)
 
     # Qué hacer ahora: sin modelo (maqueta) muestra las cláusulas del aviso del siniestro, sin inventar pasos

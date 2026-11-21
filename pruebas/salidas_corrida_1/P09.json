@@ -1,0 +1,353 @@
+{
+  "modo": "completo",
+  "pregunta": "Me fracturé la pierna esquiando en una pista autorizada en Bariloche, ¿Pacífico me cubre?",
+  "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+  "aviso": null,
+  "cubre": "no_encontrado",
+  "etiqueta_veredicto": "No está en tu póliza",
+  "razonamiento": "Como te fracturaste esquiando en una pista autorizada, la exclusión por esquí fuera de pistas no aplica y la exclusión por competencias tampoco, porque no contaste que fuera una competencia. Sin embargo, los pasajes revisados no describen la cobertura que cubriría una fractura, así que no puedo confirmar que esté cubierta.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, y la exclusión por esquí solo aplica fuera de pistas autorizadas, así que no te alcanza por ese motivo. Pero no encontré el texto de la cobertura que se aplicaría a una fractura, y las coberturas y montos pueden estar en las Condiciones Particulares, que no aparecen en este documento.",
+  "apertura_contradictoria": null,
+  "condiciones": [
+    {
+      "descripcion": "La exclusión por esquí o snowboard aplica solo cuando la práctica es fuera de pistas reglamentarias y autorizadas; tu caso, en pista autorizada, no entra en esa exclusión.",
+      "citas": [
+        1
+      ]
+    },
+    {
+      "descripcion": "Las coberturas del seguro se aplican según lo establecido en las Condiciones Generales, Condiciones Particulares y/o Condiciones Especiales, si corresponden.",
+      "citas": [
+        3
+      ]
+    }
+  ],
+  "exclusiones_aplicables": [],
+  "podrian_aplicar": [
+    {
+      "descripcion": "Si la práctica de esquí hubiera sido en entrenamiento o en una competencia deportiva, podría aplicar la exclusión por competencias, lo cual no es tu caso según lo que contaste.",
+      "citas": [
+        2
+      ]
+    }
+  ],
+  "no_incluido_en_documento": [],
+  "citas": [
+    {
+      "n": 1,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas.",
+      "pasaje": "P2",
+      "trozo_id": "pacifico_viajes:0041",
+      "posicion": [
+        943,
+        1142
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 2,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES (parte 4 de 8)",
+      "pagina": 14,
+      "paginas": [
+        14
+      ],
+      "texto_literal": "Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas.",
+      "pasaje": "P2",
+      "trozo_id": "pacifico_viajes:0041",
+      "posicion": [
+        91,
+        283
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    },
+    {
+      "n": 3,
+      "documento": "Pacífico Seguros · Seguro de Viajes Pacífico",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso.",
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
+      "posicion": [
+        28,
+        259
+      ],
+      "verificacion": {
+        "en_pasaje": true,
+        "puntuacion_final_ignorada": null,
+        "pdfplumber": true,
+        "pypdf": true
+      }
+    }
+  ],
+  "veredicto_degradado": false,
+  "mencionadas_ausentes": [
+    {
+      "nombre": "Condiciones Particulares",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Particulares» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Particulares",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
+      "posicion": [
+        191,
+        215
+      ],
+      "nivel": "remision"
+    },
+    {
+      "nombre": "Condiciones Especiales",
+      "tipo": "documento",
+      "mensaje": "Tu póliza menciona «Condiciones Especiales» pero no incluye su texto en este documento. Pídeselo a tu aseguradora.",
+      "mencion": "Condiciones Especiales",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "pagina": 29,
+      "paginas": [
+        29
+      ],
+      "pasaje": "P5",
+      "trozo_id": "pacifico_viajes:0097",
+      "posicion": [
+        220,
+        242
+      ],
+      "nivel": "remision"
+    }
+  ],
+  "secciones_revisadas": [
+    "RESUMEN DE LA PÓLIZA › B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+    "PARTE C. EXCLUSIONES › 1. EXCLUSIONES GENERALES",
+    "PARTE G. CONDICIONES LEGALES › 6. Coberturas y Exclusiones"
+  ],
+  "pasajes": [
+    {
+      "id": "P1",
+      "rango": 1,
+      "trozo_id": "pacifico_viajes:0011",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+      "parte": [
+        2,
+        3
+      ],
+      "paginas": [
+        3
+      ],
+      "texto": "• Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: a. Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación activa en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. b. Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. c. Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+    },
+    {
+      "id": "P2",
+      "rango": 2,
+      "trozo_id": "pacifico_viajes:0041",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        4,
+        8
+      ],
+      "paginas": [
+        14
+      ],
+      "texto": "• Deportes (profesional o amateur) Quedan expresamente excluidos los siguientes eventos: o Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas. o Las asistencias que puedan ocurrir a consecuencia de la práctica (tanto en capacitación, entrenamiento o competencia, ya sea en carácter profesional, amateur o simplemente recreativo) de deportes peligrosos o de alto riesgo, incluyendo, pero no limitado a: motociclismo, automovilismo, boxeo, rugby, polo, ski acuático, jet ski, wave runner o motos de agua, moto de nieve, vehículos todo terreno, parasail o parapente, aladeltismo, paracaidismo, planeadores, aviación deportiva, escalamiento de montañas, surf, windsurf, kitesurf, espeleología, rafting, bungee jumping, hockey sobre hielo o sobre patines, equitación en salto o carreras, artes marciales. o Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+    },
+    {
+      "id": "P3",
+      "rango": 3,
+      "trozo_id": "pacifico_viajes:0012",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+      "parte": [
+        3,
+        3
+      ],
+      "paginas": [
+        3,
+        4
+      ],
+      "texto": "d. Las asistencias derivadas de cualquier tipo de ejercicio o juego atlético de acrobacia o que tenga por objeto pruebas de carácter excepcional o exhibiciones, o mientras participe en viajes o excursiones a regiones o zonas inexploradas, o cualquier clase de competencia de pericia o velocidad con vehículos mecánicos e. Las asistencias que puedan ocurrir como consecuencia de la práctica de trekking, senderismo y/o ciclismo luego de los 3.000 msnm (metros sobre el nivel del mar) y fuera de las ciclovías y/o senderos autorizados. f. Las asistencias que puedan ocurrir como consecuencia de la práctica de buceo por debajo de los 12 metros de profundidad. g. Enfermedades psicológicas, mentales, psicosis, neurosis y cualquiera de sus consecuencias mediatas o inmediatas h. Los chequeos o exámenes médicos de rutina, incluso aquellos que no sean relacionados con una enfermedad diagnosticada y comprobada, así como aquellos que no sean consecuencia directa de una enfermedad o accidente objeto del servicio PACIFICO SEGUROS. Exámenes médicos escolares o universitarios. Aplicación de vacunas Las coberturas adicionales podrán contener exclusiones especiales las cuales se encuentran consignadas en sus respectivas cláusulas adicionales.\nTodas las demás exclusiones se encuentran señaladas en la parte C de las Condiciones Generales de la Póliza."
+    },
+    {
+      "id": "P4",
+      "rango": 4,
+      "trozo_id": "pacifico_viajes:0045",
+      "seccion": "PARTE C. EXCLUSIONES",
+      "articulo": "1. EXCLUSIONES GENERALES",
+      "parte": [
+        8,
+        8
+      ],
+      "paginas": [
+        15
+      ],
+      "texto": "• Actos riesgosos, imprudencia, negligencia Las enfermedades o lesiones derivadas de actos notoriamente peligrosos o riesgosos, de grave imprudencia del Titular, sean en forma directa o indirecta, así como las derivadas de imprudencia, negligencia, impericia y/o acciones temerarias en la conducción de cualquier tipo de vehículos, contraviniendo normas de tránsito y/o seguridad internacional o del país del que se trate, tanto conducidos por el Titular como por un tercero, incluso excursiones contratadas.\n• Validez geográfica Están excluidos los países en guerra civil o extranjera (Ejemplos, incluyendo, pero no limitado a: Afganistán, Irak, Sudán, Somalia, Corea del Norte, etc.), y todo servicio originado dentro de una distancia menor a 100 km del lugar de residencia habitual del Beneficiario, salvo que el producto adquirido indique lo contrario.\nEn los países donde PACIFICO SEGUROS no presta asistencia, se limita únicamente al reembolso de gastos médicos en las circunstancias y condiciones establecidas en las Condiciones Generales de los servicios."
+    },
+    {
+      "id": "P5",
+      "rango": 5,
+      "trozo_id": "pacifico_viajes:0097",
+      "seccion": "PARTE G. CONDICIONES LEGALES",
+      "articulo": "6. Coberturas y Exclusiones",
+      "parte": [
+        1,
+        1
+      ],
+      "paginas": [
+        29
+      ],
+      "texto": "6. Coberturas y Exclusiones\nPACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso. El seguro contempla exclusiones y/o gastos no cubiertos por PACIFICO SEGUROS los cuales se especifican en estas Condiciones Generales y en las Condiciones Especiales o Endosos, de ser el caso."
+    },
+    {
+      "id": "P6",
+      "rango": 0,
+      "trozo_id": "pacifico_viajes:0010",
+      "seccion": "RESUMEN DE LA PÓLIZA",
+      "articulo": "B. INFORMACIÓN DE LA PÓLIZA DE SEGURO › 2. Principales exclusiones",
+      "parte": [
+        1,
+        3
+      ],
+      "paginas": [
+        3
+      ],
+      "texto": "2. Principales exclusiones\nEntre otras exclusiones, se encuentran excluidos de los efectos de la presente Póliza, los daños o pérdidas que tenga su origen en, o provengan de, u ocurran en:\n• Riña, huelga o tumulto. Actos ilegales, ilícitos o dolosos\n• Afecciones, enfermedades o lesiones resultantes del intento de suicidio o causadas intencionalmente por el Titular a sí mismo, sea en posesión de sus facultades mentales o no, así como sus consecuencias.\n• Tratamiento de enfermedades o estados patológicos producidos por ingestión intencional o administración de tóxicos (drogas), narcóticos, o por la utilización de medicamentos sin orden médica. Asimismo, afecciones, enfermedades o lesiones derivadas de la ingestión de bebidas alcohólicas de cualquier tipo."
+    }
+  ],
+  "normalizacion": {
+    "variantes": [],
+    "titulos": [],
+    "clausulas": [],
+    "articulos": [],
+    "hechos": [],
+    "ajuste": "sin normalización: búsqueda por embeddings con la pregunta"
+  },
+  "busqueda": "emb_pregunta",
+  "modelo_crudo": {
+    "citas": [
+      {
+        "n": 1,
+        "pasaje": "P2",
+        "texto_literal": "Las asistencias que puedan ocurrir como consecuencia de la práctica de ski, snowboard y/u otros deportes invernales no mencionados en el párrafo anterior fuera de pistas reglamentarias y autorizadas."
+      },
+      {
+        "n": 2,
+        "pasaje": "P2",
+        "texto_literal": "Las asistencias que puedan ocurrir a consecuencia de entrenamiento, práctica o participación en toda clase de competencias deportivas, cualquiera sea el deporte que se practique en las mismas."
+      },
+      {
+        "n": 3,
+        "pasaje": "P5",
+        "texto_literal": "PACIFICO SEGUROS brindará al ASEGURADO las coberturas del seguro en la forma y bajo los términos y condiciones establecidos en estas Condiciones Generales, en las Condiciones Particulares y/o Condiciones Especiales, de ser el caso."
+      }
+    ],
+    "condiciones": [
+      {
+        "descripcion": "La exclusión por esquí o snowboard aplica solo cuando la práctica es fuera de pistas reglamentarias y autorizadas; tu caso, en pista autorizada, no entra en esa exclusión.",
+        "citas": [
+          1
+        ]
+      },
+      {
+        "descripcion": "Las coberturas del seguro se aplican según lo establecido en las Condiciones Generales, Condiciones Particulares y/o Condiciones Especiales, si corresponden.",
+        "citas": [
+          3
+        ]
+      }
+    ],
+    "exclusiones_aplicables": [],
+    "podrian_aplicar": [
+      {
+        "descripcion": "Si la práctica de esquí hubiera sido en entrenamiento o en una competencia deportiva, podría aplicar la exclusión por competencias, lo cual no es tu caso según lo que contaste.",
+        "citas": [
+          2
+        ]
+      }
+    ],
+    "no_incluido_en_documento": [
+      {
+        "nombre": "Condiciones Particulares",
+        "por_que_importa": "Los pasajes remiten a ellas para las coberturas y sus condiciones, y no aparecen en este documento; hacen falta para saber si la fractura queda cubierta y hasta qué monto.",
+        "cita": 3
+      }
+    ],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Como te fracturaste esquiando en una pista autorizada, la exclusión por esquí fuera de pistas no aplica y la exclusión por competencias tampoco, porque no contaste que fuera una competencia. Sin embargo, los pasajes revisados no describen la cobertura que cubriría una fractura, así que no puedo confirmar que esté cubierta.",
+    "cubre": "no_encontrado",
+    "respuesta": "No encontré esto en tu póliza. Los pasajes revisados tratan de exclusiones por deportes, y la exclusión por esquí solo aplica fuera de pistas autorizadas, así que no te alcanza por ese motivo. Pero no encontré el texto de la cobertura que se aplicaría a una fractura, y las coberturas y montos pueden estar en las Condiciones Particulares, que no aparecen en este documento."
+  },
+  "descartes": [
+    {
+      "tipo": "no_incluido",
+      "texto": "Condiciones Particulares",
+      "motivo": "ya está en el bloque de mencionadas pero ausentes"
+    }
+  ],
+  "proveedor": {
+    "nombre": "claude",
+    "modelo": "claude-haiku-5-5",
+    "reutiliza_datos": false,
+    "aviso": "Tu pregunta y los fragmentos de la póliza que encontré se envían a Anthropic para redactar la respuesta (modelo Claude Haiku). Anthropic no usa lo enviado por su API para entrenar sus modelos y lo borra dentro de los 30 días."
+  },
+  "uso": {
+    "llamadas": 1,
+    "normalizacion_desde_cache": false,
+    "detalle": [
+      {
+        "proveedor": "claude",
+        "modelo": "claude-haiku-5-5",
+        "tokens_entrada": 7715,
+        "tokens_salida": 2725,
+        "tokens_razonamiento": 0,
+        "segundos": 12.44,
+        "costo_usd": 0.002134
+      }
+    ],
+    "tokens": 10440,
+    "costo_usd": 0.002134,
+    "segundos": 12.44
+  },
+  "prueba": {
+    "id": "P09",
+    "poliza": "pacifico_viajes",
+    "origen": "Propia",
+    "veredictos_aceptables": [
+      "con_limites",
+      "no_encontrado"
+    ],
+    "que_deberia_pasar": "La exclusión de esquí aplica solo fuera de pistas reglamentarias. Las coberturas básicas de este documento son muerte accidental y pérdida de equipaje; la asistencia médica estaría en cláusulas adicionales que no están en el documento."
+  }
+}

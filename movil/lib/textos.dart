@@ -14,6 +14,7 @@ class Textos {
       'texto en la mano. No es asesoría legal ni de seguros, puede equivocarse, y no reemplaza lo que diga tu aseguradora.';
 
   static const botonPremium = 'Desbloquear funciones premium';
+  static const masDetalles = 'Mientras más detalles des, mejor te puedo responder.';
   static const funcionesPremium = [
     'Guarda varias pólizas, sin que se borren',
     'Compara tus pólizas: ¿pagas doble?',

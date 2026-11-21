@@ -5,71 +5,31 @@
   "aviso": null,
   "cubre": "no",
   "etiqueta_veredicto": "No cubre",
-  "respuesta": "No, tu póliza excluye la cirugía plástica y los tratamientos estéticos, así que una operación de nariz por estética no está cubierta. La única excepción que menciona el texto es la cirugía plástica que sea resultado de una lesión accidental, y no nos dijiste que sea el caso. Tampoco cubre los procedimientos electivos.",
+  "razonamiento": "Una operación de nariz por estética es un tratamiento estético y una cirugía plástica electiva, y ambas están excluidas en la cobertura de gastos médicos durante el viaje. La única excepción que mencionan los pasajes es que la cirugía sea consecuencia de una lesión accidental, lo que no es tu caso según lo que contaste.",
+  "limite": null,
+  "veredicto_ajustado": null,
+  "respuesta": "No, tu póliza no cubre una operación de nariz por motivos estéticos durante el viaje. Los tratamientos estéticos y la cirugía plástica están excluidos, salvo que la cirugía sea consecuencia de una lesión accidental cubierta.",
   "apertura_contradictoria": null,
-  "condiciones": [
-    {
-      "descripcion": "La cirugía plástica queda excluida salvo que sea resultado de una lesión accidental, y tú no mencionaste ninguna lesión.",
-      "citas": [
-        1
-      ]
-    }
-  ],
+  "condiciones": [],
   "exclusiones_aplicables": [
     {
-      "descripcion": "Cirugía plástica que no sea consecuencia de una lesión accidental.",
+      "descripcion": "Los tratamientos estéticos están excluidos de la cobertura de gastos médicos durante el viaje.",
       "citas": [
         1
       ]
     },
     {
-      "descripcion": "Tratamientos estéticos.",
+      "descripcion": "La cirugía plástica está excluida, salvo que sea consecuencia de una lesión accidental cubierta.",
       "citas": [
         2
       ]
-    },
-    {
-      "descripcion": "Procedimientos electivos, como una operación que se elige hacer por estética y no por necesidad.",
-      "citas": [
-        3
-      ]
     }
   ],
-  "podrian_aplicar": [
-    {
-      "descripcion": "Si la operación fuera resultado de una lesión accidental, la exclusión de cirugía plástica no aplicaría, pero eso no es lo que describiste.",
-      "citas": [
-        1
-      ]
-    }
-  ],
+  "podrian_aplicar": [],
   "no_incluido_en_documento": [],
   "citas": [
     {
       "n": 1,
-      "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
-      "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
-      "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
-      "pagina": 18,
-      "paginas": [
-        18
-      ],
-      "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.",
-      "pasaje": "P1",
-      "trozo_id": "chubb_viajes_jetsmart:0069",
-      "posicion": [
-        160,
-        241
-      ],
-      "verificacion": {
-        "en_pasaje": true,
-        "puntuacion_final_ignorada": null,
-        "pdfplumber": true,
-        "pypdf": true
-      }
-    },
-    {
-      "n": 2,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
@@ -92,7 +52,7 @@
       }
     },
     {
-      "n": 3,
+      "n": 2,
       "documento": "Chubb Seguros Perú · Seguro de Viajes JetSmart",
       "seccion": "Cláusula Adicional: Gastos Médicos por Accidente y/o Enfermedad durante el Viaje",
       "articulo": "Artículo 5° Exclusiones (parte 5 de 5)",
@@ -100,12 +60,12 @@
       "paginas": [
         18
       ],
-      "texto_literal": "mm)Procedimientos electivos o adelantar tratamientos o procedimientos de larga duración.",
+      "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental.",
       "pasaje": "P1",
       "trozo_id": "chubb_viajes_jetsmart:0069",
       "posicion": [
-        1038,
-        1126
+        160,
+        241
       ],
       "verificacion": {
         "en_pasaje": true,
@@ -254,58 +214,38 @@
       {
         "n": 1,
         "pasaje": "P1",
-        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental."
+        "texto_literal": "dd)Tratamientos rejuvenecedores, o estéticos."
       },
       {
         "n": 2,
         "pasaje": "P1",
-        "texto_literal": "dd)Tratamientos rejuvenecedores, o estéticos."
-      },
-      {
-        "n": 3,
-        "pasaje": "P1",
-        "texto_literal": "mm)Procedimientos electivos o adelantar tratamientos o procedimientos de larga duración."
+        "texto_literal": "cc)Cirugía reparadora, plástica, excepto como resultado de una lesión accidental."
       }
     ],
-    "condiciones": [
-      {
-        "descripcion": "La cirugía plástica queda excluida salvo que sea resultado de una lesión accidental, y tú no mencionaste ninguna lesión.",
-        "citas": [
-          1
-        ]
-      }
-    ],
+    "condiciones": [],
     "exclusiones_aplicables": [
       {
-        "descripcion": "Cirugía plástica que no sea consecuencia de una lesión accidental.",
+        "descripcion": "Los tratamientos estéticos están excluidos de la cobertura de gastos médicos durante el viaje.",
         "citas": [
           1
         ]
       },
       {
-        "descripcion": "Tratamientos estéticos.",
+        "descripcion": "La cirugía plástica está excluida, salvo que sea consecuencia de una lesión accidental cubierta.",
         "citas": [
           2
         ]
-      },
-      {
-        "descripcion": "Procedimientos electivos, como una operación que se elige hacer por estética y no por necesidad.",
-        "citas": [
-          3
-        ]
       }
     ],
-    "podrian_aplicar": [
-      {
-        "descripcion": "Si la operación fuera resultado de una lesión accidental, la exclusión de cirugía plástica no aplicaría, pero eso no es lo que describiste.",
-        "citas": [
-          1
-        ]
-      }
-    ],
+    "podrian_aplicar": [],
     "no_incluido_en_documento": [],
+    "limite": {
+      "descripcion": "",
+      "cita": 0
+    },
+    "razonamiento": "Una operación de nariz por estética es un tratamiento estético y una cirugía plástica electiva, y ambas están excluidas en la cobertura de gastos médicos durante el viaje. La única excepción que mencionan los pasajes es que la cirugía sea consecuencia de una lesión accidental, lo que no es tu caso según lo que contaste.",
     "cubre": "no",
-    "respuesta": "No, tu póliza excluye la cirugía plástica y los tratamientos estéticos, así que una operación de nariz por estética no está cubierta. La única excepción que menciona el texto es la cirugía plástica que sea resultado de una lesión accidental, y no nos dijiste que sea el caso. Tampoco cubre los procedimientos electivos."
+    "respuesta": "No, tu póliza no cubre una operación de nariz por motivos estéticos durante el viaje. Los tratamientos estéticos y la cirugía plástica están excluidos, salvo que la cirugía sea consecuencia de una lesión accidental cubierta."
   },
   "descartes": [],
   "proveedor": {
@@ -321,16 +261,16 @@
       {
         "proveedor": "claude",
         "modelo": "claude-haiku-5-5",
-        "tokens_entrada": 7110,
-        "tokens_salida": 1612,
+        "tokens_entrada": 8077,
+        "tokens_salida": 513,
         "tokens_razonamiento": 0,
-        "segundos": 8.11,
-        "costo_usd": 0.001517
+        "segundos": 3.06,
+        "costo_usd": 0.001064
       }
     ],
-    "tokens": 8722,
-    "costo_usd": 0.001517,
-    "segundos": 8.11
+    "tokens": 8590,
+    "costo_usd": 0.001064,
+    "segundos": 3.06
   },
   "prueba": {
     "id": "P07",
